@@ -14,6 +14,7 @@ namespace OSHGuiBuilder.Controls
         protected bool visible;
         public bool Visible { get { return visible; } set { visible = value; } }
         protected Point absoluteLocation;
+        public Point AbsoluteLocation { get { return absoluteLocation; } }
         protected Point location;
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
         protected Size size;
@@ -73,6 +74,6 @@ namespace OSHGuiBuilder.Controls
             return name;
         }
 
-        public abstract string ToCPlusPlusString();
+        public abstract string ToCPlusPlusString(string linePrefix);
     }
 }

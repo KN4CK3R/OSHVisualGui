@@ -43,10 +43,7 @@ namespace OSHGuiBuilder
 
             controls.Add(control);
             controlComboBox.Items.Add(control);
-            if (controlComboBox.Items.Count == 1)
-            {
-                controlComboBox.SelectedIndex = 0;
-            }
+            controlComboBox.SelectedItem = control;
 
             if (control != form)
             {
@@ -58,11 +55,24 @@ namespace OSHGuiBuilder
 
         private Controls.BaseControl FindControlUnderMouse(Point location)
         {
-            foreach (Controls.BaseControl control in form.PostOrderVisible)
+            foreach (Controls.BaseControl control in form.PostOrder)
             {
                 if (control.Intersect(location))
                 {
                     return control;
+                }
+            }
+
+            return form;
+        }
+
+        private Controls.ContainerControl FindContainerControlUnderMouse(Point location)
+        {
+            foreach (Controls.BaseControl control in form.PostOrder)
+            {
+                if (control != focusedControl && control is Controls.ContainerControl && control.Intersect(location))
+                {
+                    return control as Controls.ContainerControl;
                 }
             }
 
@@ -115,6 +125,16 @@ namespace OSHGuiBuilder
 
         private void canvasPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
+            Controls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
+            if ((focusedControl.Parent.isSubControl ? focusedControl.Parent.Parent : focusedControl.Parent) as Controls.ContainerControl != container)
+            {
+                focusedControl.Location = focusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
+
+                Controls.ContainerControl oldContainer = focusedControl.Parent as Controls.ContainerControl;
+                oldContainer.RemoveControl(focusedControl);
+                container.AddControl(focusedControl);
+            }
+
             dragMouse = false;
             controlPropertyGrid.Refresh();
         }
@@ -221,11 +241,29 @@ namespace OSHGuiBuilder
 
         private void addCheckBoxToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string name = "checkBox" + GetControlCount(typeof(Controls.Button));
+            string name = "checkBox" + GetControlCount(typeof(Controls.CheckBox));
             Controls.CheckBox checkBox = new OSHGuiBuilder.Controls.CheckBox();
             checkBox.Name = name;
             checkBox.Text = name;
             AddControl(checkBox);
+        }
+
+        private void addRadioButtonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string name = "radioButton" + GetControlCount(typeof(Controls.RadioButton));
+            Controls.RadioButton radioButton = new OSHGuiBuilder.Controls.RadioButton();
+            radioButton.Name = name;
+            radioButton.Text = name;
+            AddControl(radioButton);
+        }
+
+        private void addGroupBoxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string name = "groupBox" + GetControlCount(typeof(Controls.GroupBox));
+            Controls.GroupBox groupBox = new OSHGuiBuilder.Controls.GroupBox();
+            groupBox.Name = name;
+            groupBox.Text = name;
+            AddControl(groupBox);
         }
 
         private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)

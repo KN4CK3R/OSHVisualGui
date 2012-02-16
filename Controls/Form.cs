@@ -11,6 +11,8 @@ namespace OSHGuiBuilder.Controls
         private Panel panel;
         private string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
+        public override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
+        public override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
 
         public Form()
         {
@@ -79,7 +81,15 @@ namespace OSHGuiBuilder.Controls
             code.AppendLine("\t}\r\n");
 
             code.AppendLine("private:");
+            code.AppendLine("\tvoid InitializeComponent()");
+            code.AppendLine("\t{");
             foreach (BaseControl control in panel.Controls)
+            {
+                code.Append(control.ToCPlusPlusString("\t\t"));
+                code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
+            }
+            code.AppendLine("\t}\r\n");
+            foreach (BaseControl control in PreOrder)
             {
                 code.AppendLine("\tOSHGui::" + control.GetType().Name + " " + control.Name + ";");
             }
@@ -88,10 +98,14 @@ namespace OSHGuiBuilder.Controls
             code.AppendLine("#endif");
             generatedCode[0] = code.ToString();
 
+            code.Length = 0;
+            code.AppendLine("#include \"" + name + ".hpp\"\r\n");
+            code.AppendLine("");
+
             return generatedCode;
         }
 
-        public override string ToCPlusPlusString()
+        public override string ToCPlusPlusString(string linePrefix)
         {
             throw new Exception("Call GenerateCode");
         }

@@ -46,6 +46,7 @@
             this.addRadioButtonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteButton = new System.Windows.Forms.Button();
             this.copyButton = new System.Windows.Forms.Button();
+            this.addGroupBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -152,7 +153,8 @@
             this.addLabelToolStripMenuItem,
             this.addButtonToolStripMenuItem,
             this.addCheckBoxToolStripMenuItem,
-            this.addRadioButtonToolStripMenuItem});
+            this.addRadioButtonToolStripMenuItem,
+            this.addGroupBoxToolStripMenuItem});
             this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
             this.controlsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.controlsToolStripMenuItem.Text = "Controls";
@@ -183,6 +185,7 @@
             this.addRadioButtonToolStripMenuItem.Name = "addRadioButtonToolStripMenuItem";
             this.addRadioButtonToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.addRadioButtonToolStripMenuItem.Text = "add RadioButton";
+            this.addRadioButtonToolStripMenuItem.Click += new System.EventHandler(this.addRadioButtonToolStripMenuItem_Click);
             // 
             // deleteButton
             // 
@@ -202,6 +205,13 @@
             this.copyButton.TabIndex = 6;
             this.copyButton.Text = "copy";
             this.copyButton.UseVisualStyleBackColor = true;
+            // 
+            // addGroupBoxToolStripMenuItem
+            // 
+            this.addGroupBoxToolStripMenuItem.Name = "addGroupBoxToolStripMenuItem";
+            this.addGroupBoxToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.addGroupBoxToolStripMenuItem.Text = "add GroupBox";
+            this.addGroupBoxToolStripMenuItem.Click += new System.EventHandler(this.addGroupBoxToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -248,6 +258,7 @@
         private System.Windows.Forms.ToolStripMenuItem addRadioButtonToolStripMenuItem;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button copyButton;
+        private System.Windows.Forms.ToolStripMenuItem addGroupBoxToolStripMenuItem;
     }
 }
 

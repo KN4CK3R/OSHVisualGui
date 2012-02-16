@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
 using System.Text;
 
 namespace OSHGuiBuilder.Controls
@@ -10,11 +10,11 @@ namespace OSHGuiBuilder.Controls
         protected List<BaseControl> controls;
         public List<BaseControl> Controls { get { return controls; } }
         protected List<BaseControl> internalControls;
+        public virtual Point ContainerLocation { get { return Location; } }
+        public virtual Point ContainerAbsoluteLocation { get { return absoluteLocation; } }
 
-        public IEnumerable<BaseControl> PostOrderVisible
-        {
-            get { return PostOrderVisibleVisit(this); }
-        }
+        public IEnumerable<BaseControl> PostOrder { get { return PostOrderVisit(); } }
+        public IEnumerable<BaseControl> PreOrder { get { return PreOrderVisit(); } }
 
         public ContainerControl()
         {
@@ -51,11 +51,19 @@ namespace OSHGuiBuilder.Controls
             internalControls.Add(control);
         }
 
+        public void RemoveControl(BaseControl control)
+        {
+            internalControls.Remove(control);
+            controls.Remove(control);
+
+            control.Parent = null;
+        }
+
         public override void CalculateAbsoluteLocation()
         {
             base.CalculateAbsoluteLocation();
 
-            foreach (BaseControl control in controls)
+            foreach (BaseControl control in internalControls)
             {
                 control.CalculateAbsoluteLocation();
             }
@@ -69,30 +77,61 @@ namespace OSHGuiBuilder.Controls
             }
         }
 
-        private IEnumerable<BaseControl> PostOrderVisibleVisit(ContainerControl container)
+        private IEnumerable<BaseControl> PostOrderVisit()
         {
-            foreach (BaseControl control in container.internalControls)
+            foreach (BaseControl control in internalControls)
             {
-                if (control.Visible)
+                if (control is ContainerControl)
                 {
-                    if (control is ContainerControl)
+                    foreach (BaseControl child in (control as ContainerControl).PostOrderVisit())
                     {
-                        foreach (BaseControl child in PostOrderVisibleVisit(control as ContainerControl))
+                        if (!child.isSubControl)
                         {
-                            if (child.isSubControl)
-                            {
-                                continue;
-                            }
                             yield return child;
                         }
                     }
-                    if (control.isSubControl)
-                    {
-                        continue;
-                    }
+                }
+                if (!control.isSubControl)
+                {
                     yield return control;
                 }
-                else continue;
+            }
+        }
+
+        private IEnumerable<BaseControl> PreOrderVisit()
+        {
+            foreach (BaseControl control in internalControls)
+            {
+                if (!control.isSubControl)
+                {
+                    yield return control;
+                }
+                
+                if (control is ContainerControl)
+                {
+                    foreach (BaseControl child in (control as ContainerControl).PreOrderVisit())
+                    {
+                        if (!child.isSubControl)
+                        {
+                            yield return child;
+                        }
+                    }
+                }
+            }
+        }
+
+        protected IEnumerable<string> GetControlNames()
+        {
+            foreach (BaseControl control in controls)
+            {
+                yield return control.Name;
+                if (control is ContainerControl)
+                {
+                    foreach (string name in (control as ContainerControl).GetControlNames())
+                    {
+                        yield return name;
+                    }
+                }
             }
         }
     }

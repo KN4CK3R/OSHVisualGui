@@ -52,33 +52,32 @@ namespace OSHGuiBuilder.Controls
             return name + " - Button";
         }
 
-        public override string ToCPlusPlusString()
+        public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(name + " = new Button();");
-            code.AppendLine(name + "->SetName(\"" + name + "\");");
+            code.AppendLine(linePrefix + name + " = new OSHGui::Button();");
+            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {
-                code.AppendLine(name + "->SetLocation(Drawing::Point(" + location.X + ", " + location.Y + "));");
+                code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
             if (autoSize)
             {
-                code.AppendLine(name + "->SetAutoSize(true);");
+                code.AppendLine(linePrefix + name + "->SetAutoSize(true);");
             }
             else
             {
-                code.AppendLine(name + "->SetSize(Drawing::Size(" + size.Width + ", " + size.Height + "));");
+                code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
             if (backColor != Color.FromArgb(unchecked((int)0xFF4E4E4E)))
             {
-                code.AppendLine(name + "->SetBackColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
             if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
             {
-                code.AppendLine(name + "->SetForeColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            code.AppendLine(name + "->SetText(\"" + Text.Replace("\"", "\\\"") + "\");");
-            code.AppendLine(parent.Name + "->AddControl(" + name + ");");
+            code.AppendLine(linePrefix + name + "->SetText(\"" + Text.Replace("\"", "\\\"") + "\");");
             return code.ToString();
         }
     }
