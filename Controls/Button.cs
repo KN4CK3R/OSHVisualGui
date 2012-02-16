@@ -11,7 +11,6 @@ namespace OSHGuiBuilder.Controls
         #region Properties
         private Label label;
 
-        public override Point Location { get { return base.Location; } set { base.Location = value; label.Location = new Point(location.X + 6, location.Y + 5); } }
         public override Color ForeColor { get { return label.ForeColor; } set { label.ForeColor = value; } }
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } } }
         #endregion
@@ -19,6 +18,7 @@ namespace OSHGuiBuilder.Controls
         public Button()
         {
             label = new Label();
+            label.Location = new Point(6, 5);
 
             Size = new Size(92, 24);
 
@@ -35,14 +35,14 @@ namespace OSHGuiBuilder.Controls
 
         public override void Render(Graphics graphics)
         {
-            graphics.FillRectangle(backBrush, new Rectangle(location, size));
+            graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
             label.Render(graphics);
 
             if (isFocused)
             {
                 using (Pen pen = new Pen(Color.Black, 1))
                 {
-                    graphics.DrawRectangle(pen, location.X - 2, location.Y - 2, size.Width + 3, size.Height + 3);
+                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
                 }
             }
         }

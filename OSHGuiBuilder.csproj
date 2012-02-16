@@ -52,6 +52,8 @@
     <Compile Include="Controls\ContainerControl.cs" />
     <Compile Include="Controls\Form.cs" />
     <Compile Include="Controls\Label.cs" />
+    <Compile Include="Controls\Panel.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

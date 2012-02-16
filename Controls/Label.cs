@@ -20,13 +20,13 @@ namespace OSHGuiBuilder.Controls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, font, foreBrush, new RectangleF(location, size));
+            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
 
             if (isFocused)
             {
                 using (Pen pen = new Pen(Color.Black, 1))
                 {
-                    graphics.DrawRectangle(pen, location.X - 1, location.Y - 1, size.Width + 1, size.Height + 1);
+                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
                 }
             }
         }

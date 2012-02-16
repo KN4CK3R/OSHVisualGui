@@ -8,13 +8,20 @@ namespace OSHGuiBuilder.Controls
     class ContainerControl : BaseControl
     {
         private List<BaseControl> controls;
+        private List<BaseControl> internalControls;
+
+        public IEnumerable<BaseControl> PostOrderVisible
+        {
+            get { return PostOrderVisibleVisit(this); }
+        }
 
         public ContainerControl()
         {
             controls = new List<BaseControl>();
+            internalControls = new List<BaseControl>();
         }
 
-        public void AddControl(BaseControl control)
+        public virtual void AddControl(BaseControl control)
         {
             if (control == null)
             {
@@ -26,6 +33,13 @@ namespace OSHGuiBuilder.Controls
                 return;
             }
 
+            AddSubControl(control);
+
+            controls.Add(control);
+        }
+
+        protected void AddSubControl(BaseControl control)
+        {
             if (controls.Contains(control))
             {
                 return;
@@ -33,7 +47,7 @@ namespace OSHGuiBuilder.Controls
 
             control.Parent = this;
 
-            controls.Add(control);
+            internalControls.Add(control);
         }
 
         public override void CalculateAbsoluteLocation()
@@ -51,6 +65,33 @@ namespace OSHGuiBuilder.Controls
             foreach (BaseControl control in controls)
             {
                 control.Render(graphics);
+            }
+        }
+
+        private IEnumerable<BaseControl> PostOrderVisibleVisit(ContainerControl container)
+        {
+            foreach (BaseControl control in container.internalControls)
+            {
+                if (control.Visible)
+                {
+                    if (control is ContainerControl)
+                    {
+                        foreach (BaseControl child in PostOrderVisibleVisit(control as ContainerControl))
+                        {
+                            if (child.isSubControl)
+                            {
+                                continue;
+                            }
+                            yield return child;
+                        }
+                    }
+                    if (control.isSubControl)
+                    {
+                        continue;
+                    }
+                    yield return control;
+                }
+                else continue;
             }
         }
     }

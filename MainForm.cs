@@ -13,6 +13,7 @@ namespace OSHGuiBuilder
     {
         private List<Controls.BaseControl> controls;
         private Controls.BaseControl focusedControl;
+        private Controls.Form form;
 
         public MainForm()
         {
@@ -21,6 +22,11 @@ namespace OSHGuiBuilder
             focusedControl = null;
 
             controls = new List<Controls.BaseControl>();
+
+            form = new Controls.Form();
+            form.Name = "form1";
+            form.Text = "Form1";
+            AddControl(form);
         }
 
         private void AddControl(Controls.BaseControl control)
@@ -41,29 +47,31 @@ namespace OSHGuiBuilder
             {
                 controlComboBox.SelectedIndex = 0;
             }
+
+            if (control != form)
+            {
+                form.AddControl(control);
+            }
+
             canvasPictureBox.Invalidate();
         }
 
         private Controls.BaseControl FindControlUnderMouse(Point location)
         {
-            foreach (Controls.BaseControl drawable in controls)
+            foreach (Controls.BaseControl control in form.PostOrderVisible)
             {
-                if ((location.X >= drawable.Location.X && location.X <= drawable.Location.X + drawable.Size.Width)
-                 && (location.Y >= drawable.Location.Y && location.Y <= drawable.Location.Y + drawable.Size.Height))
+                if (control.Intersect(location))
                 {
-                    return drawable;
+                    return control;
                 }
             }
 
-            return null;
+            return form;
         }
 
         private void canvasPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            foreach (Controls.BaseControl drawable in controls)
-            {
-                drawable.Render(e.Graphics);
-            }
+            form.Render(e.Graphics);
         }
 
         Point oldMouseLocation = new Point();
@@ -80,7 +88,11 @@ namespace OSHGuiBuilder
                 focusedControl = newFocusedControl;
                 focusedControl.isFocused = true;
                 controlComboBox.SelectedItem = focusedControl;
-                dragMouse = true;
+
+                if (!(focusedControl is Controls.Form))
+                {
+                    dragMouse = true;
+                }
                 canvasPictureBox.Invalidate();
             }
             oldMouseLocation = e.Location;
@@ -90,12 +102,13 @@ namespace OSHGuiBuilder
         {
             if (focusedControl != null && dragMouse)
             {
-                focusedControl.Location = new Point(focusedControl.Location.X + (e.Location.X - oldMouseLocation.X), focusedControl.Location.Y + (e.Location.Y - oldMouseLocation.Y));
+                focusedControl.Location = focusedControl.Location.Add(e.Location.Substract(oldMouseLocation));
                 canvasPictureBox.Invalidate();
             }
             else
             {
-                canvasPictureBox.Cursor = FindControlUnderMouse(e.Location) != null ? Cursors.SizeAll : Cursors.Default;
+                Controls.BaseControl temp = FindControlUnderMouse(e.Location);
+                canvasPictureBox.Cursor = temp != null ? temp is Controls.Form ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
             }
             oldMouseLocation = e.Location;
         }

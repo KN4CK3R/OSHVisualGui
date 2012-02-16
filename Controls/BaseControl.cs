@@ -9,6 +9,10 @@ namespace OSHGuiBuilder.Controls
     {
         protected string name;
         public string Name { get { return name; } set { name = value; } }
+        protected bool enabled;
+        public bool Enabled { get { return enabled; } set { enabled = value; } }
+        protected bool visible;
+        public bool Visible { get { return visible; } set { visible = value; } }
         protected Point absoluteLocation;
         protected Point location;
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
@@ -29,21 +33,32 @@ namespace OSHGuiBuilder.Controls
         public BaseControl Parent { get { return parent; } set { parent = value; CalculateAbsoluteLocation(); } }
 
         public bool isFocused;
+        public bool isSubControl;
 
         public BaseControl()
         {
+            enabled = true;
+            visible = true;
+
             location = new Point(6, 6);
 
             isFocused = false;
+            isSubControl = false;
 
             font = new Font("Arial", 8);
+        }
+
+        public virtual bool Intersect(Point location)
+        {
+            return ((location.X >= absoluteLocation.X && location.X <= absoluteLocation.X + size.Width)
+                && (location.Y >= absoluteLocation.Y && location.Y <= absoluteLocation.Y + size.Height));
         }
 
         public virtual void CalculateAbsoluteLocation()
         {
             if (parent != null && parent != this)
             {
-                absoluteLocation = new Point(parent.absoluteLocation.X + location.X, parent.absoluteLocation.Y + location.Y);
+                absoluteLocation = parent.absoluteLocation.Add(location);
             }
             if (parent == this)
             {
