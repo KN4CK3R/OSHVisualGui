@@ -227,5 +227,10 @@ namespace OSHGuiBuilder
             checkBox.Text = name;
             AddControl(checkBox);
         }
+
+        private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string code = form.GenerateCode()[0];
+        }
     }
 }

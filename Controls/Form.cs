@@ -48,5 +48,52 @@ namespace OSHGuiBuilder.Controls
         {
             return name + " - Form";
         }
+
+        public string[] GenerateCode()
+        {
+            string[] generatedCode = new string[2];
+
+            StringBuilder code = new StringBuilder();
+            code.AppendLine("#ifndef OSHGUI_" + name.ToUpper() + "_HPP");
+            code.AppendLine("#define OSHGUI_" + name.ToUpper() + "_HPP\r\n");
+            code.AppendLine("#include <OSHGui.hpp>\r\n");
+            code.AppendLine("class " + name + " : OSHGui::Form");
+            code.AppendLine("{");
+            code.AppendLine("public:");
+            code.AppendLine("\t" + name + "()");
+            code.AppendLine("\t{");
+            code.AppendLine("\t\tSetName(\"" + name + "\");");
+            if (size != new Size(300, 300))
+            {
+                code.AppendLine("\t\tSetSize(Drawing::Size(" + size.Width + ", " + size.Height + "));");
+            }
+            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
+            {
+                code.AppendLine("\t\tSetForeColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+            if (backColor != Color.FromArgb(unchecked((int)0xFF7C7B79)))
+            {
+                code.AppendLine("\t\tSetBackColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+            code.AppendLine("\t\tSetText(\"" + text.Replace("\"", "\\\"") + "\");");
+            code.AppendLine("\t}\r\n");
+
+            code.AppendLine("private:");
+            foreach (BaseControl control in panel.Controls)
+            {
+                code.AppendLine("\tOSHGui::" + control.GetType().Name + " " + control.Name + ";");
+            }
+            
+            code.AppendLine("};\r\n");
+            code.AppendLine("#endif");
+            generatedCode[0] = code.ToString();
+
+            return generatedCode;
+        }
+
+        public override string ToCPlusPlusString()
+        {
+            throw new Exception("Call GenerateCode");
+        }
     }
 }

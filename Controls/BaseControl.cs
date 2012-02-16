@@ -72,5 +72,7 @@ namespace OSHGuiBuilder.Controls
         {
             return name;
         }
+
+        public abstract string ToCPlusPlusString();
     }
 }

@@ -5,10 +5,11 @@ using System.Text;
 
 namespace OSHGuiBuilder.Controls
 {
-    class ContainerControl : BaseControl
+    abstract class ContainerControl : BaseControl
     {
-        private List<BaseControl> controls;
-        private List<BaseControl> internalControls;
+        protected List<BaseControl> controls;
+        public List<BaseControl> Controls { get { return controls; } }
+        protected List<BaseControl> internalControls;
 
         public IEnumerable<BaseControl> PostOrderVisible
         {

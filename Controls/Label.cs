@@ -35,5 +35,32 @@ namespace OSHGuiBuilder.Controls
         {
             return name + " - Label";
         }
+
+        public override string ToCPlusPlusString()
+        {
+            StringBuilder code = new StringBuilder();
+            code.AppendLine(name + " = new Label();");
+            code.AppendLine(name + "->SetName(\"" + name + "\");");
+            if (location != new Point(6, 6))
+            {
+                code.AppendLine(name + "->SetLocation(Drawing::Point(" + location.X + ", " + location.Y + "));");
+            }
+            if (!autoSize)
+            {
+                code.AppendLine(name + "->SetSize(Drawing::Size(" + size.Width + ", " + size.Height + "));");
+                code.AppendLine(name + "->SetAutoSize(false);");
+            }
+            if (backColor != Color.Empty)
+            {
+                code.AppendLine(name + "->SetBackColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
+            {
+                code.AppendLine(name + "->SetForeColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+            code.AppendLine(name + "->SetText(\"" + text.Replace("\"", "\\\"") + "\");");
+            code.AppendLine(parent.Name + "->AddControl(" + name + ");");
+            return code.ToString();
+        }
     }
 }
