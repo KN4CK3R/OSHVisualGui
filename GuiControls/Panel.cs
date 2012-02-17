@@ -1,39 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Text;
-using System.Windows.Forms;
 
-namespace OSHGuiBuilder.Controls
+namespace OSHGuiBuilder.GuiControls
 {
-    public class Label : BaseControl
+    public class Panel : ContainerControl
     {
-        private string text;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
-
-        public Label()
+        public Panel()
         {
-            autoSize = true;
+            Size = new Size(200, 200);
 
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            BackColor = Color.Empty;
+            ForeColor = Color.Empty;
         }
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
-
-            if (isFocused)
+            if (backColor.A > 0)
             {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
+                Rectangle rect = new Rectangle(absoluteLocation, size);
+                LinearGradientBrush linearBrush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 90, 90, 90)), LinearGradientMode.Vertical);
+                graphics.FillRectangle(linearBrush, rect);
             }
+            
+            base.Render(graphics);
         }
 
         public override BaseControl Copy()
         {
-            Label copy = new Label();
+            Panel copy = new Panel();
             CopyTo(copy);
             return copy;
         }
@@ -41,39 +38,40 @@ namespace OSHGuiBuilder.Controls
         protected override void CopyTo(BaseControl copy)
         {
             base.CopyTo(copy);
-            
-            Label label = copy as Label;
-            label.text = text;
+
+            Panel panel = copy as Panel;
+            foreach (BaseControl control in PreOrderVisit())
+            {
+                panel.AddControl(control.Copy());
+            }
         }
 
         public override string ToString()
         {
-            return name + " - Label";
+            return name + " - Panel";
         }
 
         public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Label();");
+            code.AppendLine(linePrefix + name + " = new OSHGui::Panel();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {
                 code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
-            if (!autoSize)
+            if (size != new Size(200, 200))
             {
-                code.AppendLine(linePrefix + name + "->SetAutoSize(false);");
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
             if (backColor != Color.Empty)
             {
                 code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
+            if (foreColor != Color.Empty)
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            code.AppendLine(linePrefix + name + "->SetText(\"" + text.Replace("\"", "\\\"") + "\");");
             return code.ToString();
         }
     }

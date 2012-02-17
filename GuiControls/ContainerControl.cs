@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace OSHGuiBuilder.Controls
+namespace OSHGuiBuilder.GuiControls
 {
     public abstract class ContainerControl : BaseControl
     {

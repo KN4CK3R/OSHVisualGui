@@ -1,55 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
-namespace OSHGuiBuilder.Controls
+namespace OSHGuiBuilder.GuiControls
 {
-    public class Button : BaseControl
+    public class Label : BaseControl
     {
-        #region Properties
-        private Label label;
+        private string text;
+        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
 
-        public override Color ForeColor { get { return label.ForeColor; } set { label.ForeColor = value; } }
-        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } } }
-        #endregion
-
-        public Button()
+        public Label()
         {
-            label = new Label();
-            label.Location = new Point(6, 5);
+            autoSize = true;
 
-            Size = new Size(92, 24);
-
-            BackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
-        }
-
-        public override void CalculateAbsoluteLocation()
-        {
-            base.CalculateAbsoluteLocation();
-
-            label.SetParent(this);
         }
 
         public override void Render(Graphics graphics)
         {
-            graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
-            label.Render(graphics);
+            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
 
             if (isFocused)
             {
                 using (Pen pen = new Pen(Color.Black, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
+                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
                 }
             }
         }
 
         public override BaseControl Copy()
         {
-            Button copy = new Button();
+            Label copy = new Label();
             CopyTo(copy);
             return copy;
         }
@@ -57,34 +41,31 @@ namespace OSHGuiBuilder.Controls
         protected override void CopyTo(BaseControl copy)
         {
             base.CopyTo(copy);
-
-            Button button = copy as Button;
-            button.Text = Text;
+            
+            Label label = copy as Label;
+            label.text = text;
         }
 
         public override string ToString()
         {
-            return name + " - Button";
+            return name + " - Label";
         }
 
         public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Button();");
+            code.AppendLine(linePrefix + name + " = new OSHGui::Label();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {
                 code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
-            if (autoSize)
+            if (!autoSize)
             {
-                code.AppendLine(linePrefix + name + "->SetAutoSize(true);");
-            }
-            else
-            {
+                code.AppendLine(linePrefix + name + "->SetAutoSize(false);");
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
-            if (backColor != Color.FromArgb(unchecked((int)0xFF4E4E4E)))
+            if (backColor != Color.Empty)
             {
                 code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
@@ -92,7 +73,7 @@ namespace OSHGuiBuilder.Controls
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            code.AppendLine(linePrefix + name + "->SetText(\"" + Text.Replace("\"", "\\\"") + "\");");
+            code.AppendLine(linePrefix + name + "->SetText(\"" + text.Replace("\"", "\\\"") + "\");");
             return code.ToString();
         }
     }

@@ -3,8 +3,29 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace OSHGuiBuilder.Controls
+namespace OSHGuiBuilder.GuiControls
 {
+    public enum ControlType
+    {
+        Button,
+        CheckBox,
+        ColorBar,
+        ColorPicker,
+        ComboBox,
+        GroupBox,
+        Label,
+        LinkLabel,
+        ListBox,
+        Panel,
+        PictureBox,
+        ProgressBar,
+        RadioButton,
+        TabControl,
+        TextBox,
+        Timer,
+        TrackBar
+    }
+
     public abstract class BaseControl
     {
         protected string name;

@@ -4,38 +4,28 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 
-namespace OSHGuiBuilder.Controls
+namespace OSHGuiBuilder.GuiControls
 {
-    public class CheckBox : BaseControl
+    class RadioButton : CheckBox
     {
-        #region Properties
-        protected Label label;
-
-        protected bool checked_;
-        public virtual bool Checked { get { return checked_; } set { checked_ = value; } }
-        public override Size Size { get { return base.Size; } set { if (!autoSize) { base.Size = value; label.Size = value; } } }
-        public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
-        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { size = new Size(label.Size.Width + 20, label.Size.Height + 2); } } }
-        #endregion
-
-        public CheckBox()
-        {
-            label = new Label();
-            label.Location = new Point(20, 2);
-
-            BackColor = Color.FromArgb(unchecked((int)0xFF222222));
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
-
-            AutoSize = true;
-
-            CalculateAbsoluteLocation();
-        }
-
-        public override void CalculateAbsoluteLocation()
-        {
-            base.CalculateAbsoluteLocation();
-
-            label.SetParent(this);
+        public override bool Checked { get { return base.checked_; }
+            set
+            {
+                if (checked_ != value)
+                {
+                    if (parent != null)
+                    {
+                        foreach (BaseControl control in (parent as ContainerControl).Controls)
+                        {
+                            if (control is RadioButton)
+                            {
+                                (control as RadioButton).checked_ = false;
+                            }
+                        }
+                    }
+                    checked_ = value;
+                }
+            }
         }
 
         public override void Render(Graphics graphics)
@@ -50,10 +40,9 @@ namespace OSHGuiBuilder.Controls
 
             if (checked_)
             {
-                graphics.FillRectangle(new SolidBrush(Color.White), absoluteLocation.X + 5, absoluteLocation.Y + 5, 7, 7);
-                rect = new Rectangle(absoluteLocation.X + 6, absoluteLocation.Y + 6, 5, 5);
+                rect = new Rectangle(absoluteLocation.X + 5, absoluteLocation.Y + 5, 7, 7);
                 temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
-                graphics.FillRectangle(temp, rect);
+                graphics.FillEllipse(temp, rect);
             }
             label.Render(graphics);
 
@@ -66,31 +55,15 @@ namespace OSHGuiBuilder.Controls
             }
         }
 
-        public override BaseControl Copy()
-        {
-            CheckBox copy = new CheckBox();
-            CopyTo(copy);
-            return copy;
-        }
-
-        protected override void CopyTo(BaseControl copy)
-        {
-            base.CopyTo(copy);
-
-            CheckBox checkBox = copy as CheckBox;
-            checkBox.checked_ = checked_;
-            checkBox.Text = Text;
-        }
-
         public override string ToString()
         {
-            return name + " - CheckBox";
+            return name + " - RadioButton";
         }
 
         public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::CheckBox();");
+            code.AppendLine(linePrefix + name + " = new OSHGui::RadioButton();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 
-namespace OSHGuiBuilder.Controls
+namespace OSHGuiBuilder.GuiControls
 {
     public class Form : ContainerControl
     {
@@ -43,6 +43,15 @@ namespace OSHGuiBuilder.Controls
             graphics.FillRectangle(linearBrush, rect);
             graphics.DrawString(text, font, foreBrush, new PointF(absoluteLocation.X + 4, absoluteLocation.Y + 2));
             graphics.FillRectangle(new SolidBrush(backColor.Substract(Color.FromArgb(0, 50, 50, 50))), absoluteLocation.X + 5, absoluteLocation.Y + 17 + 2, size.Width - 10, 1);
+
+            Point crossLocation = new Point(absoluteLocation.X + size.Width - 17, absoluteLocation.Y + 5); 
+            for (int i = 0; i < 4; ++i)
+            {
+                graphics.FillRectangle(foreBrush, crossLocation.X + i, crossLocation.Y + i, 3, 1);
+                graphics.FillRectangle(foreBrush, crossLocation.X + 6 - i, crossLocation.Y + i, 3, 1);
+                graphics.FillRectangle(foreBrush, crossLocation.X + i, crossLocation.Y + 7 - i, 3, 1);
+                graphics.FillRectangle(foreBrush, crossLocation.X + 6 - i, crossLocation.Y + 7 - i, 3, 1);
+            }
 
             panel.Render(graphics);
         }

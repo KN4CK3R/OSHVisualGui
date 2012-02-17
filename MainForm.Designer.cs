@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.canvasPictureBox = new System.Windows.Forms.PictureBox();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.controlPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.controlComboBox = new System.Windows.Forms.ComboBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -47,31 +48,19 @@
             this.addGroupBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteButton = new System.Windows.Forms.Button();
             this.copyButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
+            this.toolboxPanel = new System.Windows.Forms.Panel();
+            this.canvasPictureBox = new System.Windows.Forms.PictureBox();
+            this.iconImageList = new System.Windows.Forms.ImageList(this.components);
+            this.controlToolbox = new OSHGuiBuilder.Toolbox.Toolbox();
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // canvasPictureBox
-            // 
-            this.canvasPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.canvasPictureBox.BackColor = System.Drawing.Color.Silver;
-            this.canvasPictureBox.Location = new System.Drawing.Point(174, 27);
-            this.canvasPictureBox.Name = "canvasPictureBox";
-            this.canvasPictureBox.Size = new System.Drawing.Size(657, 447);
-            this.canvasPictureBox.TabIndex = 0;
-            this.canvasPictureBox.TabStop = false;
-            this.canvasPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.canvasPictureBox_Paint);
-            this.canvasPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseDown);
-            this.canvasPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseMove);
-            this.canvasPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseUp);
             // 
             // controlPropertyGrid
             // 
             this.controlPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.controlPropertyGrid.Location = new System.Drawing.Point(12, 84);
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.controlPropertyGrid.Location = new System.Drawing.Point(675, 86);
             this.controlPropertyGrid.Name = "controlPropertyGrid";
             this.controlPropertyGrid.Size = new System.Drawing.Size(156, 390);
             this.controlPropertyGrid.TabIndex = 2;
@@ -79,9 +68,10 @@
             // 
             // controlComboBox
             // 
+            this.controlComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.controlComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.controlComboBox.FormattingEnabled = true;
-            this.controlComboBox.Location = new System.Drawing.Point(12, 27);
+            this.controlComboBox.Location = new System.Drawing.Point(675, 29);
             this.controlComboBox.Name = "controlComboBox";
             this.controlComboBox.Size = new System.Drawing.Size(156, 21);
             this.controlComboBox.TabIndex = 3;
@@ -89,12 +79,13 @@
             // 
             // menuStrip
             // 
+            this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(170)))), ((int)(((byte)(193)))));
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.controlsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(843, 24);
+            this.menuStrip.Size = new System.Drawing.Size(839, 24);
             this.menuStrip.TabIndex = 4;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -108,42 +99,42 @@
             this.toolStripSeparator1,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.newToolStripMenuItem.Text = "New...";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.saveToolStripMenuItem.Text = "Save...";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(176, 6);
             // 
             // generateCCodeToolStripMenuItem
             // 
             this.generateCCodeToolStripMenuItem.Name = "generateCCodeToolStripMenuItem";
-            this.generateCCodeToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.generateCCodeToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.generateCCodeToolStripMenuItem.Text = "Generate C++ Code";
             this.generateCCodeToolStripMenuItem.Click += new System.EventHandler(this.generateCCodeToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -156,47 +147,48 @@
             this.addRadioButtonToolStripMenuItem,
             this.addGroupBoxToolStripMenuItem});
             this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.controlsToolStripMenuItem.Text = "Controls";
             // 
             // addLabelToolStripMenuItem
             // 
             this.addLabelToolStripMenuItem.Name = "addLabelToolStripMenuItem";
-            this.addLabelToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addLabelToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.addLabelToolStripMenuItem.Text = "add Label";
             this.addLabelToolStripMenuItem.Click += new System.EventHandler(this.addLabelToolStripMenuItem_Click);
             // 
             // addButtonToolStripMenuItem
             // 
             this.addButtonToolStripMenuItem.Name = "addButtonToolStripMenuItem";
-            this.addButtonToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addButtonToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.addButtonToolStripMenuItem.Text = "add Button";
             this.addButtonToolStripMenuItem.Click += new System.EventHandler(this.addButtonToolStripMenuItem_Click);
             // 
             // addCheckBoxToolStripMenuItem
             // 
             this.addCheckBoxToolStripMenuItem.Name = "addCheckBoxToolStripMenuItem";
-            this.addCheckBoxToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addCheckBoxToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.addCheckBoxToolStripMenuItem.Text = "add CheckBox";
             this.addCheckBoxToolStripMenuItem.Click += new System.EventHandler(this.addCheckBoxToolStripMenuItem_Click);
             // 
             // addRadioButtonToolStripMenuItem
             // 
             this.addRadioButtonToolStripMenuItem.Name = "addRadioButtonToolStripMenuItem";
-            this.addRadioButtonToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addRadioButtonToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.addRadioButtonToolStripMenuItem.Text = "add RadioButton";
             this.addRadioButtonToolStripMenuItem.Click += new System.EventHandler(this.addRadioButtonToolStripMenuItem_Click);
             // 
             // addGroupBoxToolStripMenuItem
             // 
             this.addGroupBoxToolStripMenuItem.Name = "addGroupBoxToolStripMenuItem";
-            this.addGroupBoxToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addGroupBoxToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.addGroupBoxToolStripMenuItem.Text = "add GroupBox";
             this.addGroupBoxToolStripMenuItem.Click += new System.EventHandler(this.addGroupBoxToolStripMenuItem_Click);
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(12, 54);
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteButton.Location = new System.Drawing.Point(675, 56);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(75, 23);
             this.deleteButton.TabIndex = 5;
@@ -206,7 +198,8 @@
             // 
             // copyButton
             // 
-            this.copyButton.Location = new System.Drawing.Point(93, 54);
+            this.copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyButton.Location = new System.Drawing.Point(756, 56);
             this.copyButton.Name = "copyButton";
             this.copyButton.Size = new System.Drawing.Size(75, 23);
             this.copyButton.TabIndex = 6;
@@ -214,11 +207,86 @@
             this.copyButton.UseVisualStyleBackColor = true;
             this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 
+            // toolboxPanel
+            // 
+            this.toolboxPanel.BackgroundImage = global::OSHGuiBuilder.Properties.Resources.toolbox;
+            this.toolboxPanel.Location = new System.Drawing.Point(0, 29);
+            this.toolboxPanel.Name = "toolboxPanel";
+            this.toolboxPanel.Size = new System.Drawing.Size(21, 69);
+            this.toolboxPanel.TabIndex = 8;
+            this.toolboxPanel.MouseEnter += new System.EventHandler(this.toolboxPanel_MouseEnter);
+            this.toolboxPanel.MouseLeave += new System.EventHandler(this.toolboxPanel_MouseLeave);
+            this.toolboxPanel.MouseHover += new System.EventHandler(this.toolboxPanel_MouseHover);
+            // 
+            // canvasPictureBox
+            // 
+            this.canvasPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.canvasPictureBox.BackColor = System.Drawing.Color.Silver;
+            this.canvasPictureBox.Location = new System.Drawing.Point(27, 24);
+            this.canvasPictureBox.Name = "canvasPictureBox";
+            this.canvasPictureBox.Size = new System.Drawing.Size(638, 461);
+            this.canvasPictureBox.TabIndex = 0;
+            this.canvasPictureBox.TabStop = false;
+            this.canvasPictureBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.canvasPictureBox_DragDrop);
+            this.canvasPictureBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.canvasPictureBox_DragEnter);
+            this.canvasPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.canvasPictureBox_Paint);
+            this.canvasPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseDown);
+            this.canvasPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseMove);
+            this.canvasPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseUp);
+            // 
+            // iconImageList
+            // 
+            this.iconImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconImageList.ImageStream")));
+            this.iconImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.iconImageList.Images.SetKeyName(0, "control_button.png");
+            this.iconImageList.Images.SetKeyName(1, "control_checkbox.png");
+            this.iconImageList.Images.SetKeyName(2, "control_colorbar.png");
+            this.iconImageList.Images.SetKeyName(3, "control_colorpicker.png");
+            this.iconImageList.Images.SetKeyName(4, "control_combobox.png");
+            this.iconImageList.Images.SetKeyName(5, "control_groupbox.png");
+            this.iconImageList.Images.SetKeyName(6, "control_label.png");
+            this.iconImageList.Images.SetKeyName(7, "control_linklabel.png");
+            this.iconImageList.Images.SetKeyName(8, "control_listbox.png");
+            this.iconImageList.Images.SetKeyName(9, "control_panel.png");
+            this.iconImageList.Images.SetKeyName(10, "control_picturebox.png");
+            this.iconImageList.Images.SetKeyName(11, "control_progressbar.png");
+            this.iconImageList.Images.SetKeyName(12, "control_radiobutton.png");
+            this.iconImageList.Images.SetKeyName(13, "control_tabcontrol.png");
+            this.iconImageList.Images.SetKeyName(14, "control_textbox.png");
+            this.iconImageList.Images.SetKeyName(15, "control_timer.png");
+            this.iconImageList.Images.SetKeyName(16, "control_trackbar.png");
+            this.iconImageList.Images.SetKeyName(17, "control_unknown.png");
+            // 
+            // controlToolbox
+            // 
+            this.controlToolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.controlToolbox.AutoScroll = true;
+            this.controlToolbox.AutoScrollMinSize = new System.Drawing.Size(120, 0);
+            this.controlToolbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.controlToolbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.controlToolbox.GroupColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.controlToolbox.ImageList = this.iconImageList;
+            this.controlToolbox.ItemBorderColor = System.Drawing.SystemColors.HotTrack;
+            this.controlToolbox.Location = new System.Drawing.Point(27, 24);
+            this.controlToolbox.MouseOverColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.controlToolbox.Name = "controlToolbox";
+            this.controlToolbox.SelectedItemColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.controlToolbox.SelectedMouseOverColor = System.Drawing.SystemColors.ActiveCaption;
+            this.controlToolbox.Size = new System.Drawing.Size(150, 461);
+            this.controlToolbox.TabIndex = 8;
+            this.controlToolbox.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(843, 485);
+            this.BackgroundImage = global::OSHGuiBuilder.Properties.Resources.sidebar;
+            this.ClientSize = new System.Drawing.Size(839, 485);
+            this.Controls.Add(this.toolboxPanel);
+            this.Controls.Add(this.controlToolbox);
             this.Controls.Add(this.copyButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.controlComboBox);
@@ -231,9 +299,9 @@
             this.Name = "MainForm";
             this.ShowIcon = false;
             this.Text = "OSHGui Builder";
-            ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -260,6 +328,9 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button copyButton;
         private System.Windows.Forms.ToolStripMenuItem addGroupBoxToolStripMenuItem;
+        private System.Windows.Forms.Panel toolboxPanel;
+        private Toolbox.Toolbox controlToolbox;
+        private System.Windows.Forms.ImageList iconImageList;
     }
 }
 
