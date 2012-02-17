@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace OSHGuiBuilder.Controls
 {
-    class Label : BaseControl
+    public class Label : BaseControl
     {
         private string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
@@ -29,6 +29,21 @@ namespace OSHGuiBuilder.Controls
                     graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
                 }
             }
+        }
+
+        public override BaseControl Copy()
+        {
+            Label copy = new Label();
+            CopyTo(copy);
+            return copy;
+        }
+
+        protected override void CopyTo(BaseControl copy)
+        {
+            base.CopyTo(copy);
+            
+            Label label = copy as Label;
+            label.text = text;
         }
 
         public override string ToString()

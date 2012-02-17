@@ -14,7 +14,8 @@ namespace OSHGuiBuilder.Controls
         protected bool visible;
         public bool Visible { get { return visible; } set { visible = value; } }
         protected Point absoluteLocation;
-        public Point AbsoluteLocation { get { return absoluteLocation; } }
+        private Point AbsoluteLocation { get { return absoluteLocation; } }
+        public Point GetAbsoluteLocation() { return absoluteLocation; }
         protected Point location;
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
         protected Size size;
@@ -31,7 +32,17 @@ namespace OSHGuiBuilder.Controls
         public virtual Color BackColor { get { return backColor; } set { backColor = value; backBrush = new SolidBrush(backColor); } }
 
         protected BaseControl parent;
-        public BaseControl Parent { get { return parent; } set { parent = value; CalculateAbsoluteLocation(); } }
+        public void SetParent(BaseControl parent) { this.parent = parent; CalculateAbsoluteLocation(); }
+        public BaseControl GetParent() { return parent; }
+        public ContainerControl GetRealParent()
+        {
+            BaseControl parent = GetParent();
+            while (parent.isSubControl && parent != this)
+            {
+                parent = parent.GetParent();
+            }
+            return parent as ContainerControl;
+        }
 
         public bool isFocused;
         public bool isSubControl;
@@ -68,6 +79,22 @@ namespace OSHGuiBuilder.Controls
         }
 
         public abstract void Render(Graphics graphics);
+
+        public abstract BaseControl Copy();
+        protected virtual void CopyTo(BaseControl copy)
+        {
+            copy.name = name + "_copy";
+            copy.enabled = enabled;
+            copy.visible = visible;
+            copy.location = location;
+            copy.size = size;
+            copy.autoSize = autoSize;
+            copy.font = font;
+            copy.foreBrush = foreBrush;
+            copy.foreColor = foreColor;
+            copy.backBrush = backBrush;
+            copy.backColor = backColor;
+        }
 
         public override string ToString()
         {

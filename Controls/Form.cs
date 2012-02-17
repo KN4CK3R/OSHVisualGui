@@ -6,17 +6,18 @@ using System.Text;
 
 namespace OSHGuiBuilder.Controls
 {
-    class Form : ContainerControl
+    public class Form : ContainerControl
     {
         private Panel panel;
         private string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
-        public override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
-        public override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
+        public override List<BaseControl> Controls { get { return panel.Controls; } }
+        public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
+        public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
 
         public Form()
         {
-            Parent = this;
+            SetParent(this);
 
             Size = new Size(300, 300);
 
@@ -44,6 +45,16 @@ namespace OSHGuiBuilder.Controls
             graphics.FillRectangle(new SolidBrush(backColor.Substract(Color.FromArgb(0, 50, 50, 50))), absoluteLocation.X + 5, absoluteLocation.Y + 17 + 2, size.Width - 10, 1);
 
             panel.Render(graphics);
+        }
+
+        public override BaseControl Copy()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void CopyTo(BaseControl copy)
+        {
+            base.CopyTo(copy);
         }
 
         public override string ToString()
@@ -89,7 +100,7 @@ namespace OSHGuiBuilder.Controls
                 code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
             }
             code.AppendLine("\t}\r\n");
-            foreach (BaseControl control in PreOrder)
+            foreach (BaseControl control in PreOrderVisit())
             {
                 code.AppendLine("\tOSHGui::" + control.GetType().Name + " " + control.Name + ";");
             }

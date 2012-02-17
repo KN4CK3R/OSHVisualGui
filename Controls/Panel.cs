@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OSHGuiBuilder.Controls
 {
-    class Panel : ContainerControl
+    public class Panel : ContainerControl
     {
         public Panel()
         {
@@ -26,6 +26,29 @@ namespace OSHGuiBuilder.Controls
             }
             
             base.Render(graphics);
+        }
+
+        public override BaseControl Copy()
+        {
+            Panel copy = new Panel();
+            CopyTo(copy);
+            return copy;
+        }
+
+        protected override void CopyTo(BaseControl copy)
+        {
+            base.CopyTo(copy);
+
+            Panel panel = copy as Panel;
+            foreach (BaseControl control in PreOrderVisit())
+            {
+                panel.AddControl(control.Copy());
+            }
+        }
+
+        public override string ToString()
+        {
+            return name + " - Panel";
         }
 
         public override string ToCPlusPlusString(string linePrefix)

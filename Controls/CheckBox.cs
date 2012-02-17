@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OSHGuiBuilder.Controls
 {
-    class CheckBox : BaseControl
+    public class CheckBox : BaseControl
     {
         #region Properties
         protected Label label;
@@ -35,7 +35,7 @@ namespace OSHGuiBuilder.Controls
         {
             base.CalculateAbsoluteLocation();
 
-            label.Parent = this;
+            label.SetParent(this);
         }
 
         public override void Render(Graphics graphics)
@@ -64,6 +64,22 @@ namespace OSHGuiBuilder.Controls
                     graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 4);
                 }
             }
+        }
+
+        public override BaseControl Copy()
+        {
+            CheckBox copy = new CheckBox();
+            CopyTo(copy);
+            return copy;
+        }
+
+        protected override void CopyTo(BaseControl copy)
+        {
+            base.CopyTo(copy);
+
+            CheckBox checkBox = copy as CheckBox;
+            checkBox.checked_ = checked_;
+            checkBox.Text = Text;
         }
 
         public override string ToString()

@@ -26,10 +26,10 @@ namespace OSHGuiBuilder
             form = new Controls.Form();
             form.Name = "form1";
             form.Text = "Form1";
-            AddControl(form);
+            AddControlToList(form);
         }
 
-        private void AddControl(Controls.BaseControl control)
+        private void AddControlToList(Controls.BaseControl control)
         {
             if (control == null)
             {
@@ -45,17 +45,12 @@ namespace OSHGuiBuilder
             controlComboBox.Items.Add(control);
             controlComboBox.SelectedItem = control;
 
-            if (control != form)
-            {
-                form.AddControl(control);
-            }
-
             canvasPictureBox.Invalidate();
         }
 
         private Controls.BaseControl FindControlUnderMouse(Point location)
         {
-            foreach (Controls.BaseControl control in form.PostOrder)
+            foreach (Controls.BaseControl control in form.PostOrderVisit())
             {
                 if (control.Intersect(location))
                 {
@@ -68,7 +63,7 @@ namespace OSHGuiBuilder
 
         private Controls.ContainerControl FindContainerControlUnderMouse(Point location)
         {
-            foreach (Controls.BaseControl control in form.PostOrder)
+            foreach (Controls.BaseControl control in form.PostOrderVisit())
             {
                 if (control != focusedControl && control is Controls.ContainerControl && control.Intersect(location))
                 {
@@ -126,11 +121,11 @@ namespace OSHGuiBuilder
         private void canvasPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             Controls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
-            if ((focusedControl.Parent.isSubControl ? focusedControl.Parent.Parent : focusedControl.Parent) as Controls.ContainerControl != container)
+            if ((focusedControl.GetParent().isSubControl ? focusedControl.GetParent().GetParent() : focusedControl.GetParent()) as Controls.ContainerControl != container)
             {
-                focusedControl.Location = focusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
+                focusedControl.Location = focusedControl.GetAbsoluteLocation().Substract(container.GetContainerAbsoluteLocation());
 
-                Controls.ContainerControl oldContainer = focusedControl.Parent as Controls.ContainerControl;
+                Controls.ContainerControl oldContainer = focusedControl.GetParent() as Controls.ContainerControl;
                 oldContainer.RemoveControl(focusedControl);
                 container.AddControl(focusedControl);
             }
@@ -196,12 +191,14 @@ namespace OSHGuiBuilder
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            if (focusedControl == null)
+            if (focusedControl == null || focusedControl == form)
             {
                 return;
             }
 
+            (focusedControl.GetParent() as Controls.ContainerControl).RemoveControl(focusedControl);
             controlComboBox.Items.Remove(focusedControl);
+            controlComboBox.SelectedIndex = 0;
             controls.Remove(focusedControl);
             canvasPictureBox.Invalidate();
         }
@@ -227,7 +224,8 @@ namespace OSHGuiBuilder
             Controls.Label label = new Controls.Label();
             label.Name = name;
             label.Text = name;
-            AddControl(label);
+            AddControlToList(label);
+            form.AddControl(label);
         }
 
         private void addButtonToolStripMenuItem_Click(object sender, EventArgs e)
@@ -236,7 +234,8 @@ namespace OSHGuiBuilder
             Controls.Button button = new Controls.Button();
             button.Name = name;
             button.Text = name;
-            AddControl(button);
+            AddControlToList(button);
+            form.AddControl(button);
         }
 
         private void addCheckBoxToolStripMenuItem_Click(object sender, EventArgs e)
@@ -245,7 +244,8 @@ namespace OSHGuiBuilder
             Controls.CheckBox checkBox = new OSHGuiBuilder.Controls.CheckBox();
             checkBox.Name = name;
             checkBox.Text = name;
-            AddControl(checkBox);
+            AddControlToList(checkBox);
+            form.AddControl(checkBox);
         }
 
         private void addRadioButtonToolStripMenuItem_Click(object sender, EventArgs e)
@@ -254,7 +254,8 @@ namespace OSHGuiBuilder
             Controls.RadioButton radioButton = new OSHGuiBuilder.Controls.RadioButton();
             radioButton.Name = name;
             radioButton.Text = name;
-            AddControl(radioButton);
+            AddControlToList(radioButton);
+            form.AddControl(radioButton);
         }
 
         private void addGroupBoxToolStripMenuItem_Click(object sender, EventArgs e)
@@ -263,12 +264,34 @@ namespace OSHGuiBuilder
             Controls.GroupBox groupBox = new OSHGuiBuilder.Controls.GroupBox();
             groupBox.Name = name;
             groupBox.Text = name;
-            AddControl(groupBox);
+            AddControlToList(groupBox);
+            form.AddControl(groupBox);
         }
 
         private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string code = form.GenerateCode()[0];
+        }
+
+        private void copyButton_Click(object sender, EventArgs e)
+        {
+            if (focusedControl == null || focusedControl == form)
+            {
+                return;
+            }
+
+            Controls.BaseControl copy = focusedControl.Copy();
+            copy.Location = copy.Location.Add(new Point(10, 10));
+            focusedControl.GetRealParent().AddControl(copy);
+            AddControlToList(copy);
+            if (copy is Controls.ContainerControl)
+            {
+                foreach (Controls.BaseControl control in (copy as Controls.ContainerControl).PreOrderVisit())
+                {
+                    AddControlToList(control);
+                }
+                controlComboBox.SelectedItem = copy;
+            }
         }
     }
 }

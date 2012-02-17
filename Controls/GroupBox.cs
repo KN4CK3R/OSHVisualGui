@@ -11,9 +11,10 @@ namespace OSHGuiBuilder.Controls
         private Panel panel = new Panel();
 
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; } }
+        public override List<BaseControl> Controls { get { return panel.Controls; } }
         public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = value.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
-        public override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
-        public override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
+        public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
+        public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
 
         public GroupBox()
         {
@@ -57,6 +58,21 @@ namespace OSHGuiBuilder.Controls
                     graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
                 }
             }
+        }
+
+        public override BaseControl Copy()
+        {
+            GroupBox copy = new GroupBox();
+            CopyTo(copy);
+            return copy;
+        }
+
+        protected override void CopyTo(BaseControl copy)
+        {
+            base.CopyTo(copy);
+
+            GroupBox groupBox = copy as GroupBox;
+            groupBox.Text = Text;
         }
 
         public override string ToString()

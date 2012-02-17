@@ -5,16 +5,13 @@ using System.Text;
 
 namespace OSHGuiBuilder.Controls
 {
-    abstract class ContainerControl : BaseControl
+    public abstract class ContainerControl : BaseControl
     {
         protected List<BaseControl> controls;
-        public List<BaseControl> Controls { get { return controls; } }
+        public virtual List<BaseControl> Controls { get { return controls; } }
         protected List<BaseControl> internalControls;
-        public virtual Point ContainerLocation { get { return Location; } }
-        public virtual Point ContainerAbsoluteLocation { get { return absoluteLocation; } }
-
-        public IEnumerable<BaseControl> PostOrder { get { return PostOrderVisit(); } }
-        public IEnumerable<BaseControl> PreOrder { get { return PreOrderVisit(); } }
+        public virtual Point GetContainerLocation() { return Location; }
+        public virtual Point GetContainerAbsoluteLocation() { return absoluteLocation; }
 
         public ContainerControl()
         {
@@ -46,7 +43,7 @@ namespace OSHGuiBuilder.Controls
                 return;
             }
 
-            control.Parent = this;
+            control.SetParent(this);
 
             internalControls.Add(control);
         }
@@ -56,7 +53,7 @@ namespace OSHGuiBuilder.Controls
             internalControls.Remove(control);
             controls.Remove(control);
 
-            control.Parent = null;
+            control.SetParent(null);
         }
 
         public override void CalculateAbsoluteLocation()
@@ -77,7 +74,7 @@ namespace OSHGuiBuilder.Controls
             }
         }
 
-        private IEnumerable<BaseControl> PostOrderVisit()
+        public IEnumerable<BaseControl> PostOrderVisit()
         {
             foreach (BaseControl control in internalControls)
             {
@@ -98,7 +95,7 @@ namespace OSHGuiBuilder.Controls
             }
         }
 
-        private IEnumerable<BaseControl> PreOrderVisit()
+        public IEnumerable<BaseControl> PreOrderVisit()
         {
             foreach (BaseControl control in internalControls)
             {

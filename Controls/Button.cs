@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace OSHGuiBuilder.Controls
 {
-    class Button : BaseControl
+    public class Button : BaseControl
     {
         #region Properties
         private Label label;
@@ -30,7 +30,7 @@ namespace OSHGuiBuilder.Controls
         {
             base.CalculateAbsoluteLocation();
 
-            label.Parent = this;
+            label.SetParent(this);
         }
 
         public override void Render(Graphics graphics)
@@ -45,6 +45,21 @@ namespace OSHGuiBuilder.Controls
                     graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
                 }
             }
+        }
+
+        public override BaseControl Copy()
+        {
+            Button copy = new Button();
+            CopyTo(copy);
+            return copy;
+        }
+
+        protected override void CopyTo(BaseControl copy)
+        {
+            base.CopyTo(copy);
+
+            Button button = copy as Button;
+            button.Text = Text;
         }
 
         public override string ToString()

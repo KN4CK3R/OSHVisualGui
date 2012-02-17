@@ -44,9 +44,9 @@
             this.addButtonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCheckBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRadioButtonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addGroupBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteButton = new System.Windows.Forms.Button();
             this.copyButton = new System.Windows.Forms.Button();
-            this.addGroupBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +56,7 @@
             this.canvasPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.canvasPictureBox.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.canvasPictureBox.BackColor = System.Drawing.Color.Silver;
             this.canvasPictureBox.Location = new System.Drawing.Point(174, 27);
             this.canvasPictureBox.Name = "canvasPictureBox";
             this.canvasPictureBox.Size = new System.Drawing.Size(657, 447);
@@ -108,42 +108,42 @@
             this.toolStripSeparator1,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.newToolStripMenuItem.Text = "New...";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.saveToolStripMenuItem.Text = "Save...";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(176, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
             // 
             // generateCCodeToolStripMenuItem
             // 
             this.generateCCodeToolStripMenuItem.Name = "generateCCodeToolStripMenuItem";
-            this.generateCCodeToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.generateCCodeToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.generateCCodeToolStripMenuItem.Text = "Generate C++ Code";
             this.generateCCodeToolStripMenuItem.Click += new System.EventHandler(this.generateCCodeToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -156,36 +156,43 @@
             this.addRadioButtonToolStripMenuItem,
             this.addGroupBoxToolStripMenuItem});
             this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.controlsToolStripMenuItem.Text = "Controls";
             // 
             // addLabelToolStripMenuItem
             // 
             this.addLabelToolStripMenuItem.Name = "addLabelToolStripMenuItem";
-            this.addLabelToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.addLabelToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.addLabelToolStripMenuItem.Text = "add Label";
             this.addLabelToolStripMenuItem.Click += new System.EventHandler(this.addLabelToolStripMenuItem_Click);
             // 
             // addButtonToolStripMenuItem
             // 
             this.addButtonToolStripMenuItem.Name = "addButtonToolStripMenuItem";
-            this.addButtonToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.addButtonToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.addButtonToolStripMenuItem.Text = "add Button";
             this.addButtonToolStripMenuItem.Click += new System.EventHandler(this.addButtonToolStripMenuItem_Click);
             // 
             // addCheckBoxToolStripMenuItem
             // 
             this.addCheckBoxToolStripMenuItem.Name = "addCheckBoxToolStripMenuItem";
-            this.addCheckBoxToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.addCheckBoxToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.addCheckBoxToolStripMenuItem.Text = "add CheckBox";
             this.addCheckBoxToolStripMenuItem.Click += new System.EventHandler(this.addCheckBoxToolStripMenuItem_Click);
             // 
             // addRadioButtonToolStripMenuItem
             // 
             this.addRadioButtonToolStripMenuItem.Name = "addRadioButtonToolStripMenuItem";
-            this.addRadioButtonToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.addRadioButtonToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.addRadioButtonToolStripMenuItem.Text = "add RadioButton";
             this.addRadioButtonToolStripMenuItem.Click += new System.EventHandler(this.addRadioButtonToolStripMenuItem_Click);
+            // 
+            // addGroupBoxToolStripMenuItem
+            // 
+            this.addGroupBoxToolStripMenuItem.Name = "addGroupBoxToolStripMenuItem";
+            this.addGroupBoxToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addGroupBoxToolStripMenuItem.Text = "add GroupBox";
+            this.addGroupBoxToolStripMenuItem.Click += new System.EventHandler(this.addGroupBoxToolStripMenuItem_Click);
             // 
             // deleteButton
             // 
@@ -205,13 +212,7 @@
             this.copyButton.TabIndex = 6;
             this.copyButton.Text = "copy";
             this.copyButton.UseVisualStyleBackColor = true;
-            // 
-            // addGroupBoxToolStripMenuItem
-            // 
-            this.addGroupBoxToolStripMenuItem.Name = "addGroupBoxToolStripMenuItem";
-            this.addGroupBoxToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.addGroupBoxToolStripMenuItem.Text = "add GroupBox";
-            this.addGroupBoxToolStripMenuItem.Click += new System.EventHandler(this.addGroupBoxToolStripMenuItem_Click);
+            this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 
             // MainForm
             // 
