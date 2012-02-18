@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using OSHGuiBuilder.Toolbox;
+using OSHVisualGui.Toolbox;
 
-namespace OSHGuiBuilder
+namespace OSHVisualGui
 {
     public partial class MainForm : Form
     {
@@ -127,6 +127,8 @@ namespace OSHGuiBuilder
         bool dragMouse = false;
         private void canvasPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            Cursor.Clip = canvasPictureBox.RectangleToScreen(new Rectangle(form.GetContainerLocation(), form.GetContainerSize()));
+
             GuiControls.BaseControl newFocusedControl = FindControlUnderMouse(e.Location);
             if (newFocusedControl != null)
             {
@@ -164,18 +166,26 @@ namespace OSHGuiBuilder
 
         private void canvasPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            GuiControls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
-            if ((focusedControl.GetParent().isSubControl ? focusedControl.GetParent().GetParent() : focusedControl.GetParent()) as GuiControls.ContainerControl != container)
+            Cursor.Clip = new Rectangle();
+
+            if (focusedControl != null && dragMouse)
             {
-                focusedControl.Location = focusedControl.GetAbsoluteLocation().Substract(container.GetContainerAbsoluteLocation());
+                if (e.Button == MouseButtons.Left)
+                {
+                    GuiControls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
+                    if ((focusedControl.GetParent().isSubControl ? focusedControl.GetParent().GetParent() : focusedControl.GetParent()) as GuiControls.ContainerControl != container)
+                    {
+                        focusedControl.Location = focusedControl.GetAbsoluteLocation().Substract(container.GetContainerAbsoluteLocation());
 
-                GuiControls.ContainerControl oldContainer = focusedControl.GetParent() as GuiControls.ContainerControl;
-                oldContainer.RemoveControl(focusedControl);
-                container.AddControl(focusedControl);
+                        GuiControls.ContainerControl oldContainer = focusedControl.GetParent() as GuiControls.ContainerControl;
+                        oldContainer.RemoveControl(focusedControl);
+                        container.AddControl(focusedControl);
+                    }
+
+                    dragMouse = false;
+                    controlPropertyGrid.Refresh();
+                }
             }
-
-            dragMouse = false;
-            controlPropertyGrid.Refresh();
         }
 
         private void controlComboBox_SelectedIndexChanged(object sender, EventArgs e)

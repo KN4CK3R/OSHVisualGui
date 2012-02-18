@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace OSHGuiBuilder.GuiControls
+namespace OSHVisualGui.GuiControls
 {
     public abstract class ContainerControl : BaseControl
     {
@@ -12,6 +12,7 @@ namespace OSHGuiBuilder.GuiControls
         protected List<BaseControl> internalControls;
         public virtual Point GetContainerLocation() { return Location; }
         public virtual Point GetContainerAbsoluteLocation() { return absoluteLocation; }
+        public virtual Size GetContainerSize() { return Size; }
 
         public ContainerControl()
         {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace OSHGuiBuilder.Toolbox
+namespace OSHVisualGui.Toolbox
 {
     public class Toolbox : UserControl
     {

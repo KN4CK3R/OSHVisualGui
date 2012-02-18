@@ -1,4 +1,4 @@
-﻿namespace OSHGuiBuilder
+﻿namespace OSHVisualGui
 {
     partial class MainForm
     {
@@ -43,9 +43,12 @@
             this.toolboxPanel = new System.Windows.Forms.Panel();
             this.canvasPictureBox = new System.Windows.Forms.PictureBox();
             this.iconImageList = new System.Windows.Forms.ImageList(this.components);
-            this.controlToolbox = new OSHGuiBuilder.Toolbox.Toolbox();
+            this.controlContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.controlToolbox = new OSHVisualGui.Toolbox.Toolbox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
+            this.controlContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // controlPropertyGrid
@@ -132,7 +135,7 @@
             // 
             // toolboxPanel
             // 
-            this.toolboxPanel.BackgroundImage = global::OSHGuiBuilder.Properties.Resources.toolbox;
+            this.toolboxPanel.BackgroundImage = global::OSHVisualGui.Properties.Resources.toolbox;
             this.toolboxPanel.Location = new System.Drawing.Point(0, 29);
             this.toolboxPanel.Name = "toolboxPanel";
             this.toolboxPanel.Size = new System.Drawing.Size(21, 69);
@@ -147,6 +150,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.canvasPictureBox.BackColor = System.Drawing.Color.Silver;
+            this.canvasPictureBox.ContextMenuStrip = this.controlContextMenuStrip;
             this.canvasPictureBox.Location = new System.Drawing.Point(27, 24);
             this.canvasPictureBox.Name = "canvasPictureBox";
             this.canvasPictureBox.Size = new System.Drawing.Size(638, 461);
@@ -183,6 +187,19 @@
             this.iconImageList.Images.SetKeyName(16, "control_trackbar.png");
             this.iconImageList.Images.SetKeyName(17, "control_unknown.png");
             // 
+            // controlContextMenuStrip
+            // 
+            this.controlContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenuItem});
+            this.controlContextMenuStrip.Name = "controlContextMenuStrip";
+            this.controlContextMenuStrip.Size = new System.Drawing.Size(92, 26);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.cutToolStripMenuItem.Text = "cut";
+            // 
             // controlToolbox
             // 
             this.controlToolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -207,12 +224,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::OSHGuiBuilder.Properties.Resources.sidebar;
+            this.BackgroundImage = global::OSHVisualGui.Properties.Resources.sidebar;
             this.ClientSize = new System.Drawing.Size(839, 485);
             this.Controls.Add(this.toolboxPanel);
             this.Controls.Add(this.controlToolbox);
-            this.Controls.Add(this.controlComboBox);
             this.Controls.Add(this.controlPropertyGrid);
+            this.Controls.Add(this.controlComboBox);
             this.Controls.Add(this.canvasPictureBox);
             this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
@@ -224,6 +241,7 @@
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).EndInit();
+            this.controlContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,6 +263,8 @@
         private System.Windows.Forms.Panel toolboxPanel;
         private Toolbox.Toolbox controlToolbox;
         private System.Windows.Forms.ImageList iconImageList;
+        private System.Windows.Forms.ContextMenuStrip controlContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
     }
 }
 

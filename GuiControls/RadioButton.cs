@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 
-namespace OSHGuiBuilder.GuiControls
+namespace OSHVisualGui.GuiControls
 {
     class RadioButton : CheckBox
     {

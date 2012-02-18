@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OSHGuiBuilder.Toolbox
+namespace OSHVisualGui.Toolbox
 {
     public class ToolboxItemBase
     {

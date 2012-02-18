@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text;
 
-namespace OSHGuiBuilder
+namespace OSHVisualGui
 {
     public class DelayedEventHandler
     {

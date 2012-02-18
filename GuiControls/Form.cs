@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 
-namespace OSHGuiBuilder.GuiControls
+namespace OSHVisualGui.GuiControls
 {
     public class Form : ContainerControl
     {
@@ -14,17 +14,19 @@ namespace OSHGuiBuilder.GuiControls
         public override List<BaseControl> GetControls() { return panel.GetControls(); }
         public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
         public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
+        public override Size GetContainerSize() { return panel.GetContainerSize(); }
+        public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } }
 
         public Form()
         {
             SetParent(this);
 
-            Size = new Size(300, 300);
-
             panel = new Panel();
             panel.Location = new Point(6, 6 + 17);
             panel.isSubControl = true;
             AddSubControl(panel);
+
+            Size = new Size(300, 300);
 
             BackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));

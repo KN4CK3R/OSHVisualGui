@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace OSHGuiBuilder.GuiControls
+namespace OSHVisualGui.GuiControls
 {
     class GroupBox : Panel
     {
@@ -15,6 +15,7 @@ namespace OSHGuiBuilder.GuiControls
         public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = value.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
         public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
         public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
+        public override Size GetContainerSize() { return panel.GetContainerSize(); }
 
         public GroupBox()
         {
