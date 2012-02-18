@@ -11,7 +11,7 @@ namespace OSHGuiBuilder.GuiControls
         private Panel panel = new Panel();
 
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; } }
-        public override List<BaseControl> Controls { get { return panel.Controls; } }
+        public override List<BaseControl> GetControls() { return panel.GetControls(); }
         public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = value.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
         public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
         public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
@@ -102,10 +102,10 @@ namespace OSHGuiBuilder.GuiControls
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
 
-            if (panel.Controls.Count > 0)
+            if (GetControls().Count > 0)
             {
                 code.AppendLine("");
-                foreach (BaseControl control in panel.Controls)
+                foreach (BaseControl control in GetControls())
                 {
                     code.Append(control.ToCPlusPlusString(linePrefix));
                     code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");

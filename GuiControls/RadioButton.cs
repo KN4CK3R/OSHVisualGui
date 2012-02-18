@@ -15,7 +15,7 @@ namespace OSHGuiBuilder.GuiControls
                 {
                     if (parent != null)
                     {
-                        foreach (BaseControl control in (parent as ContainerControl).Controls)
+                        foreach (BaseControl control in (parent as ContainerControl).GetControls())
                         {
                             if (control is RadioButton)
                             {

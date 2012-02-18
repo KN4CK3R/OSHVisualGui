@@ -40,8 +40,6 @@
             this.generateCCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteButton = new System.Windows.Forms.Button();
-            this.copyButton = new System.Windows.Forms.Button();
             this.toolboxPanel = new System.Windows.Forms.Panel();
             this.canvasPictureBox = new System.Windows.Forms.PictureBox();
             this.iconImageList = new System.Windows.Forms.ImageList(this.components);
@@ -54,9 +52,9 @@
             // 
             this.controlPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.controlPropertyGrid.Location = new System.Drawing.Point(675, 86);
+            this.controlPropertyGrid.Location = new System.Drawing.Point(675, 56);
             this.controlPropertyGrid.Name = "controlPropertyGrid";
-            this.controlPropertyGrid.Size = new System.Drawing.Size(156, 390);
+            this.controlPropertyGrid.Size = new System.Drawing.Size(156, 420);
             this.controlPropertyGrid.TabIndex = 2;
             this.controlPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.controlPropertyGrid_PropertyValueChanged);
             // 
@@ -64,6 +62,7 @@
             // 
             this.controlComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.controlComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.controlComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.controlComboBox.FormattingEnabled = true;
             this.controlComboBox.Location = new System.Drawing.Point(675, 29);
             this.controlComboBox.Name = "controlComboBox";
@@ -130,28 +129,6 @@
             this.closeToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteButton.Location = new System.Drawing.Point(675, 56);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteButton.TabIndex = 5;
-            this.deleteButton.Text = "delete";
-            this.deleteButton.UseVisualStyleBackColor = true;
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            // 
-            // copyButton
-            // 
-            this.copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.copyButton.Location = new System.Drawing.Point(756, 56);
-            this.copyButton.Name = "copyButton";
-            this.copyButton.Size = new System.Drawing.Size(75, 23);
-            this.copyButton.TabIndex = 6;
-            this.copyButton.Text = "copy";
-            this.copyButton.UseVisualStyleBackColor = true;
-            this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 
             // toolboxPanel
             // 
@@ -234,8 +211,6 @@
             this.ClientSize = new System.Drawing.Size(839, 485);
             this.Controls.Add(this.toolboxPanel);
             this.Controls.Add(this.controlToolbox);
-            this.Controls.Add(this.copyButton);
-            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.controlComboBox);
             this.Controls.Add(this.controlPropertyGrid);
             this.Controls.Add(this.canvasPictureBox);
@@ -267,8 +242,6 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem generateCCodeToolStripMenuItem;
-        private System.Windows.Forms.Button deleteButton;
-        private System.Windows.Forms.Button copyButton;
         private System.Windows.Forms.Panel toolboxPanel;
         private Toolbox.Toolbox controlToolbox;
         private System.Windows.Forms.ImageList iconImageList;

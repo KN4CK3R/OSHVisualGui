@@ -8,7 +8,7 @@ namespace OSHGuiBuilder.GuiControls
     public abstract class ContainerControl : BaseControl
     {
         protected List<BaseControl> controls;
-        public virtual List<BaseControl> Controls { get { return controls; } }
+        public virtual List<BaseControl> GetControls() { return controls; }
         protected List<BaseControl> internalControls;
         public virtual Point GetContainerLocation() { return Location; }
         public virtual Point GetContainerAbsoluteLocation() { return absoluteLocation; }
@@ -48,7 +48,7 @@ namespace OSHGuiBuilder.GuiControls
             internalControls.Add(control);
         }
 
-        public void RemoveControl(BaseControl control)
+        public virtual void RemoveControl(BaseControl control)
         {
             internalControls.Remove(control);
             controls.Remove(control);

@@ -11,7 +11,7 @@ namespace OSHGuiBuilder.GuiControls
         private Panel panel;
         private string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
-        public override List<BaseControl> Controls { get { return panel.Controls; } }
+        public override List<BaseControl> GetControls() { return panel.GetControls(); }
         public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
         public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
 
@@ -33,6 +33,11 @@ namespace OSHGuiBuilder.GuiControls
         public override void AddControl(BaseControl control)
         {
             panel.AddControl(control);
+        }
+
+        public override void RemoveControl(BaseControl control)
+        {
+            panel.RemoveControl(control);
         }
 
         public override void Render(System.Drawing.Graphics graphics)
@@ -103,7 +108,7 @@ namespace OSHGuiBuilder.GuiControls
             code.AppendLine("private:");
             code.AppendLine("\tvoid InitializeComponent()");
             code.AppendLine("\t{");
-            foreach (BaseControl control in panel.Controls)
+            foreach (BaseControl control in GetControls())
             {
                 code.Append(control.ToCPlusPlusString("\t\t"));
                 code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");

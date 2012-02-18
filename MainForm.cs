@@ -14,6 +14,7 @@ namespace OSHGuiBuilder
     {
         private List<GuiControls.BaseControl> controls;
         private GuiControls.BaseControl focusedControl;
+        private GuiControls.BaseControl copiedControl;
         private GuiControls.Form form;
 
         public MainForm()
@@ -404,7 +405,7 @@ namespace OSHGuiBuilder
                 {
                     focusedControl.GetRealParent().RemoveControl(focusedControl);
                     RemoveControlFromList(focusedControl);
-                    focusedControl = null;
+                    controlComboBox.SelectedIndex = 0;
                 }
                 else if (e.Control && e.KeyCode == Keys.C)
                 {
@@ -413,17 +414,45 @@ namespace OSHGuiBuilder
                         return;
                     }
 
-                    GuiControls.BaseControl copy = focusedControl.Copy();
-                    copy.Location = copy.Location.Add(new Point(10, 10));
-                    focusedControl.GetRealParent().AddControl(copy);
-                    AddControlToList(copy);
-                    if (copy is GuiControls.ContainerControl)
+                    copiedControl = focusedControl.Copy();
+                    copiedControl.Location = copiedControl.Location.Add(new Point(10, 10));
+                }
+                else if (e.Control && e.KeyCode == Keys.X)
+                {
+                    if (focusedControl == form)
                     {
-                        foreach (GuiControls.BaseControl control in (copy as GuiControls.ContainerControl).PreOrderVisit())
+                        return;
+                    }
+                    copiedControl = focusedControl;
+                    focusedControl.GetRealParent().RemoveControl(focusedControl);
+                    RemoveControlFromList(focusedControl);
+                    controlComboBox.SelectedIndex = 0;
+                }
+                else if (e.Control && e.KeyCode == Keys.V)
+                {
+                    if (copiedControl == null)
+                    {
+                        return;
+                    }
+
+                    GuiControls.ContainerControl parent = null;
+                    if (focusedControl is GuiControls.ContainerControl)
+                    {
+                        parent = focusedControl as GuiControls.ContainerControl;
+                    }
+                    else
+                    {
+                        parent = focusedControl.GetRealParent();
+                    }
+                    parent.AddControl(copiedControl);
+                    AddControlToList(copiedControl);
+                    if (copiedControl is GuiControls.ContainerControl)
+                    {
+                        foreach (GuiControls.BaseControl control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
                         {
                             AddControlToList(control);
                         }
-                        controlComboBox.SelectedItem = copy;
+                        controlComboBox.SelectedItem = copiedControl;
                     }
                 }
             }
