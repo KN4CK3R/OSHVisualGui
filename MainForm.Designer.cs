@@ -42,9 +42,9 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolboxPanel = new System.Windows.Forms.Panel();
             this.canvasPictureBox = new System.Windows.Forms.PictureBox();
-            this.iconImageList = new System.Windows.Forms.ImageList(this.components);
             this.controlContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iconImageList = new System.Windows.Forms.ImageList(this.components);
             this.controlToolbox = new OSHVisualGui.Toolbox.Toolbox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
@@ -164,6 +164,19 @@
             this.canvasPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseUp);
             this.canvasPictureBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.canvasPictureBox_PreviewKeyDown);
             // 
+            // controlContextMenuStrip
+            // 
+            this.controlContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenuItem});
+            this.controlContextMenuStrip.Name = "controlContextMenuStrip";
+            this.controlContextMenuStrip.Size = new System.Drawing.Size(92, 26);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.cutToolStripMenuItem.Text = "cut";
+            // 
             // iconImageList
             // 
             this.iconImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconImageList.ImageStream")));
@@ -186,19 +199,6 @@
             this.iconImageList.Images.SetKeyName(15, "control_timer.png");
             this.iconImageList.Images.SetKeyName(16, "control_trackbar.png");
             this.iconImageList.Images.SetKeyName(17, "control_unknown.png");
-            // 
-            // controlContextMenuStrip
-            // 
-            this.controlContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cutToolStripMenuItem});
-            this.controlContextMenuStrip.Name = "controlContextMenuStrip";
-            this.controlContextMenuStrip.Size = new System.Drawing.Size(92, 26);
-            // 
-            // cutToolStripMenuItem
-            // 
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
-            this.cutToolStripMenuItem.Text = "cut";
             // 
             // controlToolbox
             // 
@@ -233,11 +233,11 @@
             this.Controls.Add(this.canvasPictureBox);
             this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
-            this.ShowIcon = false;
-            this.Text = "OSHGui Builder";
+            this.Text = "OldSchoolHack VisualGui";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).EndInit();

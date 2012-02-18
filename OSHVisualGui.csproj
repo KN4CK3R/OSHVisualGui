@@ -8,8 +8,8 @@
     <ProjectGuid>{ECF7E162-F589-4CBA-9140-E95055AC0924}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OSHGuiBuilder</RootNamespace>
-    <AssemblyName>OSHGuiBuilder</AssemblyName>
+    <RootNamespace>OSHVisualGui</RootNamespace>
+    <AssemblyName>OSHVisualGui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>osh.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -109,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Toolbox\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="osh.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

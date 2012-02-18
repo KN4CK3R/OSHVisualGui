@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSHGuiBuilder", "OSHGuiBuilder.csproj", "{ECF7E162-F589-4CBA-9140-E95055AC0924}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSHVisualGui", "OSHVisualGui.csproj", "{ECF7E162-F589-4CBA-9140-E95055AC0924}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
