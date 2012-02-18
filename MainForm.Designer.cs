@@ -40,12 +40,6 @@
             this.generateCCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addLabelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addButtonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addCheckBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addRadioButtonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addGroupBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteButton = new System.Windows.Forms.Button();
             this.copyButton = new System.Windows.Forms.Button();
             this.toolboxPanel = new System.Windows.Forms.Panel();
@@ -81,8 +75,7 @@
             // 
             this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(170)))), ((int)(((byte)(193)))));
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.controlsToolStripMenuItem});
+            this.fileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(839, 24);
@@ -138,53 +131,6 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // controlsToolStripMenuItem
-            // 
-            this.controlsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addLabelToolStripMenuItem,
-            this.addButtonToolStripMenuItem,
-            this.addCheckBoxToolStripMenuItem,
-            this.addRadioButtonToolStripMenuItem,
-            this.addGroupBoxToolStripMenuItem});
-            this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this.controlsToolStripMenuItem.Text = "Controls";
-            // 
-            // addLabelToolStripMenuItem
-            // 
-            this.addLabelToolStripMenuItem.Name = "addLabelToolStripMenuItem";
-            this.addLabelToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.addLabelToolStripMenuItem.Text = "add Label";
-            this.addLabelToolStripMenuItem.Click += new System.EventHandler(this.addLabelToolStripMenuItem_Click);
-            // 
-            // addButtonToolStripMenuItem
-            // 
-            this.addButtonToolStripMenuItem.Name = "addButtonToolStripMenuItem";
-            this.addButtonToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.addButtonToolStripMenuItem.Text = "add Button";
-            this.addButtonToolStripMenuItem.Click += new System.EventHandler(this.addButtonToolStripMenuItem_Click);
-            // 
-            // addCheckBoxToolStripMenuItem
-            // 
-            this.addCheckBoxToolStripMenuItem.Name = "addCheckBoxToolStripMenuItem";
-            this.addCheckBoxToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.addCheckBoxToolStripMenuItem.Text = "add CheckBox";
-            this.addCheckBoxToolStripMenuItem.Click += new System.EventHandler(this.addCheckBoxToolStripMenuItem_Click);
-            // 
-            // addRadioButtonToolStripMenuItem
-            // 
-            this.addRadioButtonToolStripMenuItem.Name = "addRadioButtonToolStripMenuItem";
-            this.addRadioButtonToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.addRadioButtonToolStripMenuItem.Text = "add RadioButton";
-            this.addRadioButtonToolStripMenuItem.Click += new System.EventHandler(this.addRadioButtonToolStripMenuItem_Click);
-            // 
-            // addGroupBoxToolStripMenuItem
-            // 
-            this.addGroupBoxToolStripMenuItem.Name = "addGroupBoxToolStripMenuItem";
-            this.addGroupBoxToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.addGroupBoxToolStripMenuItem.Text = "add GroupBox";
-            this.addGroupBoxToolStripMenuItem.Click += new System.EventHandler(this.addGroupBoxToolStripMenuItem_Click);
-            // 
             // deleteButton
             // 
             this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -235,6 +181,7 @@
             this.canvasPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseDown);
             this.canvasPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseMove);
             this.canvasPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvasPictureBox_MouseUp);
+            this.canvasPictureBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.canvasPictureBox_PreviewKeyDown);
             // 
             // iconImageList
             // 
@@ -318,16 +265,10 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem controlsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem generateCCodeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addLabelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addButtonToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addCheckBoxToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addRadioButtonToolStripMenuItem;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button copyButton;
-        private System.Windows.Forms.ToolStripMenuItem addGroupBoxToolStripMenuItem;
         private System.Windows.Forms.Panel toolboxPanel;
         private Toolbox.Toolbox controlToolbox;
         private System.Windows.Forms.ImageList iconImageList;

@@ -274,9 +274,9 @@ namespace OSHGuiBuilder.Toolbox
             if (e.Button == MouseButtons.Left && item is ToolboxItem)
             {
                 ToolboxItem toolboxItem = item as ToolboxItem;
-                if (toolboxItem.TypeInfo != null)
+                if (toolboxItem.Data != null)
                 {
-                    this.DoDragDrop(toolboxItem.TypeInfo, DragDropEffects.Copy);
+                    this.DoDragDrop(toolboxItem.Data, DragDropEffects.Copy);
                 }
             }
             else
