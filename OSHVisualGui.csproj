@@ -99,21 +99,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="sidebar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="toolbox.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="toolbox_hover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Toolbox\minus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Toolbox\plus.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="osh.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
