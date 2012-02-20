@@ -234,6 +234,10 @@ namespace OSHVisualGui
                     focusedControl.Name = e.OldValue.ToString();
                     controlPropertyGrid.Refresh();
                 }
+                else
+                {
+                    controlComboBox.RefreshItem(controlComboBox.SelectedIndex);
+                }
             }
 
             canvasPictureBox.Invalidate();

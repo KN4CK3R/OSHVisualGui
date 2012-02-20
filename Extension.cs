@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
 
 namespace OSHVisualGui
 {
@@ -43,6 +44,40 @@ namespace OSHVisualGui
             {
                 yield return items[i];
             }
+        }
+
+        public static void RefreshItem(this ListBox listbox, int index)
+	    {
+		    if (listbox.Items.Count <= index)
+            {
+			    return;
+            }
+		    if (listbox.Items[index] == null)
+            {
+			    return;
+            }
+		
+		    int selection = listbox.SelectedIndex;
+		    listbox.Items.Insert(index, listbox.Items[index]);
+		    listbox.Items.RemoveAt(index + 1);
+		    listbox.SelectedIndex = selection;
+	    }
+
+        public static void RefreshItem(this ComboBox comboBox, int index)
+        {
+            if (comboBox.Items.Count <= index)
+            {
+                return;
+            }
+            if (comboBox.Items[index] == null)
+            {
+                return;
+            }
+
+            int selection = comboBox.SelectedIndex;
+            comboBox.Items.Insert(index, comboBox.Items[index]);
+            comboBox.Items.RemoveAt(index + 1);
+            comboBox.SelectedIndex = selection;
         }
     }
 }
