@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OSHVisualGui</RootNamespace>
     <AssemblyName>OSHVisualGui</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -54,12 +55,22 @@
     <Compile Include="GuiControls\BaseControl.cs" />
     <Compile Include="GuiControls\Button.cs" />
     <Compile Include="GuiControls\CheckBox.cs" />
+    <Compile Include="GuiControls\ColorBar.cs" />
+    <Compile Include="GuiControls\ColorPicker.cs" />
     <Compile Include="GuiControls\ContainerControl.cs" />
     <Compile Include="GuiControls\Form.cs" />
     <Compile Include="GuiControls\GroupBox.cs" />
+    <Compile Include="GuiControls\ComboBox.cs" />
+    <Compile Include="GuiControls\PictureBox.cs" />
+    <Compile Include="GuiControls\LinkLabel.cs" />
     <Compile Include="GuiControls\Label.cs" />
+    <Compile Include="GuiControls\ListBox.cs" />
     <Compile Include="GuiControls\Panel.cs" />
+    <Compile Include="GuiControls\ProgressBar.cs" />
     <Compile Include="GuiControls\RadioButton.cs" />
+    <Compile Include="GuiControls\TextBox.cs" />
+    <Compile Include="GuiControls\Timer.cs" />
+    <Compile Include="GuiControls\TrackBar.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +111,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="osh.ico" />
+    <None Include="Toolbox\plus.png" />
+    <None Include="Toolbox\minus.png" />
+    <None Include="sidebar.png" />
+    <None Include="toolbox_hover.png" />
+    <None Include="toolbox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

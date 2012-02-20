@@ -24,6 +24,8 @@ namespace OSHVisualGui.GuiControls
                 LinearGradientBrush linearBrush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 90, 90, 90)), LinearGradientMode.Vertical);
                 graphics.FillRectangle(linearBrush, rect);
             }
+
+            graphics.DrawString(name, font, new SolidBrush(Color.Black), absoluteLocation.X + 5, absoluteLocation.Y + 5);
             
             base.Render(graphics);
         }
@@ -66,7 +68,7 @@ namespace OSHVisualGui.GuiControls
             }
             if (backColor != Color.Empty)
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.Empty)
             {

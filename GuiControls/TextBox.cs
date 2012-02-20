@@ -1,26 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Text;
-using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Label : BaseControl
+    class TextBox : BaseControl
     {
-        protected string text;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
+        #region Properties
+        private string text = string.Empty;
+        public string Text { get { return text; } set { text = value; } }
+        #endregion
 
-        public Label()
+        public TextBox()
         {
-            autoSize = true;
+            Size = new Size(100, 24);
 
+            BackColor = Color.FromArgb(unchecked((int)0xFF242321));
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
+            Brush tempBrush = new SolidBrush(backColor.Add(Color.FromArgb(0, 20, 20, 20)));
+		    graphics.FillRectangle(tempBrush, new Rectangle(absoluteLocation, size));
+            graphics.FillRectangle(backBrush, absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 2);
+		
+		    graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation.X + 5, absoluteLocation.Y + 6, size.Width - 10, size.Height - 12));
 
             if (isFocused)
             {
@@ -33,7 +40,7 @@ namespace OSHVisualGui.GuiControls
 
         public override BaseControl Copy()
         {
-            Label copy = new Label();
+            TextBox copy = new TextBox();
             CopyTo(copy);
             return copy;
         }
@@ -41,31 +48,30 @@ namespace OSHVisualGui.GuiControls
         protected override void CopyTo(BaseControl copy)
         {
             base.CopyTo(copy);
-            
-            Label label = copy as Label;
-            label.text = text;
+
+            TextBox textBox = copy as TextBox;
+            textBox.text = text;
         }
 
         public override string ToString()
         {
-            return name + " - Label";
+            return name + " - TextBox";
         }
 
         public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Label();");
+            code.AppendLine(linePrefix + name + " = new OSHGui::TextBox();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {
                 code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
-            if (!autoSize)
+            if (size != new Size(100, 24))
             {
-                code.AppendLine(linePrefix + name + "->SetAutoSize(false);");
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
-            if (backColor != Color.Empty)
+            if (backColor != Color.FromArgb(unchecked((int)0xFF242321)))
             {
                 code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
@@ -73,7 +79,10 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
+            if (!string.IsNullOrEmpty(text))
+            {
+                code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
+            }
             return code.ToString();
         }
     }

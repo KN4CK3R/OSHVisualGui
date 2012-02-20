@@ -11,7 +11,6 @@ namespace OSHVisualGui.Toolbox
 {
     public class Toolbox : UserControl
     {
-
         private Dictionary<string, ToolboxGroup> groups;
         private ImageList images;
         private ToolboxItemBase currentMouseOverItem;

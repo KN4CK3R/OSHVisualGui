@@ -1,39 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Label : BaseControl
+    public class ComboBox : Button
     {
-        protected string text;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
+        #region Properties
+        private string[] items;
+        public string[] Items { get { return items; } set { items = value; } }
+        #endregion
 
-        public Label()
+        public ComboBox()
         {
-            autoSize = true;
-
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            Size = new Size(160, 24);
         }
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
+            base.Render(graphics);
 
-            if (isFocused)
+            int arrowLeft = absoluteLocation.X + size.Width - 9;
+            int arrowTop = absoluteLocation.Y + size.Height - 11;
+            for (int i = 0; i < 4; ++i)
             {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
+                graphics.FillRectangle(foreBrush, arrowLeft - i, arrowTop - i, 1 + i * 2, 1);
             }
         }
 
         public override BaseControl Copy()
         {
-            Label copy = new Label();
+            ComboBox copy = new ComboBox();
             CopyTo(copy);
             return copy;
         }
@@ -41,31 +41,39 @@ namespace OSHVisualGui.GuiControls
         protected override void CopyTo(BaseControl copy)
         {
             base.CopyTo(copy);
-            
-            Label label = copy as Label;
-            label.text = text;
+
+            ComboBox comboBox = copy as ComboBox;
+            string[] itemsCopy = new string[items.Length];
+            for (int i = 0; i < items.Length; ++i)
+            {
+                itemsCopy[i] = items[i];
+            }
+            comboBox.items = itemsCopy;
         }
 
         public override string ToString()
         {
-            return name + " - Label";
+            return name + " - ComboBox";
         }
 
         public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Label();");
+            code.AppendLine(linePrefix + name + " = new OSHGui::ComboBox();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {
                 code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
-            if (!autoSize)
+            if (autoSize)
             {
-                code.AppendLine(linePrefix + name + "->SetAutoSize(false);");
+                code.AppendLine(linePrefix + name + "->SetAutoSize(true);");
+            }
+            else
+            {
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
-            if (backColor != Color.Empty)
+            if (backColor != Color.FromArgb(unchecked((int)0xFF4E4E4E)))
             {
                 code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
@@ -73,7 +81,10 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
+            foreach (string item in Items)
+            {
+                code.AppendLine(linePrefix + name + "->AddItem(OSHGui::Misc::AnsiString(\"" + item.Replace("\"", "\\\"") + "\"));");
+            }
             return code.ToString();
         }
     }

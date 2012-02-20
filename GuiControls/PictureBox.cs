@@ -1,26 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Text;
-using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Label : BaseControl
+    public class PictureBox : BaseControl
     {
-        protected string text;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
-
-        public Label()
+        public PictureBox()
         {
-            autoSize = true;
+            Size = new Size(100, 100);
 
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            BackColor = Color.Empty;
+            ForeColor = Color.Empty;
         }
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
+            if (backColor.A > 0)
+            {
+                graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
+            }
+
+            using (Pen pen = new Pen(Color.Yellow, 2))
+            {
+                graphics.DrawRectangle(pen, absoluteLocation.X + 2, absoluteLocation.Y + 2, size.Width - 4, size.Height - 4);
+            }
+
+            graphics.DrawString(name, font, new SolidBrush(Color.Black), absoluteLocation.X + 4, absoluteLocation.Y + 4);
 
             if (isFocused)
             {
@@ -33,7 +41,7 @@ namespace OSHVisualGui.GuiControls
 
         public override BaseControl Copy()
         {
-            Label copy = new Label();
+            PictureBox copy = new PictureBox();
             CopyTo(copy);
             return copy;
         }
@@ -41,39 +49,34 @@ namespace OSHVisualGui.GuiControls
         protected override void CopyTo(BaseControl copy)
         {
             base.CopyTo(copy);
-            
-            Label label = copy as Label;
-            label.text = text;
         }
 
         public override string ToString()
         {
-            return name + " - Label";
+            return name + " - PictureBox";
         }
 
         public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Label();");
+            code.AppendLine(linePrefix + name + " = new OSHGui::PictureBox();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {
                 code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
-            if (!autoSize)
+            if (size != new Size(100, 100))
             {
-                code.AppendLine(linePrefix + name + "->SetAutoSize(false);");
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
             if (backColor != Color.Empty)
             {
                 code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
+            if (foreColor != Color.Empty)
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
             return code.ToString();
         }
     }

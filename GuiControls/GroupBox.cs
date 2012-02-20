@@ -96,7 +96,7 @@ namespace OSHVisualGui.GuiControls
             }
             if (backColor != Color.Empty)
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
             {

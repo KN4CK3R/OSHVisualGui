@@ -22,6 +22,7 @@ namespace OSHVisualGui
             InitializeComponent();
 
             focusedControl = null;
+            copiedControl = null;
 
             controls = new List<GuiControls.BaseControl>();
 
@@ -340,13 +341,19 @@ namespace OSHVisualGui
                         newControl = checkBox;
                         break;
                     case GuiControls.ControlType.ColorBar:
-
+                        GuiControls.ColorBar colorBar = new GuiControls.ColorBar();
+                        colorBar.Name = "colorBar" + GetControlCount(typeof(GuiControls.ColorBar));
+                        newControl = colorBar;
                         break;
                     case GuiControls.ControlType.ColorPicker:
-
+                        GuiControls.ColorPicker colorPicker = new GuiControls.ColorPicker();
+                        colorPicker.Name = "colorPicker" + GetControlCount(typeof(GuiControls.ColorPicker));
+                        newControl = colorPicker;
                         break;
                     case GuiControls.ControlType.ComboBox:
-
+                        GuiControls.ComboBox comboBox = new GuiControls.ComboBox();
+                        comboBox.Text = comboBox.Name = "comboBox" + GetControlCount(typeof(GuiControls.ComboBox));
+                        newControl = comboBox;
                         break;
                     case GuiControls.ControlType.GroupBox:
                         GuiControls.GroupBox groupBox = new GuiControls.GroupBox();
@@ -359,10 +366,14 @@ namespace OSHVisualGui
                         newControl = label;
                         break;
                     case GuiControls.ControlType.LinkLabel:
-
+                        GuiControls.LinkLabel linkLabel = new GuiControls.LinkLabel();
+                        linkLabel.Text = linkLabel.Name = "linkLabel" + GetControlCount(typeof(GuiControls.LinkLabel));
+                        newControl = linkLabel;
                         break;
                     case GuiControls.ControlType.ListBox:
-
+                        GuiControls.ListBox listBox = new GuiControls.ListBox();
+                        listBox.Name = "listBox" + GetControlCount(typeof(GuiControls.ListBox));
+                        newControl = listBox;
                         break;
                     case GuiControls.ControlType.Panel:
                         GuiControls.Panel panel = new GuiControls.Panel();
@@ -370,10 +381,14 @@ namespace OSHVisualGui
                         newControl = panel;
                         break;
                     case GuiControls.ControlType.PictureBox:
-
+                        GuiControls.PictureBox pictureBox = new GuiControls.PictureBox();
+                        pictureBox.Name = "pictureBox" + GetControlCount(typeof(GuiControls.PictureBox));
+                        newControl = pictureBox;
                         break;
                     case GuiControls.ControlType.ProgressBar:
-
+                        GuiControls.ProgressBar progressBar = new GuiControls.ProgressBar();
+                        progressBar.Name = "progressBar" + GetControlCount(typeof(GuiControls.ProgressBar));
+                        newControl = progressBar;
                         break;
                     case GuiControls.ControlType.RadioButton:
                         GuiControls.RadioButton radioButton = new GuiControls.RadioButton();
@@ -384,13 +399,19 @@ namespace OSHVisualGui
 
                         break;
                     case GuiControls.ControlType.TextBox:
-
+                        GuiControls.TextBox textBox = new GuiControls.TextBox();
+                        textBox.Name = textBox.Text = "textBox" + GetControlCount(typeof(GuiControls.TextBox));
+                        newControl = textBox;
                         break;
                     case GuiControls.ControlType.Timer:
-
+                        GuiControls.Timer timer = new GuiControls.Timer(iconImageList.Images[15]);
+                        timer.Name = "timer" + GetControlCount(typeof(GuiControls.Timer));
+                        newControl = timer;
                         break;
                     case GuiControls.ControlType.TrackBar:
-
+                        GuiControls.TrackBar trackBar = new GuiControls.TrackBar();
+                        trackBar.Name = "trackBar" + GetControlCount(typeof(GuiControls.TrackBar));
+                        newControl = trackBar;
                         break;
                 }
                 if (newControl == null)

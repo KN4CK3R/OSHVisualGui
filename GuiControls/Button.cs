@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
@@ -11,7 +12,7 @@ namespace OSHVisualGui.GuiControls
         #region Properties
         private Label label;
 
-        public override Color ForeColor { get { return label.ForeColor; } set { label.ForeColor = value; } }
+        public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } } }
         #endregion
 
@@ -35,7 +36,19 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
+            Brush tempBrush = new SolidBrush(backColor.Add(Color.FromArgb(0, 10, 10, 10)));
+            graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y, size.Width - 2, size.Height - 1);
+            graphics.FillRectangle(tempBrush, absoluteLocation.X, absoluteLocation.Y + 1, size.Width, size.Height - 3);
+            tempBrush = new SolidBrush(backColor.Substract(Color.FromArgb(0, 50, 50, 50)));
+            graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y + size.Height - 2, size.Width - 2, 2);
+            graphics.FillRectangle(tempBrush, absoluteLocation.X + size.Width - 1, absoluteLocation.Y + 1, 1, size.Height - 2);
+            Rectangle rect = new Rectangle(absoluteLocation.X + 1, absoluteLocation.Y + 2, size.Width - 2, size.Height - 4);
+            LinearGradientBrush temp = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+            graphics.FillRectangle(temp, rect);
+            rect = new Rectangle(absoluteLocation.X + 2, absoluteLocation.Y + 1, size.Width - 4, size.Height - 2);
+            temp = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+            graphics.FillRectangle(temp, rect);
+            
             label.Render(graphics);
 
             if (isFocused)
@@ -86,13 +99,13 @@ namespace OSHVisualGui.GuiControls
             }
             if (backColor != Color.FromArgb(unchecked((int)0xFF4E4E4E)))
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            code.AppendLine(linePrefix + name + "->SetText(\"" + Text.Replace("\"", "\\\"") + "\");");
+            code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + Text.Replace("\"", "\\\"") + "\"));");
             return code.ToString();
         }
     }

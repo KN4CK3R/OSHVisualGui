@@ -6,34 +6,35 @@ using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Label : BaseControl
+    public class LinkLabel : Label
     {
-        protected string text;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
+        #region Properties
+        private Font underlinedFont;
 
-        public Label()
+        public override Font Font { get { return base.Font; } set { base.Font = value; underlinedFont = new Font(value, FontStyle.Underline); } }
+        #endregion
+
+        public LinkLabel()
         {
-            autoSize = true;
-
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            underlinedFont = new Font(font, FontStyle.Underline);
         }
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
+            graphics.DrawString(text, underlinedFont, foreBrush, new RectangleF(absoluteLocation, size));
 
             if (isFocused)
             {
                 using (Pen pen = new Pen(Color.Black, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
+                    graphics.DrawRectangle(pen, absoluteLocation.X, absoluteLocation.Y - 1, size.Width + 1, size.Height + 2);
                 }
             }
         }
 
         public override BaseControl Copy()
         {
-            Label copy = new Label();
+            LinkLabel copy = new LinkLabel();
             CopyTo(copy);
             return copy;
         }
@@ -41,20 +42,20 @@ namespace OSHVisualGui.GuiControls
         protected override void CopyTo(BaseControl copy)
         {
             base.CopyTo(copy);
-            
-            Label label = copy as Label;
-            label.text = text;
+
+            LinkLabel linkLabel = copy as LinkLabel;
+            linkLabel.underlinedFont = new Font(underlinedFont, FontStyle.Underline);
         }
 
         public override string ToString()
         {
-            return name + " - Label";
+            return name + " - LinkLabel";
         }
 
         public override string ToCPlusPlusString(string linePrefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Label();");
+            code.AppendLine(linePrefix + name + " = new OSHGui::LinkLabel();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
             if (location != new Point(6, 6))
             {
