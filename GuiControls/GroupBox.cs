@@ -11,11 +11,11 @@ namespace OSHVisualGui.GuiControls
         private Panel panel = new Panel();
 
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; } }
-        public override List<BaseControl> GetControls() { return panel.GetControls(); }
+        internal override List<Control> Controls { get { return panel.Controls; } }
         public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = value.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
-        public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
-        public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
-        public override Size GetContainerSize() { return panel.GetContainerSize(); }
+        internal override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
+        internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
+        internal override Size ContainerSize { get { return panel.ContainerSize; } }
 
         public GroupBox()
         {
@@ -31,7 +31,7 @@ namespace OSHVisualGui.GuiControls
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
 
-        public override void AddControl(BaseControl control)
+        public override void AddControl(Control control)
         {
             panel.AddControl(control);
         }
@@ -52,23 +52,25 @@ namespace OSHVisualGui.GuiControls
 
             panel.Render(graphics);
 
-            if (isFocused)
+            if (isFocused || isHighlighted)
             {
-                using (Pen pen = new Pen(Color.Black, 1))
+                using (Pen pen = new Pen(isHighlighted ? Color.Orange : Color.Black, 1))
                 {
                     graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
                 }
+
+                isHighlighted = false;
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             GroupBox copy = new GroupBox();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 
@@ -103,10 +105,10 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
 
-            if (GetControls().Count > 0)
+            if (Controls.Count > 0)
             {
                 code.AppendLine("");
-                foreach (BaseControl control in GetControls())
+                foreach (Control control in Controls)
                 {
                     code.Append(control.ToCPlusPlusString(linePrefix));
                     code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");

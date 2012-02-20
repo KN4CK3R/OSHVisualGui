@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
-    class ColorPicker : BaseControl
+    class ColorPicker : Control
     {
         #region Properties
         private Color color;
@@ -125,14 +125,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             ColorPicker copy = new ColorPicker();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 

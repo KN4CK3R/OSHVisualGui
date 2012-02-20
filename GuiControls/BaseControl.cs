@@ -26,7 +26,7 @@ namespace OSHVisualGui.GuiControls
         TrackBar
     }
 
-    public abstract class BaseControl
+    public abstract class Control : IComparable<Control>
     {
         protected string name;
         public string Name { get { return name; } set { name = value; } }
@@ -35,8 +35,7 @@ namespace OSHVisualGui.GuiControls
         protected bool visible;
         public bool Visible { get { return visible; } set { visible = value; } }
         protected Point absoluteLocation;
-        private Point AbsoluteLocation { get { return absoluteLocation; } }
-        public Point GetAbsoluteLocation() { return absoluteLocation; }
+        internal Point AbsoluteLocation { get { return absoluteLocation; } }
         protected Point location;
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
         protected Size size;
@@ -51,24 +50,29 @@ namespace OSHVisualGui.GuiControls
         protected Brush backBrush;
         protected Color backColor;
         public virtual Color BackColor { get { return backColor; } set { backColor = value; backBrush = new SolidBrush(backColor); } }
+        protected int _zOrder;
+        internal virtual int zOrder { get { return _zOrder; } set { _zOrder = value; RealParent.Sort(); } }
 
-        protected BaseControl parent;
-        public void SetParent(BaseControl parent) { this.parent = parent; CalculateAbsoluteLocation(); }
-        public BaseControl GetParent() { return parent; }
-        public ContainerControl GetRealParent()
+        protected Control parent;
+        internal Control Parent { get { return parent; } set { parent = value; CalculateAbsoluteLocation(); } }
+        internal ContainerControl RealParent
         {
-            BaseControl parent = GetParent();
-            while (parent.isSubControl && parent != this)
+            get
             {
-                parent = parent.GetParent();
+                Control parent = Parent;
+                while (parent.isSubControl && parent != this)
+                {
+                    parent = parent.Parent;
+                }
+                return parent as ContainerControl;
             }
-            return parent as ContainerControl;
         }
 
         public bool isFocused;
+        public bool isHighlighted;
         public bool isSubControl;
 
-        public BaseControl()
+        public Control()
         {
             enabled = true;
             visible = true;
@@ -76,7 +80,10 @@ namespace OSHVisualGui.GuiControls
             location = new Point(6, 6);
 
             isFocused = false;
+            isHighlighted = false;
             isSubControl = false;
+
+            _zOrder = 0;
 
             font = new Font("Arial", 8);
         }
@@ -101,8 +108,8 @@ namespace OSHVisualGui.GuiControls
 
         public abstract void Render(Graphics graphics);
 
-        public abstract BaseControl Copy();
-        protected virtual void CopyTo(BaseControl copy)
+        public abstract Control Copy();
+        protected virtual void CopyTo(Control copy)
         {
             copy.name = name + "_copy";
             copy.enabled = enabled;
@@ -123,5 +130,10 @@ namespace OSHVisualGui.GuiControls
         }
 
         public abstract string ToCPlusPlusString(string linePrefix);
+
+        public int CompareTo(Control control)
+        {
+            return _zOrder.CompareTo(control._zOrder);
+        }
     }
 }

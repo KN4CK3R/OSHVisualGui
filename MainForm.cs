@@ -12,9 +12,9 @@ namespace OSHVisualGui
 {
     public partial class MainForm : Form
     {
-        private List<GuiControls.BaseControl> controls;
-        private GuiControls.BaseControl focusedControl;
-        private GuiControls.BaseControl copiedControl;
+        private List<GuiControls.Control> controls;
+        private GuiControls.Control focusedControl;
+        private GuiControls.Control copiedControl;
         private GuiControls.Form form;
 
         public MainForm()
@@ -24,7 +24,7 @@ namespace OSHVisualGui
             focusedControl = null;
             copiedControl = null;
 
-            controls = new List<GuiControls.BaseControl>();
+            controls = new List<GuiControls.Control>();
 
             ToolboxGroup allControlsGroup = new ToolboxGroup("All Controls");
             allControlsGroup.Items.Add(new ToolboxItem("Button", 0, GuiControls.ControlType.Button));
@@ -60,7 +60,7 @@ namespace OSHVisualGui
             AddControlToList(form);
         }
 
-        private void AddControlToList(GuiControls.BaseControl control)
+        private void AddControlToList(GuiControls.Control control)
         {
             if (control == null)
             {
@@ -79,7 +79,7 @@ namespace OSHVisualGui
             canvasPictureBox.Invalidate();
         }
 
-        private void RemoveControlFromList(GuiControls.BaseControl control)
+        private void RemoveControlFromList(GuiControls.Control control)
         {
             if (control == null)
             {
@@ -93,9 +93,9 @@ namespace OSHVisualGui
             canvasPictureBox.Invalidate();
         }
 
-        private GuiControls.BaseControl FindControlUnderMouse(Point location)
+        private GuiControls.Control FindControlUnderMouse(Point location)
         {
-            foreach (GuiControls.BaseControl control in form.PostOrderVisit())
+            foreach (GuiControls.Control control in form.PostOrderVisit())
             {
                 if (control.Intersect(location))
                 {
@@ -108,7 +108,7 @@ namespace OSHVisualGui
 
         private GuiControls.ContainerControl FindContainerControlUnderMouse(Point location)
         {
-            foreach (GuiControls.BaseControl control in form.PostOrderVisit())
+            foreach (GuiControls.Control control in form.PostOrderVisit())
             {
                 if (control != focusedControl && control is GuiControls.ContainerControl && control.Intersect(location))
                 {
@@ -128,26 +128,29 @@ namespace OSHVisualGui
         bool dragMouse = false;
         private void canvasPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            Cursor.Clip = canvasPictureBox.RectangleToScreen(new Rectangle(form.GetContainerLocation(), form.GetContainerSize()));
-
-            GuiControls.BaseControl newFocusedControl = FindControlUnderMouse(e.Location);
-            if (newFocusedControl != null)
+            if (e.Button == MouseButtons.Left)
             {
-                if (focusedControl != null)
-                {
-                    focusedControl.isFocused = false;
-                }
-                focusedControl = newFocusedControl;
-                focusedControl.isFocused = true;
-                controlComboBox.SelectedItem = focusedControl;
+                Cursor.Clip = canvasPictureBox.RectangleToScreen(new Rectangle(form.ContainerLocation, form.ContainerSize));
 
-                if (!(focusedControl is GuiControls.Form))
+                GuiControls.Control newFocusedControl = FindControlUnderMouse(e.Location);
+                if (newFocusedControl != null)
                 {
-                    dragMouse = true;
+                    if (focusedControl != null)
+                    {
+                        focusedControl.isFocused = false;
+                    }
+                    focusedControl = newFocusedControl;
+                    focusedControl.isFocused = true;
+                    controlComboBox.SelectedItem = focusedControl;
+
+                    if (!(focusedControl is GuiControls.Form))
+                    {
+                        dragMouse = true;
+                    }
+                    canvasPictureBox.Invalidate();
                 }
-                canvasPictureBox.Invalidate();
+                oldMouseLocation = e.Location;
             }
-            oldMouseLocation = e.Location;
         }
 
         private void canvasPictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -155,11 +158,16 @@ namespace OSHVisualGui
             if (focusedControl != null && dragMouse)
             {
                 focusedControl.Location = focusedControl.Location.Add(e.Location.Substract(oldMouseLocation));
+                GuiControls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
+                if (container != focusedControl.RealParent)
+                {
+                    container.isHighlighted = true;
+                }
                 canvasPictureBox.Invalidate();
             }
             else
             {
-                GuiControls.BaseControl temp = FindControlUnderMouse(e.Location);
+                GuiControls.Control temp = FindControlUnderMouse(e.Location);
                 canvasPictureBox.Cursor = temp != null ? temp is GuiControls.Form ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
             }
             oldMouseLocation = e.Location;
@@ -174,17 +182,19 @@ namespace OSHVisualGui
                 if (e.Button == MouseButtons.Left)
                 {
                     GuiControls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
-                    if ((focusedControl.GetParent().isSubControl ? focusedControl.GetParent().GetParent() : focusedControl.GetParent()) as GuiControls.ContainerControl != container)
+                    if (focusedControl.RealParent != container)
                     {
-                        focusedControl.Location = focusedControl.GetAbsoluteLocation().Substract(container.GetContainerAbsoluteLocation());
+                        focusedControl.Location = focusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
 
-                        GuiControls.ContainerControl oldContainer = focusedControl.GetParent() as GuiControls.ContainerControl;
+                        GuiControls.ContainerControl oldContainer = focusedControl.Parent as GuiControls.ContainerControl;
                         oldContainer.RemoveControl(focusedControl);
                         container.AddControl(focusedControl);
                     }
 
                     dragMouse = false;
                     controlPropertyGrid.Refresh();
+
+                    canvasPictureBox.Invalidate();
                 }
             }
         }
@@ -200,7 +210,7 @@ namespace OSHVisualGui
             {
                 focusedControl.isFocused = false;
             }
-            focusedControl = controlComboBox.SelectedItem as GuiControls.BaseControl;
+            focusedControl = controlComboBox.SelectedItem as GuiControls.Control;
             focusedControl.isFocused = true;
             controlPropertyGrid.SelectedObject = controlComboBox.SelectedItem;
 
@@ -220,7 +230,7 @@ namespace OSHVisualGui
                     MessageBox.Show("'" + newName + "' isn't a valid name!");
                     invalidName = true;
                 }
-                foreach (GuiControls.BaseControl control in controls)
+                foreach (GuiControls.Control control in controls)
                 {
                     if (control != focusedControl && control.Name == newName)
                     {
@@ -248,23 +258,11 @@ namespace OSHVisualGui
             Close();
         }
 
-        private void deleteButton_Click(object sender, EventArgs e)
-        {
-            if (focusedControl == null || focusedControl == form)
-            {
-                return;
-            }
-
-            focusedControl.GetRealParent().RemoveControl(focusedControl);
-            RemoveControlFromList(focusedControl);
-            canvasPictureBox.Invalidate();
-        }
-
         private int GetControlCount(Type controlType)
         {
             int count = 1;
 
-            foreach (GuiControls.BaseControl control in controls)
+            foreach (GuiControls.Control control in controls)
             {
                 if (control.GetType() == controlType)
                 {
@@ -278,27 +276,6 @@ namespace OSHVisualGui
         private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string code = form.GenerateCode()[0];
-        }
-
-        private void copyButton_Click(object sender, EventArgs e)
-        {
-            if (focusedControl == null || focusedControl == form)
-            {
-                return;
-            }
-
-            GuiControls.BaseControl copy = focusedControl.Copy();
-            copy.Location = copy.Location.Add(new Point(10, 10));
-            focusedControl.GetRealParent().AddControl(copy);
-            AddControlToList(copy);
-            if (copy is GuiControls.ContainerControl)
-            {
-                foreach (GuiControls.BaseControl control in (copy as GuiControls.ContainerControl).PreOrderVisit())
-                {
-                    AddControlToList(control);
-                }
-                controlComboBox.SelectedItem = copy;
-            }
         }
 
         private void toolboxPanel_MouseEnter(object sender, EventArgs e)
@@ -331,7 +308,7 @@ namespace OSHVisualGui
                 GuiControls.ControlType type = (GuiControls.ControlType)e.Data.GetData(typeof(GuiControls.ControlType));
 
                 string name = string.Empty;
-                GuiControls.BaseControl newControl = null;
+                GuiControls.Control newControl = null;
                 switch (type)
                 {
                     case GuiControls.ControlType.Button:
@@ -427,7 +404,7 @@ namespace OSHVisualGui
 
                 Point location = canvasPictureBox.PointToClient(new Point(e.X, e.Y));
                 GuiControls.ContainerControl parent = FindContainerControlUnderMouse(location);
-                newControl.Location = location.Substract(parent.GetContainerAbsoluteLocation());
+                newControl.Location = location.Substract(parent.ContainerAbsoluteLocation);
                 parent.AddControl(newControl);
             }
         }
@@ -438,7 +415,7 @@ namespace OSHVisualGui
             {
                 if (e.KeyCode == Keys.Delete)
                 {
-                    focusedControl.GetRealParent().RemoveControl(focusedControl);
+                    focusedControl.RealParent.RemoveControl(focusedControl);
                     RemoveControlFromList(focusedControl);
                     controlComboBox.SelectedIndex = 0;
                 }
@@ -459,7 +436,7 @@ namespace OSHVisualGui
                         return;
                     }
                     copiedControl = focusedControl;
-                    focusedControl.GetRealParent().RemoveControl(focusedControl);
+                    focusedControl.RealParent.RemoveControl(focusedControl);
                     RemoveControlFromList(focusedControl);
                     controlComboBox.SelectedIndex = 0;
                 }
@@ -477,13 +454,13 @@ namespace OSHVisualGui
                     }
                     else
                     {
-                        parent = focusedControl.GetRealParent();
+                        parent = focusedControl.RealParent;
                     }
                     parent.AddControl(copiedControl);
                     AddControlToList(copiedControl);
                     if (copiedControl is GuiControls.ContainerControl)
                     {
-                        foreach (GuiControls.BaseControl control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
+                        foreach (GuiControls.Control control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
                         {
                             AddControlToList(control);
                         }
@@ -491,6 +468,30 @@ namespace OSHVisualGui
                     }
                 }
             }
+        }
+
+        private void sendToFrontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (focusedControl == null || focusedControl is GuiControls.Form)
+            {
+                return;
+            }
+
+            (focusedControl.Parent as GuiControls.ContainerControl).SendToFront(focusedControl);
+
+            canvasPictureBox.Invalidate();
+        }
+
+        private void sendToBackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (focusedControl == null || focusedControl is GuiControls.Form)
+            {
+                return;
+            }
+
+            (focusedControl.Parent as GuiControls.ContainerControl).SendToBack(focusedControl);
+
+            canvasPictureBox.Invalidate();
         }
     }
 }

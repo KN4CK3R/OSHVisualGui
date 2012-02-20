@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
-    class Timer : BaseControl
+    class Timer : Control
     {
         #region Properties
         private long interval;
@@ -35,14 +35,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             Timer copy = new Timer(icon);
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 

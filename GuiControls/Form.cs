@@ -11,15 +11,15 @@ namespace OSHVisualGui.GuiControls
         private Panel panel;
         private string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
-        public override List<BaseControl> GetControls() { return panel.GetControls(); }
-        public override Point GetContainerLocation() { return base.GetContainerLocation().Add(panel.Location); }
-        public override Point GetContainerAbsoluteLocation() { return panel.GetContainerAbsoluteLocation(); }
-        public override Size GetContainerSize() { return panel.GetContainerSize(); }
+        internal override List<Control> Controls { get { return panel.Controls; } }
+        internal override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
+        internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
+        internal override Size ContainerSize { get { return panel.ContainerSize; } }
         public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } }
 
         public Form()
         {
-            SetParent(this);
+            Parent = this;
 
             panel = new Panel();
             panel.Location = new Point(6, 6 + 17);
@@ -32,12 +32,12 @@ namespace OSHVisualGui.GuiControls
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
 
-        public override void AddControl(BaseControl control)
+        public override void AddControl(Control control)
         {
             panel.AddControl(control);
         }
 
-        public override void RemoveControl(BaseControl control)
+        public override void RemoveControl(Control control)
         {
             panel.RemoveControl(control);
         }
@@ -61,14 +61,24 @@ namespace OSHVisualGui.GuiControls
             }
 
             panel.Render(graphics);
+
+            if (isFocused || isHighlighted)
+            {
+                using (Pen pen = new Pen(isHighlighted ? Color.Orange : Color.Black, 1))
+                {
+                    graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
+                }
+
+                isHighlighted = false;
+            }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             throw new NotImplementedException();
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
         }
@@ -110,13 +120,13 @@ namespace OSHVisualGui.GuiControls
             code.AppendLine("private:");
             code.AppendLine("\tvoid InitializeComponent()");
             code.AppendLine("\t{");
-            foreach (BaseControl control in GetControls())
+            foreach (Control control in Controls)
             {
                 code.Append(control.ToCPlusPlusString("\t\t"));
                 code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
             }
             code.AppendLine("\t}\r\n");
-            foreach (BaseControl control in PreOrderVisit())
+            foreach (Control control in PreOrderVisit())
             {
                 code.AppendLine("\tOSHGui::" + control.GetType().Name + " " + control.Name + ";");
             }

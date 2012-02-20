@@ -31,14 +31,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             ComboBox copy = new ComboBox();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 

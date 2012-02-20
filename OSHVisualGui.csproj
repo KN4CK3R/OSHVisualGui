@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelayedEventHandler.cs" />
+    <Compile Include="Depth.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="GuiControls\BaseControl.cs" />
     <Compile Include="GuiControls\Button.cs" />

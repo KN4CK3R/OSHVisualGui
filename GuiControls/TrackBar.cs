@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
-    class TrackBar : BaseControl
+    class TrackBar : Control
     {
         #region Properties
         private int minimum;
@@ -58,14 +58,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             TrackBar copy = new TrackBar();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 

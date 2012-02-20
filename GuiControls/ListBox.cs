@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-    class ListBox : BaseControl
+    class ListBox : Control
     {
         #region Properties
         private string[] items;
@@ -45,14 +45,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             ListBox copy = new ListBox();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 

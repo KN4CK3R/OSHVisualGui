@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
-    class ColorBar : BaseControl
+    class ColorBar : Control
     {
         #region Properties
         private Color color;
@@ -74,14 +74,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             ColorBar copy = new ColorBar();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 

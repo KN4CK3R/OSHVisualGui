@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Label : BaseControl
+    public class Label : Control
     {
         protected string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
@@ -31,14 +31,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             Label copy = new Label();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
             

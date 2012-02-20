@@ -28,21 +28,31 @@ namespace OSHVisualGui.GuiControls
             graphics.DrawString(name, font, new SolidBrush(Color.Black), absoluteLocation.X + 5, absoluteLocation.Y + 5);
             
             base.Render(graphics);
+
+            if (isFocused || isHighlighted)
+            {
+                using (Pen pen = new Pen(isHighlighted ? Color.Orange : Color.Black, 1))
+                {
+                    graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
+                }
+
+                isHighlighted = false;
+            }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             Panel copy = new Panel();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 
             Panel panel = copy as Panel;
-            foreach (BaseControl control in PreOrderVisit())
+            foreach (Control control in PreOrderVisit())
             {
                 panel.AddControl(control.Copy());
             }

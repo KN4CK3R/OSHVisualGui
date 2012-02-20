@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Button : BaseControl
+    public class Button : Control
     {
         #region Properties
         private Label label;
@@ -31,7 +31,7 @@ namespace OSHVisualGui.GuiControls
         {
             base.CalculateAbsoluteLocation();
 
-            label.SetParent(this);
+            label.Parent = this;
         }
 
         public override void Render(Graphics graphics)
@@ -60,14 +60,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             Button copy = new Button();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 

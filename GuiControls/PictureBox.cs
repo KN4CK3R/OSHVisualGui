@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class PictureBox : BaseControl
+    public class PictureBox : Control
     {
         public PictureBox()
         {
@@ -39,14 +39,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             PictureBox copy = new PictureBox();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
         }

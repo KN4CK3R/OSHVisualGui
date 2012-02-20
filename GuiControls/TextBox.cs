@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
-    class TextBox : BaseControl
+    class TextBox : Control
     {
         #region Properties
         private string text = string.Empty;
@@ -38,14 +38,14 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override BaseControl Copy()
+        public override Control Copy()
         {
             TextBox copy = new TextBox();
             CopyTo(copy);
             return copy;
         }
 
-        protected override void CopyTo(BaseControl copy)
+        protected override void CopyTo(Control copy)
         {
             base.CopyTo(copy);
 
