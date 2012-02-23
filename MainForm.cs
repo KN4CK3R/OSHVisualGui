@@ -275,7 +275,8 @@ namespace OSHVisualGui
 
         private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string code = form.GenerateCode()[0];
+            CodeForm codeForm = new CodeForm(form);
+            codeForm.ShowDialog();
         }
 
         private void toolboxPanel_MouseEnter(object sender, EventArgs e)
@@ -472,6 +473,42 @@ namespace OSHVisualGui
             }
         }
 
+        private void controlContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            tabPageToolStripSeparator.Visible = false;
+            addTabPageToolStripMenuItem.Visible = false;
+
+            if (focusedControl is GuiControls.Form)
+            {
+                e.Cancel = true;
+            }
+            else if (focusedControl is GuiControls.TabControl)
+            {
+                tabPageToolStripSeparator.Visible = true;
+                addTabPageToolStripMenuItem.Visible = true;
+            }
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            canvasPictureBox_PreviewKeyDown(null, new PreviewKeyDownEventArgs(Keys.Control | Keys.X));
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            canvasPictureBox_PreviewKeyDown(null, new PreviewKeyDownEventArgs(Keys.Control | Keys.C));
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            canvasPictureBox_PreviewKeyDown(null, new PreviewKeyDownEventArgs(Keys.Control | Keys.V));
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            canvasPictureBox_PreviewKeyDown(null, new PreviewKeyDownEventArgs(Keys.Delete));
+        }
+
         private void sendToFrontToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (focusedControl == null || focusedControl is GuiControls.Form)
@@ -494,6 +531,11 @@ namespace OSHVisualGui
             (focusedControl.Parent as GuiControls.ContainerControl).SendToBack(focusedControl);
 
             canvasPictureBox.Invalidate();
+        }
+
+        private void addTabPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TabPage tabPage = new TabPage();
         }
     }
 }

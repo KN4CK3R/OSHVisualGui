@@ -84,6 +84,17 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
+
+            if (Controls.Count > 0)
+            {
+                code.AppendLine("");
+                foreach (Control control in Controls)
+                {
+                    code.Append(control.ToCPlusPlusString(linePrefix));
+                    code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");
+                }
+            }
+
             return code.ToString();
         }
     }
