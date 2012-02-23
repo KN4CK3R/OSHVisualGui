@@ -8,8 +8,10 @@ namespace OSHVisualGui.GuiControls
 {
     public class Label : Control
     {
+        #region Properties
         protected string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
+        #endregion
 
         public Label()
         {

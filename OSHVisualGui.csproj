@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CodeForm.Designer.cs">
+      <DependentUpon>CodeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DelayedEventHandler.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="GuiControls\BaseControl.cs" />
@@ -68,6 +74,8 @@
     <Compile Include="GuiControls\Panel.cs" />
     <Compile Include="GuiControls\ProgressBar.cs" />
     <Compile Include="GuiControls\RadioButton.cs" />
+    <Compile Include="GuiControls\TabControl.cs" />
+    <Compile Include="GuiControls\TabPage.cs" />
     <Compile Include="GuiControls\TextBox.cs" />
     <Compile Include="GuiControls\Timer.cs" />
     <Compile Include="GuiControls\TrackBar.cs" />
@@ -86,6 +94,9 @@
     <Compile Include="Toolbox\ToolboxItem.cs" />
     <Compile Include="Toolbox\ToolboxItemBase.cs" />
     <Compile Include="Toolbox\ToolboxType.cs" />
+    <EmbeddedResource Include="CodeForm.resx">
+      <DependentUpon>CodeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

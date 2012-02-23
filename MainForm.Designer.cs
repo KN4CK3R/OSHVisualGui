@@ -44,13 +44,13 @@
             this.canvasPictureBox = new System.Windows.Forms.PictureBox();
             this.controlContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.iconImageList = new System.Windows.Forms.ImageList(this.components);
-            this.sendToFrontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sendToBackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.sendToFrontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendToBackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iconImageList = new System.Windows.Forms.ImageList(this.components);
             this.controlToolbox = new OSHVisualGui.Toolbox.Toolbox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
@@ -181,13 +181,50 @@
             this.sendToFrontToolStripMenuItem,
             this.sendToBackToolStripMenuItem});
             this.controlContextMenuStrip.Name = "controlContextMenuStrip";
-            this.controlContextMenuStrip.Size = new System.Drawing.Size(153, 164);
+            this.controlContextMenuStrip.Size = new System.Drawing.Size(146, 142);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.cutToolStripMenuItem.Text = "cut";
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.copyToolStripMenuItem.Text = "copy";
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.pasteToolStripMenuItem.Text = "paste";
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.removeToolStripMenuItem.Text = "remove";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(142, 6);
+            // 
+            // sendToFrontToolStripMenuItem
+            // 
+            this.sendToFrontToolStripMenuItem.Name = "sendToFrontToolStripMenuItem";
+            this.sendToFrontToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.sendToFrontToolStripMenuItem.Text = "Send to Front";
+            this.sendToFrontToolStripMenuItem.Click += new System.EventHandler(this.sendToFrontToolStripMenuItem_Click);
+            // 
+            // sendToBackToolStripMenuItem
+            // 
+            this.sendToBackToolStripMenuItem.Name = "sendToBackToolStripMenuItem";
+            this.sendToBackToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.sendToBackToolStripMenuItem.Text = "Send to Back";
+            this.sendToBackToolStripMenuItem.Click += new System.EventHandler(this.sendToBackToolStripMenuItem_Click);
             // 
             // iconImageList
             // 
@@ -211,43 +248,6 @@
             this.iconImageList.Images.SetKeyName(15, "control_timer.png");
             this.iconImageList.Images.SetKeyName(16, "control_trackbar.png");
             this.iconImageList.Images.SetKeyName(17, "control_unknown.png");
-            // 
-            // sendToFrontToolStripMenuItem
-            // 
-            this.sendToFrontToolStripMenuItem.Name = "sendToFrontToolStripMenuItem";
-            this.sendToFrontToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.sendToFrontToolStripMenuItem.Text = "Send to Front";
-            this.sendToFrontToolStripMenuItem.Click += new System.EventHandler(this.sendToFrontToolStripMenuItem_Click);
-            // 
-            // sendToBackToolStripMenuItem
-            // 
-            this.sendToBackToolStripMenuItem.Name = "sendToBackToolStripMenuItem";
-            this.sendToBackToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.sendToBackToolStripMenuItem.Text = "Send to Back";
-            this.sendToBackToolStripMenuItem.Click += new System.EventHandler(this.sendToBackToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.copyToolStripMenuItem.Text = "copy";
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.pasteToolStripMenuItem.Text = "paste";
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.removeToolStripMenuItem.Text = "remove";
             // 
             // controlToolbox
             // 

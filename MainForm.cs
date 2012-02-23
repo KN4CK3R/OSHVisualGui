@@ -377,7 +377,9 @@ namespace OSHVisualGui
                         newControl = radioButton;
                         break;
                     case GuiControls.ControlType.TabControl:
-
+                        GuiControls.TabControl tabControl = new GuiControls.TabControl();
+                        tabControl.Name = "tabControl" + GetControlCount(typeof(GuiControls.TabControl));
+                        newControl = tabControl;
                         break;
                     case GuiControls.ControlType.TextBox:
                         GuiControls.TextBox textBox = new GuiControls.TextBox();
