@@ -42,7 +42,7 @@ namespace OSHVisualGui.GuiControls
             panel.RemoveControl(control);
         }
 
-        public override void Render(System.Drawing.Graphics graphics)
+        public override void Render(Graphics graphics)
         {
             Rectangle rect = new Rectangle(absoluteLocation, size);
             LinearGradientBrush linearBrush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 100, 100, 100)), LinearGradientMode.Vertical);

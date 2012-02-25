@@ -13,6 +13,8 @@ namespace OSHVisualGui.GuiControls
         protected string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
 
+        internal TabControl.TabControlButton button;
+
         /*protected bool Enabled { get { return enabled; } set { enabled = value; } }
         protected bool Visible { get { return visible; } set { visible = value; } }
         protected override Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
