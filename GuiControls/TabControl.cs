@@ -16,13 +16,67 @@ namespace OSHVisualGui.GuiControls
         #region Properties
         private List<TabPageButtonBinding> tabPageButtonBindings;
 
-        private TabPageButtonBinding currentTabPage;
+        private int startIndex;
+        private int maxIndex;
+        private TabPageButtonBinding selected;
+        public TabPage CurrentTabPage { get { return selected != null ? selected.tabPage : null; } }
+        private TabControlSwitchButton lastSwitchButton;
+        private TabControlSwitchButton nextSwitchButton;
 
+        public override Size Size { get { return base.Size; } set
+        {
+            base.Size = value;
+            CalculateButtonLocationAndCount();
+
+            lastSwitchButton.Location = new Point(Size.Width - 9, 0);
+            nextSwitchButton.Location = new Point(Size.Width - 9, 9 + 1);
+
+            if (selected != null && selected.tabPage != null)
+            {
+                selected.tabPage.Size = size.Substract(new Size(0, selected.button.Size.Height));
+            }
+        } }
+        public override Color ForeColor { get { return base.ForeColor; } set
+        {
+            base.ForeColor = value;
+
+            foreach (var binding in tabPageButtonBindings)
+            {
+                binding.button.ForeColor = value;
+                binding.tabPage.ForeColor = value;
+            }
+            lastSwitchButton.ForeColor = value;
+            nextSwitchButton.ForeColor = value;
+        } }
+        public override Color BackColor
+        {
+            get { return base.BackColor; }
+            set
+            {
+                base.BackColor = value;
+
+                foreach (var binding in tabPageButtonBindings)
+                {
+                    binding.button.BackColor = value;
+                    binding.tabPage.BackColor = value;
+                }
+                lastSwitchButton.BackColor = value;
+                nextSwitchButton.BackColor = value;
+            }
+        }
         #endregion
 
         public TabControl()
         {
             tabPageButtonBindings = new List<TabPageButtonBinding>();
+
+            startIndex = 0;
+            maxIndex = 0;
+
+            lastSwitchButton = new TabControlSwitchButton(0);
+            AddSubControl(lastSwitchButton);
+            nextSwitchButton = new TabControlSwitchButton(1);
+            AddSubControl(nextSwitchButton);
 
             Size = new Size(200, 100);
 
@@ -31,6 +85,7 @@ namespace OSHVisualGui.GuiControls
 
             TabPage tabPage = new TabPage();
             tabPage.Name = "tabPage1";
+            tabPage.Text = "tabPage1";
             AddTabPage(tabPage);
         }
 
@@ -59,6 +114,8 @@ namespace OSHVisualGui.GuiControls
             button.BackColor = BackColor;
             button.Font = Font;
 
+            tabPage.Size = size.Substract(new Size(0, button.Size.Height));
+
             AddSubControl(button);
             AddSubControl(tabPage);
 
@@ -69,7 +126,7 @@ namespace OSHVisualGui.GuiControls
             {
                 button.Active = true;
                 tabPage.Visible = true;
-                currentTabPage = newBinding;
+                selected = newBinding;
                 tabPage.Location = new Point(0, button.Size.Height);
             }
             else
@@ -79,7 +136,7 @@ namespace OSHVisualGui.GuiControls
 
             tabPageButtonBindings.Add(newBinding);
 
-            //CalculateButtonLocationAndCount();
+            CalculateButtonLocationAndCount();
         }
 
         public void RemoveTabPage(TabPage tabPage)
@@ -93,14 +150,86 @@ namespace OSHVisualGui.GuiControls
             {
                 if (binding.tabPage == tabPage)
                 {
+                    RemoveControl(binding.button);
+                    RemoveControl(binding.tabPage);
+
+                    binding.tabPage.button = null;
+
                     tabPageButtonBindings.Remove(binding);
-                    return;
+
+                    if (binding == selected)
+                    {
+                        if (tabPageButtonBindings.Count != 0)
+                        {
+                            selected = tabPageButtonBindings[0];
+                            selected.button.Active = true;
+                        }
+                        else
+                        {
+                            selected.index = -1;
+                            selected.tabPage = null;
+                            selected.button = null;
+                        }
+                    }
+                    break;
                 }
+            }
+
+            CalculateButtonLocationAndCount();
+        }
+
+        private void CalculateButtonLocationAndCount()
+        {
+            if (tabPageButtonBindings.Count != 0)
+            {
+                maxIndex = startIndex;
+
+                foreach (var binding in tabPageButtonBindings)
+                {
+                    binding.button.Visible = false;
+                }
+
+                int tempWidth = 0;
+                int maxWidth = size.Width - 9;
+                for (int i = startIndex; i < tabPageButtonBindings.Count; ++i)
+                {
+                    TabControlButton button = tabPageButtonBindings[i].button;
+                    if (tempWidth + button.Size.Width <= maxWidth)
+                    {
+                        button.Location = new Point(tempWidth, 0);
+                        button.Visible = true;
+
+                        ++maxIndex;
+                        tempWidth += button.Size.Width + 2;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                selected.tabPage.Location = new Point(0, selected.button.Size.Height);
+
+                lastSwitchButton.Visible = startIndex != 0;
+                nextSwitchButton.Visible = maxIndex < tabPageButtonBindings.Count;
             }
         }
 
         public override void Render(Graphics graphics)
         {
+            if (selected.tabPage != null)
+            {
+                for (int i = startIndex; i < maxIndex; ++i)
+                {
+                    tabPageButtonBindings[i].button.Render(graphics);
+                }
+
+                nextSwitchButton.Render(graphics);
+                lastSwitchButton.Render(graphics);
+
+                selected.tabPage.Render(graphics);
+            }
+
             if (isFocused || isHighlighted)
             {
                 using (Pen pen = new Pen(isHighlighted ? Color.Orange : Color.Black, 1))
@@ -112,12 +241,22 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
+        public override Control Copy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToCPlusPlusString(string linePrefix)
+        {
+            throw new NotImplementedException();
+        }
+
         public override string ToString()
         {
             return name + " - TabControl";
         }
 
-        private struct TabPageButtonBinding
+        internal class TabPageButtonBinding
         {
             public int index;
             public TabPage tabPage;
@@ -130,13 +269,14 @@ namespace OSHVisualGui.GuiControls
             private TabPageButtonBinding binding;
             private bool active;
             public bool Active { get { return active; } set { active = value; } }
-            public override Size Size { get { return TextRenderer.MeasureText(binding.tabPage.Text, font).Add(new Size(8, 4)); } }
             #endregion
 
-            public TabControlButton(TabPageButtonBinding binding)
+            internal TabControlButton(TabPageButtonBinding binding)
             {
                 active = false;
                 this.binding = binding;
+
+                Size = TextRenderer.MeasureText(binding.tabPage.Text, font).Add(new Size(8, 4));
             }
 
             public override void Render(Graphics graphics)
@@ -159,228 +299,66 @@ namespace OSHVisualGui.GuiControls
                 }
                 graphics.DrawString(binding.tabPage.Text, font, foreBrush, absoluteLocation.Add(new Point(4, 2)));
             }
-        }
-    }
 
-    internal class TabPageCollectionConverter : ExpandableObjectConverter
-    {
-        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destType)
-        {
-            if (destType == typeof(string) && value is TabPageCollection)
+            public override Control Copy()
             {
-                return "TabPages";
-            }
-            return base.ConvertTo(context, culture, value, destType);
-        }
-    }
-
-    public class TabPageCollection : CollectionBase, ICustomTypeDescriptor
-    {
-        private List<TabPage> tabPages;
-
-        public TabPageCollection(List<TabPage> tabPages)
-        {
-            this.tabPages = tabPages;
-        }
-
-        #region collection impl
-
-        protected override void OnInsertComplete(int index, object value)
-        {
-            TabPage tabPage = value as TabPage;
-            if (string.IsNullOrEmpty(tabPage.Name))
-            {
-                tabPage.Name = "tabPage" + List.Count;
-            }
-            tabPages.Add(tabPage);
-
-            base.OnInsertComplete(index, value);
-        }
-
-        protected override void OnRemove(int index, object value)
-        {
-            base.OnRemove(index, value);
-        }
-
-        protected override void OnRemoveComplete(int index, object value)
-        {
-            base.OnRemoveComplete(index, value);
-        }
-
-        public void Add(TabPage tabPage)
-        {
-            if (string.IsNullOrEmpty(tabPage.Name))
-            {
-                tabPage.Name = "tabPage" + (List.Count + 1);
-            }
-            this.List.Add(tabPage);
-        }
-
-        public void Remove(TabPage tabPage)
-        {
-            this.List.Remove(tabPage);
-        }
-
-        public TabPage this[int index] { get { return (TabPage)this.List[index]; } }
-
-        #endregion
-
-        #region ICustomTypeDescriptor impl
-
-        public String GetClassName()
-        {
-            return TypeDescriptor.GetClassName(this, true);
-        }
-
-        public AttributeCollection GetAttributes()
-        {
-            return TypeDescriptor.GetAttributes(this, true);
-        }
-
-        public String GetComponentName()
-        {
-            return TypeDescriptor.GetComponentName(this, true);
-        }
-
-        public TypeConverter GetConverter()
-        {
-            return TypeDescriptor.GetConverter(this, true);
-        }
-
-        public EventDescriptor GetDefaultEvent()
-        {
-            return TypeDescriptor.GetDefaultEvent(this, true);
-        }
-
-        public PropertyDescriptor GetDefaultProperty()
-        {
-            return TypeDescriptor.GetDefaultProperty(this, true);
-        }
-
-        public object GetEditor(Type editorBaseType)
-        {
-            return TypeDescriptor.GetEditor(this, editorBaseType, true);
-        }
-
-        public EventDescriptorCollection GetEvents(Attribute[] attributes)
-        {
-            return TypeDescriptor.GetEvents(this, attributes, true);
-        }
-
-        public EventDescriptorCollection GetEvents()
-        {
-            return TypeDescriptor.GetEvents(this, true);
-        }
-
-        public object GetPropertyOwner(PropertyDescriptor pd)
-        {
-            return this;
-        }
-
-        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
-        {
-            return GetProperties();
-        }
-
-        public PropertyDescriptorCollection GetProperties()
-        {
-            PropertyDescriptorCollection pds = new PropertyDescriptorCollection(null);
-
-            for (int i = 0; i < this.List.Count; i++)
-            {
-                TabPageCollectionPropertyDescriptor pd = new TabPageCollectionPropertyDescriptor(this, i);
-                pds.Add(pd);
+                throw new NotImplementedException();
             }
 
-            return pds;
-        }
-
-        #endregion
-    }
-
-    public class TabPageCollectionPropertyDescriptor : PropertyDescriptor
-    {
-        private TabPageCollection collection = null;
-        private int index = -1;
-
-        public TabPageCollectionPropertyDescriptor(TabPageCollection coll, int idx) :
-            base("#" + idx.ToString(), null)
-        {
-            this.collection = coll;
-            this.index = idx;
-        }
-
-        public override AttributeCollection Attributes
-        {
-            get
+            public override string ToCPlusPlusString(string linePrefix)
             {
-                return new AttributeCollection(null);
+                throw new NotImplementedException();
             }
         }
 
-        public override bool CanResetValue(object component)
+        internal class TabControlSwitchButton : Control
         {
-            return true;
-        }
+            private int direction;
 
-        public override Type ComponentType
-        {
-            get
+            public TabControlSwitchButton(int direction)
             {
-                return this.collection.GetType();
+                this.direction = direction;
             }
-        }
 
-        public override string DisplayName
-        {
-            get
+            public override void Render(Graphics graphics)
             {
-                TabPage tabPage = this.collection[index];
-                return tabPage.Text;
-            }
-        }
+                if (!Visible)
+		        {
+			        return;
+		        }
 
-        public override string Description
-        {
-            get
+                Brush border = new SolidBrush(backColor.Add(Color.FromArgb(0, 9, 9, 9)));
+                graphics.FillRectangle(border, absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
+                graphics.FillRectangle(backBrush, absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 2);
+
+                int x = absoluteLocation.X + 3;
+                if (direction == 0)
+                {
+                    int y = absoluteLocation.Y + 4;
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        graphics.FillRectangle(foreBrush, x + i, y - i, 1, 1 + i * 2);
+                    }
+                }
+                else
+                {
+                    int y = absoluteLocation.Y + 2;
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        graphics.FillRectangle(foreBrush, x + i, y - i, 1, 5 - i * 2);
+                    }
+                }
+            }
+
+            public override Control Copy()
             {
-                return DisplayName;
+                throw new NotImplementedException();
             }
-        }
 
-        public override object GetValue(object component)
-        {
-            return this.collection[index];
-        }
-
-        public override bool IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public override string Name
-        {
-            get { return "#" + index.ToString(); }
-        }
-
-        public override Type PropertyType
-        {
-            get { return this.collection[index].GetType(); }
-        }
-
-        public override void ResetValue(object component)
-        {
-
-        }
-
-        public override bool ShouldSerializeValue(object component)
-        {
-            return true;
-        }
-
-        public override void SetValue(object component, object value)
-        {
-            // this.collection[index] = value;
+            public override string ToCPlusPlusString(string linePrefix)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

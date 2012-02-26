@@ -31,9 +31,9 @@ namespace OSHVisualGui.GuiControls
         protected string name;
         public string Name { get { return name; } set { name = value; } }
         protected bool enabled;
-        public bool Enabled { get { return enabled; } set { enabled = value; } }
+        public virtual bool Enabled { get { return enabled; } set { enabled = value; } }
         protected bool visible;
-        public bool Visible { get { return visible; } set { visible = value; } }
+        public virtual bool Visible { get { return visible; } set { visible = value; } }
         protected Point absoluteLocation;
         internal Point AbsoluteLocation { get { return absoluteLocation; } }
         protected Point location;

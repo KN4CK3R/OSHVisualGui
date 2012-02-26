@@ -50,9 +50,9 @@
             this.sendToToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.sendToFrontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sendToBackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.iconImageList = new System.Windows.Forms.ImageList(this.components);
             this.tabPageToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.addTabPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iconImageList = new System.Windows.Forms.ImageList(this.components);
             this.controlToolbox = new OSHVisualGui.Toolbox.Toolbox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
@@ -63,9 +63,9 @@
             // 
             this.controlPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.controlPropertyGrid.Location = new System.Drawing.Point(675, 56);
+            this.controlPropertyGrid.Location = new System.Drawing.Point(586, 56);
             this.controlPropertyGrid.Name = "controlPropertyGrid";
-            this.controlPropertyGrid.Size = new System.Drawing.Size(156, 420);
+            this.controlPropertyGrid.Size = new System.Drawing.Size(245, 420);
             this.controlPropertyGrid.TabIndex = 2;
             this.controlPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.controlPropertyGrid_PropertyValueChanged);
             // 
@@ -75,9 +75,9 @@
             this.controlComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.controlComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.controlComboBox.FormattingEnabled = true;
-            this.controlComboBox.Location = new System.Drawing.Point(675, 29);
+            this.controlComboBox.Location = new System.Drawing.Point(586, 29);
             this.controlComboBox.Name = "controlComboBox";
-            this.controlComboBox.Size = new System.Drawing.Size(156, 21);
+            this.controlComboBox.Size = new System.Drawing.Size(245, 21);
             this.controlComboBox.TabIndex = 3;
             this.controlComboBox.SelectedIndexChanged += new System.EventHandler(this.controlComboBox_SelectedIndexChanged);
             // 
@@ -161,7 +161,7 @@
             this.canvasPictureBox.ContextMenuStrip = this.controlContextMenuStrip;
             this.canvasPictureBox.Location = new System.Drawing.Point(27, 24);
             this.canvasPictureBox.Name = "canvasPictureBox";
-            this.canvasPictureBox.Size = new System.Drawing.Size(638, 461);
+            this.canvasPictureBox.Size = new System.Drawing.Size(553, 461);
             this.canvasPictureBox.TabIndex = 0;
             this.canvasPictureBox.TabStop = false;
             this.canvasPictureBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.canvasPictureBox_DragDrop);
@@ -185,55 +185,69 @@
             this.tabPageToolStripSeparator,
             this.addTabPageToolStripMenuItem});
             this.controlContextMenuStrip.Name = "controlContextMenuStrip";
-            this.controlContextMenuStrip.Size = new System.Drawing.Size(153, 192);
+            this.controlContextMenuStrip.Size = new System.Drawing.Size(146, 170);
             this.controlContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.controlContextMenuStrip_Opening);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.cutToolStripMenuItem.Text = "cut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.copyToolStripMenuItem.Text = "copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.pasteToolStripMenuItem.Text = "paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.removeToolStripMenuItem.Text = "remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // sendToToolStripSeparator
             // 
             this.sendToToolStripSeparator.Name = "sendToToolStripSeparator";
-            this.sendToToolStripSeparator.Size = new System.Drawing.Size(149, 6);
+            this.sendToToolStripSeparator.Size = new System.Drawing.Size(142, 6);
             // 
             // sendToFrontToolStripMenuItem
             // 
             this.sendToFrontToolStripMenuItem.Name = "sendToFrontToolStripMenuItem";
-            this.sendToFrontToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sendToFrontToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.sendToFrontToolStripMenuItem.Text = "Send to Front";
             this.sendToFrontToolStripMenuItem.Click += new System.EventHandler(this.sendToFrontToolStripMenuItem_Click);
             // 
             // sendToBackToolStripMenuItem
             // 
             this.sendToBackToolStripMenuItem.Name = "sendToBackToolStripMenuItem";
-            this.sendToBackToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sendToBackToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.sendToBackToolStripMenuItem.Text = "Send to Back";
             this.sendToBackToolStripMenuItem.Click += new System.EventHandler(this.sendToBackToolStripMenuItem_Click);
+            // 
+            // tabPageToolStripSeparator
+            // 
+            this.tabPageToolStripSeparator.Name = "tabPageToolStripSeparator";
+            this.tabPageToolStripSeparator.Size = new System.Drawing.Size(142, 6);
+            this.tabPageToolStripSeparator.Visible = false;
+            // 
+            // addTabPageToolStripMenuItem
+            // 
+            this.addTabPageToolStripMenuItem.Name = "addTabPageToolStripMenuItem";
+            this.addTabPageToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.addTabPageToolStripMenuItem.Text = "add TabPage";
+            this.addTabPageToolStripMenuItem.Visible = false;
+            this.addTabPageToolStripMenuItem.Click += new System.EventHandler(this.addTabPageToolStripMenuItem_Click);
             // 
             // iconImageList
             // 
@@ -257,20 +271,6 @@
             this.iconImageList.Images.SetKeyName(15, "control_timer.png");
             this.iconImageList.Images.SetKeyName(16, "control_trackbar.png");
             this.iconImageList.Images.SetKeyName(17, "control_unknown.png");
-            // 
-            // tabPageToolStripSeparator
-            // 
-            this.tabPageToolStripSeparator.Name = "tabPageToolStripSeparator";
-            this.tabPageToolStripSeparator.Size = new System.Drawing.Size(149, 6);
-            this.tabPageToolStripSeparator.Visible = false;
-            // 
-            // addTabPageToolStripMenuItem
-            // 
-            this.addTabPageToolStripMenuItem.Name = "addTabPageToolStripMenuItem";
-            this.addTabPageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.addTabPageToolStripMenuItem.Text = "add TabPage";
-            this.addTabPageToolStripMenuItem.Visible = false;
-            this.addTabPageToolStripMenuItem.Click += new System.EventHandler(this.addTabPageToolStripMenuItem_Click);
             // 
             // controlToolbox
             // 
