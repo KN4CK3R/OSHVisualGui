@@ -23,6 +23,21 @@ namespace OSHVisualGui.GuiControls
         private TabControlSwitchButton lastSwitchButton;
         private TabControlSwitchButton nextSwitchButton;
 
+
+
+        public int SelectedTabPage { get { return selected != null ? selected.index : -1; } set
+        {
+            if (value >= 0 && value < tabPageButtonBindings.Count)
+            {
+                selected.button.Active = false;
+                selected = tabPageButtonBindings[value];
+                selected.button.Active = true;
+                selected.tabPage.Location = new Point(0, selected.button.Size.Height);
+
+                CalculateButtonLocationAndCount();
+            }
+        } }
+
         public override Size Size { get { return base.Size; } set
         {
             base.Size = value;
@@ -36,34 +51,11 @@ namespace OSHVisualGui.GuiControls
                 selected.tabPage.Size = size.Substract(new Size(0, selected.button.Size.Height));
             }
         } }
-        public override Color ForeColor { get { return base.ForeColor; } set
-        {
-            base.ForeColor = value;
-
-            foreach (var binding in tabPageButtonBindings)
-            {
-                binding.button.ForeColor = value;
-                binding.tabPage.ForeColor = value;
-            }
-            lastSwitchButton.ForeColor = value;
-            nextSwitchButton.ForeColor = value;
-        } }
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set
-            {
-                base.BackColor = value;
-
-                foreach (var binding in tabPageButtonBindings)
-                {
-                    binding.button.BackColor = value;
-                    binding.tabPage.BackColor = value;
-                }
-                lastSwitchButton.BackColor = value;
-                nextSwitchButton.BackColor = value;
-            }
-        }
+        public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; foreach (var binding in tabPageButtonBindings) { binding.button.ForeColor = value; binding.tabPage.ForeColor = value; } lastSwitchButton.ForeColor = value; nextSwitchButton.ForeColor = value; } }
+        public override Color BackColor { get { return base.BackColor; } set { base.BackColor = value; foreach (var binding in tabPageButtonBindings) { binding.button.BackColor = value; binding.tabPage.BackColor = value; } lastSwitchButton.BackColor = value; nextSwitchButton.BackColor = value; } }
+        internal override Point ContainerLocation { get { return base.ContainerLocation.Add(selected.tabPage.Location); } }
+        internal override Point ContainerAbsoluteLocation { get { return selected.tabPage.ContainerAbsoluteLocation; } }
+        internal override Size ContainerSize { get { return selected.tabPage.ContainerSize; } }
         #endregion
 
         public TabControl()
@@ -83,10 +75,37 @@ namespace OSHVisualGui.GuiControls
             BackColor = Color.FromArgb(unchecked((int)0xFF737373));
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
-            TabPage tabPage = new TabPage();
+            /*TabPage tabPage = new TabPage();
             tabPage.Name = "tabPage1";
             tabPage.Text = "tabPage1";
-            AddTabPage(tabPage);
+            AddTabPage(tabPage);*/
+        }
+
+        public override void AddControl(Control control)
+        {
+            if (selected == null || selected.tabPage == null)
+            {
+                return;
+            }
+
+            if (control is TabPage)
+            {
+                AddTabPage(control as TabPage);
+            }
+            else
+            {
+                selected.tabPage.AddControl(control);
+            }
+        }
+
+        public override void RemoveControl(Control control)
+        {
+            if (selected == null || selected.tabPage == null)
+            {
+                return;
+            }
+
+            selected.tabPage.RemoveControl(control);
         }
 
         public void AddTabPage(TabPage tabPage)
@@ -243,7 +262,17 @@ namespace OSHVisualGui.GuiControls
 
         public override Control Copy()
         {
-            throw new NotImplementedException();
+            TabControl copy = new TabControl();
+            CopyTo(copy);
+            return copy;
+        }
+
+        protected override void CopyTo(Control copy)
+        {
+            base.CopyTo(copy);
+
+            TabControl tabControl = copy as TabControl;
+            
         }
 
         public override string ToCPlusPlusString(string linePrefix)
@@ -273,6 +302,8 @@ namespace OSHVisualGui.GuiControls
 
             internal TabControlButton(TabPageButtonBinding binding)
             {
+                isSubControl = true;
+
                 active = false;
                 this.binding = binding;
 
@@ -317,7 +348,11 @@ namespace OSHVisualGui.GuiControls
 
             public TabControlSwitchButton(int direction)
             {
+                isSubControl = true;
+
                 this.direction = direction;
+
+                Size = new Size(9, 9);
             }
 
             public override void Render(Graphics graphics)
@@ -345,7 +380,7 @@ namespace OSHVisualGui.GuiControls
                     int y = absoluteLocation.Y + 2;
                     for (int i = 0; i < 3; ++i)
                     {
-                        graphics.FillRectangle(foreBrush, x + i, y - i, 1, 5 - i * 2);
+                        graphics.FillRectangle(foreBrush, x + i, y + i, 1, 5 - i * 2);
                     }
                 }
             }

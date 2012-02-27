@@ -41,6 +41,7 @@ namespace OSHVisualGui
             allControlsGroup.Items.Add(new ToolboxItem("ProgressBar", 11, GuiControls.ControlType.ProgressBar));
             allControlsGroup.Items.Add(new ToolboxItem("RadioButton", 12, GuiControls.ControlType.RadioButton));
             allControlsGroup.Items.Add(new ToolboxItem("TabControl", 13, GuiControls.ControlType.TabControl));
+            allControlsGroup.Items.Add(new ToolboxItem("TabPage", 13, GuiControls.ControlType.TabPage));
             allControlsGroup.Items.Add(new ToolboxItem("TextBox", 14, GuiControls.ControlType.TextBox));
             allControlsGroup.Items.Add(new ToolboxItem("Timer", 15, GuiControls.ControlType.Timer));
             allControlsGroup.Items.Add(new ToolboxItem("TrackBar", 16, GuiControls.ControlType.TrackBar));
@@ -380,7 +381,16 @@ namespace OSHVisualGui
                     case GuiControls.ControlType.TabControl:
                         GuiControls.TabControl tabControl = new GuiControls.TabControl();
                         tabControl.Name = "tabControl" + GetControlCount(typeof(GuiControls.TabControl));
+                        GuiControls.TabPage tempTabPage = new GuiControls.TabPage();
+                        tempTabPage.Text = tempTabPage.Name = "tabPage" + GetControlCount(typeof(GuiControls.TabPage));
+                        tabControl.AddTabPage(tempTabPage);
+                        AddControlToList(tempTabPage);
                         newControl = tabControl;
+                        break;
+                    case GuiControls.ControlType.TabPage:
+                        GuiControls.TabPage tabPage = new GuiControls.TabPage();
+                        tabPage.Text = tabPage.Name = "tabPage" + GetControlCount(typeof(GuiControls.TabPage));
+                        newControl = tabPage;
                         break;
                     case GuiControls.ControlType.TextBox:
                         GuiControls.TextBox textBox = new GuiControls.TextBox();

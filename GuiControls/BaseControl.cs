@@ -21,6 +21,7 @@ namespace OSHVisualGui.GuiControls
         ProgressBar,
         RadioButton,
         TabControl,
+        TabPage,
         TextBox,
         Timer,
         TrackBar
