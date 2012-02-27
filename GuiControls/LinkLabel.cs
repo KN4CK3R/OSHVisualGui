@@ -9,6 +9,7 @@ namespace OSHVisualGui.GuiControls
     public class LinkLabel : Label
     {
         #region Properties
+        internal override string DefaultName { get { return "linkLabel"; } }
         private Font underlinedFont;
 
         public override Font Font { get { return base.Font; } set { base.Font = value; underlinedFont = new Font(value, FontStyle.Underline); } }

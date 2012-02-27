@@ -9,6 +9,7 @@ namespace OSHVisualGui.GuiControls
     class ProgressBar : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "progressBar"; } }
         private int minimum;
         public int Minimum { get { return minimum; } set { if (value < maximum) { minimum = value; } this.value = this.value < minimum ? minimum : this.value; } }
         private int maximum;

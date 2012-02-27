@@ -10,6 +10,7 @@ namespace OSHVisualGui.GuiControls
     public class ComboBox : Button
     {
         #region Properties
+        internal override string DefaultName { get { return "comboBox"; } }
         private string[] items;
         public string[] Items { get { return items; } set { items = value; } }
         #endregion

@@ -10,6 +10,7 @@ namespace OSHVisualGui.GuiControls
     class ListBox : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "listBox"; } }
         private string[] items;
         public string[] Items { get { return items; } set { items = value; } }
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; } }

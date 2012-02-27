@@ -47,7 +47,7 @@ namespace OSHVisualGui.GuiControls
             }
 
             control.Parent = this;
-            control.zOrder = zOrder + 1;
+            control._zOrder = zOrder + 1;
 
             internalControls.Add(control);
         }
@@ -127,7 +127,7 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public IEnumerable<Control> PostOrderVisit()
+        public virtual IEnumerable<Control> PostOrderVisit()
         {
             foreach (Control control in internalControls)
             {
@@ -135,10 +135,7 @@ namespace OSHVisualGui.GuiControls
                 {
                     foreach (Control child in (control as ContainerControl).PostOrderVisit())
                     {
-                        if (!child.isSubControl)
-                        {
-                            yield return child;
-                        }
+                        yield return child;
                     }
                 }
                 if (!control.isSubControl)
@@ -148,7 +145,7 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public IEnumerable<Control> PreOrderVisit()
+        public virtual IEnumerable<Control> PreOrderVisit()
         {
             foreach (Control control in internalControls)
             {

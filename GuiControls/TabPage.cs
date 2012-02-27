@@ -11,11 +11,13 @@ namespace OSHVisualGui.GuiControls
     public class TabPage : Panel
     {
         #region Properties
+        internal override string DefaultName { get { return "tabPage"; } }
         protected string text;
         internal TabControl.TabControlButton button;
         private Panel containerPanel = new Panel();
 
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
+        internal override List<Control> Controls { get { return containerPanel.Controls; } }
 
         [Browsable(false)]
         public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; } }
@@ -38,6 +40,7 @@ namespace OSHVisualGui.GuiControls
 
 		    containerPanel.Location = new Point(2, 2);
             containerPanel.isSubControl = true;
+            containerPanel.Parent = this;
 		    AddSubControl(containerPanel);
 
             BackColor = Color.FromArgb(unchecked((int)0xFF474747));
@@ -65,19 +68,51 @@ namespace OSHVisualGui.GuiControls
             containerPanel.Render(graphics);
         }
 
+        public override Control Copy()
+        {
+            TabPage copy = new TabPage();
+            CopyTo(copy);
+            return copy;
+        }
+
+        protected override void CopyTo(Control copy)
+        {
+            base.CopyTo(copy);
+
+            TabPage tabPage = copy as TabPage;
+            tabPage.Text = text;
+        }
+
         public override string ToString()
         {
             return name + " - TabPage";
         }
 
-        public override Control Copy()
-        {
-            throw new NotImplementedException();
-        }
-
         public override string ToCPlusPlusString(string linePrefix)
         {
-            throw new NotImplementedException();
+            StringBuilder code = new StringBuilder();
+            code.AppendLine(linePrefix + name + " = new OSHGui::TabPage();");
+            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            if (backColor != Color.FromArgb(unchecked((int)0xFF474747)))
+            {
+                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
+            }
+            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
+            {
+                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+
+            if (Controls.Count > 0)
+            {
+                code.AppendLine("");
+                foreach (Control control in Controls)
+                {
+                    code.Append(control.ToCPlusPlusString(linePrefix));
+                    code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");
+                }
+            }
+
+            return code.ToString();
         }
     }
 }

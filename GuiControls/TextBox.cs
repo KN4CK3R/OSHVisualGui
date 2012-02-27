@@ -9,6 +9,7 @@ namespace OSHVisualGui.GuiControls
     class TextBox : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "textBox"; } }
         private string text = string.Empty;
         public string Text { get { return text; } set { text = value; } }
         #endregion

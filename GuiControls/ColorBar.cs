@@ -9,6 +9,7 @@ namespace OSHVisualGui.GuiControls
     class ColorBar : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "colorBar"; } }
         private Color color;
         public virtual Color Color { get { return color; } set { color = value; UpdateBars(); } }
         public override Size Size { get { return base.Size; } set { base.Size = value; UpdateBars(); } }

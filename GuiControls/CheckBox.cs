@@ -9,6 +9,8 @@ namespace OSHVisualGui.GuiControls
     public class CheckBox : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "checkBox"; } }
+
         protected Label label;
 
         protected bool checked_;

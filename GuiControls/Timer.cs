@@ -8,6 +8,7 @@ namespace OSHVisualGui.GuiControls
     class Timer : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "timer"; } }
         private long interval;
         public long Interval { get { return interval; } set { if (value >= 1) { interval = value; } } }
         private Image icon;

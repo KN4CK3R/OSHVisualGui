@@ -29,6 +29,7 @@ namespace OSHVisualGui.GuiControls
 
     public abstract class Control : IComparable<Control>
     {
+        internal virtual string DefaultName { get { return string.Empty; } }
         protected string name;
         public string Name { get { return name; } set { name = value; } }
         protected bool enabled;
@@ -51,7 +52,7 @@ namespace OSHVisualGui.GuiControls
         protected Brush backBrush;
         protected Color backColor;
         public virtual Color BackColor { get { return backColor; } set { backColor = value; backBrush = new SolidBrush(backColor); } }
-        protected int _zOrder;
+        internal int _zOrder;
         internal virtual int zOrder { get { return _zOrder; } set { _zOrder = value; RealParent.Sort(); } }
 
         protected Control parent;
@@ -112,7 +113,7 @@ namespace OSHVisualGui.GuiControls
         public abstract Control Copy();
         protected virtual void CopyTo(Control copy)
         {
-            copy.name = name + "_copy";
+            copy.name = DefaultName + ControlManager.Instance().GetControlCount(copy.GetType());
             copy.enabled = enabled;
             copy.visible = visible;
             copy.location = location;

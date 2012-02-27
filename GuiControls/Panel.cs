@@ -8,6 +8,10 @@ namespace OSHVisualGui.GuiControls
 {
     public class Panel : ContainerControl
     {
+        #region Properties
+        internal override string DefaultName { get { return "panel"; } }
+        #endregion
+
         public Panel()
         {
             Size = new Size(200, 200);

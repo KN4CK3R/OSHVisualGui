@@ -10,6 +10,7 @@ namespace OSHVisualGui.GuiControls
     public class Button : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "button"; } }
         private Label label;
 
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }

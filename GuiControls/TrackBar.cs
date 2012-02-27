@@ -8,6 +8,7 @@ namespace OSHVisualGui.GuiControls
     class TrackBar : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "trackBar"; } }
         private int minimum;
         public int Minimum { get { return minimum; } set { if (value < maximum) { minimum = value; } } }
         private int maximum;

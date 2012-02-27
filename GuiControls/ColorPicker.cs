@@ -8,6 +8,7 @@ namespace OSHVisualGui.GuiControls
     class ColorPicker : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "colorPicker"; } }
         private Color color;
         public virtual Color Color { get { return color; } set { color = value; UpdateGradient(); } }
         public override Size Size { get { return base.Size; } set { base.Size = value; UpdateGradient(); } }

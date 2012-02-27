@@ -7,15 +7,18 @@ namespace OSHVisualGui.GuiControls
 {
     class GroupBox : Panel
     {
+        #region Properties
         private Label label = new Label();
         private Panel panel = new Panel();
 
+        internal override string DefaultName { get { return "groupBox"; } }
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; } }
         internal override List<Control> Controls { get { return panel.Controls; } }
         public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = value.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
         internal override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
         internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
         internal override Size ContainerSize { get { return panel.ContainerSize; } }
+        #endregion
 
         public GroupBox()
         {
@@ -76,6 +79,11 @@ namespace OSHVisualGui.GuiControls
 
             GroupBox groupBox = copy as GroupBox;
             groupBox.Text = Text;
+
+            foreach (Control control in panel.Controls)
+            {
+                groupBox.AddControl(control.Copy());
+            }
         }
 
         public override string ToString()

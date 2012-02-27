@@ -8,6 +8,8 @@ namespace OSHVisualGui.GuiControls
 {
     class RadioButton : CheckBox
     {
+        #region Properties
+        internal override string DefaultName { get { return "radioButton"; } }
         public override bool Checked { get { return base.checked_; }
             set
             {
@@ -27,6 +29,7 @@ namespace OSHVisualGui.GuiControls
                 }
             }
         }
+        #endregion
 
         public override void Render(Graphics graphics)
         {

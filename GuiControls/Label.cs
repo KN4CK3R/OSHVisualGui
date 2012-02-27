@@ -9,6 +9,7 @@ namespace OSHVisualGui.GuiControls
     public class Label : Control
     {
         #region Properties
+        internal override string DefaultName { get { return "label"; } }
         protected string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
         #endregion

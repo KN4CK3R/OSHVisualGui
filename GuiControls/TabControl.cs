@@ -14,6 +14,7 @@ namespace OSHVisualGui.GuiControls
     public class TabControl : ContainerControl
     {
         #region Properties
+        internal override string DefaultName { get { return "tabControl"; } }
         private List<TabPageButtonBinding> tabPageButtonBindings;
 
         private int startIndex;
@@ -22,8 +23,6 @@ namespace OSHVisualGui.GuiControls
         public TabPage CurrentTabPage { get { return selected != null ? selected.tabPage : null; } }
         private TabControlSwitchButton lastSwitchButton;
         private TabControlSwitchButton nextSwitchButton;
-
-
 
         public int SelectedTabPage { get { return selected != null ? selected.index : -1; } set
         {
@@ -74,11 +73,6 @@ namespace OSHVisualGui.GuiControls
 
             BackColor = Color.FromArgb(unchecked((int)0xFF737373));
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
-
-            /*TabPage tabPage = new TabPage();
-            tabPage.Name = "tabPage1";
-            tabPage.Text = "tabPage1";
-            AddTabPage(tabPage);*/
         }
 
         public override void AddControl(Control control)
@@ -272,12 +266,10 @@ namespace OSHVisualGui.GuiControls
             base.CopyTo(copy);
 
             TabControl tabControl = copy as TabControl;
-            
-        }
-
-        public override string ToCPlusPlusString(string linePrefix)
-        {
-            throw new NotImplementedException();
+            foreach (var binding in tabPageButtonBindings)
+            {
+                tabControl.AddTabPage(binding.tabPage.Copy() as TabPage);
+            }
         }
 
         public override string ToString()
@@ -285,6 +277,72 @@ namespace OSHVisualGui.GuiControls
             return name + " - TabControl";
         }
 
+        public override string ToCPlusPlusString(string linePrefix)
+        {
+            StringBuilder code = new StringBuilder();
+            code.AppendLine(linePrefix + name + " = new OSHGui::TabControl();");
+            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            if (location != new Point(6, 6))
+            {
+                code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
+            }
+            if (size != new Size(200, 100))
+            {
+                code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
+            }
+            if (backColor != Color.FromArgb(unchecked((int)0xFF737373)))
+            {
+                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
+            }
+            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
+            {
+                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+
+            if (tabPageButtonBindings.Count > 0)
+            {
+                code.AppendLine("");
+                foreach (var binding in tabPageButtonBindings)
+                {
+                    code.Append(binding.tabPage.ToCPlusPlusString(linePrefix));
+                    code.AppendLine(linePrefix + name + "->AddTabPage(" + binding.tabPage.Name + ");\r\n");
+                }
+            }
+
+            return code.ToString();
+        }
+
+        public override IEnumerable<Control> PostOrderVisit()
+        {
+            foreach (var binding in tabPageButtonBindings)
+            {
+                foreach (Control child in binding.tabPage.PostOrderVisit())
+                {
+                    if (!child.isSubControl)
+                    {
+                        yield return child;
+                    }
+                }
+                yield return binding.tabPage;
+            }
+        }
+
+        public override IEnumerable<Control> PreOrderVisit()
+        {
+            foreach (var binding in tabPageButtonBindings)
+            {
+                yield return binding.tabPage;
+                foreach (Control child in binding.tabPage.PostOrderVisit())
+                {
+                    if (!child.isSubControl)
+                    {
+                        yield return child;
+                    }
+                }
+            }
+        }
+
+        #region internals
         internal class TabPageButtonBinding
         {
             public int index;
@@ -395,5 +453,6 @@ namespace OSHVisualGui.GuiControls
                 throw new NotImplementedException();
             }
         }
+        #endregion
     }
 }

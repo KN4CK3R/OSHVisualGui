@@ -78,6 +78,7 @@
             this.controlComboBox.Location = new System.Drawing.Point(586, 29);
             this.controlComboBox.Name = "controlComboBox";
             this.controlComboBox.Size = new System.Drawing.Size(245, 21);
+            this.controlComboBox.Sorted = true;
             this.controlComboBox.TabIndex = 3;
             this.controlComboBox.SelectedIndexChanged += new System.EventHandler(this.controlComboBox_SelectedIndexChanged);
             // 

@@ -8,6 +8,10 @@ namespace OSHVisualGui.GuiControls
 {
     public class PictureBox : Control
     {
+        #region Properties
+        internal override string DefaultName { get { return "pictureBox"; } }
+        #endregion
+
         public PictureBox()
         {
             Size = new Size(100, 100);
