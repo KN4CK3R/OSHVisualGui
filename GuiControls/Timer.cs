@@ -61,6 +61,10 @@ namespace OSHVisualGui.GuiControls
             StringBuilder code = new StringBuilder();
             code.AppendLine(linePrefix + name + " = new OSHGui::Timer();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            if (!enabled)
+            {
+                code.AppendLine(linePrefix + name + "->SetEnabled(false);");
+            }
             if (interval != 100)
             {
                 code.AppendLine(linePrefix + name + "->SetInterval(" + interval + ");");

@@ -90,6 +90,14 @@ namespace OSHVisualGui.GuiControls
             StringBuilder code = new StringBuilder();
             code.AppendLine(linePrefix + name + " = new OSHGui::ProgressBar();");
             code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            if (!enabled)
+            {
+                code.AppendLine(linePrefix + name + "->SetEnabled(false);");
+            }
+            if (!visible)
+            {
+                code.AppendLine(linePrefix + name + "->SetVisible(false);");
+            }
             if (location != new Point(6, 6))
             {
                 code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
