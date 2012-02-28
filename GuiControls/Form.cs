@@ -99,7 +99,9 @@ namespace OSHVisualGui.GuiControls
             code.AppendLine("class " + name + " : OSHGui::Form");
             code.AppendLine("{");
             code.AppendLine("public:");
-            code.AppendLine("\t" + name + "()");
+            code.AppendLine("\t" + name + "();");
+            code.AppendLine("\r\nprivate:");
+            code.AppendLine("\tvoid InitializeComponent()");
             code.AppendLine("\t{");
             code.AppendLine("\t\tSetName(\"" + name + "\");");
             if (size != new Size(300, 300))
@@ -115,29 +117,37 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine("\t\tSetBackColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
             code.AppendLine("\t\tSetText(\"" + text.Replace("\"", "\\\"") + "\");");
-            code.AppendLine("\t}\r\n");
-
-            code.AppendLine("private:");
-            code.AppendLine("\tvoid InitializeComponent()");
-            code.AppendLine("\t{");
-            foreach (Control control in Controls)
+            if (Controls.Count > 0)
             {
-                code.Append(control.ToCPlusPlusString("\t\t"));
-                code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
+                code.AppendLine(string.Empty);
+                foreach (Control control in Controls)
+                {
+                    code.Append(control.ToCPlusPlusString("\t\t"));
+                    code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
+                }
+                code.Length -= 2;
+                code.AppendLine("\t}\r\n");
+                foreach (Control control in PreOrderVisit())
+                {
+                    code.AppendLine("\tOSHGui::" + control.GetType().Name + " *" + control.Name + ";");
+                }
             }
-            code.AppendLine("\t}\r\n");
-            foreach (Control control in PreOrderVisit())
+            else
             {
-                code.AppendLine("\tOSHGui::" + control.GetType().Name + " " + control.Name + ";");
+                code.AppendLine("\t}");
             }
-            
             code.AppendLine("};\r\n");
             code.AppendLine("#endif");
             generatedCode[0] = code.ToString();
 
             code.Length = 0;
             code.AppendLine("#include \"" + name + ".hpp\"\r\n");
-            code.AppendLine("");
+            code.AppendLine(name + "::" + name + "()");
+            code.AppendLine("{");
+            code.AppendLine("\tInitializeComponent();");
+            code.AppendLine("}");
+            code.AppendLine("//---------------------------------------------------------------------------");
+            generatedCode[1] = code.ToString();
 
             return generatedCode;
         }

@@ -12,7 +12,7 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "colorBar"; } }
         private Color color;
         public virtual Color Color { get { return color; } set { color = value; UpdateBars(); } }
-        public override Size Size { get { return base.Size; } set { base.Size = value; UpdateBars(); } }
+        public override Size Size { get { return base.Size; } set { if (value.Height != 45) { value.Height = 45; } base.Size = value; UpdateBars(); } }
         private Bitmap[] colorBar;
         #endregion
 
@@ -104,7 +104,7 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
-            if (size != new Size(110, 24))
+            if (size != new Size(150, 45))
             {
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }

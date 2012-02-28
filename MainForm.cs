@@ -56,8 +56,7 @@ namespace OSHVisualGui
             canvasPictureBox.AllowDrop = true;
 
             form = new GuiControls.Form();
-            form.Name = "form1";
-            form.Text = "Form1";
+            form.Text = form.Name = "Form1";
             AddControlToList(form);
 
             ControlManager.Instance().Form = form;

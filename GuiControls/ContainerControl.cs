@@ -158,10 +158,7 @@ namespace OSHVisualGui.GuiControls
                 {
                     foreach (Control child in (control as ContainerControl).PreOrderVisit())
                     {
-                        if (!child.isSubControl)
-                        {
-                            yield return child;
-                        }
+                        yield return child;
                     }
                 }
             }

@@ -18,8 +18,6 @@ namespace OSHVisualGui.GuiControls
 
         public ListBox()
         {
-            items = new string[1];
-
             Size = new Size(120, 95);
 
             BackColor = Color.FromArgb(unchecked((int)0xFF171614));
@@ -84,7 +82,7 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
-            if (backColor != Color.FromArgb(unchecked((int)0xFF4E4E4E)))
+            if (backColor != Color.FromArgb(unchecked((int)0xFF171614)))
             {
                 code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
@@ -92,11 +90,14 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            foreach (string item in Items)
+            if (Items != null)
             {
-                if (!string.IsNullOrEmpty(item))
+                foreach (string item in Items)
                 {
-                    code.AppendLine(linePrefix + name + "->AddItem(OSHGui::Misc::AnsiString(\"" + item.Replace("\"", "\\\"") + "\"));");
+                    if (!string.IsNullOrEmpty(item))
+                    {
+                        code.AppendLine(linePrefix + name + "->AddItem(OSHGui::Misc::AnsiString(\"" + item.Replace("\"", "\\\"") + "\"));");
+                    }
                 }
             }
             return code.ToString();

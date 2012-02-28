@@ -70,7 +70,7 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetAutoSize(true);");
             }
-            else
+            else if (size != new Size(160, 24))
             {
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
@@ -82,9 +82,15 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
-            foreach (string item in Items)
+            if (Items != null)
             {
-                code.AppendLine(linePrefix + name + "->AddItem(OSHGui::Misc::AnsiString(\"" + item.Replace("\"", "\\\"") + "\"));");
+                foreach (string item in Items)
+                {
+                    if (!string.IsNullOrEmpty(item))
+                    {
+                        code.AppendLine(linePrefix + name + "->AddItem(OSHGui::Misc::AnsiString(\"" + item.Replace("\"", "\\\"") + "\"));");
+                    }
+                }
             }
             return code.ToString();
         }
