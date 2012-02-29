@@ -95,7 +95,7 @@ namespace OSHVisualGui
             StringBuilder sb = new StringBuilder();
             foreach (char c in strings)
             {
-                sb.AppendFormat("{0}(.*?){0}|", Regex.Escape(c.ToString()));
+                sb.AppendFormat("{0}([^{0}\\\\]*(\\\\.[^{0}\\\\]*)*){0}|", Regex.Escape(c.ToString()));
             }
             if (sb.Length > 0)
             {

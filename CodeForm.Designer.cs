@@ -32,8 +32,8 @@
             this.sourceTabControl = new System.Windows.Forms.TabControl();
             this.hppTabPage = new System.Windows.Forms.TabPage();
             this.cppTabPage = new System.Windows.Forms.TabPage();
-            this.hppRichTextBox = new OSHGuiSyntaxRichTextBox();
-            this.cppRichTextBox = new OSHGuiSyntaxRichTextBox();
+            this.hppRichTextBox = new OSHVisualGui.OSHGuiSyntaxRichTextBox();
+            this.cppRichTextBox = new OSHVisualGui.OSHGuiSyntaxRichTextBox();
             this.sourceTabControl.SuspendLayout();
             this.hppTabPage.SuspendLayout();
             this.cppTabPage.SuspendLayout();
@@ -90,6 +90,7 @@
             this.hppRichTextBox.Strings = ((System.Collections.Generic.List<char>)(resources.GetObject("hppRichTextBox.Strings")));
             this.hppRichTextBox.TabIndex = 0;
             this.hppRichTextBox.Text = "";
+            this.hppRichTextBox.WordWrap = false;
             // 
             // cppRichTextBox
             // 
@@ -107,6 +108,7 @@
             this.cppRichTextBox.Strings = ((System.Collections.Generic.List<char>)(resources.GetObject("cppRichTextBox.Strings")));
             this.cppRichTextBox.TabIndex = 1;
             this.cppRichTextBox.Text = "";
+            this.cppRichTextBox.WordWrap = false;
             // 
             // CodeForm
             // 

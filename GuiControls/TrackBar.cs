@@ -106,13 +106,25 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFF5A5857)))
+            if (foreColor != Color.FromArgb(unchecked((int)0xFFA6A4A1)))
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
             if (tickFrequency != 1)
             {
                 code.AppendLine(linePrefix + name + "->SetTickFrequency(" + tickFrequency + "));");
+            }
+            if (minimum != 1)
+            {
+                code.AppendLine(linePrefix + name + "->SetMinimum(" + minimum + "));");
+            }
+            if (maximum != 10)
+            {
+                code.AppendLine(linePrefix + name + "->SetMaximum(" + maximum + "));");
+            }
+            if (value != 0)
+            {
+                code.AppendLine(linePrefix + name + "->SetValue(" + value + "));");
             }
             return code.ToString();
         }

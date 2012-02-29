@@ -102,7 +102,7 @@ namespace OSHVisualGui.GuiControls
             {
                 code.AppendLine(linePrefix + name + "->SetAutoSize(true);");
             }
-            else
+            else if (size != new Size(92, 24))
             {
                 code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
