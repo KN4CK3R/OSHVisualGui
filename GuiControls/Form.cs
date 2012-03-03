@@ -6,6 +6,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
+    [Serializable]
     public class Form : ContainerControl
     {
         private Panel panel;
@@ -120,10 +121,13 @@ namespace OSHVisualGui.GuiControls
             if (Controls.Count > 0)
             {
                 code.AppendLine(string.Empty);
-                foreach (Control control in Controls)
+                foreach (Control control in Controls.FastReverse())
                 {
-                    code.Append(control.ToCPlusPlusString("\t\t"));
-                    code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
+                    if (control != this)
+                    {
+                        code.Append(control.ToCPlusPlusString("\t\t"));
+                        code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
+                    }
                 }
                 code.Length -= 2;
                 code.AppendLine("\t}\r\n");

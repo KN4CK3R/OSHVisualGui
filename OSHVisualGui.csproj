@@ -59,12 +59,12 @@
     <Compile Include="ControlManager.cs" />
     <Compile Include="DelayedEventHandler.cs" />
     <Compile Include="Extension.cs" />
-    <Compile Include="GuiControls\BaseControl.cs" />
     <Compile Include="GuiControls\Button.cs" />
     <Compile Include="GuiControls\CheckBox.cs" />
     <Compile Include="GuiControls\ColorBar.cs" />
     <Compile Include="GuiControls\ColorPicker.cs" />
     <Compile Include="GuiControls\ContainerControl.cs" />
+    <Compile Include="GuiControls\Control.cs" />
     <Compile Include="GuiControls\Form.cs" />
     <Compile Include="GuiControls\GroupBox.cs" />
     <Compile Include="GuiControls\ComboBox.cs" />

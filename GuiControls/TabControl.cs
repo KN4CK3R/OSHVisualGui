@@ -320,33 +320,13 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
-        public override IEnumerable<Control> PostOrderVisit()
+        internal virtual void OnControlAdded()
         {
-            foreach (var binding in tabPageButtonBindings)
-            {
-                foreach (Control child in binding.tabPage.PostOrderVisit())
-                {
-                    if (!child.isSubControl)
-                    {
-                        yield return child;
-                    }
-                }
-                yield return binding.tabPage;
-            }
-        }
+            base.OnControlAdded();
 
-        public override IEnumerable<Control> PreOrderVisit()
-        {
-            foreach (var binding in tabPageButtonBindings)
+            foreach (TabPageButtonBinding binding in tabPageButtonBindings)
             {
-                yield return binding.tabPage;
-                foreach (Control child in binding.tabPage.PostOrderVisit())
-                {
-                    if (!child.isSubControl)
-                    {
-                        yield return child;
-                    }
-                }
+                binding.tabPage.OnControlAdded();
             }
         }
 

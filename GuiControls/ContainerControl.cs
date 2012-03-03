@@ -5,6 +5,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
+    [Serializable]
     public abstract class ContainerControl : Control
     {
         protected List<Control> controls;
@@ -47,7 +48,7 @@ namespace OSHVisualGui.GuiControls
             }
 
             control.Parent = this;
-            control._zOrder = zOrder + 1;
+            control._zOrder = internalControls.Count + 1;
 
             internalControls.Add(control);
         }
@@ -78,15 +79,15 @@ namespace OSHVisualGui.GuiControls
                 return;
             }
 
-            int zOrder = 1;
+            int zOrder = control._zOrder;
             foreach (Control c in internalControls)
             {
-                if (c != control)
+                if (c != control && c._zOrder > zOrder)
                 {
-                    c.zOrder = zOrder++;
+                    --c._zOrder;
                 }
             }
-            control.zOrder = zOrder;
+            control._zOrder = internalControls.Count;
             Sort();
         }
 
@@ -97,13 +98,13 @@ namespace OSHVisualGui.GuiControls
                 return;
             }
 
-            int zOrder = 1;
-            control.zOrder = zOrder++;
+            int zOrder = control._zOrder;
+            control._zOrder = 1;
             foreach (Control c in internalControls)
             {
-                if (c != control)
+                if (c != control && c._zOrder < zOrder)
                 {
-                    c.zOrder = zOrder++;
+                    ++c._zOrder;
                 }
             }
             Sort();

@@ -27,6 +27,7 @@ namespace OSHVisualGui.GuiControls
         TrackBar
     }
 
+    [Serializable]
     public abstract class Control : IComparable<Control>
     {
         internal virtual string DefaultName { get { return string.Empty; } }
@@ -136,6 +137,11 @@ namespace OSHVisualGui.GuiControls
         public int CompareTo(Control control)
         {
             return _zOrder.CompareTo(control._zOrder);
+        }
+
+        internal virtual void OnControlAdded()
+        {
+            ControlManager.Instance().AddControl(this);
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Xml.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -12,7 +14,6 @@ namespace OSHVisualGui
 {
     public partial class MainForm : Form
     {
-        private List<GuiControls.Control> controls;
         private GuiControls.Control focusedControl;
         private GuiControls.Control copiedControl;
         private GuiControls.Form form;
@@ -23,8 +24,6 @@ namespace OSHVisualGui
 
             focusedControl = null;
             copiedControl = null;
-
-            controls = new List<GuiControls.Control>();
 
             ToolboxGroup allControlsGroup = new ToolboxGroup("All Controls");
             allControlsGroup.Items.Add(new ToolboxItem("Button", 0, GuiControls.ControlType.Button));
@@ -64,35 +63,24 @@ namespace OSHVisualGui
 
         private void AddControlToList(GuiControls.Control control)
         {
-            if (control == null)
+            if (ControlManager.Instance().AddControl(control))
             {
-                return;
+                controlComboBox.Items.Add(control);
+                controlComboBox.SelectedItem = control;
+
+                canvasPictureBox.Invalidate();
             }
-
-            if (controls.Contains(control))
-            {
-                return;
-            }
-
-            controls.Add(control);
-            controlComboBox.Items.Add(control);
-            controlComboBox.SelectedItem = control;
-
-            canvasPictureBox.Invalidate();
         }
 
         private void RemoveControlFromList(GuiControls.Control control)
         {
-            if (control == null)
+            if (ControlManager.Instance().RemoveControl(control))
             {
-                return;
+                controlComboBox.Items.Remove(control);
+                controlComboBox.SelectedIndex = 0;
+
+                canvasPictureBox.Invalidate();
             }
-
-            controls.Remove(control);
-            controlComboBox.Items.Remove(control);
-            controlComboBox.SelectedIndex = 0;
-
-            canvasPictureBox.Invalidate();
         }
 
         private GuiControls.Control FindControlUnderMouse(Point location)
@@ -232,9 +220,9 @@ namespace OSHVisualGui
                     MessageBox.Show("'" + newName + "' isn't a valid name!");
                     invalidName = true;
                 }
-                foreach (GuiControls.Control control in controls)
+                foreach (GuiControls.Control control in ControlManager.Instance().FindByName(newName))
                 {
-                    if (control != focusedControl && control.Name == newName)
+                    if (control != focusedControl)
                     {
                         MessageBox.Show("A control with this name already exists!");
                         invalidName = true;
@@ -533,6 +521,14 @@ namespace OSHVisualGui
         private void addTabPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TabPage tabPage = new TabPage();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(GuiControls.Form));
+            TextWriter textWriter = new StreamWriter(@"C:\gui.xml");
+            serializer.Serialize(textWriter, form);
+            textWriter.Close();
         }
     }
 }
