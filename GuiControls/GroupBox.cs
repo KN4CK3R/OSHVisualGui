@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
-    class GroupBox : Panel
+    class GroupBox : ContainerControl
     {
         #region Properties
         private Label label = new Label();
@@ -22,6 +23,8 @@ namespace OSHVisualGui.GuiControls
 
         public GroupBox()
         {
+            Size = new Size(200, 200);
+
             label.Location = new Point(5, -1);
             label.isSubControl = true;
             AddSubControl(label);
@@ -133,7 +136,7 @@ namespace OSHVisualGui.GuiControls
             if (Controls.Count > 0)
             {
                 code.AppendLine("");
-                foreach (Control control in Controls)
+                foreach (Control control in Controls.FastReverse())
                 {
                     code.Append(control.ToCPlusPlusString(linePrefix));
                     code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");
@@ -141,6 +144,21 @@ namespace OSHVisualGui.GuiControls
             }
 
             return code.ToString();
+        }
+
+        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+            element.Attributes.Append(document.CreateValueAttribute("text", Text));
+            foreach (Control control in Controls.FastReverse())
+            {
+                control.AddToXmlElement(document, element);
+            }
+        }
+
+        public override Control XmlElementToControl(XmlElement element)
+        {
+            throw new NotImplementedException();
         }
     }
 }

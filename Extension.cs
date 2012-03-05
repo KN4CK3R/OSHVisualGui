@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace OSHVisualGui
 {
@@ -78,6 +79,68 @@ namespace OSHVisualGui
             comboBox.Items.Insert(index, comboBox.Items[index]);
             comboBox.Items.RemoveAt(index + 1);
             comboBox.SelectedIndex = selection;
+        }
+
+        public static XmlAttribute CreateValueAttribute(this XmlDocument document, string name, string value)
+        {
+            XmlAttribute attribute = document.CreateAttribute(name);
+            attribute.Value = value;
+            return attribute;
+        }
+
+        public static Point Parse(this Point point, string value)
+        {
+            int x;
+            int y;
+            string[] values = value.Split(',');
+            if (values.Length != 2 || !int.TryParse(values[0], out x) || !int.TryParse(values[1], out y))
+            {
+                throw new Exception("ParseError: Point '" + value + "'");
+            }
+            return new Point(x, y);
+        }
+
+        public static Size Parse(this Size point, string value)
+        {
+            int w;
+            int h;
+            string[] values = value.Split(',');
+            if (values.Length != 2 || !int.TryParse(values[0], out w) || !int.TryParse(values[1], out h))
+            {
+                throw new Exception("ParseError: Size '" + value + "'");
+            }
+            return new Size(w, h);
+        }
+
+        public static Font Parse(this Font font, string value)
+        {
+            int size;
+            bool bold;
+            bool italic;
+            bool underline;
+            string[] values = value.Split(',');
+            if (values.Length != 5 || !int.TryParse(values[1], out size) || !bool.TryParse(values[2], out bold) || !bool.TryParse(values[3], out italic) || !bool.TryParse(values[4], out underline))
+            {
+                throw new Exception("ParseError: Font '" + value + "'");
+            }
+            FontStyle style = FontStyle.Regular;
+            if (bold)
+                style |= FontStyle.Bold;
+            if (italic)
+                style |= FontStyle.Italic;
+            if (underline)
+                style |= FontStyle.Underline;
+            return new Font(values[0], size, style);
+        }
+
+        public static Color Parse(this Color color, string value)
+        {
+            int col;
+            if (int.TryParse(value, out col))
+            {
+                throw new Exception("ParseError: Color '" + value + "'");
+            }
+            return Color.FromArgb(col);
         }
     }
 }

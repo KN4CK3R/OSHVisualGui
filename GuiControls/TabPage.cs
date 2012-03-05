@@ -105,7 +105,7 @@ namespace OSHVisualGui.GuiControls
             if (Controls.Count > 0)
             {
                 code.AppendLine("");
-                foreach (Control control in Controls)
+                foreach (Control control in Controls.FastReverse())
                 {
                     code.Append(control.ToCPlusPlusString(linePrefix));
                     code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");

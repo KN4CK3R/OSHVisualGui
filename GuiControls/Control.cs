@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -27,10 +28,9 @@ namespace OSHVisualGui.GuiControls
         TrackBar
     }
 
-    [Serializable]
-    public abstract class Control : IComparable<Control>
+    public abstract class Control
     {
-        internal virtual string DefaultName { get { return string.Empty; } }
+        internal virtual string DefaultName { get { return "form"; } }
         protected string name;
         public string Name { get { return name; } set { name = value; } }
         protected bool enabled;
@@ -133,10 +133,65 @@ namespace OSHVisualGui.GuiControls
         }
 
         public abstract string ToCPlusPlusString(string linePrefix);
-
-        public int CompareTo(Control control)
+        public void AddToXmlElement(XmlDocument document, XmlElement element)
         {
-            return _zOrder.CompareTo(control._zOrder);
+            XmlElement control = document.CreateElement(DefaultName);
+            WriteToXmlElement(document, control);
+            element.AppendChild(control);
+        }
+        protected virtual void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            element.Attributes.Append(document.CreateValueAttribute("name", name));
+            element.Attributes.Append(document.CreateValueAttribute("enabled", enabled.ToString().ToLower()));
+            element.Attributes.Append(document.CreateValueAttribute("visible", visible.ToString().ToLower()));
+            element.Attributes.Append(document.CreateValueAttribute("location", location.X + "," + location.Y));
+            element.Attributes.Append(document.CreateValueAttribute("size", size.Width + "," + size.Height));
+            element.Attributes.Append(document.CreateValueAttribute("autoSize", autoSize.ToString().ToLower()));
+            element.Attributes.Append(document.CreateValueAttribute("font", font.Name + "," + font.Size + "," + font.Bold.ToString().ToLower() + "," + font.Italic.ToString().ToLower() + "," + font.Underline.ToString().ToLower()));
+            element.Attributes.Append(document.CreateValueAttribute("foreColor", foreColor.ToArgb().ToString("X")));
+            element.Attributes.Append(document.CreateValueAttribute("backColor", backColor.ToArgb().ToString("X")));
+        }
+
+        public abstract Control XmlElementToControl(XmlElement element);
+        protected virtual void ReadFromXml(XmlElement element, Control control)
+        {
+            XmlAttributeCollection att = element.Attributes;
+            if (att["name"] != null)
+                control.Name = att["name"].Value.Trim();
+            else
+                throw new XmlException("Missing attribute 'name': " + element.Name);
+            if (att["enabled"] != null)
+                control.Enabled = att["enabled"].Value.Trim().ToLower() == "true";
+            else
+                throw new XmlException("Missing attribute 'enabled': " + element.Name);
+            if (att["visible"] != null)
+                control.Visible = bool.Parse(att["visible"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'visible': " + element.Name);
+            if (att["location"] != null)
+                control.Location = control.location.Parse(att["location"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'location': " + element.Name);
+            if (att["size"] != null)
+                control.Size = control.size.Parse(att["size"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'size': " + element.Name);
+            if (att["autoSize"] != null)
+                control.AutoSize = bool.Parse(att["autoSize"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'autoSize': " + element.Name);
+            if (att["font"] != null)
+                control.Font = control.font.Parse(att["font"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'font': " + element.Name);
+            if (att["foreColor"] != null)
+                control.ForeColor = control.foreColor.Parse(att["foreColor"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'foreColor': " + element.Name);
+            if (att["backColor"] != null)
+                control.BackColor = control.backColor.Parse(att["backColor"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'backColor': " + element.Name);
         }
 
         internal virtual void OnControlAdded()

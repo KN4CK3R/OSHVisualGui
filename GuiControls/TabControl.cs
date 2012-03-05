@@ -33,6 +33,21 @@ namespace OSHVisualGui.GuiControls
                 selected.button.Active = true;
                 selected.tabPage.Location = new Point(0, selected.button.Size.Height);
 
+                int width = 0;
+                startIndex = 0;
+                for (int i = 0; i < tabPageButtonBindings.Count; ++i)
+                {
+                    if (width + tabPageButtonBindings[i].button.Size.Width > Size.Width)
+                    {
+                        ++startIndex;
+                    }
+                    width += tabPageButtonBindings[i].button.Size.Width;
+                    if (i == value)
+                    {
+                        break;
+                    }
+                }
+
                 CalculateButtonLocationAndCount();
             }
         } }
@@ -69,7 +84,7 @@ namespace OSHVisualGui.GuiControls
             nextSwitchButton = new TabControlSwitchButton(1);
             AddSubControl(nextSwitchButton);
 
-            Size = new Size(200, 100);
+            Size = new Size(200, 200);
 
             BackColor = Color.FromArgb(unchecked((int)0xFF737373));
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
@@ -150,6 +165,8 @@ namespace OSHVisualGui.GuiControls
             tabPageButtonBindings.Add(newBinding);
 
             CalculateButtonLocationAndCount();
+
+            SelectedTabPage = tabPageButtonBindings.Count - 1;
         }
 
         public void RemoveTabPage(TabPage tabPage)
@@ -189,6 +206,11 @@ namespace OSHVisualGui.GuiControls
             }
 
             CalculateButtonLocationAndCount();
+
+            if (tabPageButtonBindings.Count > 0)
+            {
+                SelectedTabPage = 0;
+            }
         }
 
         private void CalculateButtonLocationAndCount()
@@ -320,6 +342,16 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
+        protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+        }
+
+        public override Control XmlElementToControl(System.Xml.XmlElement element)
+        {
+            throw new NotImplementedException();
+        }
+
         internal virtual void OnControlAdded()
         {
             base.OnControlAdded();
@@ -386,6 +418,16 @@ namespace OSHVisualGui.GuiControls
             {
                 throw new NotImplementedException();
             }
+
+            protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
+            {
+                base.WriteToXmlElement(document, element);
+            }
+
+            public override Control XmlElementToControl(System.Xml.XmlElement element)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         internal class TabControlSwitchButton : Control
@@ -437,6 +479,16 @@ namespace OSHVisualGui.GuiControls
             }
 
             public override string ToCPlusPlusString(string linePrefix)
+            {
+                throw new NotImplementedException();
+            }
+
+            protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
+            {
+                base.WriteToXmlElement(document, element);
+            }
+
+            public override Control XmlElementToControl(System.Xml.XmlElement element)
             {
                 throw new NotImplementedException();
             }

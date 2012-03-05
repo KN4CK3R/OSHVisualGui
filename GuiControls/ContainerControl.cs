@@ -69,7 +69,7 @@ namespace OSHVisualGui.GuiControls
 
         int DepthSort(Control c1, Control c2)
         {
-            return -(c1.CompareTo(c2));
+            return -(c1.zOrder.CompareTo(c2.zOrder));
         }
 
         public void SendToFront(Control control)

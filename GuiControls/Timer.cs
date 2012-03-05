@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -71,6 +72,39 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine(linePrefix + name + "->SetEnabled(true);");
             }
             return code.ToString();
+        }
+
+        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            element.Attributes.Append(document.CreateValueAttribute("name", Name));
+            element.Attributes.Append(document.CreateValueAttribute("location", location.X + "," + location.Y));
+            element.Attributes.Append(document.CreateValueAttribute("enabled", Enabled.ToString().ToLower()));
+            element.Attributes.Append(document.CreateValueAttribute("interval", Interval.ToString()));
+        }
+
+        public override Control XmlElementToControl(XmlElement element)
+        {
+            Timer timer = new Timer(icon);
+            ReadFromXml(element, timer);
+            return timer;
+        }
+        protected override void ReadFromXml(XmlElement element, Control control)
+        {
+            Timer timer = control as Timer;
+            if (element.Attributes["name"] != null)
+                timer.Name = element.Attributes["name"].Value.Trim();
+            else
+                throw new XmlException("Missing attribute 'name': " + element.Name);
+            if (element.Attributes["location"] != null)
+                timer.Location = timer.location.Parse(element.Attributes["location"].Value.Trim());
+            if (element.Attributes["enabled"] != null)
+                timer.Enabled = bool.Parse(element.Attributes["enabled"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'enabled': " + element.Name);
+            if (element.Attributes["interval"] != null)
+                timer.Interval = long.Parse(element.Attributes["interval"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'interval': " + element.Name);
         }
     }
 }

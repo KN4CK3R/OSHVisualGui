@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -116,6 +117,29 @@ namespace OSHVisualGui.GuiControls
             }
             code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + Text.Replace("\"", "\\\"") + "\"));");
             return code.ToString();
+        }
+
+        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+            element.Attributes.Append(document.CreateValueAttribute("text", Text));
+        }
+
+        public override Control XmlElementToControl(XmlElement element)
+        {
+            Button button = new Button();
+            ReadFromXml(element, button);
+            return button;
+        }
+        protected override void ReadFromXml(XmlElement element, Control control)
+        {
+            base.ReadFromXml(element, control);
+
+            Button button = control as Button;
+            if (element.Attributes["text"] != null)
+                button.Text = element.Attributes["text"].Value.Trim();
+            else
+                throw new XmlException("Missing attribute 'text': " + element.Name);
         }
     }
 }

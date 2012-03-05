@@ -8,8 +8,6 @@ namespace OSHVisualGui
     public class ControlManager
     {
         private static ControlManager instance = new ControlManager();
-        private Form form;
-        public Form Form { set { form = value; } }
         private List<Control> controls;
         public List<Control> Controls { get { return controls; } }
 
@@ -23,44 +21,60 @@ namespace OSHVisualGui
             return instance;
         }
 
-        public bool AddControl(Control control)
-        {
-            if (control == null || controls.Contains(control))
-            {
-                return false;
-            }
-
-            controls.Add(control);
-
-            return true;
-        }
-
-        public bool RemoveControl(Control control)
+        public void AddControl(Control control)
         {
             if (control == null)
             {
-                return false;
+                throw new ArgumentNullException("control");
+            }
+
+            if (controls.Contains(control))
+            {
+                throw new ArgumentException("Control already exists.");
+            }
+
+            foreach (var c in controls)
+            {
+                if (control.Name == c.Name)
+                {
+                    throw new Exception("A control with name '" + control.Name + "' already exists.");
+                }
+            }
+
+            controls.Add(control);
+            controls.Sort(delegate(Control c1, Control c2)
+            {
+                return c1.Name.CompareTo(c2.Name);
+            });
+        }
+
+        public void RemoveControl(Control control)
+        {
+            if (control == null)
+            {
+                throw new ArgumentNullException("control");
             }
 
             if (controls.Contains(control))
             {
                 controls.Remove(control);
-
-                return true;
             }
-
-            return false;
+            else
+            {
+                throw new ArgumentException("Control does not exist.");
+            }
         }
 
-        public IEnumerable<Control> FindByName(string name)
+        public Control FindByName(string name, Control skip)
         {
             foreach (Control control in controls)
             {
-                if (control.Name == name)
+                if (skip != control && control.Name == name)
                 {
-                    yield return control;
+                    return control;
                 }
             }
+            return null;
         }
 
         public int GetControlCount(Type controlType)

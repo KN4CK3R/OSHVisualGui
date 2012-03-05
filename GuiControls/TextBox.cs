@@ -94,5 +94,15 @@ namespace OSHVisualGui.GuiControls
             }
             return code.ToString();
         }
+
+        protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+        }
+
+        public override Control XmlElementToControl(System.Xml.XmlElement element)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

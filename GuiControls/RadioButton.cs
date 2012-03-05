@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -10,10 +11,10 @@ namespace OSHVisualGui.GuiControls
     {
         #region Properties
         internal override string DefaultName { get { return "radioButton"; } }
-        public override bool Checked { get { return base.checked_; }
+        public override bool Checked { get { return base._checked; }
             set
             {
-                if (checked_ != value)
+                if (_checked != value)
                 {
                     if (parent != null)
                     {
@@ -21,11 +22,11 @@ namespace OSHVisualGui.GuiControls
                         {
                             if (control is RadioButton)
                             {
-                                (control as RadioButton).checked_ = false;
+                                (control as RadioButton)._checked = false;
                             }
                         }
                     }
-                    checked_ = value;
+                    _checked = value;
                 }
             }
         }
@@ -41,7 +42,7 @@ namespace OSHVisualGui.GuiControls
             temp = new LinearGradientBrush(rect, backColor, backColor.Add(Color.FromArgb(0, 55, 55, 55)), LinearGradientMode.Vertical);
             graphics.FillRectangle(temp, rect);
 
-            if (checked_)
+            if (_checked)
             {
                 rect = new Rectangle(absoluteLocation.X + 5, absoluteLocation.Y + 5, 7, 7);
                 temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
@@ -94,7 +95,39 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
             code.AppendLine(linePrefix + name + "->SetText(\"" + Text.Replace("\"", "\\\"") + "\");");
+            if (_checked)
+            {
+                code.AppendLine(linePrefix + name + "->SetChecked(true);");
+            }
             return code.ToString();
+        }
+
+        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+            element.Attributes.Append(document.CreateValueAttribute("text", Text));
+            element.Attributes.Append(document.CreateValueAttribute("checked", Checked.ToString().ToLower()));
+        }
+
+        public override Control XmlElementToControl(XmlElement element)
+        {
+            RadioButton radioButton = new RadioButton();
+            ReadFromXml(element, radioButton);
+            return radioButton;
+        }
+        protected override void ReadFromXml(XmlElement element, Control control)
+        {
+            base.ReadFromXml(element, control);
+
+            RadioButton radioButton = control as RadioButton;
+            if (element.Attributes["text"] != null)
+                radioButton.Text = element.Attributes["text"].Value.Trim();
+            else
+                throw new XmlException("Missing attribute 'text': " + element.Name);
+            if (element.Attributes["text"] != null)
+                radioButton.Checked = bool.Parse(element.Attributes["checked"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'checked': " + element.Name);
         }
     }
 }

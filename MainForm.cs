@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -40,7 +41,6 @@ namespace OSHVisualGui
             allControlsGroup.Items.Add(new ToolboxItem("ProgressBar", 11, GuiControls.ControlType.ProgressBar));
             allControlsGroup.Items.Add(new ToolboxItem("RadioButton", 12, GuiControls.ControlType.RadioButton));
             allControlsGroup.Items.Add(new ToolboxItem("TabControl", 13, GuiControls.ControlType.TabControl));
-            allControlsGroup.Items.Add(new ToolboxItem("TabPage", 13, GuiControls.ControlType.TabPage));
             allControlsGroup.Items.Add(new ToolboxItem("TextBox", 14, GuiControls.ControlType.TextBox));
             allControlsGroup.Items.Add(new ToolboxItem("Timer", 15, GuiControls.ControlType.Timer));
             allControlsGroup.Items.Add(new ToolboxItem("TrackBar", 16, GuiControls.ControlType.TrackBar));
@@ -57,29 +57,39 @@ namespace OSHVisualGui
             form = new GuiControls.Form();
             form.Text = form.Name = "Form1";
             AddControlToList(form);
-
-            ControlManager.Instance().Form = form;
         }
 
         private void AddControlToList(GuiControls.Control control)
         {
-            if (ControlManager.Instance().AddControl(control))
+            try
             {
+                ControlManager.Instance().AddControl(control);
+
                 controlComboBox.Items.Add(control);
                 controlComboBox.SelectedItem = control;
 
                 canvasPictureBox.Invalidate();
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void RemoveControlFromList(GuiControls.Control control)
         {
-            if (ControlManager.Instance().RemoveControl(control))
+            try
             {
+                ControlManager.Instance().RemoveControl(control);
+
                 controlComboBox.Items.Remove(control);
                 controlComboBox.SelectedIndex = 0;
 
                 canvasPictureBox.Invalidate();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -196,13 +206,22 @@ namespace OSHVisualGui
                 return;
             }
 
-            if (focusedControl != null)
+            GuiControls.Control control = controlComboBox.SelectedItem as GuiControls.Control;
+            if (!control.isSubControl)
             {
-                focusedControl.isFocused = false;
+                if (focusedControl != null)
+                {
+                    focusedControl.isFocused = false;
+                }
+                focusedControl = control;
+                focusedControl.isFocused = true;
+
+                controlPropertyGrid.SelectedObject = controlComboBox.SelectedItem;
             }
-            focusedControl = controlComboBox.SelectedItem as GuiControls.Control;
-            focusedControl.isFocused = true;
-            controlPropertyGrid.SelectedObject = controlComboBox.SelectedItem;
+            else
+            {
+                controlComboBox.SelectedItem = control.RealParent;
+            }
 
             canvasPictureBox.Invalidate();
             canvasPictureBox.Focus();
@@ -220,14 +239,10 @@ namespace OSHVisualGui
                     MessageBox.Show("'" + newName + "' isn't a valid name!");
                     invalidName = true;
                 }
-                foreach (GuiControls.Control control in ControlManager.Instance().FindByName(newName))
+                if (ControlManager.Instance().FindByName(newName, focusedControl) != null)
                 {
-                    if (control != focusedControl)
-                    {
-                        MessageBox.Show("A control with this name already exists!");
-                        invalidName = true;
-                        break;
-                    }
+                    MessageBox.Show("A control with this name already exists!");
+                    invalidName = true;
                 }
                 if (invalidName)
                 {
@@ -520,15 +535,21 @@ namespace OSHVisualGui
 
         private void addTabPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TabPage tabPage = new TabPage();
+            GuiControls.TabPage tempTabPage = new GuiControls.TabPage();
+            tempTabPage.Text = tempTabPage.Name = "tabPage" + ControlManager.Instance().GetControlCount(typeof(GuiControls.TabPage));
+            (focusedControl as GuiControls.TabControl).AddTabPage(tempTabPage);
+            AddControlToList(tempTabPage);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(GuiControls.Form));
-            TextWriter textWriter = new StreamWriter(@"C:\gui.xml");
-            serializer.Serialize(textWriter, form);
-            textWriter.Close();
+            XmlSerializer ser = new XmlSerializer(typeof(GuiControls.Control));
+
+            XmlDocument document = new XmlDocument();
+            XmlElement root = document.CreateElement("OSHGui");
+            document.AppendChild(root);
+            form.AddToXmlElement(document, root);
+            document.Save("C:\\gui.xml");
         }
     }
 }

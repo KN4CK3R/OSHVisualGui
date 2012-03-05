@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -127,6 +128,44 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine(linePrefix + name + "->SetValue(" + value + "));");
             }
             return code.ToString();
+        }
+
+        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+            element.Attributes.Append(document.CreateValueAttribute("tickFrequency", tickFrequency.ToString()));
+            element.Attributes.Append(document.CreateValueAttribute("minimum", minimum.ToString()));
+            element.Attributes.Append(document.CreateValueAttribute("maximum", maximum.ToString()));
+            element.Attributes.Append(document.CreateValueAttribute("value", value.ToString()));
+        }
+
+        public override Control XmlElementToControl(XmlElement element)
+        {
+            TrackBar trackBar = new TrackBar();
+            ReadFromXml(element, trackBar);
+            return trackBar;
+        }
+        protected override void ReadFromXml(XmlElement element, Control control)
+        {
+            base.ReadFromXml(element, control);
+
+            TrackBar trackBar = control as TrackBar;
+            if (element.Attributes["tickFrequency"] != null)
+                trackBar.TickFrequency = int.Parse(element.Attributes["textickFrequencyt"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'tickFrequency': " + element.Name);
+            if (element.Attributes["minimum"] != null)
+                trackBar.Minimum = int.Parse(element.Attributes["minimum"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'minimum': " + element.Name);
+            if (element.Attributes["maximum"] != null)
+                trackBar.Maximum = int.Parse(element.Attributes["maximum"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'maximum': " + element.Name);
+            if (element.Attributes["value"] != null)
+                trackBar.Value = int.Parse(element.Attributes["value"].Value.Trim());
+            else
+                throw new XmlException("Missing attribute 'value': " + element.Name);
         }
     }
 }

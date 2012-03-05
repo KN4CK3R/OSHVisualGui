@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
-    [Serializable]
     public class Form : ContainerControl
     {
         private Panel panel;
@@ -123,17 +123,17 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine(string.Empty);
                 foreach (Control control in Controls.FastReverse())
                 {
-                    if (control != this)
-                    {
-                        code.Append(control.ToCPlusPlusString("\t\t"));
-                        code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
-                    }
+                    code.Append(control.ToCPlusPlusString("\t\t"));
+                    code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
                 }
                 code.Length -= 2;
                 code.AppendLine("\t}\r\n");
-                foreach (Control control in PreOrderVisit())
+                foreach (Control control in ControlManager.Instance().Controls)
                 {
-                    code.AppendLine("\tOSHGui::" + control.GetType().Name + " *" + control.Name + ";");
+                    if (control != this)
+                    {
+                        code.AppendLine("\tOSHGui::" + control.GetType().Name + " *" + control.Name + ";");
+                    }
                 }
             }
             else
@@ -159,6 +159,30 @@ namespace OSHVisualGui.GuiControls
         public override string ToCPlusPlusString(string linePrefix)
         {
             throw new Exception("Call GenerateCode");
+        }
+
+        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+            foreach (Control control in Controls.FastReverse())
+            {
+                control.AddToXmlElement(document, element);
+            }
+        }
+
+        public override Control XmlElementToControl(XmlElement element)
+        {
+            throw new NotImplementedException();
+        }
+        protected override void ReadFromXml(XmlElement element, Control control)
+        {
+            base.ReadFromXml(element, control);
+
+            Form form = control as Form;
+            if (element.Attributes["text"] != null)
+                form.Text = element.Attributes["text"].Value.Trim();
+            else
+                throw new XmlException("Missing attribute 'text': " + element.Name);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -86,6 +87,29 @@ namespace OSHVisualGui.GuiControls
             }
             code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
             return code.ToString();
+        }
+
+        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        {
+            base.WriteToXmlElement(document, element);
+            element.Attributes.Append(document.CreateValueAttribute("text", text));
+        }
+
+        public override Control XmlElementToControl(XmlElement element)
+        {
+            Label label = new Label();
+            ReadFromXml(element, label);
+            return label;
+        }
+        protected override void ReadFromXml(XmlElement element, Control control)
+        {
+            base.ReadFromXml(element, control);
+
+            Label label = control as Label;
+            if (element.Attributes["text"] != null)
+                label.Text = element.Attributes["text"].Value.Trim();
+            else
+                throw new XmlException("Missing attribute 'text': " + element.Name);
         }
     }
 }
