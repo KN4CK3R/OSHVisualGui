@@ -48,9 +48,9 @@ namespace OSHVisualGui
             controlToolbox.Groups.Add(allControlsGroup.Caption, allControlsGroup);
 
             controlToolbox.MouseLeave += new DelayedEventHandler(300, delegate(object sender, EventArgs e)
-                {
-                    controlToolbox.Visible = false;
-                }).OnDelay;
+            {
+                controlToolbox.Visible = false;
+            }).OnDelay;
 
             canvasPictureBox.AllowDrop = true;
 
@@ -541,15 +541,18 @@ namespace OSHVisualGui
             AddControlToList(tempTabPage);
         }
 
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ControlSerializer ser = new ControlSerializer();
+            ser.Load("C:\\gui.xml");
+            form = ser.Deserialize() as GuiControls.Form;
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            XmlSerializer ser = new XmlSerializer(typeof(GuiControls.Control));
-
-            XmlDocument document = new XmlDocument();
-            XmlElement root = document.CreateElement("OSHGui");
-            document.AppendChild(root);
-            form.AddToXmlElement(document, root);
-            document.Save("C:\\gui.xml");
+            ControlSerializer ser = new ControlSerializer();
+            ser.Serialize(form);
+            ser.Save("C:\\gui.xml");
         }
     }
 }

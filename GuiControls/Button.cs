@@ -125,19 +125,12 @@ namespace OSHVisualGui.GuiControls
             element.Attributes.Append(document.CreateValueAttribute("text", Text));
         }
 
-        public override Control XmlElementToControl(XmlElement element)
+        public override void ReadPropertiesFromXml(XmlElement element)
         {
-            Button button = new Button();
-            ReadFromXml(element, button);
-            return button;
-        }
-        protected override void ReadFromXml(XmlElement element, Control control)
-        {
-            base.ReadFromXml(element, control);
+            base.ReadPropertiesFromXml(element);
 
-            Button button = control as Button;
             if (element.Attributes["text"] != null)
-                button.Text = element.Attributes["text"].Value.Trim();
+                Text = element.Attributes["text"].Value.Trim();
             else
                 throw new XmlException("Missing attribute 'text': " + element.Name);
         }

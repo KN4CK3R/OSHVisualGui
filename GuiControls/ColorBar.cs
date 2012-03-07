@@ -135,10 +135,5 @@ namespace OSHVisualGui.GuiControls
         {
             base.WriteToXmlElement(document, element);
         }
-
-        public override Control XmlElementToControl(System.Xml.XmlElement element)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -60,9 +60,13 @@ namespace OSHVisualGui.GuiControls
             lastSwitchButton.Location = new Point(Size.Width - 9, 0);
             nextSwitchButton.Location = new Point(Size.Width - 9, 9 + 1);
 
-            if (selected != null && selected.tabPage != null)
+            if (selected != null)
             {
-                selected.tabPage.Size = size.Substract(new Size(0, selected.button.Size.Height));
+                Size tabPageSize = size.Substract(new Size(0, selected.button.Size.Height));
+                foreach (var binding in tabPageButtonBindings)
+                {
+                    binding.tabPage.Size = tabPageSize;
+                }
             }
         } }
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; foreach (var binding in tabPageButtonBindings) { binding.button.ForeColor = value; binding.tabPage.ForeColor = value; } lastSwitchButton.ForeColor = value; nextSwitchButton.ForeColor = value; } }
@@ -347,11 +351,6 @@ namespace OSHVisualGui.GuiControls
             base.WriteToXmlElement(document, element);
         }
 
-        public override Control XmlElementToControl(System.Xml.XmlElement element)
-        {
-            throw new NotImplementedException();
-        }
-
         internal virtual void OnControlAdded()
         {
             base.OnControlAdded();
@@ -423,11 +422,6 @@ namespace OSHVisualGui.GuiControls
             {
                 base.WriteToXmlElement(document, element);
             }
-
-            public override Control XmlElementToControl(System.Xml.XmlElement element)
-            {
-                throw new NotImplementedException();
-            }
         }
 
         internal class TabControlSwitchButton : Control
@@ -486,11 +480,6 @@ namespace OSHVisualGui.GuiControls
             protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
             {
                 base.WriteToXmlElement(document, element);
-            }
-
-            public override Control XmlElementToControl(System.Xml.XmlElement element)
-            {
-                throw new NotImplementedException();
             }
         }
         #endregion

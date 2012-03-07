@@ -54,6 +54,7 @@
             this.addTabPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconImageList = new System.Windows.Forms.ImageList(this.components);
             this.controlToolbox = new OSHVisualGui.Toolbox.Toolbox();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
             this.controlContextMenuStrip.SuspendLayout();
@@ -97,6 +98,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
+            this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.toolStripSeparator2,
             this.generateCCodeToolStripMenuItem,
@@ -110,7 +112,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.newToolStripMenuItem.Text = "New...";
+            this.newToolStripMenuItem.Text = "New";
             // 
             // saveToolStripMenuItem
             // 
@@ -294,6 +296,13 @@
             this.controlToolbox.TabIndex = 8;
             this.controlToolbox.Visible = false;
             // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.loadToolStripMenuItem.Text = "Load...";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,6 +356,7 @@
         private System.Windows.Forms.ToolStripSeparator sendToToolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem sendToFrontToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sendToBackToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
     }
 }
 

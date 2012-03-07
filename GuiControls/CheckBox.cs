@@ -135,23 +135,16 @@ namespace OSHVisualGui.GuiControls
             element.Attributes.Append(document.CreateValueAttribute("checked", Checked.ToString().ToLower()));
         }
 
-        public override Control XmlElementToControl(XmlElement element)
+        public override void ReadPropertiesFromXml(XmlElement element)
         {
-            CheckBox checkBox = new CheckBox();
-            ReadFromXml(element, checkBox);
-            return checkBox;
-        }
-        protected override void ReadFromXml(XmlElement element, Control control)
-        {
-            base.ReadFromXml(element, control);
+            base.ReadPropertiesFromXml(element);
 
-            CheckBox checkBox = control as CheckBox;
             if (element.Attributes["text"] != null)
-                checkBox.Text = element.Attributes["text"].Value.Trim();
+                Text = element.Attributes["text"].Value.Trim();
             else
                 throw new XmlException("Missing attribute 'text': " + element.Name);
             if (element.Attributes["text"] != null)
-                checkBox.Checked = bool.Parse(element.Attributes["checked"].Value.Trim());
+                Checked = bool.Parse(element.Attributes["checked"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'checked': " + element.Name);
         }

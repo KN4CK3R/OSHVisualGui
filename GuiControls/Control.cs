@@ -152,44 +152,43 @@ namespace OSHVisualGui.GuiControls
             element.Attributes.Append(document.CreateValueAttribute("backColor", backColor.ToArgb().ToString("X")));
         }
 
-        public abstract Control XmlElementToControl(XmlElement element);
-        protected virtual void ReadFromXml(XmlElement element, Control control)
+        public virtual void ReadPropertiesFromXml(XmlElement element)
         {
             XmlAttributeCollection att = element.Attributes;
             if (att["name"] != null)
-                control.Name = att["name"].Value.Trim();
+                Name = att["name"].Value.Trim();
             else
                 throw new XmlException("Missing attribute 'name': " + element.Name);
             if (att["enabled"] != null)
-                control.Enabled = att["enabled"].Value.Trim().ToLower() == "true";
+                Enabled = att["enabled"].Value.Trim().ToLower() == "true";
             else
                 throw new XmlException("Missing attribute 'enabled': " + element.Name);
             if (att["visible"] != null)
-                control.Visible = bool.Parse(att["visible"].Value.Trim());
+                Visible = bool.Parse(att["visible"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'visible': " + element.Name);
             if (att["location"] != null)
-                control.Location = control.location.Parse(att["location"].Value.Trim());
+                Location = location.Parse(att["location"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'location': " + element.Name);
             if (att["size"] != null)
-                control.Size = control.size.Parse(att["size"].Value.Trim());
+                Size = size.Parse(att["size"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'size': " + element.Name);
             if (att["autoSize"] != null)
-                control.AutoSize = bool.Parse(att["autoSize"].Value.Trim());
+                AutoSize = bool.Parse(att["autoSize"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'autoSize': " + element.Name);
             if (att["font"] != null)
-                control.Font = control.font.Parse(att["font"].Value.Trim());
+                Font = font.Parse(att["font"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'font': " + element.Name);
             if (att["foreColor"] != null)
-                control.ForeColor = control.foreColor.Parse(att["foreColor"].Value.Trim());
+                ForeColor = foreColor.Parse(att["foreColor"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'foreColor': " + element.Name);
             if (att["backColor"] != null)
-                control.BackColor = control.backColor.Parse(att["backColor"].Value.Trim());
+                BackColor = backColor.Parse(att["backColor"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'backColor': " + element.Name);
         }

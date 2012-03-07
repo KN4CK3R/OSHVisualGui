@@ -108,26 +108,5 @@ namespace OSHVisualGui.GuiControls
             element.Attributes.Append(document.CreateValueAttribute("text", Text));
             element.Attributes.Append(document.CreateValueAttribute("checked", Checked.ToString().ToLower()));
         }
-
-        public override Control XmlElementToControl(XmlElement element)
-        {
-            RadioButton radioButton = new RadioButton();
-            ReadFromXml(element, radioButton);
-            return radioButton;
-        }
-        protected override void ReadFromXml(XmlElement element, Control control)
-        {
-            base.ReadFromXml(element, control);
-
-            RadioButton radioButton = control as RadioButton;
-            if (element.Attributes["text"] != null)
-                radioButton.Text = element.Attributes["text"].Value.Trim();
-            else
-                throw new XmlException("Missing attribute 'text': " + element.Name);
-            if (element.Attributes["text"] != null)
-                radioButton.Checked = bool.Parse(element.Attributes["checked"].Value.Trim());
-            else
-                throw new XmlException("Missing attribute 'checked': " + element.Name);
-        }
     }
 }

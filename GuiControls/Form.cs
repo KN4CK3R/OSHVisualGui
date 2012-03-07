@@ -164,23 +164,21 @@ namespace OSHVisualGui.GuiControls
         protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
         {
             base.WriteToXmlElement(document, element);
+
+            element.Attributes.Append(document.CreateValueAttribute("text", Text));
+
             foreach (Control control in Controls.FastReverse())
             {
                 control.AddToXmlElement(document, element);
             }
         }
 
-        public override Control XmlElementToControl(XmlElement element)
+        public override void ReadPropertiesFromXml(XmlElement element)
         {
-            throw new NotImplementedException();
-        }
-        protected override void ReadFromXml(XmlElement element, Control control)
-        {
-            base.ReadFromXml(element, control);
+            base.ReadPropertiesFromXml(element);
 
-            Form form = control as Form;
             if (element.Attributes["text"] != null)
-                form.Text = element.Attributes["text"].Value.Trim();
+                Text = element.Attributes["text"].Value.Trim();
             else
                 throw new XmlException("Missing attribute 'text': " + element.Name);
         }

@@ -11,12 +11,22 @@ namespace OSHVisualGui
     {
         public static Color Add(this Color color, Color color2)
         {
-            return Color.FromArgb(color.A + color2.A, color.R + color2.R, color.G + color2.G, color.B + color2.B);
+            int a = Math.Max(color.A + color2.A, 255);
+            int r = Math.Max(color.R + color2.R, 255);
+            int g = Math.Max(color.G + color2.G, 255);
+            int b = Math.Max(color.B + color2.B, 255);
+
+            return Color.FromArgb(a, r, g, b);
         }
 
         public static Color Substract(this Color color, Color color2)
         {
-            return Color.FromArgb(color.A - color2.A, color.R - color2.R, color.G - color2.G, color.B - color2.B);
+            int a = Math.Max(color.A - color2.A, 0);
+            int r = Math.Max(color.R - color2.R, 0);
+            int g = Math.Max(color.G - color2.G, 0);
+            int b = Math.Max(color.B - color2.B, 0);
+
+            return Color.FromArgb(a, r, g, b);
         }
 
         public static Point Add(this Point point, Point point2)
@@ -136,9 +146,16 @@ namespace OSHVisualGui
         public static Color Parse(this Color color, string value)
         {
             int col;
-            if (int.TryParse(value, out col))
+            if (value == "0")
             {
-                throw new Exception("ParseError: Color '" + value + "'");
+                col = 0;
+            }
+            else
+            {
+                if (!int.TryParse(value, System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.CurrentCulture, out col))
+                {
+                    throw new Exception("ParseError: Color '" + value + "'");
+                }
             }
             return Color.FromArgb(col);
         }

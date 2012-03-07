@@ -82,27 +82,20 @@ namespace OSHVisualGui.GuiControls
             element.Attributes.Append(document.CreateValueAttribute("interval", Interval.ToString()));
         }
 
-        public override Control XmlElementToControl(XmlElement element)
+        public override void ReadPropertiesFromXml(XmlElement element)
         {
-            Timer timer = new Timer(icon);
-            ReadFromXml(element, timer);
-            return timer;
-        }
-        protected override void ReadFromXml(XmlElement element, Control control)
-        {
-            Timer timer = control as Timer;
             if (element.Attributes["name"] != null)
-                timer.Name = element.Attributes["name"].Value.Trim();
+                Name = element.Attributes["name"].Value.Trim();
             else
                 throw new XmlException("Missing attribute 'name': " + element.Name);
             if (element.Attributes["location"] != null)
-                timer.Location = timer.location.Parse(element.Attributes["location"].Value.Trim());
+                Location = location.Parse(element.Attributes["location"].Value.Trim());
             if (element.Attributes["enabled"] != null)
-                timer.Enabled = bool.Parse(element.Attributes["enabled"].Value.Trim());
+                Enabled = bool.Parse(element.Attributes["enabled"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'enabled': " + element.Name);
             if (element.Attributes["interval"] != null)
-                timer.Interval = long.Parse(element.Attributes["interval"].Value.Trim());
+                Interval = long.Parse(element.Attributes["interval"].Value.Trim());
             else
                 throw new XmlException("Missing attribute 'interval': " + element.Name);
         }

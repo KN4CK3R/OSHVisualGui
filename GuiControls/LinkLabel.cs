@@ -93,22 +93,5 @@ namespace OSHVisualGui.GuiControls
             base.WriteToXmlElement(document, element);
             element.Attributes.Append(document.CreateValueAttribute("text", Text));
         }
-
-        public override Control XmlElementToControl(XmlElement element)
-        {
-            LinkLabel linkLabel = new LinkLabel();
-            ReadFromXml(element, linkLabel);
-            return linkLabel;
-        }
-        protected override void ReadFromXml(XmlElement element, Control control)
-        {
-            base.ReadFromXml(element, control);
-
-            LinkLabel linkLabel = control as LinkLabel;
-            if (element.Attributes["text"] != null)
-                linkLabel.Text = element.Attributes["text"].Value.Trim();
-            else
-                throw new XmlException("Missing attribute 'text': " + element.Name);
-        }
     }
 }
