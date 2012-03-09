@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -130,35 +130,35 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
-        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        protected override void WriteToXmlElement(XElement element)
         {
-            base.WriteToXmlElement(document, element);
-            element.Attributes.Append(document.CreateValueAttribute("tickFrequency", tickFrequency.ToString()));
-            element.Attributes.Append(document.CreateValueAttribute("minimum", minimum.ToString()));
-            element.Attributes.Append(document.CreateValueAttribute("maximum", maximum.ToString()));
-            element.Attributes.Append(document.CreateValueAttribute("value", value.ToString()));
+            base.WriteToXmlElement(element);
+            element.Add(new XAttribute("tickFrequency", tickFrequency.ToString()));
+            element.Add(new XAttribute("minimum", minimum.ToString()));
+            element.Add(new XAttribute("maximum", maximum.ToString()));
+            element.Add(new XAttribute("value", value.ToString()));
         }
 
-        public override void ReadPropertiesFromXml(XmlElement element)
+        public override void ReadPropertiesFromXml(XElement element)
         {
             base.ReadPropertiesFromXml(element);
 
-            if (element.Attributes["tickFrequency"] != null)
-                TickFrequency = int.Parse(element.Attributes["textickFrequencyt"].Value.Trim());
+            if (element.Attribute("tickFrequency") != null)
+                TickFrequency = int.Parse(element.Attribute("textickFrequencyt").Value.Trim());
             else
-                throw new XmlException("Missing attribute 'tickFrequency': " + element.Name);
-            if (element.Attributes["minimum"] != null)
-                Minimum = int.Parse(element.Attributes["minimum"].Value.Trim());
+                throw new Exception("Missing attribute 'tickFrequency': " + element.Name);
+            if (element.Attribute("minimum") != null)
+                Minimum = int.Parse(element.Attribute("minimum").Value.Trim());
             else
-                throw new XmlException("Missing attribute 'minimum': " + element.Name);
-            if (element.Attributes["maximum"] != null)
-                Maximum = int.Parse(element.Attributes["maximum"].Value.Trim());
+                throw new Exception("Missing attribute 'minimum': " + element.Name);
+            if (element.Attribute("maximum") != null)
+                Maximum = int.Parse(element.Attribute("maximum").Value.Trim());
             else
-                throw new XmlException("Missing attribute 'maximum': " + element.Name);
-            if (element.Attributes["value"] != null)
-                Value = int.Parse(element.Attributes["value"].Value.Trim());
+                throw new Exception("Missing attribute 'maximum': " + element.Name);
+            if (element.Attribute("value") != null)
+                Value = int.Parse(element.Attribute("value").Value.Trim());
             else
-                throw new XmlException("Missing attribute 'value': " + element.Name);
+                throw new Exception("Missing attribute 'value': " + element.Name);
         }
     }
 }

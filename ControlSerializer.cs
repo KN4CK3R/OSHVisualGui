@@ -1,28 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 using OSHVisualGui.GuiControls;
 
 namespace OSHVisualGui
 {
     class ControlSerializer
     {
-        XmlDocument document;
-
-        public ControlSerializer()
-        {
-            document = new XmlDocument();
-        }
+        XElement root;
 
         public void Save(string fileName)
         {
-            document.Save(fileName);
+            root.Save(fileName);
         }
 
         public void Load(string fileName)
         {
-            document.Load(fileName);
+            root = XElement.Load(fileName);
         }
 
         public void Serialize(Control control)
@@ -32,52 +27,60 @@ namespace OSHVisualGui
                 throw new ArgumentNullException("control");
             }
 
-            document.RemoveAll();
+            root = new XElement("OSHGui");
 
-            XmlElement root = document.CreateElement("OSHGui");
-            document.AppendChild(root);
+            Serialize(control, root);
+        }
 
-            control.AddToXmlElement(document, root);
+        private void Serialize(Control control, XElement parent)
+        {
+            XElement element = control.SerializeToXml();
+            if (control is ContainerControl)
+            {
+                ContainerControl container = control as ContainerControl;
+                foreach (var child in container.Controls.FastReverse())
+                {
+                    Serialize(child, element);
+                }
+            }
+            parent.Add(element);
         }
 
         public Control Deserialize()
         {
-            if (document.DocumentElement.Name == "OSHGui")
+            if (root.Name.LocalName == "OSHGui")
             {
-                Form form = new Form();
-                Deserialize(form, (XmlElement)document.DocumentElement.FirstChild);
-                return form;
+                XElement main = root.FirstNode as XElement;
+                if (main != null)
+                {
+                    Control control = GetControlFromXmlElement(main);
+                    Deserialize(control, main);
+                    return control;
+                }
             }
 
             return null;
         }
 
-        private void Deserialize(Control control, XmlElement element)
+        private void Deserialize(Control control, XElement element)
         {
             control.ReadPropertiesFromXml(element);
-            if (element.ChildNodes.Count > 0)
+            if (control is ContainerControl)
             {
-                if (control is ContainerControl)
+                ContainerControl container = control as ContainerControl;
+                foreach (XElement node in element.Nodes())
                 {
-                    ContainerControl container = control as ContainerControl;
-                    foreach (XmlElement child in element.ChildNodes)
-                    {
-                        Control childControl = GetControlFromXmlElement(child);
-                        Deserialize(childControl, child);
-                        container.AddControl(childControl);
-                    }
-                }
-                else
-                {
-                    throw new Exception();
+                    Control child = GetControlFromXmlElement(node);
+                    Deserialize(child, node);
+                    container.AddControl(child);
                 }
             }
         }
 
-        private Control GetControlFromXmlElement(XmlElement element)
+        private Control GetControlFromXmlElement(XElement element)
         {
             Control control = null;
-            switch (element.Name.ToLower())
+            switch (element.Name.LocalName.ToLower())
             {
                 case "button":
                     control = new Button();
@@ -93,6 +96,9 @@ namespace OSHVisualGui
                     break;
                 case "combobox":
                     control = new ComboBox();
+                    break;
+                case "form":
+                    control = new Form();
                     break;
                 case "groupbox":
                     control = new GroupBox();

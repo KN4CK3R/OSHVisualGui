@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -111,13 +111,13 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
-        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        protected override void WriteToXmlElement(XElement element)
         {
-            base.WriteToXmlElement(document, element);
-            foreach (Control control in Controls.FastReverse())
+            base.WriteToXmlElement(element);
+            /*foreach (Control control in Controls.FastReverse())
             {
                 control.AddToXmlElement(document, element);
-            }
+            }*/
         }
     }
 }

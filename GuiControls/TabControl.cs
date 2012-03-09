@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -346,9 +347,9 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
-        protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
+        protected override void WriteToXmlElement(XElement element)
         {
-            base.WriteToXmlElement(document, element);
+            base.WriteToXmlElement(element);
         }
 
         internal virtual void OnControlAdded()
@@ -418,9 +419,9 @@ namespace OSHVisualGui.GuiControls
                 throw new NotImplementedException();
             }
 
-            protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
+            protected override void WriteToXmlElement(XElement element)
             {
-                base.WriteToXmlElement(document, element);
+                base.WriteToXmlElement(element);
             }
         }
 
@@ -477,9 +478,9 @@ namespace OSHVisualGui.GuiControls
                 throw new NotImplementedException();
             }
 
-            protected override void WriteToXmlElement(System.Xml.XmlDocument document, System.Xml.XmlElement element)
+            protected override void WriteToXmlElement(XElement element)
             {
-                base.WriteToXmlElement(document, element);
+                base.WriteToXmlElement(element);
             }
         }
         #endregion

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -146,13 +146,14 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
-        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        protected override void WriteToXmlElement(XElement element)
         {
-            base.WriteToXmlElement(document, element);
-            element.Attributes.Append(document.CreateValueAttribute("text", Text));
+            base.WriteToXmlElement(element);
+            element.Add(new XAttribute("text", Text));
             foreach (Control control in Controls.FastReverse())
             {
-                control.AddToXmlElement(document, element);
+                throw new Exception();
+                //control.AddToXmlElement(document, element);
             }
         }
     }

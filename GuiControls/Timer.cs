@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -74,30 +74,30 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
-        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        protected override void WriteToXmlElement(XElement element)
         {
-            element.Attributes.Append(document.CreateValueAttribute("name", Name));
-            element.Attributes.Append(document.CreateValueAttribute("location", location.X + "," + location.Y));
-            element.Attributes.Append(document.CreateValueAttribute("enabled", Enabled.ToString().ToLower()));
-            element.Attributes.Append(document.CreateValueAttribute("interval", Interval.ToString()));
+            element.Add(new XAttribute("name", Name));
+            element.Add(new XAttribute("location", location.X + "," + location.Y));
+            element.Add(new XAttribute("enabled", Enabled.ToString().ToLower()));
+            element.Add(new XAttribute("interval", Interval.ToString()));
         }
 
-        public override void ReadPropertiesFromXml(XmlElement element)
+        public override void ReadPropertiesFromXml(XElement element)
         {
-            if (element.Attributes["name"] != null)
-                Name = element.Attributes["name"].Value.Trim();
+            if (element.Attribute("name") != null)
+                Name = element.Attribute("name").Value.Trim();
             else
-                throw new XmlException("Missing attribute 'name': " + element.Name);
-            if (element.Attributes["location"] != null)
-                Location = location.Parse(element.Attributes["location"].Value.Trim());
-            if (element.Attributes["enabled"] != null)
-                Enabled = bool.Parse(element.Attributes["enabled"].Value.Trim());
+                throw new Exception("Missing attribute 'name': " + element.Name);
+            if (element.Attribute("location") != null)
+                Location = location.Parse(element.Attribute("location").Value.Trim());
+            if (element.Attribute("enabled") != null)
+                Enabled = bool.Parse(element.Attribute("enabled").Value.Trim());
             else
-                throw new XmlException("Missing attribute 'enabled': " + element.Name);
-            if (element.Attributes["interval"] != null)
-                Interval = long.Parse(element.Attributes["interval"].Value.Trim());
+                throw new Exception("Missing attribute 'enabled': " + element.Name);
+            if (element.Attribute("interval") != null)
+                Interval = long.Parse(element.Attribute("interval").Value.Trim());
             else
-                throw new XmlException("Missing attribute 'interval': " + element.Name);
+                throw new Exception("Missing attribute 'interval': " + element.Name);
         }
     }
 }

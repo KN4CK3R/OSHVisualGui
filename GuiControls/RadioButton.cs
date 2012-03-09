@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -102,11 +102,11 @@ namespace OSHVisualGui.GuiControls
             return code.ToString();
         }
 
-        protected override void WriteToXmlElement(XmlDocument document, XmlElement element)
+        protected override void WriteToXmlElement(XElement element)
         {
-            base.WriteToXmlElement(document, element);
-            element.Attributes.Append(document.CreateValueAttribute("text", Text));
-            element.Attributes.Append(document.CreateValueAttribute("checked", Checked.ToString().ToLower()));
+            base.WriteToXmlElement(element);
+            element.Add(new XAttribute("text", Text));
+            element.Add(new XAttribute("checked", Checked.ToString().ToLower()));
         }
     }
 }
