@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CodeForm));
             this.sourceTabControl = new System.Windows.Forms.TabControl();
             this.hppTabPage = new System.Windows.Forms.TabPage();
+            this.hppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.cppTabPage = new System.Windows.Forms.TabPage();
-            this.hppRichTextBox = new OSHVisualGui.OSHGuiSyntaxRichTextBox();
-            this.cppRichTextBox = new OSHVisualGui.OSHGuiSyntaxRichTextBox();
+            this.cppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.sourceTabControl.SuspendLayout();
             this.hppTabPage.SuspendLayout();
             this.cppTabPage.SuspendLayout();
@@ -54,7 +54,7 @@
             // 
             // hppTabPage
             // 
-            this.hppTabPage.Controls.Add(this.hppRichTextBox);
+            this.hppTabPage.Controls.Add(this.hppFastColoredTextBox);
             this.hppTabPage.Location = new System.Drawing.Point(4, 22);
             this.hppTabPage.Name = "hppTabPage";
             this.hppTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -63,9 +63,25 @@
             this.hppTabPage.Text = ".hpp";
             this.hppTabPage.UseVisualStyleBackColor = true;
             // 
+            // hppFastColoredTextBox
+            // 
+            this.hppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.hppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
+            this.hppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.hppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+            this.hppFastColoredTextBox.LeftBracket = '(';
+            this.hppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
+            this.hppFastColoredTextBox.Name = "hppFastColoredTextBox";
+            this.hppFastColoredTextBox.RightBracket = ')';
+            this.hppFastColoredTextBox.Size = new System.Drawing.Size(465, 397);
+            this.hppFastColoredTextBox.TabIndex = 1;
+            this.hppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.hppFastColoredTextBox_TextChanged);
+            // 
             // cppTabPage
             // 
-            this.cppTabPage.Controls.Add(this.cppRichTextBox);
+            this.cppTabPage.Controls.Add(this.cppFastColoredTextBox);
             this.cppTabPage.Location = new System.Drawing.Point(4, 22);
             this.cppTabPage.Name = "cppTabPage";
             this.cppTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -74,41 +90,20 @@
             this.cppTabPage.Text = ".cpp";
             this.cppTabPage.UseVisualStyleBackColor = true;
             // 
-            // hppRichTextBox
+            // cppFastColoredTextBox
             // 
-            this.hppRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.cppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hppRichTextBox.CommentColor = System.Drawing.Color.Green;
-            this.hppRichTextBox.Comments = ((System.Collections.Generic.List<string>)(resources.GetObject("hppRichTextBox.Comments")));
-            this.hppRichTextBox.KeywordColor = System.Drawing.Color.Blue;
-            this.hppRichTextBox.Keywords = ((System.Collections.Generic.List<string>)(resources.GetObject("hppRichTextBox.Keywords")));
-            this.hppRichTextBox.Location = new System.Drawing.Point(6, 6);
-            this.hppRichTextBox.Name = "hppRichTextBox";
-            this.hppRichTextBox.Size = new System.Drawing.Size(465, 397);
-            this.hppRichTextBox.StringColor = System.Drawing.Color.Red;
-            this.hppRichTextBox.Strings = ((System.Collections.Generic.List<char>)(resources.GetObject("hppRichTextBox.Strings")));
-            this.hppRichTextBox.TabIndex = 0;
-            this.hppRichTextBox.Text = "";
-            this.hppRichTextBox.WordWrap = false;
-            // 
-            // cppRichTextBox
-            // 
-            this.cppRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cppRichTextBox.CommentColor = System.Drawing.Color.Green;
-            this.cppRichTextBox.Comments = ((System.Collections.Generic.List<string>)(resources.GetObject("cppRichTextBox.Comments")));
-            this.cppRichTextBox.KeywordColor = System.Drawing.Color.Blue;
-            this.cppRichTextBox.Keywords = ((System.Collections.Generic.List<string>)(resources.GetObject("cppRichTextBox.Keywords")));
-            this.cppRichTextBox.Location = new System.Drawing.Point(6, 6);
-            this.cppRichTextBox.Name = "cppRichTextBox";
-            this.cppRichTextBox.Size = new System.Drawing.Size(465, 397);
-            this.cppRichTextBox.StringColor = System.Drawing.Color.Red;
-            this.cppRichTextBox.Strings = ((System.Collections.Generic.List<char>)(resources.GetObject("cppRichTextBox.Strings")));
-            this.cppRichTextBox.TabIndex = 1;
-            this.cppRichTextBox.Text = "";
-            this.cppRichTextBox.WordWrap = false;
+            this.cppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
+            this.cppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.cppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+            this.cppFastColoredTextBox.LeftBracket = '(';
+            this.cppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
+            this.cppFastColoredTextBox.Name = "cppFastColoredTextBox";
+            this.cppFastColoredTextBox.RightBracket = ')';
+            this.cppFastColoredTextBox.Size = new System.Drawing.Size(465, 397);
+            this.cppFastColoredTextBox.TabIndex = 2;
             // 
             // CodeForm
             // 
@@ -132,7 +127,7 @@
         private System.Windows.Forms.TabControl sourceTabControl;
         private System.Windows.Forms.TabPage hppTabPage;
         private System.Windows.Forms.TabPage cppTabPage;
-        private OSHGuiSyntaxRichTextBox hppRichTextBox;
-        private OSHGuiSyntaxRichTextBox cppRichTextBox;
+        private FastColoredTextBoxNS.FastColoredTextBox hppFastColoredTextBox;
+        private FastColoredTextBoxNS.FastColoredTextBox cppFastColoredTextBox;
     }
 }
