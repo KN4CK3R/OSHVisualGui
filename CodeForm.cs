@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using System.Text;
 
 namespace OSHVisualGui
 {
@@ -37,7 +38,7 @@ namespace OSHVisualGui
         TextStyle MaroonStyle = new TextStyle(Brushes.Maroon, null, FontStyle.Regular);
         MarkerStyle SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(40, Color.Gray)));
 
-        private void hppFastColoredTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void fastColoredTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             FastColoredTextBox fctb = sender as FastColoredTextBox;
 
@@ -69,6 +70,27 @@ namespace OSHVisualGui
             //set folding markers
             e.ChangedRange.SetFoldingMarkers("{", "}");//allow to collapse brackets block
             e.ChangedRange.SetFoldingMarkers(@"/\*", @"\*/");//allow to collapse comment block
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            hppSaveFileDialog.FileName = form.Name + "." + hppSaveFileDialog.DefaultExt;
+            if (hppSaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                hppFastColoredTextBox.SaveToFile(hppSaveFileDialog.FileName, Encoding.UTF8);
+
+                cppSaveFileDialog.FileName = form.Name + "." + cppSaveFileDialog.DefaultExt;
+                cppSaveFileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(hppSaveFileDialog.FileName);
+                if (cppSaveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    cppFastColoredTextBox.SaveToFile(cppSaveFileDialog.FileName, Encoding.UTF8);
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -113,6 +114,22 @@ namespace OSHVisualGui.GuiControls
             }
 
             return code.ToString();
+        }
+
+        protected override void WriteToXmlElement(XElement element)
+        {
+            base.WriteToXmlElement(element);
+            element.Add(new XAttribute("text", text));
+        }
+
+        public override void ReadPropertiesFromXml(XElement element)
+        {
+            base.ReadPropertiesFromXml(element);
+
+            if (element.Attribute("text") != null)
+                Text = element.Attribute("text").Value.Trim();
+            else
+                throw new Exception("Missing attribute 'text': " + element.Name);
         }
     }
 }

@@ -25,6 +25,7 @@ namespace OSHVisualGui.GuiControls
         private TabControlSwitchButton lastSwitchButton;
         private TabControlSwitchButton nextSwitchButton;
 
+        internal override List<Control> Controls { get { List<Control> tempList = new List<Control>(); foreach (var binding in tabPageButtonBindings) { tempList.Add(binding.tabPage); } return tempList; } }
         public int SelectedTabPage { get { return selected != null ? selected.index : -1; } set
         {
             if (value >= 0 && value < tabPageButtonBindings.Count)
@@ -257,7 +258,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            if (selected.tabPage != null)
+            if (selected != null && selected.tabPage != null)
             {
                 for (int i = startIndex; i < maxIndex; ++i)
                 {
