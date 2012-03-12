@@ -11,10 +11,10 @@ namespace OSHVisualGui
     {
         public static Color Add(this Color color, Color color2)
         {
-            int a = Math.Max(color.A + color2.A, 255);
-            int r = Math.Max(color.R + color2.R, 255);
-            int g = Math.Max(color.G + color2.G, 255);
-            int b = Math.Max(color.B + color2.B, 255);
+            int a = Math.Min(color.A + color2.A, 255);
+            int r = Math.Min(color.R + color2.R, 255);
+            int g = Math.Min(color.G + color2.G, 255);
+            int b = Math.Min(color.B + color2.B, 255);
 
             return Color.FromArgb(a, r, g, b);
         }

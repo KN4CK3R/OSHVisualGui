@@ -98,17 +98,16 @@ namespace OSHVisualGui.GuiControls
 
         public override void AddControl(Control control)
         {
-            if (selected == null || selected.tabPage == null)
-            {
-                return;
-            }
-
             if (control is TabPage)
             {
                 AddTabPage(control as TabPage);
             }
             else
             {
+                if (selected == null || selected.tabPage == null)
+                {
+                    return;
+                }
                 selected.tabPage.AddControl(control);
             }
         }
