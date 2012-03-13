@@ -25,7 +25,7 @@ namespace OSHVisualGui.GuiControls
         private TabControlSwitchButton lastSwitchButton;
         private TabControlSwitchButton nextSwitchButton;
 
-        internal override List<Control> Controls { get { List<Control> tempList = new List<Control>(); foreach (var binding in tabPageButtonBindings) { tempList.Add(binding.tabPage); } return tempList; } }
+        //internal override List<Control> Controls { get { List<Control> tempList = new List<Control>(); foreach (var binding in tabPageButtonBindings) { tempList.Add(binding.tabPage); } return tempList; } }
         public int SelectedTabPage { get { return selected != null ? selected.index : -1; } set
         {
             if (value >= 0 && value < tabPageButtonBindings.Count)
@@ -253,6 +253,22 @@ namespace OSHVisualGui.GuiControls
                 lastSwitchButton.Visible = startIndex != 0;
                 nextSwitchButton.Visible = maxIndex < tabPageButtonBindings.Count;
             }
+        }
+
+        public override IEnumerable<Control> PostOrderVisit()
+        {
+            if (selected != null && selected.tabPage != null)
+            {
+                foreach (Control child in selected.tabPage.PostOrderVisit())
+                {
+                    yield return child;
+                }
+            }
+        }
+
+        public virtual IEnumerable<Control> PreOrderVisit()
+        {
+            return PostOrderVisit();
         }
 
         public override void Render(Graphics graphics)
