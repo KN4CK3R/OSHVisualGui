@@ -63,7 +63,7 @@ namespace OSHVisualGui
         {
             try
             {
-                ControlManager.Instance().AddControl(control);
+                ControlManager.Instance().RegisterControl(control);
 
                 controlComboBox.Items.Add(control);
                 controlComboBox.SelectedItem = control;
@@ -80,7 +80,7 @@ namespace OSHVisualGui
         {
             try
             {
-                ControlManager.Instance().RemoveControl(control);
+                ControlManager.Instance().UnregisterControl(control);
 
                 controlComboBox.Items.Remove(control);
                 controlComboBox.SelectedIndex = 0;
@@ -544,8 +544,15 @@ namespace OSHVisualGui
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ControlSerializer ser = new ControlSerializer();
+
             ser.Load("C:\\gui.xml");
-            form = ser.Deserialize() as GuiControls.Form;
+
+            GuiControls.Control control = ser.Deserialize();
+            if (control is GuiControls.Form)
+            {
+                form = control as GuiControls.Form;
+                ControlManager.Instance().Clear();
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

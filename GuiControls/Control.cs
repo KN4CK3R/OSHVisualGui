@@ -194,9 +194,24 @@ namespace OSHVisualGui.GuiControls
                 throw new Exception("Missing attribute 'backColor': " + element.Name);
         }
 
+        internal virtual void RegisterInternalControls()
+        {
+
+        }
+
+        internal virtual void UnregisterInternalControls()
+        {
+
+        }
+
         internal virtual void OnControlAdded()
         {
-            ControlManager.Instance().AddControl(this);
+            ControlManager.Instance().RegisterControl(this);
+        }
+
+        internal virtual void OnControlRemoved()
+        {
+            ControlManager.Instance().UnregisterControl(this);
         }
     }
 }

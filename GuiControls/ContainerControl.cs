@@ -164,5 +164,23 @@ namespace OSHVisualGui.GuiControls
                 }
             }
         }
+
+        internal virtual void RegisterInternalControls()
+        {
+            foreach (var control in Controls)
+            {
+                ControlManager.Instance().RegisterControl(control);
+                control.RegisterInternalControls();
+            }
+        }
+
+        internal virtual void UnregisterInternalControls()
+        {
+            foreach (var control in Controls)
+            {
+                ControlManager.Instance().UnregisterControl(control);
+                control.UnregisterInternalControls();
+            }
+        }
     }
 }

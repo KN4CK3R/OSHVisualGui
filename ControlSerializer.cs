@@ -43,6 +43,14 @@ namespace OSHVisualGui
                     Serialize(child, element);
                 }
             }
+            /*else if (control is TabControl)
+            {
+                TabControl tabControl = control as TabControl;
+                foreach (var child in tabControl.TabPages)
+                {
+                    Serialize(child, element);
+                }
+            }*/
             parent.Add(element);
         }
 

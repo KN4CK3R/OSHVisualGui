@@ -21,7 +21,12 @@ namespace OSHVisualGui
             return instance;
         }
 
-        public void AddControl(Control control)
+        public void Clear()
+        {
+            controls.Clear();
+        }
+
+        public void RegisterControl(Control control)
         {
             if (control == null)
             {
@@ -42,13 +47,14 @@ namespace OSHVisualGui
             }
 
             controls.Add(control);
+
             controls.Sort(delegate(Control c1, Control c2)
             {
                 return c1.Name.CompareTo(c2.Name);
             });
         }
 
-        public void RemoveControl(Control control)
+        public void UnregisterControl(Control control)
         {
             if (control == null)
             {
