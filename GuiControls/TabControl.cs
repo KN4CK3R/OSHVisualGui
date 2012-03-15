@@ -369,17 +369,7 @@ namespace OSHVisualGui.GuiControls
             base.WriteToXmlElement(element);
         }
 
-        internal virtual void OnControlAdded()
-        {
-            base.OnControlAdded();
-
-            foreach (TabPageButtonBinding binding in tabPageButtonBindings)
-            {
-                binding.tabPage.OnControlAdded();
-            }
-        }
-
-        internal virtual void RegisterInternalControls()
+        internal override void RegisterInternalControls()
         {
             foreach (var binding in tabPageButtonBindings)
             {
@@ -388,7 +378,7 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        internal virtual void UnregisterInternalControls()
+        internal override void UnregisterInternalControls()
         {
             foreach (var binding in tabPageButtonBindings)
             {

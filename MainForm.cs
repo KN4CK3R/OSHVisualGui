@@ -153,28 +153,41 @@ namespace OSHVisualGui
             }
         }
 
+        private bool isDragging = false;
         private void canvasPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (focusedControl != null && dragMouse)
+            if (isDragging)
             {
-                focusedControl.Location = focusedControl.Location.Add(e.Location.Substract(oldMouseLocation));
-                GuiControls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
-                if (container != focusedControl.RealParent)
+                if (focusedControl != null && dragMouse)
                 {
-                    container.isHighlighted = true;
+                    focusedControl.Location = focusedControl.Location.Add(e.Location.Substract(oldMouseLocation));
+                    GuiControls.ContainerControl container = FindContainerControlUnderMouse(e.Location);
+                    if (container != focusedControl.RealParent)
+                    {
+                        container.isHighlighted = true;
+                    }
+                    canvasPictureBox.Invalidate();
                 }
-                canvasPictureBox.Invalidate();
+                else
+                {
+                    GuiControls.Control tempControl = FindControlUnderMouse(e.Location);
+                    canvasPictureBox.Cursor = tempControl != null ? tempControl is GuiControls.Form ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
+                }
+                oldMouseLocation = e.Location;
             }
             else
             {
-                GuiControls.Control temp = FindControlUnderMouse(e.Location);
-                canvasPictureBox.Cursor = temp != null ? temp is GuiControls.Form ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
+                Point temp = e.Location.Substract(oldMouseLocation);
+                if (temp.X > 3 || temp.Y > 3)
+                {
+                    isDragging = true;
+                }
             }
-            oldMouseLocation = e.Location;
         }
 
         private void canvasPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
+            isDragging = false;
             Cursor.Clip = new Rectangle();
 
             if (focusedControl != null && dragMouse)
@@ -543,15 +556,42 @@ namespace OSHVisualGui
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ControlSerializer ser = new ControlSerializer();
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.DefaultExt = "xml";
+            ofd.Filter = "OSHGui File (*.xml)|*.xml";
 
-            ser.Load("C:\\gui.xml");
-
-            GuiControls.Control control = ser.Deserialize();
-            if (control is GuiControls.Form)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                form = control as GuiControls.Form;
-                ControlManager.Instance().Clear();
+                try
+                {
+                    ControlSerializer ser = new ControlSerializer();
+                    ser.Load(ofd.FileName);
+
+                    GuiControls.Control control = ser.Deserialize();
+                    if (control is GuiControls.Form)
+                    {
+                        form = control as GuiControls.Form;
+
+                        ControlManager.Instance().Clear();
+                        ControlManager.Instance().RegisterControl(control);
+
+                        form.RegisterInternalControls();
+
+                        controlComboBox.Items.Clear();
+                        controlComboBox.Items.AddRange(ControlManager.Instance().Controls.ToArray());
+                        controlComboBox.SelectedItem = control;
+
+                        canvasPictureBox.Invalidate();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid file!");
+                    }
+                }
+                catch (Exception serializeError)
+                {
+                    MessageBox.Show(serializeError.Message, "OSHGui Parse Error");
+                }
             }
         }
 

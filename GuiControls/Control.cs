@@ -203,15 +203,5 @@ namespace OSHVisualGui.GuiControls
         {
 
         }
-
-        internal virtual void OnControlAdded()
-        {
-            ControlManager.Instance().RegisterControl(this);
-        }
-
-        internal virtual void OnControlRemoved()
-        {
-            ControlManager.Instance().UnregisterControl(this);
-        }
     }
 }

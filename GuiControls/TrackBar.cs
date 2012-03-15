@@ -144,7 +144,7 @@ namespace OSHVisualGui.GuiControls
             base.ReadPropertiesFromXml(element);
 
             if (element.Attribute("tickFrequency") != null)
-                TickFrequency = int.Parse(element.Attribute("textickFrequencyt").Value.Trim());
+                TickFrequency = int.Parse(element.Attribute("tickFrequency").Value.Trim());
             else
                 throw new Exception("Missing attribute 'tickFrequency': " + element.Name);
             if (element.Attribute("minimum") != null)

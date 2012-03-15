@@ -114,7 +114,9 @@
     <Compile Include="GuiControls\ComboBox.cs" />
     <Compile Include="GuiControls\PictureBox.cs" />
     <Compile Include="GuiControls\LinkLabel.cs" />
-    <Compile Include="GuiControls\Label.cs" />
+    <Compile Include="GuiControls\Label.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GuiControls\ListBox.cs" />
     <Compile Include="GuiControls\Panel.cs" />
     <Compile Include="GuiControls\ProgressBar.cs" />

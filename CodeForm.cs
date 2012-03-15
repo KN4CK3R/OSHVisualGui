@@ -20,6 +20,8 @@ namespace OSHVisualGui
             this.form = form;
 
             InitializeComponent();
+
+            
         }
 
         private void CodeForm_Load(object sender, EventArgs e)

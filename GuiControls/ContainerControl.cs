@@ -165,7 +165,7 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        internal virtual void RegisterInternalControls()
+        internal override void RegisterInternalControls()
         {
             foreach (var control in Controls)
             {
@@ -174,7 +174,7 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        internal virtual void UnregisterInternalControls()
+        internal override void UnregisterInternalControls()
         {
             foreach (var control in Controls)
             {
