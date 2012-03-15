@@ -112,6 +112,18 @@ namespace OSHVisualGui.GuiControls
         protected override void WriteToXmlElement(XElement element)
         {
             base.WriteToXmlElement(element);
+
+            element.Add(new XAttribute("image", path));
+        }
+
+        public override void ReadPropertiesFromXml(XElement element)
+        {
+            base.ReadPropertiesFromXml(element);
+
+            if (element.Attribute("image") != null)
+                Path = element.Attribute("image").Value.Trim();
+            else
+                throw new Exception("Missing attribute 'image': " + element.Name);
         }
     }
 }
