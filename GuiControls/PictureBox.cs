@@ -30,7 +30,7 @@ namespace OSHVisualGui.GuiControls
         public PictureBox()
         {
             Size = new Size(100, 100);
-
+            
             BackColor = Color.Empty;
             ForeColor = Color.Empty;
         }
@@ -101,6 +101,10 @@ namespace OSHVisualGui.GuiControls
             if (foreColor != Color.Empty)
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+            if (!string.IsNullOrEmpty(path))
+            {
+                code.AppendLine(linePrefix + name + "->SetImage(Application::GetRenderer()->CreateNewTexture(\"" + path.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"));");
             }
             return code.ToString();
         }

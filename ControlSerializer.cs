@@ -142,7 +142,7 @@ namespace OSHVisualGui
                     control = new TextBox();
                     break;
                 case "timer":
-                    control = new Timer(null);
+                    control = new Timer();
                     break;
                 case "trackbar":
                     control = new TrackBar();

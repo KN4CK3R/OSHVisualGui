@@ -401,7 +401,7 @@ namespace OSHVisualGui
                         newControl = textBox;
                         break;
                     case GuiControls.ControlType.Timer:
-                        GuiControls.Timer timer = new GuiControls.Timer(iconImageList.Images[15]);
+                        GuiControls.Timer timer = new GuiControls.Timer();
                         timer.Name = "timer" + cm.GetControlCount(typeof(GuiControls.Timer));
                         newControl = timer;
                         break;
@@ -608,6 +608,16 @@ namespace OSHVisualGui
                 ser.Serialize(form);
                 ser.Save(sfd.FileName);
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controlComboBox.Items.Clear();
+            ControlManager.Instance().Clear();
+
+            form = new GuiControls.Form();
+            form.Text = form.Name = "Form1";
+            AddControlToList(form);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace OSHVisualGui.GuiControls
         private Image icon;
         #endregion
 
-        public Timer(Image icon)
+        public Timer()
         {
-            this.icon = icon;
+            this.icon = Properties.Resources.control_timer;
 
             Enabled = false;
             Size = new Size(16, 16);
@@ -27,7 +27,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawImage(icon, absoluteLocation);
+            graphics.DrawImage(icon, absoluteLocation.X, absoluteLocation.Y, 16, 16);
    
             if (isFocused)
             {
@@ -40,7 +40,7 @@ namespace OSHVisualGui.GuiControls
 
         public override Control Copy()
         {
-            Timer copy = new Timer(icon);
+            Timer copy = new Timer();
             CopyTo(copy);
             return copy;
         }
