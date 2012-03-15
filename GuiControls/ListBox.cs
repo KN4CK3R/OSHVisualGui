@@ -115,6 +115,26 @@ namespace OSHVisualGui.GuiControls
         protected override void WriteToXmlElement(XElement element)
         {
             base.WriteToXmlElement(element);
+
+            foreach (string item in Items)
+            {
+                element.Add(new XElement("item", item));
+            }
+        }
+
+        public override void ReadPropertiesFromXml(XElement element)
+        {
+            base.ReadPropertiesFromXml(element);
+
+            List<string> itemList = new List<string>();
+            foreach (XElement itemElement in element.Nodes())
+            {
+                itemList.Add(itemElement.Value);
+            }
+            if (itemList.Count > 0)
+            {
+                Items = itemList.ToArray();
+            }
         }
     }
 }

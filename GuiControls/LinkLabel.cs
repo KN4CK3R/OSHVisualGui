@@ -87,11 +87,5 @@ namespace OSHVisualGui.GuiControls
             code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
             return code.ToString();
         }
-
-        protected override void WriteToXmlElement(XElement element)
-        {
-            base.WriteToXmlElement(element);
-            element.Add(new XAttribute("text", Text));
-        }
     }
 }

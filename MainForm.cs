@@ -156,7 +156,7 @@ namespace OSHVisualGui
         private bool isDragging = false;
         private void canvasPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDragging)
+            //if (isDragging)
             {
                 if (focusedControl != null && dragMouse)
                 {
@@ -175,7 +175,7 @@ namespace OSHVisualGui
                 }
                 oldMouseLocation = e.Location;
             }
-            else
+            //else
             {
                 Point temp = e.Location.Substract(oldMouseLocation);
                 if (temp.X > 3 || temp.Y > 3)
@@ -597,9 +597,17 @@ namespace OSHVisualGui
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ControlSerializer ser = new ControlSerializer();
-            ser.Serialize(form);
-            ser.Save("C:\\gui.xml");
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.DefaultExt = "xml";
+            sfd.Filter = "OSHGui File (*." + sfd.DefaultExt + ")|*." + sfd.DefaultExt;
+            sfd.FileName = form.Name + "." + sfd.DefaultExt;
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                ControlSerializer ser = new ControlSerializer();
+                ser.Serialize(form);
+                ser.Save(sfd.FileName);
+            }
         }
     }
 }

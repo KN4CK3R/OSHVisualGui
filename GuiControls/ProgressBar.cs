@@ -137,6 +137,27 @@ namespace OSHVisualGui.GuiControls
         protected override void WriteToXmlElement(XElement element)
         {
             base.WriteToXmlElement(element);
+            element.Add(new XAttribute("minimum", minimum.ToString()));
+            element.Add(new XAttribute("maximum", maximum.ToString()));
+            element.Add(new XAttribute("value", value.ToString()));
+        }
+
+        public override void ReadPropertiesFromXml(XElement element)
+        {
+            base.ReadPropertiesFromXml(element);
+
+            if (element.Attribute("minimum") != null)
+                Minimum = int.Parse(element.Attribute("minimum").Value.Trim());
+            else
+                throw new Exception("Missing attribute 'minimum': " + element.Name);
+            if (element.Attribute("maximum") != null)
+                Maximum = int.Parse(element.Attribute("maximum").Value.Trim());
+            else
+                throw new Exception("Missing attribute 'maximum': " + element.Name);
+            if (element.Attribute("value") != null)
+                Value = int.Parse(element.Attribute("value").Value.Trim());
+            else
+                throw new Exception("Missing attribute 'value': " + element.Name);
         }
     }
 }

@@ -103,6 +103,7 @@
     <Compile Include="FastColoredTextBox\TextSource.cs" />
     <Compile Include="FastColoredTextBox\TypeDescriptor.cs" />
     <Compile Include="FastColoredTextBox\VisualMarker.cs" />
+    <Compile Include="FilenameEditor.cs" />
     <Compile Include="GuiControls\Button.cs" />
     <Compile Include="GuiControls\CheckBox.cs" />
     <Compile Include="GuiControls\ColorBar.cs" />
@@ -114,9 +115,7 @@
     <Compile Include="GuiControls\ComboBox.cs" />
     <Compile Include="GuiControls\PictureBox.cs" />
     <Compile Include="GuiControls\LinkLabel.cs" />
-    <Compile Include="GuiControls\Label.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="GuiControls\Label.cs" />
     <Compile Include="GuiControls\ListBox.cs" />
     <Compile Include="GuiControls\Panel.cs" />
     <Compile Include="GuiControls\ProgressBar.cs" />

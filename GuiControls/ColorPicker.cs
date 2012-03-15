@@ -186,6 +186,17 @@ namespace OSHVisualGui.GuiControls
         protected override void WriteToXmlElement(XElement element)
         {
             base.WriteToXmlElement(element);
+            element.Add(new XAttribute("color", Color.ToArgb().ToString("X")));
+        }
+
+        public override void ReadPropertiesFromXml(XElement element)
+        {
+            base.ReadPropertiesFromXml(element);
+
+            if (element.Attribute("color") != null)
+                Color = color.Parse(element.Attribute("color").Value.Trim());
+            else
+                throw new Exception("Missing attribute 'color': " + element.Name);
         }
     }
 }

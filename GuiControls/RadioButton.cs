@@ -101,12 +101,5 @@ namespace OSHVisualGui.GuiControls
             }
             return code.ToString();
         }
-
-        protected override void WriteToXmlElement(XElement element)
-        {
-            base.WriteToXmlElement(element);
-            element.Add(new XAttribute("text", Text));
-            element.Add(new XAttribute("checked", Checked.ToString().ToLower()));
-        }
     }
 }

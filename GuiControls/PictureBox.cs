@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Xml.Linq;
+using System.ComponentModel;
+using System.Drawing.Design;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -11,6 +13,18 @@ namespace OSHVisualGui.GuiControls
     {
         #region Properties
         internal override string DefaultName { get { return "pictureBox"; } }
+        private string path;
+        [Editor(typeof(FilenameEditor), typeof(UITypeEditor)), FileDialogFilter("Image files (*.jpg, *.bmp, *.gif, *.png)|*.jpg;*.bmp;*.gif;*.png|All files (*.*)|*.*")]
+        public string Path { 
+            get { return path; }
+            set
+            {
+                Image tempImage = Image.FromFile(value);
+                path = value;
+                image = tempImage;
+            }
+        }
+        private Image image;
         #endregion
 
         public PictureBox()
@@ -28,18 +42,16 @@ namespace OSHVisualGui.GuiControls
                 graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
             }
 
-            using (Pen pen = new Pen(Color.Yellow, 2))
+            if (image != null)
             {
-                graphics.DrawRectangle(pen, absoluteLocation.X + 2, absoluteLocation.Y + 2, size.Width - 4, size.Height - 4);
+                graphics.DrawImage(image, absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
             }
-
-            graphics.DrawString(name, font, new SolidBrush(Color.Black), absoluteLocation.X + 4, absoluteLocation.Y + 4);
 
             if (isFocused)
             {
                 using (Pen pen = new Pen(Color.Black, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
+                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
                 }
             }
         }

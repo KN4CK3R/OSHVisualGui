@@ -99,6 +99,17 @@ namespace OSHVisualGui.GuiControls
         protected override void WriteToXmlElement(XElement element)
         {
             base.WriteToXmlElement(element);
+            element.Add(new XAttribute("text", text));
+        }
+
+        public override void ReadPropertiesFromXml(XElement element)
+        {
+            base.ReadPropertiesFromXml(element);
+
+            if (element.Attribute("text") != null)
+                Text = element.Attribute("text").Value.Trim();
+            else
+                throw new Exception("Missing attribute 'text': " + element.Name);
         }
     }
 }

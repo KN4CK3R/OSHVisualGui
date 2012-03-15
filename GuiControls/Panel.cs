@@ -110,14 +110,5 @@ namespace OSHVisualGui.GuiControls
 
             return code.ToString();
         }
-
-        protected override void WriteToXmlElement(XElement element)
-        {
-            base.WriteToXmlElement(element);
-            /*foreach (Control control in Controls.FastReverse())
-            {
-                control.AddToXmlElement(document, element);
-            }*/
-        }
     }
 }

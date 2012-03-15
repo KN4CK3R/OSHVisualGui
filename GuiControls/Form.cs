@@ -67,7 +67,7 @@ namespace OSHVisualGui.GuiControls
             {
                 using (Pen pen = new Pen(isHighlighted ? Color.Orange : Color.Black, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
+                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
                 }
 
                 isHighlighted = false;
