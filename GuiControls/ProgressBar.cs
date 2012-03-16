@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    class ProgressBar : Control
+    class ProgressBar : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "progressBar"; } }
@@ -52,14 +52,6 @@ namespace OSHVisualGui.GuiControls
             for (int i = (int)(value / ((maximum - minimum) / ((size.Width - 8) / 12.0f)) - 1); i >= 0; --i)
             {
                 graphics.FillRectangle(barBrush, absoluteLocation.X + 4 + i * 12, absoluteLocation.Y + 4, 8, size.Height - 8);
-            }
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
             }
         }
 

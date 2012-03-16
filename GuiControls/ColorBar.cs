@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    class ColorBar : Control
+    class ColorBar : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "colorBar"; } }
@@ -66,14 +66,6 @@ namespace OSHVisualGui.GuiControls
 		    {
                 graphics.DrawImage(colorBar[i], absoluteLocation.X, absoluteLocation.Y + i * 15);
 		    }
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
-            }
         }
 
         public override Control Copy()

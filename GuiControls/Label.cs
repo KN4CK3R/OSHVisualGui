@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Label : Control
+    public class Label : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "label"; } }
@@ -28,15 +28,6 @@ namespace OSHVisualGui.GuiControls
         public override void Render(Graphics graphics)
         {
             graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
-            }
         }
 
         public override Control Copy()

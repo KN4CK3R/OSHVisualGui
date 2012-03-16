@@ -9,7 +9,7 @@ using System.Drawing.Design;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class PictureBox : Control
+    public class PictureBox : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "pictureBox"; } }
@@ -45,14 +45,6 @@ namespace OSHVisualGui.GuiControls
             if (image != null)
             {
                 graphics.DrawImage(image, absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
-            }
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
-                }
             }
         }
 

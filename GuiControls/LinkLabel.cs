@@ -24,14 +24,6 @@ namespace OSHVisualGui.GuiControls
         public override void Render(Graphics graphics)
         {
             graphics.DrawString(text, underlinedFont, foreBrush, new RectangleF(absoluteLocation, size));
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X, absoluteLocation.Y - 1, size.Width + 1, size.Height + 2);
-                }
-            }
         }
 
         public override Control Copy()

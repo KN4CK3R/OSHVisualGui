@@ -6,7 +6,7 @@ using System.Text;
 namespace OSHVisualGui.GuiControls
 {
     [Serializable]
-    public abstract class ContainerControl : Control
+    public abstract class ContainerControl : ScalableControl
     {
         protected List<Control> controls;
         internal virtual List<Control> Controls { get { return controls; } }

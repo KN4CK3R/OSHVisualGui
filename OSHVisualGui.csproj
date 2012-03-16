@@ -120,6 +120,7 @@
     <Compile Include="GuiControls\Panel.cs" />
     <Compile Include="GuiControls\ProgressBar.cs" />
     <Compile Include="GuiControls\RadioButton.cs" />
+    <Compile Include="GuiControls\ScalableControl.cs" />
     <Compile Include="GuiControls\TabControl.cs" />
     <Compile Include="GuiControls\TabPage.cs" />
     <Compile Include="GuiControls\TextBox.cs" />

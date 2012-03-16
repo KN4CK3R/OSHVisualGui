@@ -321,7 +321,7 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
-            this.Text = "OldSchoolHack VisualGui (Beta)";
+            this.Text = "OldSchoolHack VisualGui";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).EndInit();

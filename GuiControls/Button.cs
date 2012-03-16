@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class Button : Control
+    public class Button : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "button"; } }
@@ -52,14 +52,6 @@ namespace OSHVisualGui.GuiControls
             graphics.FillRectangle(temp, rect);
             
             label.Render(graphics);
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
-                }
-            }
         }
 
         public override Control Copy()

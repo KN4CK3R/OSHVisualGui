@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    class ListBox : Control
+    class ListBox : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "listBox"; } }
@@ -35,14 +35,6 @@ namespace OSHVisualGui.GuiControls
             graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y + size.Height - 1, size.Width - 2, 1);
 
             graphics.DrawString(name, font, foreBrush, absoluteLocation.X + 5, absoluteLocation.Y + 5);
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
-                }
-            }
         }
 
         public override Control Copy()

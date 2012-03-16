@@ -12,15 +12,18 @@ namespace OSHVisualGui.GuiControls
         private Panel panel;
         private string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
+        public override Point Location { get { return base.Location; } set { } }
         internal override List<Control> Controls { get { return panel.Controls; } }
         internal override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
         internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
         internal override Size ContainerSize { get { return panel.ContainerSize; } }
-        public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } }
+        public override Size Size { get { return base.Size; } set { if (value.Width > 80 && value.Height > 50) { base.Size = value; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } } }
 
         public Form()
         {
             Parent = this;
+
+            Mode = DragMode.GrowOnly;
 
             panel = new Panel();
             panel.Location = new Point(6, 6 + 17);
@@ -63,9 +66,9 @@ namespace OSHVisualGui.GuiControls
 
             panel.Render(graphics);
 
-            if (isFocused || isHighlighted)
+            if (isHighlighted)
             {
-                using (Pen pen = new Pen(isHighlighted ? Color.Orange : Color.Black, 1))
+                using (Pen pen = new Pen(Color.Orange, 1))
                 {
                     graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
                 }

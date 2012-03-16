@@ -49,14 +49,6 @@ namespace OSHVisualGui.GuiControls
                 graphics.FillEllipse(temp, rect);
             }
             label.Render(graphics);
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 4);
-                }
-            }
         }
 
         public override string ToString()

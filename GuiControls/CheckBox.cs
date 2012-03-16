@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    public class CheckBox : Control
+    public class CheckBox : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "checkBox"; } }
@@ -59,14 +59,6 @@ namespace OSHVisualGui.GuiControls
                 graphics.FillRectangle(temp, rect);
             }
             label.Render(graphics);
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 4);
-                }
-            }
         }
 
         public override Control Copy()

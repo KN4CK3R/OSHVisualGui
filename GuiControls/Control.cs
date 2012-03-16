@@ -28,6 +28,25 @@ namespace OSHVisualGui.GuiControls
         TrackBar
     }
 
+    public class Mouse
+    {
+        public enum MouseStates
+        {
+            LeftDown,
+            LeftUp,
+            Move
+        }
+
+        public Point Location { get; set; }
+        public MouseStates Buttons { get; set; }
+
+        public Mouse(Point location, MouseStates buttons)
+        {
+            this.Location = location;
+            this.Buttons = buttons;
+        }
+    }
+
     public abstract class Control
     {
         internal virtual string DefaultName { get { return "form"; } }
@@ -71,9 +90,27 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public bool isFocused;
         public bool isHighlighted;
+
+        protected bool hasCaptured;
+        protected bool isInside;
+        protected bool isFocused;
+        protected bool isClicked;
         public bool isSubControl;
+
+        public delegate void MouseEventHandler(Control sender, Mouse mouse);
+        public event MouseEventHandler MouseDown;
+        public event MouseEventHandler MouseUp;
+        public event MouseEventHandler MouseMove;
+
+        public EventHandler MouseEnter;
+        public EventHandler MouseLeave;
+        public EventHandler GotFocus;
+        public EventHandler LostFocus;
+
+        public static Control MouseOverControl;
+        public static Control FocusedControl;
+        public static Control MouseCaptureControl;
 
         public Control()
         {
@@ -203,5 +240,171 @@ namespace OSHVisualGui.GuiControls
         {
 
         }
+
+        public void Focus()
+        {
+            OnGotFocus(this);
+        }
+
+        #region EventHandling
+
+        protected virtual void OnGotFocus(Control control)
+        {
+            if (FocusedControl != this)
+            {
+                if (FocusedControl != null)
+                {
+                    FocusedControl.OnLostFocus(this);
+                }
+                FocusedControl = this;
+                isFocused = true;
+
+                if (GotFocus != null)
+                {
+                    GotFocus(this, null);
+                }
+            }
+        }
+
+        protected virtual void OnLostFocus(Control control)
+        {
+            isFocused = false;
+            isClicked = false;
+
+            FocusedControl = null;
+
+            if (LostFocus != null)
+            {
+                LostFocus(this, null);
+            }
+        }
+
+        protected virtual void OnMouseDown(Mouse mouse)
+        {
+            isClicked = true;
+
+            OnGotMouseCapture();
+
+            if (MouseDown != null)
+            {
+                MouseDown(this, mouse);
+            }
+        }
+
+        protected virtual void OnMouseUp(Mouse mouse)
+        {
+            isClicked = false;
+
+            OnLostMouseCapture();
+
+            if (MouseUp != null)
+            {
+                MouseUp(this, mouse);
+            }
+        }
+
+        protected virtual void OnMouseMove(Mouse mouse)
+        {
+            if (MouseMove != null)
+            {
+                MouseMove(this, mouse);
+            }
+        }
+
+        protected virtual void OnGotMouseCapture()
+        {
+            if (MouseCaptureControl != null)
+            {
+                MouseCaptureControl.OnLostMouseCapture();
+            }
+            MouseCaptureControl = this;
+
+            hasCaptured = true;
+            isClicked = false;
+        }
+
+        protected virtual void OnLostMouseCapture()
+        {
+            hasCaptured = false;
+
+            MouseCaptureControl = null;
+        }
+
+        protected virtual void OnMouseEnter()
+        {
+            isInside = true;
+
+            if (MouseOverControl != null)
+            {
+                MouseOverControl.OnMouseLeave();
+            }
+
+            if (MouseEnter != null)
+            {
+                MouseEnter(this, null);
+            }
+        }
+
+        protected virtual void OnMouseLeave()
+        {
+            isInside = false;
+
+            MouseOverControl = null;
+
+            if (MouseLeave != null)
+            {
+                MouseLeave(this, null);
+            }
+        }
+
+        public bool ProcessMouseMessage(Mouse mouse)
+        {
+            if (!Enabled)
+            {
+                return false;
+            }
+
+            switch (mouse.Buttons)
+            {
+                case Mouse.MouseStates.LeftDown:
+                    if (Intersect(mouse.Location))
+                    {
+                        OnMouseDown(mouse);
+
+                        if (!isFocused && !isSubControl)
+                        {
+                            OnGotFocus(this);
+                        }
+
+                        return true;
+                    }
+                    break;
+                case Mouse.MouseStates.LeftUp:
+                    if (hasCaptured || Intersect(mouse.Location))
+                    {
+                        OnMouseUp(mouse);
+
+                        return true;
+                    }
+                    break;
+                case Mouse.MouseStates.Move:
+                    if (hasCaptured || Intersect(mouse.Location))
+                    {
+                        if (!isInside)
+                        {
+                            OnMouseEnter();
+                        }
+
+                        OnMouseMove(mouse);
+
+                        return true;
+                    }
+                    break;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

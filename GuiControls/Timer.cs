@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    class Timer : Control
+    class Timer : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "timer"; } }
@@ -23,19 +23,13 @@ namespace OSHVisualGui.GuiControls
             Size = new Size(16, 16);
 
             interval = 100;
+
+            Mode = DragMode.None;
         }
 
         public override void Render(Graphics graphics)
         {
             graphics.DrawImage(icon, absoluteLocation.X, absoluteLocation.Y, 16, 16);
-   
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
-            }
         }
 
         public override Control Copy()

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    class TextBox : Control
+    class TextBox : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "textBox"; } }
@@ -30,14 +30,6 @@ namespace OSHVisualGui.GuiControls
             graphics.FillRectangle(backBrush, absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 2);
 		
 		    graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation.X + 5, absoluteLocation.Y + 6, size.Width - 10, size.Height - 12));
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
-            }
         }
 
         public override Control Copy()

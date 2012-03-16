@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-    class TrackBar : Control
+    class TrackBar : ScalableControl
     {
         #region Properties
         internal override string DefaultName { get { return "trackBar"; } }
@@ -50,14 +50,6 @@ namespace OSHVisualGui.GuiControls
 
             int tick = value / tickFrequency;
             graphics.FillRectangle(foreBrush, absoluteLocation.X + tick * pixelsPerTick, absoluteLocation.Y + 1, 8, 16);
-
-            if (isFocused)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
-                }
-            }
         }
 
         public override Control Copy()

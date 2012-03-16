@@ -58,9 +58,9 @@ namespace OSHVisualGui.GuiControls
 
             panel.Render(graphics);
 
-            if (isFocused || isHighlighted)
+            if (isHighlighted)
             {
-                using (Pen pen = new Pen(isHighlighted ? Color.Orange : Color.Black, 1))
+                using (Pen pen = new Pen(Color.Orange, 1))
                 {
                     graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
                 }
