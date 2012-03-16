@@ -13,6 +13,9 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "label"; } }
         protected string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
+        public override Size Size { get { return base.Size; } set { if (!autoSize) { base.Size = value; } } }
+        public override Font Font { get { return base.Font; } set { base.Font = value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
+        public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
         #endregion
 
         public Label()
@@ -30,6 +33,7 @@ namespace OSHVisualGui.GuiControls
             {
                 using (Pen pen = new Pen(Color.Black, 1))
                 {
+                    pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                     graphics.DrawRectangle(pen, absoluteLocation.X - 1, absoluteLocation.Y - 1, size.Width + 1, size.Height + 1);
                 }
             }
@@ -84,6 +88,10 @@ namespace OSHVisualGui.GuiControls
             if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
             {
                 code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+            }
+            if (font.Bold || font.Italic || font.Size != 8 || font.Name != "Arial")
+            {
+                code.AppendLine(linePrefix + name + "->Font(Application::GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + font.Size + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + "));");
             }
             code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
             return code.ToString();
