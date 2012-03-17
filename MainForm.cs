@@ -558,14 +558,21 @@ namespace OSHVisualGui
             tabPageToolStripSeparator.Visible = false;
             addTabPageToolStripMenuItem.Visible = false;
 
-            if (GuiControls.Control.FocusedControl is GuiControls.Form)
-            {
-                e.Cancel = true;
-            }
-            else if (GuiControls.Control.FocusedControl is GuiControls.TabControl)
+            cutToolStripMenuItem.Visible =
+            copyToolStripMenuItem.Visible =
+            removeToolStripMenuItem.Visible =
+            bringToFrontToolStripMenuItem.Visible =
+            sendToBackToolStripMenuItem.Visible =
+            sendToToolStripSeparator.Visible = !(GuiControls.Control.FocusedControl is GuiControls.Form);
+
+            if (GuiControls.Control.FocusedControl is GuiControls.TabControl)
             {
                 tabPageToolStripSeparator.Visible = true;
                 addTabPageToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                tabPageToolStripSeparator.Visible = false;
             }
         }
 

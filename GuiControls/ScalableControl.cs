@@ -159,7 +159,7 @@ namespace OSHVisualGui.GuiControls
 
             dragPointTop.Location = new Point(Size.Width / 2 - 3, -4);
             dragPointRight.Location = new Point(Size.Width - 1, Size.Height / 2 - 3);
-            dragPointBottom.Location = new Point(Size.Width / 2 - 3, Size.Height - 3);
+            dragPointBottom.Location = new Point(Size.Width / 2 - 3, Size.Height - 2);
             dragPointLeft.Location = new Point(-4, Size.Height / 2 - 3);
             dragPointTopLeft.Location = new Point(-4, -4);
             dragPointTopRight.Location = new Point(Size.Width - 1, -4);
