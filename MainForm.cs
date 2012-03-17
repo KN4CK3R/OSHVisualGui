@@ -59,6 +59,14 @@ namespace OSHVisualGui
             AddControlToList(form);
         }
 
+        private void RegisterEvents(GuiControls.Control scalableControl)
+        {
+            scalableControl.MouseDown += control_MouseDown;
+            scalableControl.MouseMove += control_MouseMove;
+            scalableControl.MouseUp += control_MouseUp;
+            (scalableControl as GuiControls.ScalableControl).DragEnd += control_DragEnd;
+        }
+
         private void AddControlToList(GuiControls.Control control)
         {
             try
@@ -119,16 +127,6 @@ namespace OSHVisualGui
             return form;
         }
 
-        private void canvasPictureBox_Paint(object sender, PaintEventArgs e)
-        {
-            form.Render(e.Graphics);
-
-            if (GuiControls.Control.FocusedControl != null)
-            {
-                (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).RenderDragArea(e.Graphics);
-            }
-        }
-
         private void ProcessMouseMessage(GuiControls.Mouse mouse)
         {
             if (GuiControls.Control.MouseCaptureControl != null)
@@ -160,6 +158,21 @@ namespace OSHVisualGui
                     return;
                 }
             }
+
+            if (form.ProcessMouseMessage(mouse))
+            {
+                canvasPictureBox.Invalidate();
+            }
+        }
+
+        private void canvasPictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            form.Render(e.Graphics);
+
+            if (GuiControls.Control.FocusedControl != null)
+            {
+                (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).RenderDragArea(e.Graphics);
+            }
         }
 
         private void canvasPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -175,25 +188,6 @@ namespace OSHVisualGui
                 {
                     controlComboBox.SelectedItem = GuiControls.Control.FocusedControl;
                 }
-
-                /*GuiControls.Control newFocusedControl = FindControlUnderMouse(e.Location);
-                if (newFocusedControl != null)
-                {
-                    if (focusedControl != null)
-                    {
-                        focusedControl.isFocused = false;
-                    }
-                    focusedControl = newFocusedControl;
-                    focusedControl.isFocused = true;
-                    controlComboBox.SelectedItem = focusedControl;
-
-                    if (!(focusedControl is GuiControls.Form))
-                    {
-                        dragMouse = true;
-                    }
-                    canvasPictureBox.Invalidate();
-                }
-                oldMouseLocation = e.Location;*/
             }
         }
 
@@ -360,7 +354,7 @@ namespace OSHVisualGui
 
                 ControlManager cm = ControlManager.Instance();
                 string name = string.Empty;
-                GuiControls.ScalableControl newControl = null;
+                GuiControls.Control newControl = null;
                 switch (type)
                 {
                     case GuiControls.ControlType.Button:
@@ -463,10 +457,7 @@ namespace OSHVisualGui
                     return;
                 }
 
-                newControl.MouseDown += control_MouseDown;
-                newControl.MouseMove += control_MouseMove;
-                newControl.MouseUp += control_MouseUp;
-                newControl.DragEnd += control_DragEnd;
+                RegisterEvents(newControl);
 
                 AddControlToList(newControl);
 
@@ -477,6 +468,7 @@ namespace OSHVisualGui
             }
         }
 
+        private bool isCopiedControl = false;
         private void canvasPictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (GuiControls.Control.FocusedControl != null)
@@ -501,6 +493,8 @@ namespace OSHVisualGui
 
                     copiedControl = GuiControls.Control.FocusedControl.Copy();
                     copiedControl.Location = copiedControl.Location.Add(new Point(10, 10));
+
+                    isCopiedControl = true;
                 }
                 else if (e.Control && e.KeyCode == Keys.X)
                 {
@@ -512,6 +506,8 @@ namespace OSHVisualGui
                     GuiControls.Control.FocusedControl.RealParent.RemoveControl(GuiControls.Control.FocusedControl);
                     RemoveControlFromList(GuiControls.Control.FocusedControl);
                     controlComboBox.SelectedIndex = 0;
+
+                    isCopiedControl = false;
                 }
                 else if (e.Control && e.KeyCode == Keys.V)
                 {
@@ -533,11 +529,25 @@ namespace OSHVisualGui
                     AddControlToList(copiedControl);
                     if (copiedControl is GuiControls.ContainerControl)
                     {
-                        foreach (GuiControls.Control control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
+                        foreach (GuiControls.ScalableControl control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
                         {
+                            RegisterEvents(control);
+
                             AddControlToList(control);
                         }
                         controlComboBox.SelectedItem = copiedControl;
+                    }
+
+                    RegisterEvents(copiedControl);
+
+                    if (isCopiedControl)
+                    {
+                        copiedControl = copiedControl.Copy();
+                        copiedControl.Location = copiedControl.Location.Add(new Point(10, 10));
+                    }
+                    else
+                    {
+                        copiedControl = null;
                     }
                 }
             }
@@ -628,6 +638,7 @@ namespace OSHVisualGui
                     if (control is GuiControls.Form)
                     {
                         form = control as GuiControls.Form;
+                        form.DragEnd += control_DragEnd;
 
                         ControlManager.Instance().Clear();
                         ControlManager.Instance().RegisterControl(control);
@@ -637,6 +648,17 @@ namespace OSHVisualGui
                         controlComboBox.Items.Clear();
                         controlComboBox.Items.AddRange(ControlManager.Instance().Controls.ToArray());
                         controlComboBox.SelectedItem = control;
+
+                        foreach (GuiControls.ScalableControl scalableControl in ControlManager.Instance().Controls)
+                        {
+                            if (scalableControl != form)
+                            {
+                                scalableControl.MouseDown += control_MouseDown;
+                                scalableControl.MouseMove += control_MouseMove;
+                                scalableControl.MouseUp += control_MouseUp;
+                                scalableControl.DragEnd += control_DragEnd;
+                            }
+                        }
 
                         canvasPictureBox.Invalidate();
                     }
