@@ -5,10 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 using OSHVisualGui.Toolbox;
 
 namespace OSHVisualGui
@@ -62,6 +62,13 @@ namespace OSHVisualGui
             form.Text = form.Name = "Form1";
             form.DragEnd += control_DragEnd;
             AddControlToList(form);
+
+            GridItem category = controlPropertyGrid.SelectedGridItem;
+            while (category.Parent != null)
+            {
+                category = category.Parent;
+            }
+            category.GridItems["Events"].Expanded = false;
         }
 
         private void RegisterEvents(GuiControls.Control scalableControl)

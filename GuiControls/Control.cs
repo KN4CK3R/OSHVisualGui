@@ -109,37 +109,37 @@ namespace OSHVisualGui.GuiControls
         public EventHandler GotFocus;
         public EventHandler LostFocus;
 
-        [Category("Event")]
+        [Category("Events")]
         public LocationChangedEvent LocationChangedEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public SizeChangedEvent SizeChangedEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public KeyDownEvent KeyDownEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public KeyPressEvent KeyPressEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public KeyUpEvent KeyUpEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public ClickEvent ClickEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseClickEvent MouseClickEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseDownEvent MouseDownEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseUpEvent MouseUpEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseMoveEvent MouseMoveEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseScrollEvent MouseScrollEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseEnterEvent MouseEnterEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseLeaveEvent MouseLeaveEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public MouseCaptureChangedEvent MouseCaptureChangedEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public FocusGotEvent FocusGotEvent { get; set; }
-        [Category("Event")]
+        [Category("Events")]
         public FocusLostEvent FocusLostEvent { get; set; }
 
         public static Control MouseOverControl;
