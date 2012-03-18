@@ -1,32 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
+using System.Drawing.Design;
+using System.Windows.Forms.Design;
 using FastColoredTextBoxNS;
-using System.Text;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace OSHVisualGui
 {
-    public partial class CodeForm : Form
+    public partial class EventEditorForm : Form
     {
-        private GuiControls.Form form;
+        private GuiControls.Event controlEvent;
 
-        public CodeForm(GuiControls.Form form)
+        public EventEditorForm(GuiControls.Event controlEvent)
         {
-            this.form = form;
+            InitializeComponent();
 
-            InitializeComponent();            
-        }
+            this.controlEvent = controlEvent;
 
-        private void CodeForm_Load(object sender, EventArgs e)
-        {
-            string[] code = form.GenerateCode();
-            hppFastColoredTextBox.Text = code[0];
-            cppFastColoredTextBox.Text = code[1];
+            eventNameLabel.Text = controlEvent.GetType().Name;
+            codeFastColoredTextBox.Text = controlEvent.Code;
         }
 
         TextStyle BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
@@ -38,7 +33,23 @@ namespace OSHVisualGui
         TextStyle MaroonStyle = new TextStyle(Brushes.Maroon, null, FontStyle.Regular);
         MarkerStyle SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(40, Color.Gray)));
 
-        private void fastColoredTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void stubButton_Click(object sender, EventArgs e)
+        {
+            codeFastColoredTextBox.Text = "void " + controlEvent.Control.Name + controlEvent.Stub;
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            controlEvent.Code = codeFastColoredTextBox.Text;
+            Close();
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void codeFastColoredTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             FastColoredTextBox fctb = sender as FastColoredTextBox;
 
@@ -71,26 +82,27 @@ namespace OSHVisualGui
             e.ChangedRange.SetFoldingMarkers("{", "}");//allow to collapse brackets block
             e.ChangedRange.SetFoldingMarkers(@"/\*", @"\*/");//allow to collapse comment block
         }
+    }
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+    public class EventEditor : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
-            Close();
+            return UITypeEditorEditStyle.Modal;
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
         {
-            hppSaveFileDialog.FileName = form.Name + "." + hppSaveFileDialog.DefaultExt;
-            if (hppSaveFileDialog.ShowDialog() == DialogResult.OK)
+            IWindowsFormsEditorService svc = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+            GuiControls.Event controlEvent = value as GuiControls.Event;
+            if (svc != null && controlEvent != null)
             {
-                hppFastColoredTextBox.SaveToFile(hppSaveFileDialog.FileName, Encoding.UTF8);
-
-                cppSaveFileDialog.FileName = form.Name + "." + cppSaveFileDialog.DefaultExt;
-                cppSaveFileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(hppSaveFileDialog.FileName);
-                if (cppSaveFileDialog.ShowDialog() == DialogResult.OK)
+                using (EventEditorForm form = new EventEditorForm(controlEvent))
                 {
-                    cppFastColoredTextBox.SaveToFile(cppSaveFileDialog.FileName, Encoding.UTF8);
+                    svc.ShowDialog(form);
                 }
             }
+            return value;
         }
     }
 }

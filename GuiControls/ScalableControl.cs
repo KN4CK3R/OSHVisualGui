@@ -38,7 +38,7 @@ namespace OSHVisualGui.GuiControls
         private DragPoint dragPointBottomLeft;
 
         private DragMode mode;
-        public DragMode Mode { get { return mode; }
+        internal DragMode Mode { get { return mode; }
             set
             {
                 mode = value;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -108,6 +109,39 @@ namespace OSHVisualGui.GuiControls
         public EventHandler GotFocus;
         public EventHandler LostFocus;
 
+        [Category("Event")]
+        public LocationChangedEvent LocationChangedEvent { get; set; }
+        [Category("Event")]
+        public SizeChangedEvent SizeChangedEvent { get; set; }
+        [Category("Event")]
+        public KeyDownEvent KeyDownEvent { get; set; }
+        [Category("Event")]
+        public KeyPressEvent KeyPressEvent { get; set; }
+        [Category("Event")]
+        public KeyUpEvent KeyUpEvent { get; set; }
+        [Category("Event")]
+        public ClickEvent ClickEvent { get; set; }
+        [Category("Event")]
+        public MouseClickEvent MouseClickEvent { get; set; }
+        [Category("Event")]
+        public MouseDownEvent MouseDownEvent { get; set; }
+        [Category("Event")]
+        public MouseUpEvent MouseUpEvent { get; set; }
+        [Category("Event")]
+        public MouseMoveEvent MouseMoveEvent { get; set; }
+        [Category("Event")]
+        public MouseScrollEvent MouseScrollEvent { get; set; }
+        [Category("Event")]
+        public MouseEnterEvent MouseEnterEvent { get; set; }
+        [Category("Event")]
+        public MouseLeaveEvent MouseLeaveEvent { get; set; }
+        [Category("Event")]
+        public MouseCaptureChangedEvent MouseCaptureChangedEvent { get; set; }
+        [Category("Event")]
+        public FocusGotEvent FocusGotEvent { get; set; }
+        [Category("Event")]
+        public FocusLostEvent FocusLostEvent { get; set; }
+
         public static Control MouseOverControl;
         public static Control FocusedControl;
         public static Control MouseCaptureControl;
@@ -126,6 +160,23 @@ namespace OSHVisualGui.GuiControls
             _zOrder = 0;
 
             font = new Font("Arial", 8);
+
+            LocationChangedEvent = new LocationChangedEvent(this);
+            SizeChangedEvent = new SizeChangedEvent(this);
+            KeyDownEvent = new KeyDownEvent(this);
+            KeyPressEvent = new KeyPressEvent(this);
+            KeyUpEvent = new KeyUpEvent(this);
+            ClickEvent = new ClickEvent(this);
+            MouseClickEvent = new MouseClickEvent(this);
+            MouseDownEvent = new MouseDownEvent(this);
+            MouseUpEvent = new MouseUpEvent(this);
+            MouseMoveEvent = new MouseMoveEvent(this);
+            MouseScrollEvent = new MouseScrollEvent(this);
+            MouseEnterEvent = new MouseEnterEvent(this);
+            MouseLeaveEvent = new MouseLeaveEvent(this);
+            MouseCaptureChangedEvent = new MouseCaptureChangedEvent(this);
+            FocusGotEvent = new FocusGotEvent(this);
+            FocusLostEvent = new FocusLostEvent(this);
         }
 
         public virtual bool Intersect(Point location)

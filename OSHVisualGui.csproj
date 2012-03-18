@@ -60,6 +60,12 @@
     <Compile Include="ControlManager.cs" />
     <Compile Include="ControlSerializer.cs" />
     <Compile Include="DelayedEventHandler.cs" />
+    <Compile Include="EventEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventEditor.Designer.cs">
+      <DependentUpon>EventEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extension.cs" />
     <Compile Include="FastColoredTextBox\AutocompleteItem.cs" />
     <Compile Include="FastColoredTextBox\AutocompleteMenu.cs">
@@ -110,6 +116,7 @@
     <Compile Include="GuiControls\ColorPicker.cs" />
     <Compile Include="GuiControls\ContainerControl.cs" />
     <Compile Include="GuiControls\Control.cs" />
+    <Compile Include="GuiControls\Event.cs" />
     <Compile Include="GuiControls\Form.cs" />
     <Compile Include="GuiControls\GroupBox.cs" />
     <Compile Include="GuiControls\ComboBox.cs" />
@@ -143,6 +150,9 @@
     <Compile Include="Toolbox\ToolboxType.cs" />
     <EmbeddedResource Include="CodeForm.resx">
       <DependentUpon>CodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventEditor.resx">
+      <DependentUpon>EventEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FastColoredTextBox\FastColoredTextBox.resx">
       <DependentUpon>FastColoredTextBox.cs</DependentUpon>
