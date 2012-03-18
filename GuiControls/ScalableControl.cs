@@ -7,7 +7,7 @@ namespace OSHVisualGui.GuiControls
 {
     public abstract class ScalableControl : Control
     {
-        enum DragDirection
+        public enum DragDirection
         {
             Top,
             Right,
@@ -199,11 +199,13 @@ namespace OSHVisualGui.GuiControls
             throw new NotImplementedException();
         }
 
-        class DragPoint : Control
+        internal class DragPoint : Control
         {
             private bool isDragging;
             private Point oldDragLocation;
             private DragDirection direction;
+            public DragDirection Direction { get { return direction; } }
+
             public delegate void DragEventHandler(Control sender, Point deltaLocation, Size deltaSize);
             public DragEventHandler Drag;
 

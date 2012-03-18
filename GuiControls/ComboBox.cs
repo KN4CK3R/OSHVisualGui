@@ -25,8 +25,8 @@ namespace OSHVisualGui.GuiControls
         {
             base.Render(graphics);
 
-            int arrowLeft = absoluteLocation.X + size.Width - 9;
-            int arrowTop = absoluteLocation.Y + size.Height - 11;
+            int arrowLeft = absoluteLocation.X + Size.Width - 9;
+            int arrowTop = absoluteLocation.Y + Size.Height / 2 + 1;
             for (int i = 0; i < 4; ++i)
             {
                 graphics.FillRectangle(foreBrush, arrowLeft - i, arrowTop - i, 1 + i * 2, 1);

@@ -49,6 +49,11 @@ namespace OSHVisualGui
             return new Size(size.Width - size2.Width, size.Height - size2.Height);
         }
 
+        public static Size LimitMin(this Size size, int minWidth, int minHeight)
+        {
+            return new Size(Math.Max(minWidth, size.Width), Math.Max(minHeight, size.Height));
+        }
+
         public static IEnumerable<T> FastReverse<T>(this IList<T> items)
         {
             for (int i = items.Count - 1; i >= 0; i--)

@@ -15,7 +15,7 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "groupBox"; } }
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; } }
         internal override List<Control> Controls { get { return panel.Controls; } }
-        public override Size Size { get { return base.Size; } set { base.Size = value; panel.Size = value.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
+        public override Size Size { get { return base.Size; } set { base.Size = value.LimitMin(label.Size.Width + 10, 17); panel.Size = base.Size.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
         internal override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
         internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
         internal override Size ContainerSize { get { return panel.ContainerSize; } }

@@ -15,13 +15,15 @@ namespace OSHVisualGui
 {
     public partial class MainForm : Form
     {
-        private GuiControls.Control _focusedControl;
         private GuiControls.Control copiedControl;
         private GuiControls.Form form;
+        private bool stickToolBoxToggle;
 
         public MainForm()
         {
             InitializeComponent();
+
+            stickToolBoxToggle = false;
 
             copiedControl = null;
 
@@ -48,7 +50,10 @@ namespace OSHVisualGui
 
             controlToolbox.MouseLeave += new DelayedEventHandler(300, delegate(object sender, EventArgs e)
             {
-                controlToolbox.Visible = false;
+                if (!stickToolBoxToggle)
+                {
+                    controlToolbox.Visible = false;
+                }
             }).OnDelay;
 
             canvasPictureBox.AllowDrop = true;
@@ -103,6 +108,18 @@ namespace OSHVisualGui
 
         private GuiControls.Control FindControlUnderMouse(Point location)
         {
+            if (GuiControls.Control.FocusedControl != null)
+            {
+                GuiControls.ScalableControl scalableControl = GuiControls.Control.FocusedControl as GuiControls.ScalableControl;
+                foreach (GuiControls.Control dragPoint in scalableControl.ProcessDragPoints())
+                {
+                    if (dragPoint.Intersect(location))
+                    {
+                        return dragPoint;
+                    }
+                }
+            }
+
             foreach (GuiControls.Control control in form.PostOrderVisit())
             {
                 if (control.Intersect(location))
@@ -196,7 +213,32 @@ namespace OSHVisualGui
             ProcessMouseMessage(new GuiControls.Mouse(e.Location, GuiControls.Mouse.MouseStates.Move));
 
             GuiControls.Control tempControl = FindControlUnderMouse(e.Location);
-            canvasPictureBox.Cursor = tempControl != null ? tempControl is GuiControls.Form ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
+            if (tempControl is GuiControls.ScalableControl.DragPoint)
+            {
+                switch ((tempControl as GuiControls.ScalableControl.DragPoint).Direction)
+                {
+                    case GuiControls.ScalableControl.DragDirection.Top:
+                    case GuiControls.ScalableControl.DragDirection.Bottom:
+                        canvasPictureBox.Cursor = Cursors.SizeNS;
+                        break;
+                    case GuiControls.ScalableControl.DragDirection.Left:
+                    case GuiControls.ScalableControl.DragDirection.Right:
+                        canvasPictureBox.Cursor = Cursors.SizeWE;
+                        break;
+                    case GuiControls.ScalableControl.DragDirection.TopLeft:
+                    case GuiControls.ScalableControl.DragDirection.BottomRight:
+                        canvasPictureBox.Cursor = Cursors.SizeNWSE;
+                        break;
+                    case GuiControls.ScalableControl.DragDirection.TopRight:
+                    case GuiControls.ScalableControl.DragDirection.BottomLeft:
+                        canvasPictureBox.Cursor = Cursors.SizeNESW;
+                        break;
+                }
+            }
+            else
+            {
+                canvasPictureBox.Cursor = tempControl != null ? tempControl is GuiControls.Form ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
+            }
         }
 
         private void canvasPictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -204,138 +246,6 @@ namespace OSHVisualGui
             Cursor.Clip = new Rectangle();
 
             ProcessMouseMessage(new GuiControls.Mouse(e.Location, GuiControls.Mouse.MouseStates.LeftUp));
-        }
-
-        private void controlComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (controlComboBox.SelectedItem == null)
-            {
-                return;
-            }
-
-            GuiControls.Control control = controlComboBox.SelectedItem as GuiControls.Control;
-            if (!control.isSubControl)
-            {
-                control.Focus();
-                
-                controlPropertyGrid.SelectedObject = controlComboBox.SelectedItem;
-            }
-            else
-            {
-                controlComboBox.SelectedItem = control.RealParent;
-            }
-
-            canvasPictureBox.Invalidate();
-            canvasPictureBox.Focus();
-        }
-
-        private void controlPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            if (e.ChangedItem.Label == "Name")
-            {
-                bool invalidName = false;
-                string newName = e.ChangedItem.Value.ToString();
-                Regex nameRegex = new Regex("[a-zA-Z_][a-zA-Z0-9_]*", RegexOptions.Compiled);
-                if (!nameRegex.IsMatch(newName))
-                {
-                    MessageBox.Show("'" + newName + "' isn't a valid name!");
-                    invalidName = true;
-                }
-                if (ControlManager.Instance().FindByName(newName, GuiControls.Control.FocusedControl) != null)
-                {
-                    MessageBox.Show("A control with this name already exists!");
-                    invalidName = true;
-                }
-                if (invalidName)
-                {
-                    GuiControls.Control.FocusedControl.Name = e.OldValue.ToString();
-                    controlPropertyGrid.Refresh();
-                }
-                else
-                {
-                    controlComboBox.RefreshItem(controlComboBox.SelectedIndex);
-                }
-            }
-
-            canvasPictureBox.Invalidate();
-        }
-
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CodeForm codeForm = new CodeForm(form);
-            codeForm.ShowDialog();
-        }
-
-        private void toolboxPanel_MouseEnter(object sender, EventArgs e)
-        {
-            toolboxPanel.BackgroundImage = Properties.Resources.toolbox_hover;
-        }
-
-        private void toolboxPanel_MouseLeave(object sender, EventArgs e)
-        {
-            toolboxPanel.BackgroundImage = Properties.Resources.toolbox;
-        }
-
-        private void toolboxPanel_MouseHover(object sender, EventArgs e)
-        {
-            controlToolbox.Visible = true;
-        }
-
-        private bool controlShouldDrag = false;
-        private bool controlRealDrag = false;
-        private Point oldControlLocation = new Point();
-        private void control_MouseDown(GuiControls.Control sender, GuiControls.Mouse mouse)
-        {
-            controlShouldDrag = true;
-            oldControlLocation = mouse.Location;
-        }
-
-        private void control_MouseMove(GuiControls.Control sender, GuiControls.Mouse mouse)
-        {
-            if (controlShouldDrag)
-            {
-                Point deltaLocation = mouse.Location.Substract(oldControlLocation);
-                if (controlRealDrag || Math.Abs(deltaLocation.X) > 5 || Math.Abs(deltaLocation.Y) > 5)
-                {
-                    controlRealDrag = true;
-                    sender.Location = sender.Location.Add(deltaLocation);
-                    oldControlLocation = mouse.Location;
-                }
-
-                GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
-                if (container != GuiControls.Control.FocusedControl.RealParent)
-                {
-                    container.isHighlighted = true;
-                }
-            }
-        }
-
-        private void control_MouseUp(GuiControls.Control sender, GuiControls.Mouse mouse)
-        {
-            controlShouldDrag = false;
-            controlRealDrag = false;
-
-            GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
-            if (GuiControls.Control.FocusedControl.RealParent != container)
-            {
-                GuiControls.Control.FocusedControl.Location = GuiControls.Control.FocusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
-
-                GuiControls.ContainerControl oldContainer = GuiControls.Control.FocusedControl.Parent as GuiControls.ContainerControl;
-                oldContainer.RemoveControl(GuiControls.Control.FocusedControl);
-                container.AddControl(GuiControls.Control.FocusedControl);
-            }
-
-            controlPropertyGrid.Refresh();
-        }
-
-        private void control_DragEnd(GuiControls.Control sender)
-        {
-            controlPropertyGrid.Refresh();
         }
 
         private void canvasPictureBox_DragEnter(object sender, DragEventArgs e)
@@ -553,6 +463,144 @@ namespace OSHVisualGui
             }
         }
 
+        private void toolboxPanel_MouseEnter(object sender, EventArgs e)
+        {
+            toolboxPanel.BackgroundImage = Properties.Resources.toolbox_hover;
+        }
+
+        private void toolboxPanel_MouseLeave(object sender, EventArgs e)
+        {
+            toolboxPanel.BackgroundImage = Properties.Resources.toolbox;
+        }
+
+        private void toolboxPanel_MouseHover(object sender, EventArgs e)
+        {
+            controlToolbox.Visible = true;
+        }
+
+        private void toolboxPanel_Click(object sender, EventArgs e)
+        {
+            if (stickToolBoxToggle)
+            {
+                controlToolbox.Visible = false;
+                canvasPictureBox.Location = new Point(27, 24);
+                canvasPictureBox.Size = new Size(canvasPictureBox.Width + controlToolbox.Width, canvasPictureBox.Height);
+            }
+            else
+            {
+                controlToolbox.Visible = true;
+                canvasPictureBox.Location = new Point(27 + controlToolbox.Width, 24);
+                canvasPictureBox.Size = new Size(canvasPictureBox.Width - controlToolbox.Width, canvasPictureBox.Height);
+            }
+            stickToolBoxToggle = !stickToolBoxToggle;
+        }
+
+        private bool controlShouldDrag = false;
+        private bool controlRealDrag = false;
+        private Point oldControlLocation = new Point();
+        private void control_MouseDown(GuiControls.Control sender, GuiControls.Mouse mouse)
+        {
+            controlShouldDrag = true;
+            oldControlLocation = mouse.Location;
+        }
+
+        private void control_MouseMove(GuiControls.Control sender, GuiControls.Mouse mouse)
+        {
+            if (controlShouldDrag)
+            {
+                Point deltaLocation = mouse.Location.Substract(oldControlLocation);
+                if (controlRealDrag || Math.Abs(deltaLocation.X) > 5 || Math.Abs(deltaLocation.Y) > 5)
+                {
+                    controlRealDrag = true;
+                    sender.Location = sender.Location.Add(deltaLocation);
+                    oldControlLocation = mouse.Location;
+                }
+
+                GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
+                if (container != GuiControls.Control.FocusedControl.RealParent)
+                {
+                    container.isHighlighted = true;
+                }
+            }
+        }
+
+        private void control_MouseUp(GuiControls.Control sender, GuiControls.Mouse mouse)
+        {
+            controlShouldDrag = false;
+            controlRealDrag = false;
+
+            GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
+            if (GuiControls.Control.FocusedControl.RealParent != container)
+            {
+                GuiControls.Control.FocusedControl.Location = GuiControls.Control.FocusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
+
+                GuiControls.ContainerControl oldContainer = GuiControls.Control.FocusedControl.Parent as GuiControls.ContainerControl;
+                oldContainer.RemoveControl(GuiControls.Control.FocusedControl);
+                container.AddControl(GuiControls.Control.FocusedControl);
+            }
+
+            controlPropertyGrid.Refresh();
+        }
+
+        private void control_DragEnd(GuiControls.Control sender)
+        {
+            controlPropertyGrid.Refresh();
+        }
+
+        private void controlComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (controlComboBox.SelectedItem == null)
+            {
+                return;
+            }
+
+            GuiControls.Control control = controlComboBox.SelectedItem as GuiControls.Control;
+            if (!control.isSubControl)
+            {
+                control.Focus();
+
+                controlPropertyGrid.SelectedObject = controlComboBox.SelectedItem;
+            }
+            else
+            {
+                controlComboBox.SelectedItem = control.RealParent;
+            }
+
+            canvasPictureBox.Invalidate();
+            canvasPictureBox.Focus();
+        }
+
+        private void controlPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            if (e.ChangedItem.Label == "Name")
+            {
+                bool invalidName = false;
+                string newName = e.ChangedItem.Value.ToString();
+                Regex nameRegex = new Regex("[a-zA-Z_][a-zA-Z0-9_]*", RegexOptions.Compiled);
+                if (!nameRegex.IsMatch(newName))
+                {
+                    MessageBox.Show("'" + newName + "' isn't a valid name!");
+                    invalidName = true;
+                }
+                if (ControlManager.Instance().FindByName(newName, GuiControls.Control.FocusedControl) != null)
+                {
+                    MessageBox.Show("A control with this name already exists!");
+                    invalidName = true;
+                }
+                if (invalidName)
+                {
+                    GuiControls.Control.FocusedControl.Name = e.OldValue.ToString();
+                    controlPropertyGrid.Refresh();
+                }
+                else
+                {
+                    controlComboBox.RefreshItem(controlComboBox.SelectedIndex);
+                }
+            }
+
+            canvasPictureBox.Invalidate();
+        }
+
         private void controlContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             tabPageToolStripSeparator.Visible = false;
@@ -628,6 +676,16 @@ namespace OSHVisualGui
             AddControlToList(tempTabPage);
         }
 
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controlComboBox.Items.Clear();
+            ControlManager.Instance().Clear();
+
+            form = new GuiControls.Form();
+            form.Text = form.Name = "Form1";
+            AddControlToList(form);
+        }
+
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -696,14 +754,15 @@ namespace OSHVisualGui
             }
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            controlComboBox.Items.Clear();
-            ControlManager.Instance().Clear();
+            CodeForm codeForm = new CodeForm(form);
+            codeForm.ShowDialog();
+        }
 
-            form = new GuiControls.Form();
-            form.Text = form.Name = "Form1";
-            AddControlToList(form);
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

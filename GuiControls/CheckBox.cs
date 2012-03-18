@@ -16,7 +16,7 @@ namespace OSHVisualGui.GuiControls
 
         protected bool _checked;
         public virtual bool Checked { get { return _checked; } set { _checked = value; } }
-        public override Size Size { get { return base.Size; } set { if (!autoSize) { base.Size = value; label.Size = value; } } }
+        public override Size Size { get { return base.Size; } set { Size tempSize = value.LimitMin(20, 14); if (!autoSize) { base.Size = tempSize; label.Size = tempSize; } } }
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { size = new Size(label.Size.Width + 20, label.Size.Height + 2); } } }
         #endregion

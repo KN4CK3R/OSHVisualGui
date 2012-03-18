@@ -15,7 +15,8 @@ namespace OSHVisualGui.GuiControls
         private Label label;
 
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
-        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } } }
+        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
+        public override Size Size { get { return base.Size; } set { base.Size = value; CalculateLabelLocation(); } }
         #endregion
 
         public Button()
@@ -27,6 +28,11 @@ namespace OSHVisualGui.GuiControls
 
             BackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+        }
+
+        private void CalculateLabelLocation()
+        {
+            label.Location = new Point(Size.Width / 2 - label.Size.Width / 2, Size.Height / 2 - label.Size.Height / 2);
         }
 
         public override void CalculateAbsoluteLocation()

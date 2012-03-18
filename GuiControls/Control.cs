@@ -61,7 +61,7 @@ namespace OSHVisualGui.GuiControls
         protected Point location;
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
         protected Size size;
-        public virtual Size Size { get { return size; } set { size = value; } }
+        public virtual Size Size { get { return size; } set { size = value.LimitMin(5, 5); } }
         protected bool autoSize;
         public virtual bool AutoSize { get { return autoSize; } set { autoSize = value; } }
         protected Font font;

@@ -34,7 +34,24 @@ namespace OSHVisualGui.GuiControls
             graphics.FillRectangle(tempBrush, absoluteLocation.X + size.Width - 1, absoluteLocation.Y + 1, 1, size.Height - 2);
             graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y + size.Height - 1, size.Width - 2, 1);
 
-            graphics.DrawString(name, font, foreBrush, absoluteLocation.X + 5, absoluteLocation.Y + 5);
+            if (Items != null && Items.Length > 0)
+            {
+                int y = 5;
+                for (int i = 0; i < Items.Length; ++i)
+                {
+                    Size stringSize = TextRenderer.MeasureText(Items[i], Font);
+                    if (y + stringSize.Height >= Size.Height)
+                    {
+                        break;
+                    }
+                    graphics.DrawString(Items[i], font, foreBrush, absoluteLocation.X + 5, absoluteLocation.Y + y);
+                    y += stringSize.Height;
+                }
+            }
+            else
+            {
+                graphics.DrawString(name, font, foreBrush, absoluteLocation.X + 5, absoluteLocation.Y + 5);
+            }
         }
 
         public override Control Copy()
