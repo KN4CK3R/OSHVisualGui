@@ -17,6 +17,7 @@ namespace OSHVisualGui.GuiControls
         internal TabControl.TabControlButton button;
         private Panel containerPanel = new Panel();
 
+        protected string defaultText;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
         internal override List<Control> Controls { get { return containerPanel.Controls; } }
 
@@ -37,6 +38,8 @@ namespace OSHVisualGui.GuiControls
 
         public TabPage()
         {
+            Type = ControlType.TabPage;
+
             button = null;
 
 		    containerPanel.Location = new Point(2, 2);
@@ -44,10 +47,24 @@ namespace OSHVisualGui.GuiControls
             containerPanel.Parent = this;
 		    AddSubControl(containerPanel);
 
-            BackColor = Color.FromArgb(unchecked((int)0xFF474747));
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            defaultText = string.Empty;
+
+            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF474747));
+            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             isSubControl = true;
+        }
+
+        public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+        {
+            foreach (var pair in base.GetChangedProperties())
+            {
+                yield return pair;
+            }
+            if (Text != defaultText)
+            {
+                yield return new KeyValuePair<string, object>("SetText", Text);
+            }
         }
 
         public override void AddControl(Control control)
@@ -89,18 +106,18 @@ namespace OSHVisualGui.GuiControls
             return name + " - TabPage";
         }
 
-        public override string ToCPlusPlusString(string linePrefix)
+        public override string ToCPlusPlusString(string prefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::TabPage();");
-            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            code.AppendLine(prefix + name + " = new OSHGui::TabPage();");
+            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
             if (backColor != Color.FromArgb(unchecked((int)0xFF474747)))
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
+                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
             {
-                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
 
             if (Controls.Count > 0)
@@ -108,8 +125,8 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine("");
                 foreach (Control control in Controls.FastReverse())
                 {
-                    code.Append(control.ToCPlusPlusString(linePrefix));
-                    code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");
+                    code.Append(control.ToCPlusPlusString(prefix));
+                    code.AppendLine(prefix + name + "->AddControl(" + control.Name + ");\r\n");
                 }
             }
 

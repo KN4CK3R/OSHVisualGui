@@ -17,6 +17,8 @@ namespace OSHVisualGui.GuiControls
 
         public Timer()
         {
+            Type = ControlType.Timer;
+
             this.icon = Properties.Resources.control_timer;
 
             Enabled = false;
@@ -25,6 +27,13 @@ namespace OSHVisualGui.GuiControls
             interval = 100;
 
             Mode = DragMode.None;
+        }
+
+        public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+        {
+            yield return new KeyValuePair<string, object>("SetName", Name);
+            yield return new KeyValuePair<string, object>("SetEnabled", Enabled);
+            yield return new KeyValuePair<string, object>("SetInterval", Interval);
         }
 
         public override void Render(Graphics graphics)
@@ -50,22 +59,6 @@ namespace OSHVisualGui.GuiControls
         public override string ToString()
         {
             return name + " - Timer";
-        }
-
-        public override string ToCPlusPlusString(string linePrefix)
-        {
-            StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Timer();");
-            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
-            if (interval != 100)
-            {
-                code.AppendLine(linePrefix + name + "->SetInterval(" + interval + ");");
-            }
-            if (enabled)
-            {
-                code.AppendLine(linePrefix + name + "->SetEnabled(true);");
-            }
-            return code.ToString();
         }
 
         protected override void WriteToXmlElement(XElement element)

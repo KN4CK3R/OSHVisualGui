@@ -22,6 +22,8 @@ namespace OSHVisualGui.GuiControls
 
         public TrackBar()
         {
+            Type = ControlType.TrackBar;
+
             minimum = 1;
             maximum = 10;
             tickFrequency = 1;
@@ -74,50 +76,50 @@ namespace OSHVisualGui.GuiControls
             return name + " - TrackBar";
         }
 
-        public override string ToCPlusPlusString(string linePrefix)
+        public override string ToCPlusPlusString(string prefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::TrackBar();");
-            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            code.AppendLine(prefix + name + " = new OSHGui::TrackBar();");
+            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
             if (!enabled)
             {
-                code.AppendLine(linePrefix + name + "->SetEnabled(false);");
+                code.AppendLine(prefix + name + "->SetEnabled(false);");
             }
             if (!visible)
             {
-                code.AppendLine(linePrefix + name + "->SetVisible(false);");
+                code.AppendLine(prefix + name + "->SetVisible(false);");
             }
             if (location != new Point(6, 6))
             {
-                code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
+                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
             if (size != new Size(110, 18))
             {
-                code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
+                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
             if (backColor != Color.Empty)
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
+                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.FromArgb(unchecked((int)0xFFA6A4A1)))
             {
-                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
             if (tickFrequency != 1)
             {
-                code.AppendLine(linePrefix + name + "->SetTickFrequency(" + tickFrequency + "));");
+                code.AppendLine(prefix + name + "->SetTickFrequency(" + tickFrequency + "));");
             }
             if (minimum != 1)
             {
-                code.AppendLine(linePrefix + name + "->SetMinimum(" + minimum + "));");
+                code.AppendLine(prefix + name + "->SetMinimum(" + minimum + "));");
             }
             if (maximum != 10)
             {
-                code.AppendLine(linePrefix + name + "->SetMaximum(" + maximum + "));");
+                code.AppendLine(prefix + name + "->SetMaximum(" + maximum + "));");
             }
             if (value != 0)
             {
-                code.AppendLine(linePrefix + name + "->SetValue(" + value + "));");
+                code.AppendLine(prefix + name + "->SetValue(" + value + "));");
             }
             return code.ToString();
         }

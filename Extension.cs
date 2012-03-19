@@ -164,5 +164,55 @@ namespace OSHVisualGui
             }
             return Color.FromArgb(col);
         }
+
+        public static string ToCppString(this object obj)
+        {
+            if (obj is string)
+            {
+                return ((string)obj).ToCppString();
+            }
+            if (obj is Point)
+            {
+                return ((Point)obj).ToCppString();
+            }
+            if (obj is Size)
+            {
+                return ((Size)obj).ToCppString();
+            }
+            if (obj is Color)
+            {
+                return ((Color)obj).ToCppString();
+            }
+            if (obj is Font)
+            {
+                return ((Font)obj).ToCppString();
+            }
+            return obj.ToString();
+        }
+
+        public static string ToCppString(this string str)
+        {
+            return "\"" + str.Replace("\"", "\\\"") + "\"";
+        }
+
+        public static string ToCppString(this Point point)
+        {
+            return "OSHGui::Drawing::Point(" + point.X + ", " + point.Y + ")";
+        }
+
+        public static string ToCppString(this Size size)
+        {
+            return "OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + ")";
+        }
+
+        public static string ToCppString(this Color color)
+        {
+            return "OSHGui::Drawing::Color(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + ")";
+        }
+
+        public static string ToCppString(this Font font)
+        {
+            return "OSHGui::Application::GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + font.Size + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
+        }
     }
 }

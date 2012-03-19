@@ -35,7 +35,7 @@ namespace OSHVisualGui
 
         private void stubButton_Click(object sender, EventArgs e)
         {
-            codeFastColoredTextBox.Text = "void " + controlEvent.Control.Name + controlEvent.Stub;
+            codeFastColoredTextBox.Text = controlEvent.Stub;
         }
 
         private void okButton_Click(object sender, EventArgs e)

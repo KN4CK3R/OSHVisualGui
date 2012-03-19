@@ -15,10 +15,12 @@ namespace OSHVisualGui.GuiControls
 
         public Panel()
         {
-            Size = new Size(200, 200);
+            Type = ControlType.Panel;
 
-            BackColor = Color.Empty;
-            ForeColor = Color.Empty;
+            defaultSize = Size = new Size(200, 200);
+
+            defaultBackColor = BackColor = Color.Empty;
+            defaultForeColor = ForeColor = Color.Empty;
         }
 
         public override void Render(Graphics graphics)
@@ -68,34 +70,34 @@ namespace OSHVisualGui.GuiControls
             return name + " - Panel";
         }
 
-        public override string ToCPlusPlusString(string linePrefix)
+        public override string ToCPlusPlusString(string prefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Panel();");
-            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            code.AppendLine(prefix + name + " = new OSHGui::Panel();");
+            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
             if (!enabled)
             {
-                code.AppendLine(linePrefix + name + "->SetEnabled(false);");
+                code.AppendLine(prefix + name + "->SetEnabled(false);");
             }
             if (!visible)
             {
-                code.AppendLine(linePrefix + name + "->SetVisible(false);");
+                code.AppendLine(prefix + name + "->SetVisible(false);");
             }
             if (location != new Point(6, 6))
             {
-                code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
+                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
             if (size != new Size(200, 200))
             {
-                code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
+                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
             if (backColor != Color.Empty)
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
+                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.Empty)
             {
-                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
 
             if (Controls.Count > 0)
@@ -103,8 +105,8 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine("");
                 foreach (Control control in Controls.FastReverse())
                 {
-                    code.Append(control.ToCPlusPlusString(linePrefix));
-                    code.AppendLine(linePrefix + name + "->AddControl(" + control.Name + ");\r\n");
+                    code.Append(control.ToCPlusPlusString(prefix));
+                    code.AppendLine(prefix + name + "->AddControl(" + control.Name + ");\r\n");
                 }
             }
 

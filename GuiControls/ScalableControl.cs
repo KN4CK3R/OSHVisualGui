@@ -194,7 +194,7 @@ namespace OSHVisualGui.GuiControls
             throw new NotImplementedException();
         }
 
-        public override string ToCPlusPlusString(string linePrefix)
+        public override string ToCPlusPlusString(string prefix)
         {
             throw new NotImplementedException();
         }
@@ -237,7 +237,7 @@ namespace OSHVisualGui.GuiControls
                 throw new NotImplementedException();
             }
 
-            public override string ToCPlusPlusString(string linePrefix)
+            public override string ToCPlusPlusString(string prefix)
             {
                 throw new NotImplementedException();
             }

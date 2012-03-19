@@ -57,6 +57,7 @@
     <Compile Include="CodeForm.Designer.cs">
       <DependentUpon>CodeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CodeSerializer.cs" />
     <Compile Include="ControlManager.cs" />
     <Compile Include="ControlSerializer.cs" />
     <Compile Include="DelayedEventHandler.cs" />

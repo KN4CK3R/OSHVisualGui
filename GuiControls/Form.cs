@@ -21,6 +21,8 @@ namespace OSHVisualGui.GuiControls
 
         public Form()
         {
+            Type = ControlType.Form;
+
             Parent = this;
 
             Mode = DragMode.GrowOnly;
@@ -159,7 +161,7 @@ namespace OSHVisualGui.GuiControls
             return generatedCode;
         }
 
-        public override string ToCPlusPlusString(string linePrefix)
+        public override string ToCPlusPlusString(string prefix)
         {
             throw new Exception("Call GenerateCode");
         }

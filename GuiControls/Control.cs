@@ -14,6 +14,7 @@ namespace OSHVisualGui.GuiControls
         ColorBar,
         ColorPicker,
         ComboBox,
+        Form,
         GroupBox,
         Label,
         LinkLabel,
@@ -51,6 +52,8 @@ namespace OSHVisualGui.GuiControls
     public abstract class Control
     {
         internal virtual string DefaultName { get { return "form"; } }
+        internal ControlType Type;
+
         protected string name;
         public string Name { get { return name; } set { name = value; } }
         protected bool enabled;
@@ -60,18 +63,24 @@ namespace OSHVisualGui.GuiControls
         protected Point absoluteLocation;
         internal Point AbsoluteLocation { get { return absoluteLocation; } }
         protected Point location;
+        protected Point defaultLocation;
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
         protected Size size;
+        protected Size defaultSize;
         public virtual Size Size { get { return size; } set { size = value.LimitMin(5, 5); } }
         protected bool autoSize;
+        protected bool defaultAutoSize;
         public virtual bool AutoSize { get { return autoSize; } set { autoSize = value; } }
         protected Font font;
+        protected Font defaultFont;
         public virtual Font Font { get { return font; } set { font = value; } }
         protected Brush foreBrush;
         protected Color foreColor;
+        protected Color defaultForeColor;
         public virtual Color ForeColor { get { return foreColor; } set { foreColor = value; foreBrush = new SolidBrush(foreColor); } }
         protected Brush backBrush;
         protected Color backColor;
+        protected Color defaultBackColor;
         public virtual Color BackColor { get { return backColor; } set { backColor = value; backBrush = new SolidBrush(backColor); } }
         internal int _zOrder;
         internal virtual int zOrder { get { return _zOrder; } set { _zOrder = value; RealParent.Sort(); } }
@@ -150,8 +159,9 @@ namespace OSHVisualGui.GuiControls
         {
             enabled = true;
             visible = true;
+            defaultAutoSize = false;
 
-            location = new Point(6, 6);
+            defaultLocation = location = new Point(6, 6);
 
             isFocused = false;
             isHighlighted = false;
@@ -159,7 +169,7 @@ namespace OSHVisualGui.GuiControls
 
             _zOrder = 0;
 
-            font = new Font("Arial", 8);
+            defaultFont = font = new Font("Arial", 8);
 
             LocationChangedEvent = new LocationChangedEvent(this);
             SizeChangedEvent = new SizeChangedEvent(this);
@@ -177,6 +187,42 @@ namespace OSHVisualGui.GuiControls
             MouseCaptureChangedEvent = new MouseCaptureChangedEvent(this);
             FocusGotEvent = new FocusGotEvent(this);
             FocusLostEvent = new FocusLostEvent(this);
+        }
+
+        public virtual IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+        {
+            yield return new KeyValuePair<string, object>("SetName", Name);
+            if (!Enabled)
+                yield return new KeyValuePair<string, object>("SetEnabled", Enabled);
+            if (!Visible)
+                yield return new KeyValuePair<string, object>("SetVisible", Visible);
+            if (Location != defaultLocation)
+                yield return new KeyValuePair<string, object>("SetLocation", Location);
+            if (Size != defaultSize)
+                yield return new KeyValuePair<string, object>("SetSize", Size);
+            if (AutoSize != defaultAutoSize)
+                yield return new KeyValuePair<string, object>("SetAutoSize", AutoSize);
+            if (!this.Font.Equals(defaultFont))
+                yield return new KeyValuePair<string, object>("SetFont", Font);
+            if (ForeColor != defaultForeColor)
+                yield return new KeyValuePair<string, object>("SetForeColor", ForeColor);
+            if (BackColor != defaultBackColor)
+                yield return new KeyValuePair<string, object>("SetBackColor", BackColor);
+        }
+
+        public virtual IEnumerable<Event> GetUsedEvents()
+        {
+            foreach (var property in GetType().GetProperties())
+            {
+                if (property.PropertyType == typeof(Event))
+                {
+                    Event controlEvent = property.GetValue(this, null) as Event;
+                    if (!controlEvent.IsEmpty)
+                    {
+                        yield return controlEvent;
+                    }
+                }
+            }
         }
 
         public virtual bool Intersect(Point location)
@@ -220,7 +266,7 @@ namespace OSHVisualGui.GuiControls
             return name;
         }
 
-        public abstract string ToCPlusPlusString(string linePrefix);
+        public abstract string ToCPlusPlusString(string prefix);
 
         public XElement SerializeToXml()
         {

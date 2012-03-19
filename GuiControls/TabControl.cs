@@ -54,6 +54,7 @@ namespace OSHVisualGui.GuiControls
                 CalculateButtonLocationAndCount();
             }
         } }
+        protected int defaultSelectedTabPage;
 
         public override Size Size { get { return base.Size; } set
         {
@@ -81,6 +82,8 @@ namespace OSHVisualGui.GuiControls
 
         public TabControl()
         {
+            Type = ControlType.TabControl;
+
             tabPageButtonBindings = new List<TabPageButtonBinding>();
 
             startIndex = 0;
@@ -91,10 +94,22 @@ namespace OSHVisualGui.GuiControls
             nextSwitchButton = new TabControlSwitchButton(1);
             AddSubControl(nextSwitchButton);
 
-            Size = new Size(200, 200);
+            defaultSize = Size = new Size(200, 200);
 
-            BackColor = Color.FromArgb(unchecked((int)0xFF737373));
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF737373));
+            defaultBackColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+        }
+
+        public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+        {
+            foreach (var pair in base.GetChangedProperties())
+            {
+                yield return pair;
+            }
+            if (SelectedTabPage != defaultSelectedTabPage)
+            {
+                yield return new KeyValuePair<string, object>("SetSelectedIndex", SelectedTabPage);
+            }
         }
 
         public override void AddControl(Control control)
@@ -267,7 +282,7 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public virtual IEnumerable<Control> PreOrderVisit()
+        public override IEnumerable<Control> PreOrderVisit()
         {
             return PostOrderVisit();
         }
@@ -321,34 +336,34 @@ namespace OSHVisualGui.GuiControls
             return name + " - TabControl";
         }
 
-        public override string ToCPlusPlusString(string linePrefix)
+        public override string ToCPlusPlusString(string prefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::TabControl();");
-            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            code.AppendLine(prefix + name + " = new OSHGui::TabControl();");
+            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
             if (!enabled)
             {
-                code.AppendLine(linePrefix + name + "->SetEnabled(false);");
+                code.AppendLine(prefix + name + "->SetEnabled(false);");
             }
             if (!visible)
             {
-                code.AppendLine(linePrefix + name + "->SetVisible(false);");
+                code.AppendLine(prefix + name + "->SetVisible(false);");
             }
             if (location != new Point(6, 6))
             {
-                code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
+                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
             if (size != new Size(200, 100))
             {
-                code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
+                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
             if (backColor != Color.FromArgb(unchecked((int)0xFF737373)))
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
+                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
             {
-                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
 
             if (tabPageButtonBindings.Count > 0)
@@ -356,8 +371,8 @@ namespace OSHVisualGui.GuiControls
                 code.AppendLine("");
                 foreach (var binding in tabPageButtonBindings)
                 {
-                    code.Append(binding.tabPage.ToCPlusPlusString(linePrefix));
-                    code.AppendLine(linePrefix + name + "->AddTabPage(" + binding.tabPage.Name + ");\r\n");
+                    code.Append(binding.tabPage.ToCPlusPlusString(prefix));
+                    code.AppendLine(prefix + name + "->AddTabPage(" + binding.tabPage.Name + ");\r\n");
                 }
             }
 
@@ -439,7 +454,7 @@ namespace OSHVisualGui.GuiControls
                 throw new NotImplementedException();
             }
 
-            public override string ToCPlusPlusString(string linePrefix)
+            public override string ToCPlusPlusString(string prefix)
             {
                 throw new NotImplementedException();
             }
@@ -498,7 +513,7 @@ namespace OSHVisualGui.GuiControls
                 throw new NotImplementedException();
             }
 
-            public override string ToCPlusPlusString(string linePrefix)
+            public override string ToCPlusPlusString(string prefix)
             {
                 throw new NotImplementedException();
             }

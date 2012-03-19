@@ -12,6 +12,7 @@ namespace OSHVisualGui.GuiControls
         #region Properties
         internal override string DefaultName { get { return "label"; } }
         protected string text;
+        protected string defaultText;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
         public override Size Size { get { return base.Size; } set { if (!autoSize) { base.Size = value; } } }
         public override Font Font { get { return base.Font; } set { base.Font = value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
@@ -20,9 +21,25 @@ namespace OSHVisualGui.GuiControls
 
         public Label()
         {
-            autoSize = true;
+            Type = ControlType.Label;
 
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            defaultText = text = string.Empty;
+
+            defaultAutoSize = autoSize = true;
+
+            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+        }
+
+        public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+        {
+            foreach (var pair in base.GetChangedProperties())
+            {
+                yield return pair;
+            }
+            if (Text != defaultText)
+            {
+                yield return new KeyValuePair<string, object>("SetText", Text);
+            }
         }
 
         public override void Render(Graphics graphics)
@@ -50,41 +67,41 @@ namespace OSHVisualGui.GuiControls
             return name + " - Label";
         }
 
-        public override string ToCPlusPlusString(string linePrefix)
+        public override string ToCPlusPlusString(string prefix)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(linePrefix + name + " = new OSHGui::Label();");
-            code.AppendLine(linePrefix + name + "->SetName(\"" + name + "\");");
+            code.AppendLine(prefix + name + " = new OSHGui::Label();");
+            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
             if (!enabled)
             {
-                code.AppendLine(linePrefix + name + "->SetEnabled(false);");
+                code.AppendLine(prefix + name + "->SetEnabled(false);");
             }
             if (!visible)
             {
-                code.AppendLine(linePrefix + name + "->SetVisible(false);");
+                code.AppendLine(prefix + name + "->SetVisible(false);");
             }
             if (location != new Point(6, 6))
             {
-                code.AppendLine(linePrefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
+                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
             }
             if (!autoSize)
             {
-                code.AppendLine(linePrefix + name + "->SetAutoSize(false);");
-                code.AppendLine(linePrefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
+                code.AppendLine(prefix + name + "->SetAutoSize(false);");
+                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
             }
             if (backColor != Color.Empty)
             {
-                code.AppendLine(linePrefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
+                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
             }
             if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
             {
-                code.AppendLine(linePrefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
+                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
             }
             if (font.Bold || font.Italic || font.Size != 8 || font.Name != "Arial")
             {
-                code.AppendLine(linePrefix + name + "->Font(Application::GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + font.Size + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + "));");
+                code.AppendLine(prefix + name + "->SetFont(Application::GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + font.Size + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + "));");
             }
-            code.AppendLine(linePrefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
+            code.AppendLine(prefix + name + "->SetText(OSHGui::Misc::AnsiString(\"" + text.Replace("\"", "\\\"") + "\"));");
             return code.ToString();
         }
 

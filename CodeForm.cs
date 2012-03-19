@@ -24,9 +24,11 @@ namespace OSHVisualGui
 
         private void CodeForm_Load(object sender, EventArgs e)
         {
-            string[] code = form.GenerateCode();
-            hppFastColoredTextBox.Text = code[0];
-            cppFastColoredTextBox.Text = code[1];
+            CodeSerializer ser = new CodeSerializer(form);
+            ser.GenerateHeaderCode();
+
+            hppFastColoredTextBox.Text = ser.GenerateHeaderCode();
+            cppFastColoredTextBox.Text = ser.GenerateSourceCode();
         }
 
         TextStyle BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
