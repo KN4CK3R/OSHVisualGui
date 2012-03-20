@@ -20,7 +20,7 @@ namespace OSHVisualGui.GuiControls
         [Browsable(false)]
         public string Stub { get { return "void " + Control.Name + stub + "(" + string.Join(", ", Parameter) + ")\n{\n\t\n}"; } }
         [Browsable(false)]
-        public string Signature { get { return Code.Substring(4, Code.IndexOf('(') - 4); } }
+        public string Signature { get { return Code.Substring(5, Code.IndexOf('(') - 5); } }
         [Browsable(false)]
         public bool IsEmpty { get { return string.IsNullOrEmpty(code); } }
         private string[] parameter;

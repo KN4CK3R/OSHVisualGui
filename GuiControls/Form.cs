@@ -32,10 +32,10 @@ namespace OSHVisualGui.GuiControls
             panel.isSubControl = true;
             AddSubControl(panel);
 
-            Size = new Size(300, 300);
+            defaultSize = Size = new Size(300, 300);
 
-            BackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
-            ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
+            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
 
         public override void AddControl(Control control)
@@ -92,78 +92,6 @@ namespace OSHVisualGui.GuiControls
         public override string ToString()
         {
             return name + " - Form";
-        }
-
-        public string[] GenerateCode()
-        {
-            string[] generatedCode = new string[2];
-
-            StringBuilder code = new StringBuilder();
-            code.AppendLine("#ifndef OSHGUI_" + name.ToUpper() + "_HPP");
-            code.AppendLine("#define OSHGUI_" + name.ToUpper() + "_HPP\r\n");
-            code.AppendLine("#include <OSHGui.hpp>\r\n");
-            code.AppendLine("class " + name + " : OSHGui::Form");
-            code.AppendLine("{");
-            code.AppendLine("public:");
-            code.AppendLine("\t" + name + "();");
-            code.AppendLine("\r\nprivate:");
-            code.AppendLine("\tvoid InitializeComponent()");
-            code.AppendLine("\t{");
-            code.AppendLine("\t\tSetName(\"" + name + "\");");
-            if (size != new Size(300, 300))
-            {
-                code.AppendLine("\t\tSetSize(Drawing::Size(" + size.Width + ", " + size.Height + "));");
-            }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
-            {
-                code.AppendLine("\t\tSetForeColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-            if (backColor != Color.FromArgb(unchecked((int)0xFF7C7B79)))
-            {
-                code.AppendLine("\t\tSetBackColor(Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-            code.AppendLine("\t\tSetText(\"" + text.Replace("\"", "\\\"") + "\");");
-            if (Controls.Count > 0)
-            {
-                code.AppendLine(string.Empty);
-                foreach (Control control in Controls.FastReverse())
-                {
-                    code.Append(control.ToCPlusPlusString("\t\t"));
-                    code.AppendLine("\t\tAddControl(" + control.Name + ");\r\n");
-                }
-                code.Length -= 2;
-                code.AppendLine("\t}\r\n");
-                foreach (Control control in ControlManager.Instance().Controls)
-                {
-                    if (control != this)
-                    {
-                        code.AppendLine("\tOSHGui::" + control.GetType().Name + " *" + control.Name + ";");
-                    }
-                }
-            }
-            else
-            {
-                code.AppendLine("\t}");
-            }
-            code.AppendLine("};\r\n");
-            code.AppendLine("#endif");
-            generatedCode[0] = code.ToString();
-
-            code.Length = 0;
-            code.AppendLine("#include \"" + name + ".hpp\"\r\n");
-            code.AppendLine(name + "::" + name + "()");
-            code.AppendLine("{");
-            code.AppendLine("\tInitializeComponent();");
-            code.AppendLine("}");
-            code.AppendLine("//---------------------------------------------------------------------------");
-            generatedCode[1] = code.ToString();
-
-            return generatedCode;
-        }
-
-        public override string ToCPlusPlusString(string prefix)
-        {
-            throw new Exception("Call GenerateCode");
         }
 
         protected override void WriteToXmlElement(XElement element)

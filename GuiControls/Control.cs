@@ -214,7 +214,7 @@ namespace OSHVisualGui.GuiControls
         {
             foreach (var property in GetType().GetProperties())
             {
-                if (property.PropertyType == typeof(Event))
+                if (property.Name.Contains("Event"))
                 {
                     Event controlEvent = property.GetValue(this, null) as Event;
                     if (!controlEvent.IsEmpty)
@@ -286,6 +286,10 @@ namespace OSHVisualGui.GuiControls
             element.Add(new XAttribute("font", font.Name + "," + font.Size + "," + font.Bold.ToString().ToLower() + "," + font.Italic.ToString().ToLower() + "," + font.Underline.ToString().ToLower()));
             element.Add(new XAttribute("foreColor", foreColor.ToArgb().ToString("X")));
             element.Add(new XAttribute("backColor", backColor.ToArgb().ToString("X")));
+            foreach (var controlEvent in GetUsedEvents())
+            {
+                element.Add(new XAttribute(controlEvent.GetType().Name, controlEvent.Code.ToBase64String()));
+            }
         }
 
         public virtual void ReadPropertiesFromXml(XElement element)

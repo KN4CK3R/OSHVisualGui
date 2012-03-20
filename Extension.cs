@@ -165,6 +165,12 @@ namespace OSHVisualGui
             return Color.FromArgb(col);
         }
 
+        public static string ToBase64String(this string str)
+        {
+            byte[] bytes = ASCIIEncoding.ASCII.GetBytes(str);
+            return Convert.ToBase64String(bytes);
+        }
+
         public static string ToCppString(this object obj)
         {
             if (obj is string)
