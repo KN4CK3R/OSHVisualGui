@@ -31,7 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CodeForm));
             this.sourceTabControl = new System.Windows.Forms.TabControl();
             this.hppTabPage = new System.Windows.Forms.TabPage();
+            this.hppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.cppTabPage = new System.Windows.Forms.TabPage();
+            this.cppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,8 +41,6 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.cppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.hppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.cppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.sourceTabControl.SuspendLayout();
             this.hppTabPage.SuspendLayout();
             this.cppTabPage.SuspendLayout();
@@ -71,6 +71,22 @@
             this.hppTabPage.Text = ".hpp";
             this.hppTabPage.UseVisualStyleBackColor = true;
             // 
+            // hppFastColoredTextBox
+            // 
+            this.hppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.hppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
+            this.hppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.hppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+            this.hppFastColoredTextBox.LeftBracket = '(';
+            this.hppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
+            this.hppFastColoredTextBox.Name = "hppFastColoredTextBox";
+            this.hppFastColoredTextBox.RightBracket = ')';
+            this.hppFastColoredTextBox.Size = new System.Drawing.Size(465, 382);
+            this.hppFastColoredTextBox.TabIndex = 1;
+            this.hppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
+            // 
             // cppTabPage
             // 
             this.cppTabPage.Controls.Add(this.cppFastColoredTextBox);
@@ -81,6 +97,22 @@
             this.cppTabPage.TabIndex = 1;
             this.cppTabPage.Text = ".cpp";
             this.cppTabPage.UseVisualStyleBackColor = true;
+            // 
+            // cppFastColoredTextBox
+            // 
+            this.cppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
+            this.cppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.cppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+            this.cppFastColoredTextBox.LeftBracket = '(';
+            this.cppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
+            this.cppFastColoredTextBox.Name = "cppFastColoredTextBox";
+            this.cppFastColoredTextBox.RightBracket = ')';
+            this.cppFastColoredTextBox.Size = new System.Drawing.Size(465, 385);
+            this.cppFastColoredTextBox.TabIndex = 2;
+            this.cppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
             // 
             // menuStrip
             // 
@@ -131,38 +163,6 @@
             this.cppSaveFileDialog.DefaultExt = "cpp";
             this.cppSaveFileDialog.Filter = "OSHGui-Source|*.cpp";
             // 
-            // hppFastColoredTextBox
-            // 
-            this.hppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.hppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
-            this.hppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.hppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
-            this.hppFastColoredTextBox.LeftBracket = '(';
-            this.hppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
-            this.hppFastColoredTextBox.Name = "hppFastColoredTextBox";
-            this.hppFastColoredTextBox.RightBracket = ')';
-            this.hppFastColoredTextBox.Size = new System.Drawing.Size(465, 382);
-            this.hppFastColoredTextBox.TabIndex = 1;
-            this.hppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
-            // 
-            // cppFastColoredTextBox
-            // 
-            this.cppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
-            this.cppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.cppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
-            this.cppFastColoredTextBox.LeftBracket = '(';
-            this.cppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
-            this.cppFastColoredTextBox.Name = "cppFastColoredTextBox";
-            this.cppFastColoredTextBox.RightBracket = ')';
-            this.cppFastColoredTextBox.Size = new System.Drawing.Size(465, 385);
-            this.cppFastColoredTextBox.TabIndex = 2;
-            this.cppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
-            // 
             // CodeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -173,6 +173,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "CodeForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "OldSchoolHack VisualGui - Sourcecode";
             this.Load += new System.EventHandler(this.CodeForm_Load);
             this.sourceTabControl.ResumeLayout(false);

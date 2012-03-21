@@ -38,7 +38,7 @@ namespace OSHVisualGui.GuiControls
             defaultText = string.Empty;
 
             defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF222222));
-            defaultBackColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             defaultAutoSize = AutoSize = true;
 

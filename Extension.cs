@@ -145,7 +145,7 @@ namespace OSHVisualGui
                 style |= FontStyle.Italic;
             if (underline)
                 style |= FontStyle.Underline;
-            return new Font(values[0], size, style);
+            return new Font(values[0], size, style, GraphicsUnit.Pixel);
         }
 
         public static Color Parse(this Color color, string value)
@@ -165,22 +165,16 @@ namespace OSHVisualGui
             return Color.FromArgb(col);
         }
 
-        public static void DrawStringEx(this Graphics g, string text, Font font, Brush brush, Point location)
-        {
-            int x = location.X;
-            foreach (char c in text)
-            {
-                g.DrawString(c.ToString(), font, brush, new Point(x, location.Y));
-                //x += TextRenderer.MeasureText(c.ToString(), font).Width;
-                SizeF s = g.MeasureString(c.ToString(), font);
-                x += (int)(g.MeasureString(c.ToString(), font).Width / 1.85f);
-            }
-        }
-
         public static string ToBase64String(this string str)
         {
             byte[] bytes = ASCIIEncoding.ASCII.GetBytes(str);
             return Convert.ToBase64String(bytes);
+        }
+
+        public static string FromBase64String(this string str)
+        {
+            byte[] bytes = Convert.FromBase64String(str);
+            return ASCIIEncoding.ASCII.GetString(bytes);
         }
 
         public static string ToCppString(this object obj)

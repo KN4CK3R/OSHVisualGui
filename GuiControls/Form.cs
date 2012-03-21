@@ -63,7 +63,6 @@ namespace OSHVisualGui.GuiControls
 
             graphics.FillRectangle(linearBrush, rect);
             graphics.DrawString(text, font, foreBrush, new PointF(absoluteLocation.X + 4, absoluteLocation.Y + 2), new StringFormat(StringFormatFlags.NoFontFallback));
-            //graphics.DrawStringEx(text, font, foreBrush, new Point(absoluteLocation.X + 4, absoluteLocation.Y + 2));
             graphics.FillRectangle(new SolidBrush(backColor.Substract(Color.FromArgb(0, 50, 50, 50))), absoluteLocation.X + 5, absoluteLocation.Y + 17 + 2, size.Width - 10, 1);
 
             Point crossLocation = new Point(absoluteLocation.X + size.Width - 17, absoluteLocation.Y + 5); 

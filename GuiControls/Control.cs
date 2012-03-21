@@ -328,6 +328,18 @@ namespace OSHVisualGui.GuiControls
                 BackColor = backColor.Parse(element.Attribute("backColor").Value.Trim());
             else
                 throw new Exception("Missing attribute 'backColor': " + element.Name);
+
+            foreach (var property in GetType().GetProperties())
+            {
+                if (property.Name.Contains("Event"))
+                {
+                    if (element.Attribute(property.Name) != null)
+                    {
+                        Event controlEvent = property.GetValue(this, null) as Event;
+                        controlEvent.Code = element.Attribute(property.Name).Value.Trim().FromBase64String();
+                    }
+                }
+            }
         }
 
         internal virtual void RegisterInternalControls()
