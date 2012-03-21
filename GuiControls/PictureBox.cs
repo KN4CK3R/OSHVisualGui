@@ -37,6 +37,18 @@ namespace OSHVisualGui.GuiControls
             ForeColor = Color.Empty;
         }
 
+        public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+        {
+            foreach (var pair in base.GetChangedProperties())
+            {
+                yield return pair;
+            }
+            if (!string.IsNullOrEmpty(Path))
+            {
+                yield return new KeyValuePair<string, object>("SetImage", "Application::GetRenderer()->CreateNewTexture(\"" + path.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")");
+            }
+        }
+
         public override void Render(Graphics graphics)
         {
             if (backColor.A > 0)
@@ -65,42 +77,6 @@ namespace OSHVisualGui.GuiControls
         public override string ToString()
         {
             return name + " - PictureBox";
-        }
-
-        public override string ToCPlusPlusString(string prefix)
-        {
-            StringBuilder code = new StringBuilder();
-            code.AppendLine(prefix + name + " = new OSHGui::PictureBox();");
-            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
-            if (!enabled)
-            {
-                code.AppendLine(prefix + name + "->SetEnabled(false);");
-            }
-            if (!visible)
-            {
-                code.AppendLine(prefix + name + "->SetVisible(false);");
-            }
-            if (location != new Point(6, 6))
-            {
-                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
-            }
-            if (size != new Size(100, 100))
-            {
-                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
-            }
-            if (backColor != Color.Empty)
-            {
-                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
-            }
-            if (foreColor != Color.Empty)
-            {
-                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-            if (!string.IsNullOrEmpty(path))
-            {
-                code.AppendLine(prefix + name + "->SetImage(Application::GetRenderer()->CreateNewTexture(\"" + path.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"));");
-            }
-            return code.ToString();
         }
 
         protected override void WriteToXmlElement(XElement element)

@@ -78,6 +78,9 @@ namespace OSHVisualGui.GuiControls
         internal override Point ContainerLocation { get { return base.ContainerLocation.Add(selected.tabPage.Location); } }
         internal override Point ContainerAbsoluteLocation { get { return selected.tabPage.ContainerAbsoluteLocation; } }
         internal override Size ContainerSize { get { return selected.tabPage.ContainerSize; } }
+
+        [Category("Events")]
+        public SelectedIndexChangedEvent SelectedIndexChangedEvent { get; set; }
         #endregion
 
         public TabControl()
@@ -98,6 +101,8 @@ namespace OSHVisualGui.GuiControls
 
             defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF737373));
             defaultBackColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+
+            SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -336,49 +341,6 @@ namespace OSHVisualGui.GuiControls
             return name + " - TabControl";
         }
 
-        public override string ToCPlusPlusString(string prefix)
-        {
-            StringBuilder code = new StringBuilder();
-            code.AppendLine(prefix + name + " = new OSHGui::TabControl();");
-            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
-            if (!enabled)
-            {
-                code.AppendLine(prefix + name + "->SetEnabled(false);");
-            }
-            if (!visible)
-            {
-                code.AppendLine(prefix + name + "->SetVisible(false);");
-            }
-            if (location != new Point(6, 6))
-            {
-                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
-            }
-            if (size != new Size(200, 100))
-            {
-                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
-            }
-            if (backColor != Color.FromArgb(unchecked((int)0xFF737373)))
-            {
-                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
-            }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
-            {
-                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-
-            if (tabPageButtonBindings.Count > 0)
-            {
-                code.AppendLine("");
-                foreach (var binding in tabPageButtonBindings)
-                {
-                    code.Append(binding.tabPage.ToCPlusPlusString(prefix));
-                    code.AppendLine(prefix + name + "->AddTabPage(" + binding.tabPage.Name + ");\r\n");
-                }
-            }
-
-            return code.ToString();
-        }
-
         protected override void WriteToXmlElement(XElement element)
         {
             base.WriteToXmlElement(element);
@@ -454,11 +416,6 @@ namespace OSHVisualGui.GuiControls
                 throw new NotImplementedException();
             }
 
-            public override string ToCPlusPlusString(string prefix)
-            {
-                throw new NotImplementedException();
-            }
-
             protected override void WriteToXmlElement(XElement element)
             {
                 base.WriteToXmlElement(element);
@@ -509,11 +466,6 @@ namespace OSHVisualGui.GuiControls
             }
 
             public override Control Copy()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override string ToCPlusPlusString(string prefix)
             {
                 throw new NotImplementedException();
             }

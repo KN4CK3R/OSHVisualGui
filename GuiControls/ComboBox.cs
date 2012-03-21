@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -14,6 +15,9 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "comboBox"; } }
         private string[] items;
         public string[] Items { get { return items; } set { items = value; } }
+
+        [Category("Events")]
+        public SelectedIndexChangedEvent SelectedIndexChangedEvent { get; set; }
         #endregion
 
         public ComboBox()
@@ -21,6 +25,8 @@ namespace OSHVisualGui.GuiControls
             Type = ControlType.ComboBox;
 
             defaultSize = Size = new Size(160, 24);
+
+            SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -73,52 +79,6 @@ namespace OSHVisualGui.GuiControls
         public override string ToString()
         {
             return name + " - ComboBox";
-        }
-
-        public override string ToCPlusPlusString(string prefix)
-        {
-            StringBuilder code = new StringBuilder();
-            code.AppendLine(prefix + name + " = new OSHGui::ComboBox();");
-            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
-            if (!enabled)
-            {
-                code.AppendLine(prefix + name + "->SetEnabled(false);");
-            }
-            if (!visible)
-            {
-                code.AppendLine(prefix + name + "->SetVisible(false);");
-            }
-            if (location != new Point(6, 6))
-            {
-                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
-            }
-            if (autoSize)
-            {
-                code.AppendLine(prefix + name + "->SetAutoSize(true);");
-            }
-            else if (size != new Size(160, 24))
-            {
-                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
-            }
-            if (backColor != Color.FromArgb(unchecked((int)0xFF4E4E4E)))
-            {
-                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
-            }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
-            {
-                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-            if (Items != null)
-            {
-                foreach (string item in Items)
-                {
-                    if (!string.IsNullOrEmpty(item))
-                    {
-                        code.AppendLine(prefix + name + "->AddItem(OSHGui::Misc::AnsiString(\"" + item.Replace("\"", "\\\"") + "\"));");
-                    }
-                }
-            }
-            return code.ToString();
         }
 
         protected override void WriteToXmlElement(XElement element)

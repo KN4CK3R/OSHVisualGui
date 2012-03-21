@@ -169,8 +169,8 @@ namespace OSHVisualGui.GuiControls
 
             _zOrder = 0;
 
-            defaultFont = font = new Font("Arial", 8);
-
+            defaultFont = font = new Font("Arial", 11, GraphicsUnit.Pixel);
+            
             LocationChangedEvent = new LocationChangedEvent(this);
             SizeChangedEvent = new SizeChangedEvent(this);
             KeyDownEvent = new KeyDownEvent(this);
@@ -265,8 +265,6 @@ namespace OSHVisualGui.GuiControls
         {
             return name;
         }
-
-        public abstract string ToCPlusPlusString(string prefix);
 
         public XElement SerializeToXml()
         {

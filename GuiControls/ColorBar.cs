@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -15,6 +16,9 @@ namespace OSHVisualGui.GuiControls
         public virtual Color Color { get { return color; } set { color = value; UpdateBars(); } }
         public override Size Size { get { return base.Size; } set { if (value.Height != 45) { value.Height = 45; } base.Size = value; UpdateBars(); } }
         private Bitmap[] colorBar;
+
+        [Category("Events")]
+        public ColorChangedEvent ColorChangedEvent { get; set; }
         #endregion
 
         public ColorBar()
@@ -29,6 +33,8 @@ namespace OSHVisualGui.GuiControls
 
             BackColor = Color.Empty;
             ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+
+            ColorChangedEvent = new ColorChangedEvent(this);
         }
 
         private void UpdateBars()
@@ -88,42 +94,6 @@ namespace OSHVisualGui.GuiControls
         public override string ToString()
         {
             return name + " - ColorBar";
-        }
-
-        public override string ToCPlusPlusString(string prefix)
-        {
-            StringBuilder code = new StringBuilder();
-            code.AppendLine(prefix + name + " = new OSHGui::ColorBar();");
-            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
-            if (!enabled)
-            {
-                code.AppendLine(prefix + name + "->SetEnabled(false);");
-            }
-            if (!visible)
-            {
-                code.AppendLine(prefix + name + "->SetVisible(false);");
-            }
-            if (location != new Point(6, 6))
-            {
-                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
-            }
-            if (size != new Size(150, 45))
-            {
-                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
-            }
-            if (backColor != Color.Empty)
-            {
-                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
-            }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFFE5E0E4)))
-            {
-                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-            if (color != Color.Black)
-            {
-                code.AppendLine(prefix + name + "->SetColor(OSHGui::Drawing::Color(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + "));");
-            }
-            return code.ToString();
         }
 
         protected override void WriteToXmlElement(XElement element)

@@ -165,6 +165,18 @@ namespace OSHVisualGui
             return Color.FromArgb(col);
         }
 
+        public static void DrawStringEx(this Graphics g, string text, Font font, Brush brush, Point location)
+        {
+            int x = location.X;
+            foreach (char c in text)
+            {
+                g.DrawString(c.ToString(), font, brush, new Point(x, location.Y));
+                //x += TextRenderer.MeasureText(c.ToString(), font).Width;
+                SizeF s = g.MeasureString(c.ToString(), font);
+                x += (int)(g.MeasureString(c.ToString(), font).Width / 1.85f);
+            }
+        }
+
         public static string ToBase64String(this string str)
         {
             byte[] bytes = ASCIIEncoding.ASCII.GetBytes(str);
@@ -218,7 +230,7 @@ namespace OSHVisualGui
 
         public static string ToCppString(this Font font)
         {
-            return "OSHGui::Application::GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + font.Size + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
+            return "OSHGui::Application::GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + (int)(font.Size + 3) + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
         }
     }
 }

@@ -194,11 +194,6 @@ namespace OSHVisualGui.GuiControls
             throw new NotImplementedException();
         }
 
-        public override string ToCPlusPlusString(string prefix)
-        {
-            throw new NotImplementedException();
-        }
-
         internal class DragPoint : Control
         {
             private bool isDragging;
@@ -233,11 +228,6 @@ namespace OSHVisualGui.GuiControls
             }
 
             public override Control Copy()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override string ToCPlusPlusString(string prefix)
             {
                 throw new NotImplementedException();
             }

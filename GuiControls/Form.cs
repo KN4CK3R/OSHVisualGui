@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -9,6 +10,7 @@ namespace OSHVisualGui.GuiControls
 {
     public class Form : ContainerControl
     {
+        #region Properties
         private Panel panel;
         private string text;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
@@ -18,6 +20,10 @@ namespace OSHVisualGui.GuiControls
         internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
         internal override Size ContainerSize { get { return panel.ContainerSize; } }
         public override Size Size { get { return base.Size; } set { if (value.Width > 80 && value.Height > 50) { base.Size = value; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } } }
+
+        [Category("Events")]
+        public FormClosingEvent FormClosingEvent { get; set; }
+        #endregion
 
         public Form()
         {
@@ -36,6 +42,8 @@ namespace OSHVisualGui.GuiControls
 
             defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
             defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+
+            FormClosingEvent = new FormClosingEvent(this);
         }
 
         public override void AddControl(Control control)
@@ -54,7 +62,8 @@ namespace OSHVisualGui.GuiControls
             LinearGradientBrush linearBrush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 100, 100, 100)), LinearGradientMode.Vertical);
 
             graphics.FillRectangle(linearBrush, rect);
-            graphics.DrawString(text, font, foreBrush, new PointF(absoluteLocation.X + 4, absoluteLocation.Y + 2));
+            graphics.DrawString(text, font, foreBrush, new PointF(absoluteLocation.X + 4, absoluteLocation.Y + 2), new StringFormat(StringFormatFlags.NoFontFallback));
+            //graphics.DrawStringEx(text, font, foreBrush, new Point(absoluteLocation.X + 4, absoluteLocation.Y + 2));
             graphics.FillRectangle(new SolidBrush(backColor.Substract(Color.FromArgb(0, 50, 50, 50))), absoluteLocation.X + 5, absoluteLocation.Y + 17 + 2, size.Width - 10, 1);
 
             Point crossLocation = new Point(absoluteLocation.X + size.Width - 17, absoluteLocation.Y + 5); 

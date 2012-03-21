@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -18,6 +19,9 @@ namespace OSHVisualGui.GuiControls
         public int Value { get { return value; } set { if (value >= minimum && value < maximum) { this.value = value; } } }
         private int tickFrequency;
         public int TickFrequency { get { return tickFrequency; } set { if (value >= 1) { this.tickFrequency = value; } } }
+
+        [Category("Events")]
+        public ValueChangedEvent ValueChangedEvent { get; set; }
         #endregion
 
         public TrackBar()
@@ -32,6 +36,8 @@ namespace OSHVisualGui.GuiControls
 
             BackColor = Color.Empty;
             ForeColor = Color.FromArgb(unchecked((int)0xFFA6A4A1));
+
+            ValueChangedEvent = new ValueChangedEvent(this);
         }
 
         public override void Render(Graphics graphics)
@@ -74,54 +80,6 @@ namespace OSHVisualGui.GuiControls
         public override string ToString()
         {
             return name + " - TrackBar";
-        }
-
-        public override string ToCPlusPlusString(string prefix)
-        {
-            StringBuilder code = new StringBuilder();
-            code.AppendLine(prefix + name + " = new OSHGui::TrackBar();");
-            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
-            if (!enabled)
-            {
-                code.AppendLine(prefix + name + "->SetEnabled(false);");
-            }
-            if (!visible)
-            {
-                code.AppendLine(prefix + name + "->SetVisible(false);");
-            }
-            if (location != new Point(6, 6))
-            {
-                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
-            }
-            if (size != new Size(110, 18))
-            {
-                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
-            }
-            if (backColor != Color.Empty)
-            {
-                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
-            }
-            if (foreColor != Color.FromArgb(unchecked((int)0xFFA6A4A1)))
-            {
-                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-            if (tickFrequency != 1)
-            {
-                code.AppendLine(prefix + name + "->SetTickFrequency(" + tickFrequency + "));");
-            }
-            if (minimum != 1)
-            {
-                code.AppendLine(prefix + name + "->SetMinimum(" + minimum + "));");
-            }
-            if (maximum != 10)
-            {
-                code.AppendLine(prefix + name + "->SetMaximum(" + maximum + "));");
-            }
-            if (value != 0)
-            {
-                code.AppendLine(prefix + name + "->SetValue(" + value + "));");
-            }
-            return code.ToString();
         }
 
         protected override void WriteToXmlElement(XElement element)

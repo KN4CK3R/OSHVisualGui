@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -14,6 +15,9 @@ namespace OSHVisualGui.GuiControls
         private string text;
         protected string defaultText;
         public string Text { get { return text; } set { text = value; } }
+
+        [Category("Events")]
+        public TextChangedEvent TextChangedEvent { get; set; }
         #endregion
 
         public TextBox()
@@ -26,6 +30,8 @@ namespace OSHVisualGui.GuiControls
 
             defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF242321));
             defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+
+            TextChangedEvent = new TextChangedEvent(this);
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()

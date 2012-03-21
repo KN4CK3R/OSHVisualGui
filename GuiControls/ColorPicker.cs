@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -14,6 +15,9 @@ namespace OSHVisualGui.GuiControls
         public virtual Color Color { get { return color; } set { color = value; UpdateGradient(); } }
         public override Size Size { get { return base.Size; } set { base.Size = value; UpdateGradient(); } }
         private Bitmap gradient;
+
+        [Category("Events")]
+        public ColorChangedEvent ColorChangedEvent { get; set; }
         #endregion
 
         public ColorPicker()
@@ -26,6 +30,8 @@ namespace OSHVisualGui.GuiControls
             ForeColor = Color.Empty;
 
             Color = Color.White;
+
+            ColorChangedEvent = new ColorChangedEvent(this);
         }
 
         private Color GetColorAtPoint(int x, int y)
@@ -139,42 +145,6 @@ namespace OSHVisualGui.GuiControls
         public override string ToString()
         {
             return name + " - ColorPicker";
-        }
-
-        public override string ToCPlusPlusString(string prefix)
-        {
-            StringBuilder code = new StringBuilder();
-            code.AppendLine(prefix + name + " = new OSHGui::ColorPicker();");
-            code.AppendLine(prefix + name + "->SetName(\"" + name + "\");");
-            if (!enabled)
-            {
-                code.AppendLine(prefix + name + "->SetEnabled(false);");
-            }
-            if (!visible)
-            {
-                code.AppendLine(prefix + name + "->SetVisible(false);");
-            }
-            if (location != new Point(6, 6))
-            {
-                code.AppendLine(prefix + name + "->SetLocation(OSHGui::Drawing::Point(" + location.X + ", " + location.Y + "));");
-            }
-            if (size != new Size(100, 150))
-            {
-                code.AppendLine(prefix + name + "->SetSize(OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + "));");
-            }
-            if (backColor != Color.Empty)
-            {
-                code.AppendLine(prefix + name + "->SetBackColor(OSHGui::Drawing::Color(" + backColor.A + ", " + backColor.R + ", " + backColor.G + ", " + backColor.B + "));");
-            }
-            if (foreColor != Color.Empty)
-            {
-                code.AppendLine(prefix + name + "->SetForeColor(OSHGui::Drawing::Color(" + foreColor.A + ", " + foreColor.R + ", " + foreColor.G + ", " + foreColor.B + "));");
-            }
-            if (color != Color.Black)
-            {
-                code.AppendLine(prefix + name + "->SetColor(OSHGui::Drawing::Color(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + "));");
-            }
-            return code.ToString();
         }
 
         protected override void WriteToXmlElement(XElement element)

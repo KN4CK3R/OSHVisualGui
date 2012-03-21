@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -12,14 +13,47 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "timer"; } }
         private long interval;
         public long Interval { get { return interval; } set { if (value >= 1) { interval = value; } } }
-        private Image icon;
+
+        [Category("Events")]
+        public TickEvent TickEvent { get; set; }
+
+        [Category("Events"), Browsable(false)]
+        public new LocationChangedEvent LocationChangedEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new SizeChangedEvent SizeChangedEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new KeyDownEvent KeyDownEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new KeyPressEvent KeyPressEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new KeyUpEvent KeyUpEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new ClickEvent ClickEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseClickEvent MouseClickEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseDownEvent MouseDownEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseUpEvent MouseUpEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseMoveEvent MouseMoveEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseScrollEvent MouseScrollEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseEnterEvent MouseEnterEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseLeaveEvent MouseLeaveEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new MouseCaptureChangedEvent MouseCaptureChangedEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new FocusGotEvent FocusGotEvent { get; set; }
+        [Category("Events"), Browsable(false)]
+        public new FocusLostEvent FocusLostEvent { get; set; }
         #endregion
 
         public Timer()
         {
             Type = ControlType.Timer;
-
-            this.icon = Properties.Resources.control_timer;
 
             Enabled = false;
             Size = new Size(16, 16);
@@ -27,6 +61,8 @@ namespace OSHVisualGui.GuiControls
             interval = 100;
 
             Mode = DragMode.None;
+
+            TickEvent = new TickEvent(this);
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -38,7 +74,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawImage(icon, absoluteLocation.X, absoluteLocation.Y, 16, 16);
+            graphics.DrawImage(Properties.Resources.control_timer, absoluteLocation.X, absoluteLocation.Y, 16, 16);
         }
 
         public override Control Copy()
