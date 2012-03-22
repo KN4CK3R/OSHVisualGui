@@ -13,10 +13,10 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "label"; } }
         protected string text;
         protected string DefaultText;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (AutoSize) { Size = TextRenderer.MeasureText(text, Font); } } }
+        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font); } } }
         public override Size Size { get { return base.Size; } set { if (!AutoSize) { base.Size = value; } } }
-        public override Font Font { get { return base.Font; } set { base.Font = value; if (AutoSize) { Size = TextRenderer.MeasureText(text, Font); } } }
-        public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (AutoSize) { Size = TextRenderer.MeasureText(text, Font); } } }
+        public override Font Font { get { return base.Font; } set { base.Font = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font); } } }
+        public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font); } } }
         #endregion
 
         public Label()
