@@ -83,7 +83,8 @@ namespace OSHVisualGui.GuiControls
         {
             base.WriteToXmlElement(element);
 
-            element.Add(new XAttribute("image", path));
+            if (path != null)
+                element.Add(new XAttribute("image", path));
         }
 
         public override void ReadPropertiesFromXml(XElement element)
@@ -92,8 +93,6 @@ namespace OSHVisualGui.GuiControls
 
             if (element.Attribute("image") != null)
                 Path = element.Attribute("image").Value.Trim();
-            else
-                throw new Exception("Missing attribute 'image': " + element.Name);
         }
     }
 }

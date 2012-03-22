@@ -139,10 +139,10 @@ namespace OSHVisualGui
             {
                 eventMethodList.Add(string.Format("void {0}({1});", controlEvent.Signature, string.Join(", ", controlEvent.Parameter)));
 
-                string placeholder = string.Empty;
-                for (int i = 1; i < controlEvent.Parameter.Length + 1; ++i)
+                string placeholder = "std::placeholders::_1";
+                for (int i = 2; i < controlEvent.Parameter.Length + 1; ++i)
                 {
-                    placeholder += "std::placeholders::_" + i;
+                    placeholder += ", std::placeholders::_" + i;
                 }
                 code.AppendLine(prefix + control.Name + "->Get" + controlEvent.GetType().Name + "() += OSHGui::" + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
             }

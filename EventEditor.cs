@@ -35,6 +35,14 @@ namespace OSHVisualGui
 
         private void stubButton_Click(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(codeFastColoredTextBox.Text))
+            {
+                if (MessageBox.Show("This will override the existing code! Continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
             codeFastColoredTextBox.Text = controlEvent.Stub;
         }
 

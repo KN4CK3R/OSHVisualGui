@@ -19,7 +19,7 @@ namespace OSHVisualGui.GuiControls
         internal override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
         internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
         internal override Size ContainerSize { get { return panel.ContainerSize; } }
-        public override Size Size { get { return base.Size; } set { if (value.Width > 80 && value.Height > 50) { base.Size = value; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } } }
+        public override Size Size { get { return base.Size; } set { Size tempSize = value; if (tempSize.Width < 80 || tempSize.Height < 50) { tempSize = new Size(Math.Max(80, tempSize.Width), Math.Max(50, tempSize.Height)); } base.Size = tempSize; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } }
 
         [Category("Events")]
         public FormClosingEvent FormClosingEvent { get; set; }
@@ -44,6 +44,15 @@ namespace OSHVisualGui.GuiControls
             DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             FormClosingEvent = new FormClosingEvent(this);
+        }
+
+        public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+        {
+            foreach (var pair in base.GetChangedProperties())
+            {
+                yield return pair;
+            }
+            yield return new KeyValuePair<string, object>("SetText", Text);
         }
 
         public override void AddControl(Control control)

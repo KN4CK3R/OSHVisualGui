@@ -224,7 +224,7 @@ namespace OSHVisualGui
 
         public static string ToCppString(this Font font)
         {
-            return "OSHGui::Application::GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + (int)(font.Size + 3) + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
+            return "OSHGui::Application::Instance()->GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + (int)(font.Size + 3) + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
         }
     }
 }
