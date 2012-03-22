@@ -38,18 +38,18 @@ namespace OSHVisualGui.GuiControls
 	    {
 		    Color tmpColor;
 		
-		    double hue = (1.0 / size.Width) * x;
+		    double hue = (1.0 / Size.Width) * x;
 		    hue = hue - (int)hue;
 		    double saturation, brightness;
-		    if (y <= size.Height / 2.0)
+            if (y <= Size.Height / 2.0)
 		    {
-			    saturation = y / (size.Height / 2.0);
+                saturation = y / (Size.Height / 2.0);
 			    brightness = 1;
 		    }
 		    else
 		    {
-			    saturation = (size.Height / 2.0) / y;
-			    brightness = ((size.Height / 2.0) - y + (size.Height / 2.0)) / y;
+                saturation = (Size.Height / 2.0) / y;
+                brightness = ((Size.Height / 2.0) - y + (Size.Height / 2.0)) / y;
 		    }
 		
 		    double h = hue == 1.0 ? 0 : hue * 6.0;
@@ -111,11 +111,11 @@ namespace OSHVisualGui.GuiControls
 
         private void UpdateGradient()
         {
-            gradient = new Bitmap(size.Width, size.Height);
+            gradient = new Bitmap(Size.Width, Size.Height);
 
-            for (int y = 0; y < size.Height; ++y)
+            for (int y = 0; y < Size.Height; ++y)
             {
-                for (int x = 0; x < size.Width; ++x)
+                for (int x = 0; x < Size.Width; ++x)
                 {
                     gradient.SetPixel(x, y, GetColorAtPoint(x, y));
                 }
@@ -124,7 +124,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawImage(gradient, absoluteLocation);
+            graphics.DrawImage(gradient, AbsoluteLocation);
         }
 
         public override Control Copy()
@@ -144,7 +144,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - ColorPicker";
+            return Name + " - ColorPicker";
         }
 
         protected override void WriteToXmlElement(XElement element)

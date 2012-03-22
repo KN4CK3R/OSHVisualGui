@@ -24,10 +24,10 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.ListBox;
 
-            defaultSize = Size = new Size(120, 95);
+            DefaultSize = Size = new Size(120, 95);
 
-            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF171614));
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF171614));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
         }
@@ -49,12 +49,12 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.FillRectangle(backBrush, absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 2);
-            Brush tempBrush = new SolidBrush(backColor.Add(Color.FromArgb(0, 54, 53, 52)));
-            graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y, size.Width - 2, 1);
-            graphics.FillRectangle(tempBrush, absoluteLocation.X, absoluteLocation.Y + 1, 1, size.Height - 2);
-            graphics.FillRectangle(tempBrush, absoluteLocation.X + size.Width - 1, absoluteLocation.Y + 1, 1, size.Height - 2);
-            graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y + size.Height - 1, size.Width - 2, 1);
+            graphics.FillRectangle(backBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
+            Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 54, 53, 52)));
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, 1);
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 1, Size.Width - 2, 1);
 
             if (Items != null && Items.Length > 0)
             {
@@ -66,13 +66,13 @@ namespace OSHVisualGui.GuiControls
                     {
                         break;
                     }
-                    graphics.DrawString(Items[i], font, foreBrush, absoluteLocation.X + 5, absoluteLocation.Y + y);
+                    graphics.DrawString(Items[i], Font, foreBrush, AbsoluteLocation.X + 5, AbsoluteLocation.Y + y);
                     y += stringSize.Height;
                 }
             }
             else
             {
-                graphics.DrawString(name, font, foreBrush, absoluteLocation.X + 5, absoluteLocation.Y + 5);
+                graphics.DrawString(Name, Font, foreBrush, AbsoluteLocation.X + 5, AbsoluteLocation.Y + 5);
             }
         }
 
@@ -98,7 +98,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - ListBox";
+            return Name + " - ListBox";
         }
 
         protected override void WriteToXmlElement(XElement element)

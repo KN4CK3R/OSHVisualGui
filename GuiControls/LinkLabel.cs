@@ -20,12 +20,12 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.LinkLabel;
 
-            underlinedFont = new Font(font, FontStyle.Underline);
+            underlinedFont = new Font(Font, FontStyle.Underline);
         }
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, underlinedFont, foreBrush, new RectangleF(absoluteLocation, size));
+            graphics.DrawString(text, underlinedFont, foreBrush, new RectangleF(AbsoluteLocation, Size));
         }
 
         public override Control Copy()
@@ -45,7 +45,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - LinkLabel";
+            return Name + " - LinkLabel";
         }
     }
 }

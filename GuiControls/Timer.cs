@@ -74,7 +74,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawImage(Properties.Resources.control_timer, absoluteLocation.X, absoluteLocation.Y, 16, 16);
+            graphics.DrawImage(Properties.Resources.control_timer, AbsoluteLocation.X, AbsoluteLocation.Y, 16, 16);
         }
 
         public override Control Copy()
@@ -94,13 +94,13 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - Timer";
+            return Name + " - Timer";
         }
 
         protected override void WriteToXmlElement(XElement element)
         {
             element.Add(new XAttribute("name", Name));
-            element.Add(new XAttribute("location", location.X + "," + location.Y));
+            element.Add(new XAttribute("location", Location.X + "," + Location.Y));
             element.Add(new XAttribute("enabled", Enabled.ToString().ToLower()));
             element.Add(new XAttribute("interval", Interval.ToString()));
         }
@@ -112,7 +112,7 @@ namespace OSHVisualGui.GuiControls
             else
                 throw new Exception("Missing attribute 'name': " + element.Name);
             if (element.Attribute("location") != null)
-                Location = location.Parse(element.Attribute("location").Value.Trim());
+                Location = Location.Parse(element.Attribute("location").Value.Trim());
             if (element.Attribute("enabled") != null)
                 Enabled = bool.Parse(element.Attribute("enabled").Value.Trim());
             else

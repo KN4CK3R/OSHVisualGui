@@ -16,8 +16,8 @@ namespace OSHVisualGui.GuiControls
         private Label label;
 
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
-        protected string defaultText;
-        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
+        protected string DefaultText;
+        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (AutoSize) { base.Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
         public override Size Size { get { return base.Size; } set { base.Size = value; CalculateLabelLocation(); } }
         #endregion
 
@@ -28,12 +28,12 @@ namespace OSHVisualGui.GuiControls
             label = new Label();
             label.Location = new Point(6, 5);
 
-            defaultText = string.Empty;
+            DefaultText = string.Empty;
 
-            defaultSize = Size = new Size(92, 24);
+            DefaultSize = Size = new Size(92, 24);
 
-            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -42,7 +42,7 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
-            if (Text != defaultText)
+            if (Text != DefaultText)
             {
                 yield return new KeyValuePair<string, object>("SetText", Text);
             }
@@ -62,17 +62,17 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            Brush tempBrush = new SolidBrush(backColor.Add(Color.FromArgb(0, 10, 10, 10)));
-            graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y, size.Width - 2, size.Height - 1);
-            graphics.FillRectangle(tempBrush, absoluteLocation.X, absoluteLocation.Y + 1, size.Width, size.Height - 3);
-            tempBrush = new SolidBrush(backColor.Substract(Color.FromArgb(0, 50, 50, 50)));
-            graphics.FillRectangle(tempBrush, absoluteLocation.X + 1, absoluteLocation.Y + size.Height - 2, size.Width - 2, 2);
-            graphics.FillRectangle(tempBrush, absoluteLocation.X + size.Width - 1, absoluteLocation.Y + 1, 1, size.Height - 2);
-            Rectangle rect = new Rectangle(absoluteLocation.X + 1, absoluteLocation.Y + 2, size.Width - 2, size.Height - 4);
-            LinearGradientBrush temp = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+            Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 10, 10, 10)));
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, Size.Height - 1);
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, Size.Width, Size.Height - 3);
+            tempBrush = new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50)));
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 2, Size.Width - 2, 2);
+            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
+            Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 2, Size.Width - 2, Size.Height - 4);
+            LinearGradientBrush temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
             graphics.FillRectangle(temp, rect);
-            rect = new Rectangle(absoluteLocation.X + 2, absoluteLocation.Y + 1, size.Width - 4, size.Height - 2);
-            temp = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+            rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 1, Size.Width - 4, Size.Height - 2);
+            temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
             graphics.FillRectangle(temp, rect);
             
             label.Render(graphics);
@@ -95,7 +95,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - Button";
+            return Name + " - Button";
         }
 
         protected override void WriteToXmlElement(XElement element)

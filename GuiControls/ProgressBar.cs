@@ -39,21 +39,21 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            if (backColor.A > 0)
+            if (BackColor.A > 0)
             {
-                graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
-                graphics.FillRectangle(backBrush, absoluteLocation.X + 1, absoluteLocation.Y, size.Width - 2, size.Height);
-                graphics.FillRectangle(backBrush, absoluteLocation.X, absoluteLocation.Y + 1, size.Width, size.Height - 2);
+                graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
+                graphics.FillRectangle(backBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, Size.Height);
+                graphics.FillRectangle(backBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, Size.Width, Size.Height - 2);
             }
 
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + 1, absoluteLocation.Y, size.Width - 2, 1);
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + 1, absoluteLocation.Y + size.Height - 1, size.Width - 2, 1);
-            graphics.FillRectangle(foreBrush, absoluteLocation.X, absoluteLocation.Y + 1, 1, size.Height - 2);
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + size.Width - 1, absoluteLocation.Y + 1, 1, size.Height - 2);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, 1);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 1, Size.Width - 2, 1);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
 
-            for (int i = (int)(value / ((maximum - minimum) / ((size.Width - 8) / 12.0f)) - 1); i >= 0; --i)
+            for (int i = (int)(value / ((maximum - minimum) / ((Size.Width - 8) / 12.0f)) - 1); i >= 0; --i)
             {
-                graphics.FillRectangle(barBrush, absoluteLocation.X + 4 + i * 12, absoluteLocation.Y + 4, 8, size.Height - 8);
+                graphics.FillRectangle(barBrush, AbsoluteLocation.X + 4 + i * 12, AbsoluteLocation.Y + 4, 8, Size.Height - 8);
             }
         }
 
@@ -77,7 +77,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - ProgressBar";
+            return Name + " - ProgressBar";
         }
 
         protected override void WriteToXmlElement(XElement element)

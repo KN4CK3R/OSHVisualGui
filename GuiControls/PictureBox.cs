@@ -51,14 +51,14 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            if (backColor.A > 0)
+            if (BackColor.A > 0)
             {
-                graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
+                graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
             }
 
             if (image != null)
             {
-                graphics.DrawImage(image, absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
+                graphics.DrawImage(image, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
             }
         }
 
@@ -76,7 +76,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - PictureBox";
+            return Name + " - PictureBox";
         }
 
         protected override void WriteToXmlElement(XElement element)

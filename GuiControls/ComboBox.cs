@@ -24,7 +24,7 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.ComboBox;
 
-            defaultSize = Size = new Size(160, 24);
+            DefaultSize = Size = new Size(160, 24);
 
             SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
         }
@@ -48,8 +48,8 @@ namespace OSHVisualGui.GuiControls
         {
             base.Render(graphics);
 
-            int arrowLeft = absoluteLocation.X + Size.Width - 9;
-            int arrowTop = absoluteLocation.Y + Size.Height / 2 + 1;
+            int arrowLeft = AbsoluteLocation.X + Size.Width - 9;
+            int arrowTop = AbsoluteLocation.Y + Size.Height / 2 + 1;
             for (int i = 0; i < 4; ++i)
             {
                 graphics.FillRectangle(foreBrush, arrowLeft - i, arrowTop - i, 1 + i * 2, 1);
@@ -78,7 +78,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - ComboBox";
+            return Name + " - ComboBox";
         }
 
         protected override void WriteToXmlElement(XElement element)

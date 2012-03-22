@@ -54,7 +54,7 @@ namespace OSHVisualGui.GuiControls
                 CalculateButtonLocationAndCount();
             }
         } }
-        protected int defaultSelectedTabPage;
+        protected int DefaultSelectedTabPage;
 
         public override Size Size { get { return base.Size; } set
         {
@@ -66,7 +66,7 @@ namespace OSHVisualGui.GuiControls
 
             if (selected != null)
             {
-                Size tabPageSize = size.Substract(new Size(0, selected.button.Size.Height));
+                Size tabPageSize = Size.Substract(new Size(0, selected.button.Size.Height));
                 foreach (var binding in tabPageButtonBindings)
                 {
                     binding.tabPage.Size = tabPageSize;
@@ -97,10 +97,10 @@ namespace OSHVisualGui.GuiControls
             nextSwitchButton = new TabControlSwitchButton(1);
             AddSubControl(nextSwitchButton);
 
-            defaultSize = Size = new Size(200, 200);
+            DefaultSize = Size = new Size(200, 200);
 
-            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF737373));
-            defaultBackColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF737373));
+            DefaultBackColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
         }
@@ -111,7 +111,7 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
-            if (SelectedTabPage != defaultSelectedTabPage)
+            if (SelectedTabPage != DefaultSelectedTabPage)
             {
                 yield return new KeyValuePair<string, object>("SetSelectedIndex", SelectedTabPage);
             }
@@ -168,7 +168,7 @@ namespace OSHVisualGui.GuiControls
             button.BackColor = BackColor;
             button.Font = Font;
 
-            tabPage.Size = size.Substract(new Size(0, button.Size.Height));
+            tabPage.Size = Size.Substract(new Size(0, button.Size.Height));
 
             AddSubControl(button);
             AddSubControl(tabPage);
@@ -251,7 +251,7 @@ namespace OSHVisualGui.GuiControls
                 }
 
                 int tempWidth = 0;
-                int maxWidth = size.Width - 9;
+                int maxWidth = Size.Width - 9;
                 for (int i = startIndex; i < tabPageButtonBindings.Count; ++i)
                 {
                     TabControlButton button = tabPageButtonBindings[i].button;
@@ -311,7 +311,7 @@ namespace OSHVisualGui.GuiControls
             {
                 using (Pen pen = new Pen(Color.Orange, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
+                    graphics.DrawRectangle(pen, AbsoluteLocation.X - 3, AbsoluteLocation.Y - 2, Size.Width + 5, Size.Height + 4);
                 }
 
                 isHighlighted = false;
@@ -338,7 +338,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - TabControl";
+            return Name + " - TabControl";
         }
 
         protected override void WriteToXmlElement(XElement element)
@@ -387,28 +387,28 @@ namespace OSHVisualGui.GuiControls
                 active = false;
                 this.binding = binding;
 
-                Size = TextRenderer.MeasureText(binding.tabPage.Text, font).Add(new Size(8, 4));
+                Size = TextRenderer.MeasureText(binding.tabPage.Text, Font).Add(new Size(8, 4));
             }
 
             public override void Render(Graphics graphics)
             {
                 if (active)
                 {
-                    Rectangle rect = new Rectangle(absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
-                    LinearGradientBrush brush = new LinearGradientBrush(rect, backColor.Add(Color.FromArgb(0, 43, 43, 43)), backColor.Substract(Color.FromArgb(0, 10, 10, 10)), LinearGradientMode.Vertical);
+                    Rectangle rect = new Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
+                    LinearGradientBrush brush = new LinearGradientBrush(rect, BackColor.Add(Color.FromArgb(0, 43, 43, 43)), BackColor.Substract(Color.FromArgb(0, 10, 10, 10)), LinearGradientMode.Vertical);
                     graphics.FillRectangle(brush, rect);
-                    rect = new Rectangle(absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height);
-                    brush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 42, 42, 42)), LinearGradientMode.Vertical);
+                    rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height);
+                    brush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 42, 42, 42)), LinearGradientMode.Vertical);
                     graphics.FillRectangle(brush, rect);
                 }
                 else
                 {
-                    graphics.FillRectangle(new SolidBrush(backColor.Substract(Color.FromArgb(0, 38, 38, 38))), absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
-                    Rectangle rect = new Rectangle(absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 1);
-                    LinearGradientBrush brush = new LinearGradientBrush(rect, backColor.Substract(Color.FromArgb(0, 47, 47, 47)), backColor.Substract(Color.FromArgb(0, 67, 67, 67)), LinearGradientMode.Vertical);
+                    graphics.FillRectangle(new SolidBrush(BackColor.Substract(Color.FromArgb(0, 38, 38, 38))), AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
+                    Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 1);
+                    LinearGradientBrush brush = new LinearGradientBrush(rect, BackColor.Substract(Color.FromArgb(0, 47, 47, 47)), BackColor.Substract(Color.FromArgb(0, 67, 67, 67)), LinearGradientMode.Vertical);
                     graphics.FillRectangle(brush, rect);
                 }
-                graphics.DrawString(binding.tabPage.Text, font, foreBrush, absoluteLocation.Add(new Point(4, 2)));
+                graphics.DrawString(binding.tabPage.Text, Font, foreBrush, AbsoluteLocation.Add(new Point(4, 2)));
             }
 
             public override Control Copy()
@@ -442,14 +442,14 @@ namespace OSHVisualGui.GuiControls
 			        return;
 		        }
 
-                Brush border = new SolidBrush(backColor.Add(Color.FromArgb(0, 9, 9, 9)));
-                graphics.FillRectangle(border, absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
-                graphics.FillRectangle(backBrush, absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 2);
+                Brush border = new SolidBrush(BackColor.Add(Color.FromArgb(0, 9, 9, 9)));
+                graphics.FillRectangle(border, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
+                graphics.FillRectangle(backBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
 
-                int x = absoluteLocation.X + 3;
+                int x = AbsoluteLocation.X + 3;
                 if (direction == 0)
                 {
-                    int y = absoluteLocation.Y + 4;
+                    int y = AbsoluteLocation.Y + 4;
                     for (int i = 0; i < 3; ++i)
                     {
                         graphics.FillRectangle(foreBrush, x + i, y - i, 1, 1 + i * 2);
@@ -457,7 +457,7 @@ namespace OSHVisualGui.GuiControls
                 }
                 else
                 {
-                    int y = absoluteLocation.Y + 2;
+                    int y = AbsoluteLocation.Y + 2;
                     for (int i = 0; i < 3; ++i)
                     {
                         graphics.FillRectangle(foreBrush, x + i, y + i, 1, 5 - i * 2);

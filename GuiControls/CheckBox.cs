@@ -16,12 +16,12 @@ namespace OSHVisualGui.GuiControls
         protected Label label;
 
         protected bool _checked;
-        protected bool defaultChecked;
+        protected bool DefaultChecked;
         public virtual bool Checked { get { return _checked; } set { _checked = value; } }
-        public override Size Size { get { return base.Size; } set { Size tempSize = value.LimitMin(20, 14); if (!autoSize) { base.Size = tempSize; label.Size = tempSize; } } }
+        public override Size Size { get { return base.Size; } set { Size tempSize = value.LimitMin(20, 14); if (!AutoSize) { base.Size = tempSize; label.Size = tempSize; } } }
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
-        protected string defaultText;
-        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (autoSize) { size = new Size(label.Size.Width + 20, label.Size.Height + 2); } } }
+        protected string DefaultText;
+        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (AutoSize) { base.Size = new Size(label.Size.Width + 20, label.Size.Height + 2); } } }
 
         [Category("Events")]
         public CheckedChangedEvent CheckedChangedEvent { get; set; }
@@ -34,13 +34,13 @@ namespace OSHVisualGui.GuiControls
             label = new Label();
             label.Location = new Point(20, 2);
 
-            defaultChecked = false;
-            defaultText = string.Empty;
+            DefaultChecked = false;
+            DefaultText = string.Empty;
 
-            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF222222));
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF222222));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
-            defaultAutoSize = AutoSize = true;
+            DefaultAutoSize = AutoSize = true;
 
             CalculateAbsoluteLocation();
 
@@ -53,11 +53,11 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
-            if (Checked != defaultChecked)
+            if (Checked != DefaultChecked)
             {
                 yield return new KeyValuePair<string, object>("SetChecked", Checked);
             }
-            if (Text != defaultText)
+            if (Text != DefaultText)
             {
                 yield return new KeyValuePair<string, object>("SetText", Text);
             }
@@ -72,18 +72,18 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, new Size(17, 17)));
-            Rectangle rect = new Rectangle(absoluteLocation.X + 1, absoluteLocation.Y + 1, 15, 15);
+            graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, new Size(17, 17)));
+            Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, 15, 15);
             LinearGradientBrush temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
             graphics.FillRectangle(temp, rect);
-            rect = new Rectangle(absoluteLocation.X + 2, absoluteLocation.Y + 2, 13, 13);
-            temp = new LinearGradientBrush(rect, backColor, backColor.Add(Color.FromArgb(0, 55, 55, 55)), LinearGradientMode.Vertical);
+            rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 2, 13, 13);
+            temp = new LinearGradientBrush(rect, BackColor, BackColor.Add(Color.FromArgb(0, 55, 55, 55)), LinearGradientMode.Vertical);
             graphics.FillRectangle(temp, rect);
 
             if (_checked)
             {
-                graphics.FillRectangle(new SolidBrush(Color.White), absoluteLocation.X + 5, absoluteLocation.Y + 5, 7, 7);
-                rect = new Rectangle(absoluteLocation.X + 6, absoluteLocation.Y + 6, 5, 5);
+                graphics.FillRectangle(new SolidBrush(Color.White), AbsoluteLocation.X + 5, AbsoluteLocation.Y + 5, 7, 7);
+                rect = new Rectangle(AbsoluteLocation.X + 6, AbsoluteLocation.Y + 6, 5, 5);
                 temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
                 graphics.FillRectangle(temp, rect);
             }
@@ -108,7 +108,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - CheckBox";
+            return Name + " - CheckBox";
         }
 
         protected override void WriteToXmlElement(XElement element)

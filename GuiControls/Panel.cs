@@ -17,22 +17,22 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.Panel;
 
-            defaultSize = Size = new Size(200, 200);
+            DefaultSize = Size = new Size(200, 200);
 
-            defaultBackColor = BackColor = Color.Empty;
-            defaultForeColor = ForeColor = Color.Empty;
+            DefaultBackColor = BackColor = Color.Empty;
+            DefaultForeColor = ForeColor = Color.Empty;
         }
 
         public override void Render(Graphics graphics)
         {
-            if (backColor.A > 0)
+            if (BackColor.A > 0)
             {
-                Rectangle rect = new Rectangle(absoluteLocation, size);
-                LinearGradientBrush linearBrush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 90, 90, 90)), LinearGradientMode.Vertical);
+                Rectangle rect = new Rectangle(AbsoluteLocation, Size);
+                LinearGradientBrush linearBrush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 90, 90, 90)), LinearGradientMode.Vertical);
                 graphics.FillRectangle(linearBrush, rect);
             }
 
-            graphics.DrawString(name, font, new SolidBrush(Color.Black), absoluteLocation.X + 5, absoluteLocation.Y + 5);
+            graphics.DrawString(Name, Font, new SolidBrush(Color.Black), AbsoluteLocation.X + 5, AbsoluteLocation.Y + 5);
             
             base.Render(graphics);
 
@@ -40,7 +40,7 @@ namespace OSHVisualGui.GuiControls
             {
                 using (Pen pen = new Pen(Color.Orange, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
+                    graphics.DrawRectangle(pen, AbsoluteLocation.X - 3, AbsoluteLocation.Y - 2, Size.Width + 5, Size.Height + 4);
                 }
 
                 isHighlighted = false;
@@ -67,7 +67,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - Panel";
+            return Name + " - Panel";
         }
     }
 }

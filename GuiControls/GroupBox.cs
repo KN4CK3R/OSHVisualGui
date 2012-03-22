@@ -13,7 +13,7 @@ namespace OSHVisualGui.GuiControls
         private Panel panel = new Panel();
 
         internal override string DefaultName { get { return "groupBox"; } }
-        protected string defaultText;
+        protected string DefaultText;
         public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; } }
         internal override List<Control> Controls { get { return panel.Controls; } }
         public override Size Size { get { return base.Size; } set { base.Size = value.LimitMin(label.Size.Width + 10, 17); panel.Size = base.Size.Add(new Size(-3 * 2, -3 * 2 - 10)); } }
@@ -26,9 +26,9 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.GroupBox;
 
-            defaultText = string.Empty;
+            DefaultText = string.Empty;
 
-            defaultSize = Size = new Size(200, 200);
+            DefaultSize = Size = new Size(200, 200);
 
             label.Location = new Point(5, -1);
             label.isSubControl = true;
@@ -38,8 +38,8 @@ namespace OSHVisualGui.GuiControls
             panel.isSubControl = true;
             AddSubControl(panel);
 
-            defaultBackColor = BackColor = Color.Empty;
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.Empty;
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -48,7 +48,7 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
-            if (Text != defaultText)
+            if (Text != DefaultText)
             {
                 yield return new KeyValuePair<string, object>("SetText", Text);
             }
@@ -61,17 +61,17 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            if (backColor.A > 0)
+            if (BackColor.A > 0)
             {
-                graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
+                graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
             }
             label.Render(graphics);
 
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + 1, absoluteLocation.Y + 5, 3, 1);
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + label.Size.Width + 5, absoluteLocation.Y + 5, size.Width - label.Size.Width - 6, 1);
-            graphics.FillRectangle(foreBrush, absoluteLocation.X, absoluteLocation.Y + 6, 1, size.Height - 7);
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + size.Width - 1, absoluteLocation.Y + 6, 1, size.Height - 7);
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + 1, absoluteLocation.Y + size.Height - 1, size.Width - 2, 1);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 5, 3, 1);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + label.Size.Width + 5, AbsoluteLocation.Y + 5, Size.Width - label.Size.Width - 6, 1);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 6, 1, Size.Height - 7);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 6, 1, Size.Height - 7);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 1, Size.Width - 2, 1);
 
             panel.Render(graphics);
 
@@ -79,7 +79,7 @@ namespace OSHVisualGui.GuiControls
             {
                 using (Pen pen = new Pen(Color.Orange, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 3, absoluteLocation.Y - 2, size.Width + 5, size.Height + 4);
+                    graphics.DrawRectangle(pen, AbsoluteLocation.X - 3, AbsoluteLocation.Y - 2, Size.Width + 5, Size.Height + 4);
                 }
 
                 isHighlighted = false;
@@ -108,7 +108,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - GroupBox";
+            return Name + " - GroupBox";
         }
 
         protected override void WriteToXmlElement(XElement element)

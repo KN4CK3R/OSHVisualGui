@@ -12,22 +12,22 @@ namespace OSHVisualGui.GuiControls
         #region Properties
         internal override string DefaultName { get { return "label"; } }
         protected string text;
-        protected string defaultText;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
-        public override Size Size { get { return base.Size; } set { if (!autoSize) { base.Size = value; } } }
-        public override Font Font { get { return base.Font; } set { base.Font = value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
-        public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (autoSize) { size = TextRenderer.MeasureText(text, font); } } }
+        protected string DefaultText;
+        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (AutoSize) { Size = TextRenderer.MeasureText(text, Font); } } }
+        public override Size Size { get { return base.Size; } set { if (!AutoSize) { base.Size = value; } } }
+        public override Font Font { get { return base.Font; } set { base.Font = value; if (AutoSize) { Size = TextRenderer.MeasureText(text, Font); } } }
+        public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (AutoSize) { Size = TextRenderer.MeasureText(text, Font); } } }
         #endregion
 
         public Label()
         {
             Type = ControlType.Label;
 
-            defaultText = text = string.Empty;
+            DefaultText = text = string.Empty;
 
-            defaultAutoSize = autoSize = true;
+            DefaultAutoSize = AutoSize = true;
 
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -36,7 +36,7 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
-            if (Text != defaultText)
+            if (Text != DefaultText)
             {
                 yield return new KeyValuePair<string, object>("SetText", Text);
             }
@@ -44,7 +44,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation, size));
+            graphics.DrawString(text, Font, foreBrush, new RectangleF(AbsoluteLocation, Size));
         }
 
         public override Control Copy()
@@ -64,7 +64,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - Label";
+            return Name + " - Label";
         }
 
         protected override void WriteToXmlElement(XElement element)

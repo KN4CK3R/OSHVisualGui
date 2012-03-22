@@ -16,9 +16,9 @@ namespace OSHVisualGui.GuiControls
             {
                 if (_checked != value)
                 {
-                    if (parent != null)
+                    if (Parent != null)
                     {
-                        foreach (Control control in (parent as ContainerControl).Controls)
+                        foreach (Control control in (Parent as ContainerControl).Controls)
                         {
                             if (control is RadioButton)
                             {
@@ -39,17 +39,17 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, new Size(17, 17)));
-            Rectangle rect = new Rectangle(absoluteLocation.X + 1, absoluteLocation.Y + 1, 15, 15);
+            graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, new Size(17, 17)));
+            Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, 15, 15);
             LinearGradientBrush temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
             graphics.FillRectangle(temp, rect);
-            rect = new Rectangle(absoluteLocation.X + 2, absoluteLocation.Y + 2, 13, 13);
-            temp = new LinearGradientBrush(rect, backColor, backColor.Add(Color.FromArgb(0, 55, 55, 55)), LinearGradientMode.Vertical);
+            rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 2, 13, 13);
+            temp = new LinearGradientBrush(rect, BackColor, BackColor.Add(Color.FromArgb(0, 55, 55, 55)), LinearGradientMode.Vertical);
             graphics.FillRectangle(temp, rect);
 
             if (_checked)
             {
-                rect = new Rectangle(absoluteLocation.X + 5, absoluteLocation.Y + 5, 7, 7);
+                rect = new Rectangle(AbsoluteLocation.X + 5, AbsoluteLocation.Y + 5, 7, 7);
                 temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
                 graphics.FillEllipse(temp, rect);
             }
@@ -58,7 +58,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - RadioButton";
+            return Name + " - RadioButton";
         }
     }
 }

@@ -56,8 +56,8 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
-        public override Point Location { get { return base.Location; } set { base.Location = value; if (dragPoints != null) { CalculateDragPointLocations(); } } }
-        public override Size Size { get { return base.Size; } set { base.Size = value; if (dragPoints != null) { CalculateDragPointLocations(); } } }
+        public override Point Location { get { return base.Location; } set { base.Location = value; CalculateDragPointLocations(); } }
+        public override Size Size { get { return base.Size; } set { base.Size = value; CalculateDragPointLocations(); } }
 
         public delegate void DragEventHandler(Control sender);
         public event DragEventHandler DragStart;

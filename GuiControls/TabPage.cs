@@ -17,7 +17,7 @@ namespace OSHVisualGui.GuiControls
         internal TabControl.TabControlButton button;
         private Panel containerPanel = new Panel();
 
-        protected string defaultText;
+        protected string DefaultText;
         public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
         internal override List<Control> Controls { get { return containerPanel.Controls; } }
 
@@ -47,10 +47,10 @@ namespace OSHVisualGui.GuiControls
             containerPanel.Parent = this;
 		    AddSubControl(containerPanel);
 
-            defaultText = string.Empty;
+            DefaultText = string.Empty;
 
-            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF474747));
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF474747));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             isSubControl = true;
         }
@@ -61,7 +61,7 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
-            if (Text != defaultText)
+            if (Text != DefaultText)
             {
                 yield return new KeyValuePair<string, object>("SetText", Text);
             }
@@ -74,12 +74,12 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            if (backColor.A > 0)
+            if (BackColor.A > 0)
             {
-                Brush brush = new SolidBrush(backColor.Add(Color.FromArgb(0, 32, 32, 32)));
-                graphics.FillRectangle(brush, absoluteLocation.X, absoluteLocation.Y, size.Width, size.Height);
-                Rectangle rect = new Rectangle(absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 2);
-                brush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+                Brush brush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 32, 32, 32)));
+                graphics.FillRectangle(brush, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
+                Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
+                brush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
                 graphics.FillRectangle(brush, rect);
             }
 
@@ -103,7 +103,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - TabPage";
+            return Name + " - TabPage";
         }
 
         protected override void WriteToXmlElement(XElement element)

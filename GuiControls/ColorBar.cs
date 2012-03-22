@@ -39,11 +39,11 @@ namespace OSHVisualGui.GuiControls
 
         private void UpdateBars()
         {
-            int width = size.Width - 2;
+            int width = Size.Width - 2;
             float multi = 255.0f / width;
             for (int i = 0; i < 3; ++i)
             {
-                Bitmap bar = new Bitmap(size.Width, 10);
+                Bitmap bar = new Bitmap(Size.Width, 10);
                 for (int x = 0; x < width; ++x)
 		        {
                     Color tempColor;
@@ -72,7 +72,7 @@ namespace OSHVisualGui.GuiControls
         {
             for (int i = 0; i < 3; ++i)
 		    {
-                graphics.DrawImage(colorBar[i], absoluteLocation.X, absoluteLocation.Y + i * 15);
+                graphics.DrawImage(colorBar[i], AbsoluteLocation.X, AbsoluteLocation.Y + i * 15);
 		    }
         }
 
@@ -93,7 +93,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - ColorBar";
+            return Name + " - ColorBar";
         }
 
         protected override void WriteToXmlElement(XElement element)

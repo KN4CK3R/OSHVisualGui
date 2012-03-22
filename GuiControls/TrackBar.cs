@@ -42,22 +42,22 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            if (backColor.A > 0)
+            if (BackColor.A > 0)
             {
-                graphics.FillRectangle(backBrush, new Rectangle(absoluteLocation, size));
+                graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
             }
 
             int tickCount = 1 + (maximum - minimum) / tickFrequency;
-            int pixelsPerTick = (size.Width - 8) / ((maximum - minimum) / tickFrequency);
+            int pixelsPerTick = (Size.Width - 8) / ((maximum - minimum) / tickFrequency);
             for (int i = 0; i < tickCount; ++i)
             {
-                int x = absoluteLocation.X + 4 + i * pixelsPerTick;
-                int y = absoluteLocation.Y + 7;
+                int x = AbsoluteLocation.X + 4 + i * pixelsPerTick;
+                int y = AbsoluteLocation.Y + 7;
                 graphics.FillRectangle(foreBrush, x, y, 1, 5);
             }
 
             int tick = value / tickFrequency;
-            graphics.FillRectangle(foreBrush, absoluteLocation.X + tick * pixelsPerTick, absoluteLocation.Y + 1, 8, 16);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + tick * pixelsPerTick, AbsoluteLocation.Y + 1, 8, 16);
         }
 
         public override Control Copy()
@@ -79,7 +79,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - TrackBar";
+            return Name + " - TrackBar";
         }
 
         protected override void WriteToXmlElement(XElement element)

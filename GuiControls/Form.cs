@@ -38,10 +38,10 @@ namespace OSHVisualGui.GuiControls
             panel.isSubControl = true;
             AddSubControl(panel);
 
-            defaultSize = Size = new Size(300, 300);
+            DefaultSize = Size = new Size(300, 300);
 
-            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             FormClosingEvent = new FormClosingEvent(this);
         }
@@ -58,14 +58,14 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            Rectangle rect = new Rectangle(absoluteLocation, size);
-            LinearGradientBrush linearBrush = new LinearGradientBrush(rect, backColor, backColor.Substract(Color.FromArgb(0, 100, 100, 100)), LinearGradientMode.Vertical);
+            Rectangle rect = new Rectangle(AbsoluteLocation, Size);
+            LinearGradientBrush linearBrush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 100, 100, 100)), LinearGradientMode.Vertical);
 
             graphics.FillRectangle(linearBrush, rect);
-            graphics.DrawString(text, font, foreBrush, new PointF(absoluteLocation.X + 4, absoluteLocation.Y + 2), new StringFormat(StringFormatFlags.NoFontFallback));
-            graphics.FillRectangle(new SolidBrush(backColor.Substract(Color.FromArgb(0, 50, 50, 50))), absoluteLocation.X + 5, absoluteLocation.Y + 17 + 2, size.Width - 10, 1);
+            graphics.DrawString(text, Font, foreBrush, new Point(AbsoluteLocation.X + 4, AbsoluteLocation.Y + 2));
+            graphics.FillRectangle(new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50))), AbsoluteLocation.X + 5, AbsoluteLocation.Y + 17 + 2, Size.Width - 10, 1);
 
-            Point crossLocation = new Point(absoluteLocation.X + size.Width - 17, absoluteLocation.Y + 5); 
+            Point crossLocation = new Point(AbsoluteLocation.X + Size.Width - 17, AbsoluteLocation.Y + 5); 
             for (int i = 0; i < 4; ++i)
             {
                 graphics.FillRectangle(foreBrush, crossLocation.X + i, crossLocation.Y + i, 3, 1);
@@ -80,7 +80,7 @@ namespace OSHVisualGui.GuiControls
             {
                 using (Pen pen = new Pen(Color.Orange, 1))
                 {
-                    graphics.DrawRectangle(pen, absoluteLocation.X - 2, absoluteLocation.Y - 2, size.Width + 3, size.Height + 3);
+                    graphics.DrawRectangle(pen, AbsoluteLocation.X - 2, AbsoluteLocation.Y - 2, Size.Width + 3, Size.Height + 3);
                 }
 
                 isHighlighted = false;
@@ -99,7 +99,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - Form";
+            return Name + " - Form";
         }
 
         protected override void WriteToXmlElement(XElement element)

@@ -13,7 +13,7 @@ namespace OSHVisualGui.GuiControls
         #region Properties
         internal override string DefaultName { get { return "textBox"; } }
         private string text;
-        protected string defaultText;
+        protected string DefaultText;
         public string Text { get { return text; } set { text = value; } }
 
         [Category("Events")]
@@ -24,12 +24,12 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.TextBox;
 
-            defaultText = text = string.Empty;
+            DefaultText = text = string.Empty;
 
-            defaultSize = Size = new Size(100, 24);
+            DefaultSize = Size = new Size(100, 24);
 
-            defaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF242321));
-            defaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF242321));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             TextChangedEvent = new TextChangedEvent(this);
         }
@@ -40,7 +40,7 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
-            if (Text != defaultText)
+            if (Text != DefaultText)
             {
                 yield return new KeyValuePair<string, object>("SetText", Text);
             }
@@ -48,11 +48,11 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            Brush tempBrush = new SolidBrush(backColor.Add(Color.FromArgb(0, 20, 20, 20)));
-		    graphics.FillRectangle(tempBrush, new Rectangle(absoluteLocation, size));
-            graphics.FillRectangle(backBrush, absoluteLocation.X + 1, absoluteLocation.Y + 1, size.Width - 2, size.Height - 2);
-		
-		    graphics.DrawString(text, font, foreBrush, new RectangleF(absoluteLocation.X + 5, absoluteLocation.Y + 6, size.Width - 10, size.Height - 12));
+            Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 20, 20, 20)));
+            graphics.FillRectangle(tempBrush, new Rectangle(AbsoluteLocation, Size));
+            graphics.FillRectangle(backBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
+
+            graphics.DrawString(text, Font, foreBrush, new RectangleF(AbsoluteLocation.X + 5, AbsoluteLocation.Y + 6, Size.Width - 10, Size.Height - 12));
         }
 
         public override Control Copy()
@@ -72,7 +72,7 @@ namespace OSHVisualGui.GuiControls
 
         public override string ToString()
         {
-            return name + " - TextBox";
+            return Name + " - TextBox";
         }
 
         protected override void WriteToXmlElement(XElement element)

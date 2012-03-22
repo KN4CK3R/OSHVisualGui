@@ -31,7 +31,7 @@ namespace OSHVisualGui
             code.AppendLine("#ifndef OSHGUI_" + form.Name.ToUpper() + "_HPP");
             code.AppendLine("#define OSHGUI_" + form.Name.ToUpper() + "_HPP\n");
             code.AppendLine("#include <OSHGui.hpp>\n");
-            code.AppendLine("class " + form.Name + " : OSHGui::Form");
+            code.AppendLine("class " + form.Name + " : public OSHGui::Form");
             code.AppendLine("{");
             code.AppendLine("public:");
             code.AppendLine("\t" + form.Name + "();");
@@ -100,7 +100,8 @@ namespace OSHVisualGui
 
             StringBuilder code = new StringBuilder();
 
-            code.AppendLine("#include \"" + form.Name + ".hpp\"\r\n");
+            code.AppendLine("#include \"" + form.Name + ".hpp\"");
+            code.AppendLine("using namespace OSHGui;\n");
             code.AppendLine(form.Name + "::" + form.Name + "()");
             code.AppendLine("{");
             code.AppendLine("\tInitializeComponent();");
@@ -143,7 +144,7 @@ namespace OSHVisualGui
                 {
                     placeholder += "std::placeholders::_" + i;
                 }
-                code.AppendLine(prefix + control.Name + "->Get" + controlEvent.GetType().Name + "() += " + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
+                code.AppendLine(prefix + control.Name + "->Get" + controlEvent.GetType().Name + "() += OSHGui::" + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
             }
 
             if (control is ContainerControl)

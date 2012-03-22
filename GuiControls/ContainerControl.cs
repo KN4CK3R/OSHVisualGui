@@ -12,7 +12,7 @@ namespace OSHVisualGui.GuiControls
         internal virtual List<Control> Controls { get { return controls; } }
         protected List<Control> internalControls;
         internal virtual Point ContainerLocation { get { return Location; } }
-        internal virtual Point ContainerAbsoluteLocation { get { return absoluteLocation; } }
+        internal virtual Point ContainerAbsoluteLocation { get { return AbsoluteLocation; } }
         internal virtual Size ContainerSize { get { return Size; } }
 
         public ContainerControl()

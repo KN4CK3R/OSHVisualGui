@@ -54,38 +54,38 @@ namespace OSHVisualGui.GuiControls
         internal virtual string DefaultName { get { return "form"; } }
         internal ControlType Type;
 
-        protected string name;
+        private string name;
         public string Name { get { return name; } set { name = value; } }
-        protected bool enabled;
+        private bool enabled;
         public virtual bool Enabled { get { return enabled; } set { enabled = value; } }
-        protected bool visible;
+        private bool visible;
         public virtual bool Visible { get { return visible; } set { visible = value; } }
-        protected Point absoluteLocation;
+        private Point absoluteLocation;
         internal Point AbsoluteLocation { get { return absoluteLocation; } }
-        protected Point location;
-        protected Point defaultLocation;
+        private Point location;
+        protected Point DefaultLocation;
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
-        protected Size size;
-        protected Size defaultSize;
+        private Size size;
+        protected Size DefaultSize;
         public virtual Size Size { get { return size; } set { size = value.LimitMin(5, 5); } }
-        protected bool autoSize;
-        protected bool defaultAutoSize;
+        private bool autoSize;
+        protected bool DefaultAutoSize;
         public virtual bool AutoSize { get { return autoSize; } set { autoSize = value; } }
-        protected Font font;
-        protected Font defaultFont;
+        private Font font;
+        protected Font DefaultFont;
         public virtual Font Font { get { return font; } set { font = value; } }
         protected Brush foreBrush;
-        protected Color foreColor;
-        protected Color defaultForeColor;
+        private Color foreColor;
+        protected Color DefaultForeColor;
         public virtual Color ForeColor { get { return foreColor; } set { foreColor = value; foreBrush = new SolidBrush(foreColor); } }
         protected Brush backBrush;
-        protected Color backColor;
-        protected Color defaultBackColor;
+        private Color backColor;
+        protected Color DefaultBackColor;
         public virtual Color BackColor { get { return backColor; } set { backColor = value; backBrush = new SolidBrush(backColor); } }
         internal int _zOrder;
         internal virtual int zOrder { get { return _zOrder; } set { _zOrder = value; RealParent.Sort(); } }
 
-        protected Control parent;
+        private Control parent;
         internal Control Parent { get { return parent; } set { parent = value; CalculateAbsoluteLocation(); } }
         internal ContainerControl RealParent
         {
@@ -159,9 +159,9 @@ namespace OSHVisualGui.GuiControls
         {
             enabled = true;
             visible = true;
-            defaultAutoSize = false;
+            DefaultAutoSize = false;
 
-            defaultLocation = location = new Point(6, 6);
+            DefaultLocation = location = new Point(6, 6);
 
             isFocused = false;
             isHighlighted = false;
@@ -169,7 +169,7 @@ namespace OSHVisualGui.GuiControls
 
             _zOrder = 0;
 
-            defaultFont = font = new Font("Arial", 11, GraphicsUnit.Pixel);
+            DefaultFont = font = new Font("Arial", 11, GraphicsUnit.Pixel);
             
             LocationChangedEvent = new LocationChangedEvent(this);
             SizeChangedEvent = new SizeChangedEvent(this);
@@ -196,17 +196,17 @@ namespace OSHVisualGui.GuiControls
                 yield return new KeyValuePair<string, object>("SetEnabled", Enabled);
             if (!Visible)
                 yield return new KeyValuePair<string, object>("SetVisible", Visible);
-            if (Location != defaultLocation)
+            if (Location != DefaultLocation)
                 yield return new KeyValuePair<string, object>("SetLocation", Location);
-            if (Size != defaultSize)
+            if (Size != DefaultSize)
                 yield return new KeyValuePair<string, object>("SetSize", Size);
-            if (AutoSize != defaultAutoSize)
+            if (AutoSize != DefaultAutoSize)
                 yield return new KeyValuePair<string, object>("SetAutoSize", AutoSize);
-            if (!this.Font.Equals(defaultFont))
+            if (!this.Font.Equals(DefaultFont))
                 yield return new KeyValuePair<string, object>("SetFont", Font);
-            if (ForeColor != defaultForeColor)
+            if (ForeColor != DefaultForeColor)
                 yield return new KeyValuePair<string, object>("SetForeColor", ForeColor);
-            if (BackColor != defaultBackColor)
+            if (BackColor != DefaultBackColor)
                 yield return new KeyValuePair<string, object>("SetBackColor", BackColor);
         }
 
