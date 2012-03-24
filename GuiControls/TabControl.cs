@@ -26,7 +26,7 @@ namespace OSHVisualGui.GuiControls
         private TabControlSwitchButton nextSwitchButton;
 
         internal List<TabPage> TabPages { get { List<TabPage> tempList = new List<TabPage>(); foreach (var binding in tabPageButtonBindings) { tempList.Add(binding.tabPage); } return tempList; } }
-        internal override List<Control> Controls { get { List<Control> tempList = new List<Control>(); foreach (var binding in tabPageButtonBindings) { tempList.Add(binding.tabPage); } return tempList; } }
+        internal override List<Control> Controls { get { List<Control> tempList = new List<Control>(); foreach (var binding in tabPageButtonBindings) { tempList.Add(binding.tabPage); } tempList.Reverse(); return tempList; } }
         public int SelectedTabPage { get { return selected != null ? selected.index : -1; } set
         {
             if (value >= 0 && value < tabPageButtonBindings.Count)
