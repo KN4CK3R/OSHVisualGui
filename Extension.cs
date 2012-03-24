@@ -63,45 +63,24 @@ namespace OSHVisualGui
             }
         }
 
-        public static void RefreshItem(this ListBox listbox, int index)
-	    {
-		    if (listbox.Items.Count <= index)
-            {
-			    return;
-            }
-		    if (listbox.Items[index] == null)
-            {
-			    return;
-            }
-		
-		    int selection = listbox.SelectedIndex;
-		    listbox.Items.Insert(index, listbox.Items[index]);
-		    listbox.Items.RemoveAt(index + 1);
-		    listbox.SelectedIndex = selection;
-	    }
-
-        public static void RefreshItem(this ComboBox comboBox, int index)
+        public static void RefreshItem(this ComboBox comboBox, object item)
         {
-            if (comboBox.Items.Count <= index)
-            {
-                return;
-            }
-            if (comboBox.Items[index] == null)
+            if (!comboBox.Items.Contains(item))
             {
                 return;
             }
 
-            int selection = comboBox.SelectedIndex;
-            comboBox.Items.Insert(index, comboBox.Items[index]);
-            comboBox.Items.RemoveAt(index + 1);
-            comboBox.SelectedIndex = selection;
-        }
+            int index = 0;
+            for (; index < comboBox.Items.Count; ++index)
+            {
+                if (comboBox.Items[index] == item)
+                {
+                    break;
+                }
+            }
 
-        public static XmlAttribute CreateValueAttribute(this XmlDocument document, string name, string value)
-        {
-            XmlAttribute attribute = document.CreateAttribute(name);
-            attribute.Value = value;
-            return attribute;
+            comboBox.Items.Remove(item);
+            comboBox.Items.Insert(index, item);
         }
 
         public static Point Parse(this Point point, string value)

@@ -71,10 +71,10 @@ namespace OSHVisualGui.GuiControls
             LinearGradientBrush linearBrush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 100, 100, 100)), LinearGradientMode.Vertical);
 
             graphics.FillRectangle(linearBrush, rect);
-            graphics.DrawString(text, Font, foreBrush, new Point(AbsoluteLocation.X + 4, AbsoluteLocation.Y + 2));
+            graphics.DrawString(text, Font, foreBrush, new Point(AbsoluteLocation.X, AbsoluteLocation.Y + 2));
             graphics.FillRectangle(new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50))), AbsoluteLocation.X + 5, AbsoluteLocation.Y + 17 + 2, Size.Width - 10, 1);
 
-            Point crossLocation = new Point(AbsoluteLocation.X + Size.Width - 17, AbsoluteLocation.Y + 5); 
+            Point crossLocation = new Point(AbsoluteLocation.X + Size.Width - 16, AbsoluteLocation.Y + 6); 
             for (int i = 0; i < 4; ++i)
             {
                 graphics.FillRectangle(foreBrush, crossLocation.X + i, crossLocation.Y + i, 3, 1);

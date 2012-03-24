@@ -577,7 +577,6 @@ namespace OSHVisualGui
             }
 
             canvasPictureBox.Invalidate();
-            //canvasPictureBox.Focus();
         }
 
         private void controlPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -604,7 +603,7 @@ namespace OSHVisualGui
                 }
                 else
                 {
-                    controlComboBox.RefreshItem(controlComboBox.SelectedIndex);
+                    controlComboBox.RefreshItem(controlComboBox.SelectedItem);
                 }
             }
 

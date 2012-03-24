@@ -38,7 +38,7 @@ namespace OSHVisualGui
             if (control is ContainerControl)
             {
                 ContainerControl container = control as ContainerControl;
-                foreach (var child in container.Controls.FastReverse())
+                foreach (var child in container.Controls)
                 {
                     Serialize(child, element);
                 }

@@ -14,6 +14,21 @@ namespace OSHVisualGui.GuiControls
         private long interval;
         public long Interval { get { return interval; } set { if (value >= 1) { interval = value; } } }
 
+        [Browsable(false)]
+        public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; } }
+        [Browsable(false)]
+        public override bool Visible { get { return base.Visible; } set { base.Visible = value; } }
+        [Browsable(false)]
+        public override Point Location { get { return base.Location; } set { base.Location = value; } }
+        [Browsable(false)]
+        public override Size Size { get { return base.Size; } set { base.Size = value; } }
+        [Browsable(false)]
+        public override Font Font { get { return base.Font; } set { base.Font = value; } }
+        [Browsable(false)]
+        public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; } }
+        [Browsable(false)]
+        public override Color BackColor { get { return base.BackColor; } set { base.BackColor = value; } }
+
         [Category("Events")]
         public TickEvent TickEvent { get; set; }
 

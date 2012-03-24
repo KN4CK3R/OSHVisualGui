@@ -60,7 +60,7 @@ namespace OSHVisualGui
             {
                 prefix = "\t\t";
                 code.AppendLine(string.Empty);
-                foreach (Control control in form.Controls.FastReverse())
+                foreach (Control control in form.Controls)
                 {
                     code.Append(GenerateControlCode(control));
                     code.AppendLine("\t\tAddControl(" + control.Name + ");\n");
@@ -113,7 +113,7 @@ namespace OSHVisualGui
                 code.AppendLine(controlEvent.Code.Replace(controlEvent.Signature, form.Name + "::" + controlEvent.Signature));
                 code.AppendLine("//---------------------------------------------------------------------------");
             }
-            foreach (Control control in form.Controls.FastReverse())
+            foreach (Control control in form.Controls)
             {
                 foreach (var controlEvent in control.GetUsedEvents())
                 {
