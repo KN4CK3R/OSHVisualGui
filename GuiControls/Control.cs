@@ -390,6 +390,11 @@ namespace OSHVisualGui.GuiControls
             }
         }
 
+        protected virtual void OnClick(Mouse mouse)
+        {
+            
+        }
+
         protected virtual void OnMouseDown(Mouse mouse)
         {
             isClicked = true;
@@ -431,7 +436,7 @@ namespace OSHVisualGui.GuiControls
             MouseCaptureControl = this;
 
             hasCaptured = true;
-            isClicked = false;
+            //isClicked = false;
         }
 
         protected virtual void OnLostMouseCapture()
@@ -470,11 +475,6 @@ namespace OSHVisualGui.GuiControls
 
         public bool ProcessMouseMessage(Mouse mouse)
         {
-            if (!Enabled)
-            {
-                return false;
-            }
-
             switch (mouse.Buttons)
             {
                 case Mouse.MouseStates.LeftDown:
@@ -493,6 +493,11 @@ namespace OSHVisualGui.GuiControls
                 case Mouse.MouseStates.LeftUp:
                     if (hasCaptured || Intersect(mouse.Location))
                     {
+                        if (isClicked)
+                        {
+                            OnClick(mouse);
+                        }
+
                         OnMouseUp(mouse);
 
                         return true;

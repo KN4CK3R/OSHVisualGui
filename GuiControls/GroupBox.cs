@@ -59,6 +59,11 @@ namespace OSHVisualGui.GuiControls
             panel.AddControl(control);
         }
 
+        public override void RemoveControl(Control control)
+        {
+            panel.RemoveControl(control);
+        }
+
         public override void Render(Graphics graphics)
         {
             if (BackColor.A > 0)

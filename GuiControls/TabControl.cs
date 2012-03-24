@@ -280,6 +280,14 @@ namespace OSHVisualGui.GuiControls
         {
             if (selected != null && selected.tabPage != null)
             {
+                foreach (var binding in tabPageButtonBindings)
+                {
+                    if (binding.button.Visible)
+                    {
+                        yield return binding.button;
+                    }
+                }
+
                 foreach (Control child in selected.tabPage.PostOrderVisit())
                 {
                     yield return child;
@@ -382,7 +390,7 @@ namespace OSHVisualGui.GuiControls
 
             internal TabControlButton(TabPageButtonBinding binding)
             {
-                isSubControl = true;
+                //isSubControl = true;
 
                 active = false;
                 this.binding = binding;
@@ -419,6 +427,14 @@ namespace OSHVisualGui.GuiControls
             protected override void WriteToXmlElement(XElement element)
             {
                 base.WriteToXmlElement(element);
+            }
+
+            protected override void OnClick(Mouse mouse)
+            {
+                base.OnClick(mouse);
+
+                TabControl tabControl = Parent as TabControl;
+                tabControl.SelectedTabPage = binding.index;
             }
         }
 

@@ -94,7 +94,11 @@ namespace OSHVisualGui.GuiControls
             {
                 for (int i = 0; i < 8; ++i)
                 {
-                    yield return dragPoints[7 - i];
+                    DragPoint dragPoint = dragPoints[7 - i];
+                    if (dragPoint.Enabled)
+                    {
+                        yield return dragPoint;
+                    }
                 }
             }
         }

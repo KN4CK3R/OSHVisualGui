@@ -118,11 +118,14 @@ namespace OSHVisualGui
             if (GuiControls.Control.FocusedControl != null)
             {
                 GuiControls.ScalableControl scalableControl = GuiControls.Control.FocusedControl as GuiControls.ScalableControl;
-                foreach (GuiControls.Control dragPoint in scalableControl.ProcessDragPoints())
+                if (scalableControl != null)
                 {
-                    if (dragPoint.Intersect(location))
+                    foreach (GuiControls.Control dragPoint in scalableControl.ProcessDragPoints())
                     {
-                        return dragPoint;
+                        if (dragPoint.Intersect(location))
+                        {
+                            return dragPoint;
+                        }
                     }
                 }
             }
@@ -162,7 +165,7 @@ namespace OSHVisualGui
                 return;
             }
 
-            if (GuiControls.Control.FocusedControl != null)
+            if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
             {
                 foreach (GuiControls.Control dragPoint in (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).ProcessDragPoints())
                 {
@@ -193,7 +196,7 @@ namespace OSHVisualGui
         {
             form.Render(e.Graphics);
 
-            if (GuiControls.Control.FocusedControl != null)
+            if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
             {
                 (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).RenderDragArea(e.Graphics);
             }
@@ -574,7 +577,7 @@ namespace OSHVisualGui
             }
 
             canvasPictureBox.Invalidate();
-            canvasPictureBox.Focus();
+            //canvasPictureBox.Focus();
         }
 
         private void controlPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
