@@ -31,10 +31,10 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.PictureBox;
 
-            Size = new Size(100, 100);
+            DefaultSize = Size = new Size(100, 100);
             
-            BackColor = Color.Empty;
-            ForeColor = Color.Empty;
+            DefaultBackColor = BackColor = Color.Empty;
+            DefaultForeColor = ForeColor = Color.Empty;
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -45,7 +45,7 @@ namespace OSHVisualGui.GuiControls
             }
             if (!string.IsNullOrEmpty(Path))
             {
-                yield return new KeyValuePair<string, object>("SetImage", "Application::GetRenderer()->CreateNewTexture(\"" + path.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")");
+                yield return new KeyValuePair<string, object>("SetImage", new System.IO.FileInfo(path));
             }
         }
 

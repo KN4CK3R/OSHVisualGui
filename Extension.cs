@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.IO;
 
 namespace OSHVisualGui
 {
@@ -199,6 +200,10 @@ namespace OSHVisualGui
             {
                 return ((Font)obj).ToCppString();
             }
+            if (obj is FileInfo)
+            {
+                return ((FileInfo)obj).ToCppString();
+            }
             return obj.ToString();
         }
 
@@ -225,6 +230,11 @@ namespace OSHVisualGui
         public static string ToCppString(this Font font)
         {
             return "OSHGui::Application::Instance()->GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + (int)(font.Size + 3) + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
+        }
+
+        public static string ToCppString(this FileInfo file)
+        {
+            return "OSHGui::Application::Instance()->GetRenderer()->CreateNewTexture(\"" + file.FullName.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")";
         }
     }
 }

@@ -100,7 +100,7 @@ namespace OSHVisualGui.GuiControls
             DefaultSize = Size = new Size(200, 200);
 
             DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF737373));
-            DefaultBackColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
         }
