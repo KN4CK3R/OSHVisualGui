@@ -12,6 +12,7 @@ namespace OSHVisualGui.GuiControls
         #region Properties
         internal override string DefaultName { get { return "timer"; } }
         private long interval;
+        private long DefaultInterval;
         public long Interval { get { return interval; } set { if (value >= 1) { interval = value; } } }
 
         [Browsable(false)]
@@ -73,7 +74,7 @@ namespace OSHVisualGui.GuiControls
             Enabled = false;
             Size = new Size(16, 16);
 
-            interval = 100;
+            DefaultInterval = interval = 100;
 
             Mode = DragMode.None;
 
@@ -83,8 +84,16 @@ namespace OSHVisualGui.GuiControls
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
         {
             yield return new KeyValuePair<string, object>("SetName", Name);
-            yield return new KeyValuePair<string, object>("SetEnabled", Enabled);
-            yield return new KeyValuePair<string, object>("SetInterval", Interval);
+            if (Enabled)
+                yield return new KeyValuePair<string, object>("SetEnabled", Enabled);
+            if (interval != DefaultInterval)
+                yield return new KeyValuePair<string, object>("SetInterval", Interval);
+        }
+
+        public override IEnumerable<Event> GetUsedEvents()
+        {
+            if (!TickEvent.IsEmpty)
+                yield return TickEvent;
         }
 
         public override void Render(Graphics graphics)

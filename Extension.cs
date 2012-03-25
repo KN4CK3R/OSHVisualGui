@@ -159,6 +159,10 @@ namespace OSHVisualGui
 
         public static string ToCppString(this object obj)
         {
+            if (obj is bool)
+            {
+                return ((bool)obj).ToCppString();
+            }
             if (obj is string)
             {
                 return ((string)obj).ToCppString();
@@ -184,6 +188,11 @@ namespace OSHVisualGui
                 return ((FileInfo)obj).ToCppString();
             }
             return obj.ToString();
+        }
+
+        public static string ToCppString(this bool val)
+        {
+            return val ? "true" : "false";
         }
 
         public static string ToCppString(this string str)
