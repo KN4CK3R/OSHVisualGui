@@ -19,9 +19,16 @@ namespace OSHVisualGui.GuiControls
             get { return path; }
             set
             {
-                Image tempImage = Image.FromFile(value);
-                path = value;
-                image = tempImage;
+                try
+                {
+                    Image tempImage = Image.FromFile(value);
+                    path = value;
+                    image = tempImage;
+                }
+                catch
+                {
+                    throw new Exception("Can't open: " + value);
+                }
             }
         }
         private Image image;

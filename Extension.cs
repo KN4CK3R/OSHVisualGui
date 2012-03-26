@@ -65,7 +65,7 @@ namespace OSHVisualGui
 
         public static void RefreshItem(this ComboBox comboBox, object item)
         {
-            if (!comboBox.Items.Contains(item))
+            if (item == null || !comboBox.Items.Contains(item))
             {
                 return;
             }
@@ -223,6 +223,44 @@ namespace OSHVisualGui
         public static string ToCppString(this FileInfo file)
         {
             return "OSHGui::Application::Instance()->GetRenderer()->CreateNewTexture(\"" + file.FullName.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")";
+        }
+
+        private static Dictionary<string, int> offsets = new Dictionary<string, int>();
+        public static int LocationOffset(this Font font)
+        {
+            string key = font.Name + font.Size;
+            if (offsets.ContainsKey(key))
+            {
+                return offsets[key];
+            }
+
+            SizeF stringSize;
+            Bitmap bmp = new Bitmap(1, 1);
+            using (Graphics graphics = Graphics.FromImage(bmp))
+            {
+                stringSize = graphics.MeasureString("H", font);
+                bmp = new Bitmap(bmp, (int)stringSize.Width, (int)stringSize.Height);
+            }
+            using (Graphics graphics = Graphics.FromImage(bmp))
+            {
+                graphics.DrawString("H", font, Brushes.Red, 0, 0);
+                graphics.Flush();
+
+                int x = 0;
+                int y = (int)stringSize.Height / 2;
+                for (; x < stringSize.Width; ++x)
+                {
+                    Color color = bmp.GetPixel(x, y);
+                    if (color.A != 0)
+                    {
+                        break;
+                    }
+                }
+
+                offsets[key] = x;
+
+                return x;
+            }
         }
     }
 }

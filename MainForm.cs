@@ -60,6 +60,7 @@ namespace OSHVisualGui
 
             form = new GuiControls.Form();
             form.Text = form.Name = "Form1";
+			form.Text = "Blue-Team Site :: Lol Jungle Timer :: by Igromanru";
             form.DragEnd += control_DragEnd;
             AddControlToList(form);
 
@@ -154,46 +155,48 @@ namespace OSHVisualGui
             return form;
         }
 
-        private void ProcessMouseMessage(GuiControls.Mouse mouse)
-        {
-            if (GuiControls.Control.MouseCaptureControl != null)
-            {
-                if (GuiControls.Control.MouseCaptureControl.ProcessMouseMessage(mouse))
-                {
-                    canvasPictureBox.Invalidate();
-                }
-                return;
-            }
+		private void ProcessMouseMessage(GuiControls.Mouse mouse)
+		{
+			if (GuiControls.Control.MouseCaptureControl != null)
+			{
+				if (GuiControls.Control.MouseCaptureControl.ProcessMouseMessage(mouse))
+				{
+					canvasPictureBox.Invalidate();
+				}
+				return;
+			}
 
-            if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
-            {
-                foreach (GuiControls.Control dragPoint in (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).ProcessDragPoints())
-                {
-                    if (dragPoint.ProcessMouseMessage(mouse))
-                    {
-                        canvasPictureBox.Invalidate();
-                        return;
-                    }
-                }
-            }
+			if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
+			{
+				foreach (GuiControls.Control dragPoint in (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).ProcessDragPoints())
+				{
+					if (dragPoint.ProcessMouseMessage(mouse))
+					{
+						canvasPictureBox.Invalidate();
+						return;
+					}
+				}
+			}
 
-            foreach (GuiControls.Control control in form.PostOrderVisit())
-            {
-                if (control.ProcessMouseMessage(mouse))
-                {
-                    canvasPictureBox.Invalidate();
-                    return;
-                }
-            }
+			foreach (GuiControls.Control control in form.PostOrderVisit())
+			{
+				if (control.ProcessMouseMessage(mouse))
+				{
+					canvasPictureBox.Invalidate();
+					return;
+				}
+			}
 
-            if (form.ProcessMouseMessage(mouse))
-            {
-                canvasPictureBox.Invalidate();
-            }
-        }
+			if (form.ProcessMouseMessage(mouse))
+			{
+				canvasPictureBox.Invalidate();
+			}
+		}
 
         private void canvasPictureBox_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+
             form.Render(e.Graphics);
 
             if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
@@ -743,7 +746,7 @@ namespace OSHVisualGui
                 }
                 catch (Exception serializeError)
                 {
-                    MessageBox.Show(serializeError.Message, "OSHGui Parse Error");
+                    MessageBox.Show("Error while parsing " + Path.GetFileName(ofd.FileName) + "\n\n" + serializeError.Message, "OSHGui Parse Error");
                 }
             }
         }

@@ -13,10 +13,10 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "label"; } }
         protected string text;
         protected string DefaultText;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font); } } }
+        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font).Add(new Size((int)(-Font.LocationOffset() * 1.3), 0)); } } }
         public override Size Size { get { return base.Size; } set { if (!AutoSize) { base.Size = value; } } }
-        public override Font Font { get { return base.Font; } set { base.Font = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font); } } }
-        public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font); } } }
+		public override Font Font { get { return base.Font; } set { base.Font = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font).Add(new Size((int)(-Font.LocationOffset() * 1.3), 0)); } } }
+		public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font).Add(new Size((int)(-Font.LocationOffset() * 1.3), 0)); } } }
         #endregion
 
         public Label()
@@ -44,7 +44,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, Font, foreBrush, new RectangleF(AbsoluteLocation, Size));
+            graphics.DrawString(text, Font, foreBrush, new Rectangle(AbsoluteLocation.Add(new Point(-Font.LocationOffset(), 0)), Size));
         }
 
         public override Control Copy()
