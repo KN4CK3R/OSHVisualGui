@@ -60,7 +60,6 @@ namespace OSHVisualGui
 
             form = new GuiControls.Form();
             form.Text = form.Name = "Form1";
-			form.Text = "Blue-Team Site :: Lol Jungle Timer :: by Igromanru";
             form.DragEnd += control_DragEnd;
             AddControlToList(form);
 
