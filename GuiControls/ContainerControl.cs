@@ -130,7 +130,7 @@ namespace OSHVisualGui.GuiControls
 
         public virtual IEnumerable<Control> PostOrderVisit()
         {
-            foreach (Control control in internalControls)
+            foreach (Control control in internalControls.FastReverse())
             {
                 if (control is ContainerControl)
                 {
