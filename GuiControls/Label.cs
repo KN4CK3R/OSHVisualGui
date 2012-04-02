@@ -13,7 +13,7 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "label"; } }
         protected string text;
         protected string DefaultText;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font).Add(new Size((int)(-Font.LocationOffset() * 1.3), 0)); } } }
+        public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (AutoSize) { Size measure = TextRenderer.MeasureText(text, Font); if (!measure.IsEmpty) { measure = measure.Add(new Size((int)(-Font.LocationOffset() * 1.3), 0)); } base.Size = measure; } } }
         public override Size Size { get { return base.Size; } set { if (!AutoSize) { base.Size = value; } } }
 		public override Font Font { get { return base.Font; } set { base.Font = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font).Add(new Size((int)(-Font.LocationOffset() * 1.3), 0)); } } }
 		public override bool AutoSize { get { return base.AutoSize; } set { base.AutoSize = value; if (AutoSize) { base.Size = TextRenderer.MeasureText(text, Font).Add(new Size((int)(-Font.LocationOffset() * 1.3), 0)); } } }
@@ -26,6 +26,7 @@ namespace OSHVisualGui.GuiControls
             DefaultText = text = string.Empty;
 
             DefaultAutoSize = AutoSize = true;
+			MinimumSize = new Size(0, 0);
 
             DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
         }
@@ -44,7 +45,7 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, Font, foreBrush, new Rectangle(AbsoluteLocation.Add(new Point(-Font.LocationOffset(), 0)), Size));
+            graphics.DrawString(text, Font, foreBrush, new Rectangle(AbsoluteLocation.Add(new Point(-Font.LocationOffset(), 0)), this.Size.Add(new Size(6, 6))));
         }
 
         public override Control Copy()

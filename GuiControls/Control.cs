@@ -67,7 +67,8 @@ namespace OSHVisualGui.GuiControls
         public virtual Point Location { get { return location; } set { location = value; CalculateAbsoluteLocation(); } }
         private Size size;
         protected Size DefaultSize;
-        public virtual Size Size { get { return size; } set { size = value.LimitMin(5, 5); } }
+		internal Size MinimumSize;
+		public virtual Size Size { get { return size; } set { size = value.LimitMin(MinimumSize.Width, MinimumSize.Height); } }
         private bool autoSize;
         protected bool DefaultAutoSize;
         public virtual bool AutoSize { get { return autoSize; } set { autoSize = value; } }
@@ -162,6 +163,8 @@ namespace OSHVisualGui.GuiControls
             DefaultAutoSize = false;
 
             DefaultLocation = location = new Point(6, 6);
+
+			MinimumSize = new Size(5, 5);
 
             isFocused = false;
             isHighlighted = false;

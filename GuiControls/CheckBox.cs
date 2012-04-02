@@ -18,10 +18,10 @@ namespace OSHVisualGui.GuiControls
         protected bool _checked;
         protected bool DefaultChecked;
         public virtual bool Checked { get { return _checked; } set { _checked = value; } }
-        public override Size Size { get { return base.Size; } set { Size tempSize = value.LimitMin(20, 14); if (!AutoSize) { base.Size = tempSize; label.Size = tempSize; } } }
+        public override Size Size { get { return base.Size; } set { Size tempSize = value.LimitMin(17, 17); if (!AutoSize) { base.Size = tempSize; label.Size = tempSize; } } }
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
         protected string DefaultText;
-        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (AutoSize) { base.Size = new Size(label.Size.Width + 20, label.Size.Height + 2); } } }
+		public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (AutoSize) { base.Size = new Size(label.Size.Width + 17, label.Size.Height + 2).LimitMin(17, 17); } } }
 
         [Category("Events")]
         public CheckedChangedEvent CheckedChangedEvent { get; set; }
