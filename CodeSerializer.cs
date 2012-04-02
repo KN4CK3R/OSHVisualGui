@@ -62,7 +62,7 @@ namespace OSHVisualGui
                 code.AppendLine(string.Empty);
                 foreach (Control control in form.Controls)
                 {
-                    code.Append(GenerateControlCode(control));
+                    code.Append(GenerateControlHeaderCode(control));
                     code.AppendLine("\t\tAddControl(" + control.Name + ");\n");
                 }
                 code.Length -= 1;
@@ -113,19 +113,17 @@ namespace OSHVisualGui
                 code.AppendLine(controlEvent.Code.Replace(controlEvent.Signature, form.Name + "::" + controlEvent.Signature));
                 code.AppendLine("//---------------------------------------------------------------------------");
             }
-            foreach (Control control in form.Controls)
-            {
-                foreach (var controlEvent in control.GetUsedEvents())
-                {
-                    code.AppendLine(controlEvent.Code.Replace(controlEvent.Signature, form.Name + "::" + controlEvent.Signature));
-                    code.AppendLine("//---------------------------------------------------------------------------");
-                }
-            }
 
+			string events = GenerateControlSourceCode(form);
+			if (!string.IsNullOrEmpty(events))
+			{
+				code.Append(events);
+			}
+            
             return code.ToString();
         }
 
-        private string GenerateControlCode(Control control)
+        private string GenerateControlHeaderCode(Control control)
         {
             StringBuilder code = new StringBuilder();
             code.AppendLine(prefix + control.Name + " = new OSHGui::" + control.Type.ToString() + "();");
@@ -155,7 +153,7 @@ namespace OSHVisualGui
                     code.AppendLine();
                     foreach (Control child in container.Controls)
                     {
-                        code.Append(GenerateControlCode(child));
+                        code.Append(GenerateControlHeaderCode(child));
                         if (control is TabControl)
                         {
                             code.AppendLine(prefix + control.Name + "->AddTabPage(" + child.Name + ");\n");
@@ -170,5 +168,31 @@ namespace OSHVisualGui
 
             return code.ToString();
         }
+
+		private string GenerateControlSourceCode(Control control)
+		{
+			StringBuilder code = new StringBuilder();
+
+			foreach (var controlEvent in control.GetUsedEvents())
+			{
+				code.AppendLine(controlEvent.Code.Replace(controlEvent.Signature, form.Name + "::" + controlEvent.Signature));
+				code.AppendLine("//---------------------------------------------------------------------------");
+			}
+
+			if (control is ContainerControl)
+			{
+				ContainerControl container = control as ContainerControl;
+				foreach (Control child in container.Controls)
+				{
+					string events = GenerateControlSourceCode(child);
+					if (!string.IsNullOrEmpty(events))
+					{
+						code.Append(events);
+					}
+				}
+			}
+
+			return code.ToString();
+		}
     }
 }
