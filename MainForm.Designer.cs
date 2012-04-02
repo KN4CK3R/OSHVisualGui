@@ -62,11 +62,11 @@
             // 
             // controlPropertyGrid
             // 
-            this.controlPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.controlPropertyGrid.Location = new System.Drawing.Point(946, 56);
+            this.controlPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.controlPropertyGrid.Location = new System.Drawing.Point(775, 56);
             this.controlPropertyGrid.Name = "controlPropertyGrid";
-            this.controlPropertyGrid.Size = new System.Drawing.Size(245, 593);
+            this.controlPropertyGrid.Size = new System.Drawing.Size(245, 517);
             this.controlPropertyGrid.TabIndex = 2;
             this.controlPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.controlPropertyGrid_PropertyValueChanged);
             // 
@@ -76,7 +76,7 @@
             this.controlComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.controlComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.controlComboBox.FormattingEnabled = true;
-            this.controlComboBox.Location = new System.Drawing.Point(946, 29);
+            this.controlComboBox.Location = new System.Drawing.Point(775, 29);
             this.controlComboBox.Name = "controlComboBox";
             this.controlComboBox.Size = new System.Drawing.Size(245, 21);
             this.controlComboBox.Sorted = true;
@@ -90,7 +90,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1199, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1028, 24);
             this.menuStrip.TabIndex = 4;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -170,14 +170,14 @@
             // 
             // canvasPictureBox
             // 
-            this.canvasPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.canvasPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.canvasPictureBox.BackColor = System.Drawing.Color.Silver;
             this.canvasPictureBox.ContextMenuStrip = this.controlContextMenuStrip;
             this.canvasPictureBox.Location = new System.Drawing.Point(27, 24);
             this.canvasPictureBox.Name = "canvasPictureBox";
-            this.canvasPictureBox.Size = new System.Drawing.Size(913, 634);
+            this.canvasPictureBox.Size = new System.Drawing.Size(742, 558);
             this.canvasPictureBox.TabIndex = 0;
             this.canvasPictureBox.TabStop = false;
             this.canvasPictureBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.canvasPictureBox_DragDrop);
@@ -296,8 +296,8 @@
             // 
             // controlToolbox
             // 
-            this.controlToolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.controlToolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.controlToolbox.AutoScroll = true;
             this.controlToolbox.AutoScrollMinSize = new System.Drawing.Size(120, 0);
             this.controlToolbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
@@ -310,7 +310,7 @@
             this.controlToolbox.Name = "controlToolbox";
             this.controlToolbox.SelectedItemColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.controlToolbox.SelectedMouseOverColor = System.Drawing.SystemColors.ActiveCaption;
-            this.controlToolbox.Size = new System.Drawing.Size(150, 634);
+            this.controlToolbox.Size = new System.Drawing.Size(150, 558);
             this.controlToolbox.TabIndex = 8;
             this.controlToolbox.Visible = false;
             // 
@@ -319,7 +319,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::OSHVisualGui.Properties.Resources.sidebar;
-            this.ClientSize = new System.Drawing.Size(1199, 658);
+            this.ClientSize = new System.Drawing.Size(1028, 582);
             this.Controls.Add(this.toolboxPanel);
             this.Controls.Add(this.controlToolbox);
             this.Controls.Add(this.controlPropertyGrid);

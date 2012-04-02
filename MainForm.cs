@@ -83,6 +83,8 @@ namespace OSHVisualGui
         {
             try
             {
+                control.Name = control.DefaultName + ControlManager.Instance().GetControlCount(control.GetType());
+
                 ControlManager.Instance().RegisterControl(control);
 
                 controlComboBox.Items.Add(control);
@@ -218,6 +220,7 @@ namespace OSHVisualGui
                     controlComboBox.SelectedItem = GuiControls.Control.FocusedControl;
                 }
             }
+            canvasPictureBox.Focus();
         }
 
         private void canvasPictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -448,6 +451,7 @@ namespace OSHVisualGui
                         parent = GuiControls.Control.FocusedControl.RealParent;
                     }
                     parent.AddControl(copiedControl);
+
                     AddControlToList(copiedControl);
                     if (copiedControl is GuiControls.ContainerControl)
                     {
