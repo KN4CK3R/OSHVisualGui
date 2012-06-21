@@ -56,6 +56,13 @@ namespace OSHVisualGui.GuiControls
             label.Render(graphics);
         }
 
+		public override Control Copy()
+		{
+			RadioButton copy = new RadioButton();
+			CopyTo(copy);
+			return copy;
+		}
+
         public override string ToString()
         {
             return Name + " - RadioButton";

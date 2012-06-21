@@ -32,13 +32,37 @@ namespace OSHVisualGui.GuiControls
             maximum = 10;
             tickFrequency = 1;
 
-            Size = new Size(110, 18);
+            DefaultSize = Size = new Size(110, 18);
 
-            BackColor = Color.Empty;
-            ForeColor = Color.FromArgb(unchecked((int)0xFFA6A4A1));
+            DefaultBackColor = BackColor = Color.Empty;
+            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFA6A4A1));
 
             ValueChangedEvent = new ValueChangedEvent(this);
         }
+
+		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		{
+			foreach (var pair in base.GetChangedProperties())
+			{
+				yield return pair;
+			}
+			if (Minimum != 1)
+			{
+				yield return new KeyValuePair<string, object>("SetMinimum", Minimum);
+			}
+			if (Maximum != 10)
+			{
+				yield return new KeyValuePair<string, object>("SetMaximum", Maximum);
+			}
+			if (TickFrequency != 1)
+			{
+				yield return new KeyValuePair<string, object>("SetTickFrequency", TickFrequency);
+			}
+			if (Value != 0)
+			{
+				yield return new KeyValuePair<string, object>("SetValue", Value);
+			}
+		}
 
         public override void Render(Graphics graphics)
         {

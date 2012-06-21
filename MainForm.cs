@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using OSHVisualGui.Toolbox;
+using System.Runtime.InteropServices;
 
 namespace OSHVisualGui
 {
@@ -19,6 +20,10 @@ namespace OSHVisualGui
         private GuiControls.Form form;
         private bool stickToolBoxToggle;
 
+		internal static Graphics renderer;
+
+		Bitmap bitmap;
+		Font font = new Font("Arial", 14, GraphicsUnit.Pixel);
         public MainForm()
         {
             InitializeComponent();
@@ -57,6 +62,9 @@ namespace OSHVisualGui
             }).OnDelay;
 
             canvasPictureBox.AllowDrop = true;
+
+			renderer = Graphics.FromHwnd(this.Handle);
+			renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
             form = new GuiControls.Form();
             form.Text = form.Name = "Form1";
@@ -196,14 +204,20 @@ namespace OSHVisualGui
 
         private void canvasPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+			renderer = e.Graphics;
+			renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
-            form.Render(e.Graphics);
+            form.Render(renderer);
 
             if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
             {
-                (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).RenderDragArea(e.Graphics);
+                (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).RenderDragArea(renderer);
             }
+
+			/*string s = String.Format("&Font: Name={0}, Style={1}, Size={2}", font.Name, font.Style, font.SizeInPoints);
+			Size size = TextRenderer.MeasureText(renderer, "H", font, new Size(100, 100), TextFormatFlags.NoPadding);
+			e.Graphics.FillRectangle(Brushes.Beige, 0, 0, size.Width, size.Height);
+			TextRenderer.DrawText(e.Graphics, "H", font, new Rectangle(0, 0, size.Width, size.Height), Color.Red);*/
         }
 
         private void canvasPictureBox_MouseDown(object sender, MouseEventArgs e)

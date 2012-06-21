@@ -96,7 +96,7 @@ namespace OSHVisualGui
     {
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
-            return UITypeEditorEditStyle.Modal;
+            return UITypeEditorEditStyle.DropDown;
         }
 
         public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)

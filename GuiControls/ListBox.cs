@@ -15,6 +15,8 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "listBox"; } }
         private string[] items;
         public string[] Items { get { return items; } set { items = value; } }
+        private bool autoScrollEnabled;
+        public bool AutoScrollEnabled { get { return autoScrollEnabled; } set { autoScrollEnabled = value; } }
 
         [Category("Events")]
         public SelectedIndexChangedEvent SelectedIndexChangedEvent { get; set; }
@@ -38,6 +40,7 @@ namespace OSHVisualGui.GuiControls
             {
                 yield return pair;
             }
+            yield return new KeyValuePair<string, object>("SetAutoScrollEnabled", autoScrollEnabled);
             if (Items != null && Items.Length > 0)
             {
                 foreach (var item in Items)
@@ -88,6 +91,7 @@ namespace OSHVisualGui.GuiControls
             base.CopyTo(copy);
 
             ListBox listBox = copy as ListBox;
+            listBox.autoScrollEnabled = autoScrollEnabled;
             string[] itemsCopy = new string[items.Length];
             for (int i = 0; i < items.Length; ++i)
             {
@@ -105,6 +109,7 @@ namespace OSHVisualGui.GuiControls
         {
             base.WriteToXmlElement(element);
 
+            element.Add(new XAttribute("autoScrollEnabled", autoScrollEnabled.ToString().ToLower()));
             foreach (string item in Items)
             {
                 element.Add(new XElement("item", item));
@@ -114,6 +119,11 @@ namespace OSHVisualGui.GuiControls
         public override void ReadPropertiesFromXml(XElement element)
         {
             base.ReadPropertiesFromXml(element);
+
+            if (element.Attribute("autoScrollEnabled") != null)
+                AutoScrollEnabled = element.Attribute("autoScrollEnabled").Value.Trim().ToLower() == "true";
+            else
+                throw new Exception("Missing attribute 'autoScrollEnabled': " + element.Name);
 
             List<string> itemList = new List<string>();
             foreach (XElement itemElement in element.Nodes())
