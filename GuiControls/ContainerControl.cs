@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
     [Serializable]
     public abstract class ContainerControl : ScalableControl
     {
+        public override Size Size { get { return base.Size; } set {
+            Size offset = value - base.Size; base.Size = value; ProcessAnchors(offset);
+        }
+        }
         protected List<Control> controls;
         internal virtual List<Control> Controls { get { return controls; } }
         protected List<Control> internalControls;
@@ -180,6 +185,30 @@ namespace OSHVisualGui.GuiControls
             {
                 ControlManager.Instance().UnregisterControl(control);
                 control.UnregisterInternalControls();
+            }
+        }
+
+        private void ProcessAnchors(Size offset)
+        {
+            foreach (var control in controls)
+            {
+                AnchorStyles anchor = control.Anchor;
+                if (anchor != (AnchorStyles.Top | AnchorStyles.Left))
+                {
+                    if (anchor == (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right))
+                    {
+                        control.Size = control.Size.Add(offset);
+                    }
+                    else if (anchor == (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right) || anchor == (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right))
+                    {
+                        control.Location = control.Location.Add(new Point(0, offset.Height));
+                        control.Size = control.Size.Add(new Size(offset.Width, 0));
+                    }
+                    else if (anchor == (AnchorStyles.Top | AnchorStyles.Right) || anchor == (AnchorStyles.Bottom | AnchorStyles.Right))
+                    {
+                        control.Location = control.Location.Add(new Point(offset.Width, offset.Height));
+                    }
+                }
             }
         }
     }

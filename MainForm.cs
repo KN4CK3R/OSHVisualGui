@@ -22,7 +22,6 @@ namespace OSHVisualGui
 
 		internal static Graphics renderer;
 
-		Bitmap bitmap;
 		Font font = new Font("Arial", 14, GraphicsUnit.Pixel);
         public MainForm()
         {

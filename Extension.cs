@@ -187,6 +187,10 @@ namespace OSHVisualGui
             {
                 return ((FileInfo)obj).ToCppString();
             }
+            if (obj is AnchorStyles)
+            {
+                return ((AnchorStyles)obj).ToCppString();
+            }
             return obj.ToString();
         }
 
@@ -202,27 +206,112 @@ namespace OSHVisualGui
 
         public static string ToCppString(this Point point)
         {
-            return "OSHGui::Drawing::Point(" + point.X + ", " + point.Y + ")";
+            return "Point(" + point.X + ", " + point.Y + ")";
         }
 
         public static string ToCppString(this Size size)
         {
-            return "OSHGui::Drawing::Size(" + size.Width + ", " + size.Height + ")";
+            return "Size(" + size.Width + ", " + size.Height + ")";
         }
 
         public static string ToCppString(this Color color)
         {
-            return "OSHGui::Drawing::Color(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + ")";
+            return "Color(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + ")";
         }
 
         public static string ToCppString(this Font font)
         {
-            return "OSHGui::Application::Instance()->GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + (int)(font.Size + 3) + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
+            return "Application::Instance()->GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + (int)(font.Size + 3) + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
         }
 
         public static string ToCppString(this FileInfo file)
         {
-            return "OSHGui::Application::Instance()->GetRenderer()->CreateNewTexture(\"" + file.FullName.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")";
+            return "Application::Instance()->GetRenderer()->CreateNewTexture(\"" + file.FullName.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")";
+        }
+
+        public static string ToCppString(this AnchorStyles anchor)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if ((anchor & AnchorStyles.Top) == AnchorStyles.Top)
+            {
+                sb.Append("AnchorTop");
+            }
+            if ((anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom)
+            {
+                if (sb.Length > 0)
+                    sb.Append("|");
+                sb.Append("AnchorBottom");
+            }
+            if ((anchor & AnchorStyles.Left) == AnchorStyles.Left)
+            {
+                if (sb.Length > 0)
+                    sb.Append("|");
+                sb.Append("AnchorLeft");
+            }
+            if ((anchor & AnchorStyles.Right) == AnchorStyles.Right)
+            {
+                if (sb.Length > 0)
+                    sb.Append("|");
+                sb.Append("AnchorRight");
+            }
+
+            return sb.ToString();
+        }
+
+        public static string Serialize(this AnchorStyles anchor)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if ((anchor & AnchorStyles.Top) == AnchorStyles.Top)
+            {
+                sb.Append("top");
+            }
+            if ((anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom)
+            {
+                if (sb.Length > 0)
+                    sb.Append("|");
+                sb.Append("bottom");
+            }
+            if ((anchor & AnchorStyles.Left) == AnchorStyles.Left)
+            {
+                if (sb.Length > 0)
+                    sb.Append("|");
+                sb.Append("left");
+            }
+            if ((anchor & AnchorStyles.Right) == AnchorStyles.Right)
+            {
+                if (sb.Length > 0)
+                    sb.Append("|");
+                sb.Append("right");
+            }
+
+            return sb.ToString();
+        }
+
+        public static AnchorStyles Parse(this AnchorStyles anchor, string value)
+        {
+            string[] styles = value.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+            AnchorStyles retanchor = AnchorStyles.None;
+            foreach (string style in styles)
+            {
+                switch (style.ToLower())
+                {
+                    case "top":
+                        retanchor |= AnchorStyles.Top;
+                        break;
+                    case "bottom":
+                        retanchor |= AnchorStyles.Bottom;
+                        break;
+                    case "left":
+                        retanchor |= AnchorStyles.Left;
+                        break;
+                    case "right":
+                        retanchor |= AnchorStyles.Right;
+                        break;
+                }
+            }
+            return retanchor;
         }
 
         private static Dictionary<string, int> offsets = new Dictionary<string, int>();

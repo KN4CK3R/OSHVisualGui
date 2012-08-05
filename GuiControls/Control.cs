@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -69,6 +70,9 @@ namespace OSHVisualGui.GuiControls
         protected Size DefaultSize;
 		internal Size MinimumSize;
 		public virtual Size Size { get { return size; } set { size = value.LimitMin(MinimumSize.Width, MinimumSize.Height); } }
+        internal System.Windows.Forms.AnchorStyles anchor;
+        [Editor(typeof(System.Windows.Forms.Design.AnchorEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public virtual System.Windows.Forms.AnchorStyles Anchor { get { return anchor; } set { anchor = value; } }
         private bool autoSize;
         protected bool DefaultAutoSize;
         public virtual bool AutoSize { get { return autoSize; } set { autoSize = value; } }
@@ -164,6 +168,8 @@ namespace OSHVisualGui.GuiControls
 
             DefaultLocation = location = new Point(6, 6);
 
+            Anchor = AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left;
+
 			MinimumSize = new Size(5, 5);
 
             isFocused = false;
@@ -203,6 +209,8 @@ namespace OSHVisualGui.GuiControls
                 yield return new KeyValuePair<string, object>("SetLocation", Location);
             if (Size != DefaultSize)
                 yield return new KeyValuePair<string, object>("SetSize", Size);
+            if (Anchor != (AnchorStyles.Top | AnchorStyles.Left))
+                yield return new KeyValuePair<string, object>("SetAnchor", Anchor);
             if (AutoSize != DefaultAutoSize)
                 yield return new KeyValuePair<string, object>("SetAutoSize", AutoSize);
             if (!this.Font.Equals(DefaultFont))
@@ -283,6 +291,7 @@ namespace OSHVisualGui.GuiControls
             element.Add(new XAttribute("visible", visible.ToString().ToLower()));
             element.Add(new XAttribute("location", location.X + "," + location.Y));
             element.Add(new XAttribute("size", size.Width + "," + size.Height));
+            element.Add(new XAttribute("anchor", anchor.Serialize()));
             element.Add(new XAttribute("autoSize", autoSize.ToString().ToLower()));
             element.Add(new XAttribute("font", font.Name + "," + font.Size + "," + font.Bold.ToString().ToLower() + "," + font.Italic.ToString().ToLower() + "," + font.Underline.ToString().ToLower()));
             element.Add(new XAttribute("foreColor", foreColor.ToArgb().ToString("X")));
@@ -315,6 +324,10 @@ namespace OSHVisualGui.GuiControls
                 Size = size.Parse(element.Attribute("size").Value.Trim());
             else
                 throw new Exception("Missing attribute 'size': " + element.Name);
+            if (element.Attribute("anchor") != null)
+                Anchor = anchor.Parse(element.Attribute("anchor").Value.Trim());
+            else
+                throw new Exception("Missing attribute 'anchor': " + element.Name);
             if (element.Attribute("autoSize") != null)
                 AutoSize = bool.Parse(element.Attribute("autoSize").Value.Trim());
             else

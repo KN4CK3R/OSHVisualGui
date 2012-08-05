@@ -38,6 +38,9 @@ namespace OSHVisualGui
             code.AppendLine("\nprivate:");
             code.AppendLine("\tvoid InitializeComponent()");
             code.AppendLine("\t{");
+            code.AppendLine("\t\tusing namespace OSHGui;");
+		    code.AppendLine("\t\tusing namespace OSHGui::Misc;");
+            code.AppendLine("\t\tusing namespace OSHGui::Drawing;\n");
 
             foreach (var property in form.GetChangedProperties())
             {
@@ -53,7 +56,7 @@ namespace OSHVisualGui
                 {
                     placeholder += ", std::placeholders::_" + i;
                 }
-                code.AppendLine("\t\tGet" + controlEvent.GetType().Name + "() += OSHGui::" + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
+                code.AppendLine("\t\tGet" + controlEvent.GetType().Name + "() += " + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
             }
 
             if (form.Controls.Count > 0)
@@ -126,7 +129,7 @@ namespace OSHVisualGui
         private string GenerateControlHeaderCode(Control control)
         {
             StringBuilder code = new StringBuilder();
-            code.AppendLine(prefix + control.Name + " = new OSHGui::" + control.Type.ToString() + "();");
+            code.AppendLine(prefix + control.Name + " = new " + control.Type.ToString() + "();");
 
             foreach (var property in control.GetChangedProperties())
             {
@@ -142,7 +145,7 @@ namespace OSHVisualGui
                 {
                     placeholder += ", std::placeholders::_" + i;
                 }
-                code.AppendLine(prefix + control.Name + "->Get" + controlEvent.GetType().Name + "() += OSHGui::" + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
+                code.AppendLine(prefix + control.Name + "->Get" + controlEvent.GetType().Name + "() += " + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
             }
 
             if (control is ContainerControl)
