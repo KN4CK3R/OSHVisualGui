@@ -111,12 +111,6 @@ namespace OSHVisualGui
             code.AppendLine("}");
             code.AppendLine("//---------------------------------------------------------------------------");
 
-            foreach (var controlEvent in form.GetUsedEvents())
-            {
-                code.AppendLine(controlEvent.Code.Replace(controlEvent.Signature, form.Name + "::" + controlEvent.Signature));
-                code.AppendLine("//---------------------------------------------------------------------------");
-            }
-
 			string events = GenerateControlSourceCode(form);
 			if (!string.IsNullOrEmpty(events))
 			{
