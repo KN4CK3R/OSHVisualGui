@@ -192,6 +192,12 @@ namespace OSHVisualGui.GuiControls
         {
             foreach (var control in controls)
             {
+				if (offset.Width > 0 && control.Location.X + control.Size.Width >= Size.Width)
+				{
+					//TODO Anchors
+					continue;
+				}
+
                 AnchorStyles anchor = control.Anchor;
                 if (anchor != (AnchorStyles.Top | AnchorStyles.Left))
                 {
