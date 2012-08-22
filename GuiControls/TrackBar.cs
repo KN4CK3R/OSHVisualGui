@@ -72,10 +72,10 @@ namespace OSHVisualGui.GuiControls
             }
 
             int tickCount = 1 + (maximum - minimum) / tickFrequency;
-            int pixelsPerTick = (Size.Width - 8) / ((maximum - minimum) / tickFrequency);
+            float pixelsPerTick = (Size.Width - 8) / ((maximum - minimum) / (float)tickFrequency);
             for (int i = 0; i < tickCount; ++i)
             {
-                int x = AbsoluteLocation.X + 4 + i * pixelsPerTick;
+                int x = (int)(AbsoluteLocation.X + 4 + i * pixelsPerTick);
                 int y = AbsoluteLocation.Y + 7;
                 graphics.FillRectangle(foreBrush, x, y, 1, 5);
             }
