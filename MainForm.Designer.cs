@@ -55,6 +55,8 @@
             this.addTabPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconImageList = new System.Windows.Forms.ImageList(this.components);
             this.controlToolbox = new OSHVisualGui.Toolbox.Toolbox();
+            this.themeManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).BeginInit();
             this.controlContextMenuStrip.SuspendLayout();
@@ -62,8 +64,8 @@
             // 
             // controlPropertyGrid
             // 
-            this.controlPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.controlPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.controlPropertyGrid.Location = new System.Drawing.Point(775, 56);
             this.controlPropertyGrid.Name = "controlPropertyGrid";
             this.controlPropertyGrid.Size = new System.Drawing.Size(245, 517);
@@ -103,6 +105,8 @@
             this.toolStripSeparator2,
             this.generateCCodeToolStripMenuItem,
             this.toolStripSeparator1,
+            this.themeManagerToolStripMenuItem,
+            this.toolStripSeparator3,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -170,9 +174,9 @@
             // 
             // canvasPictureBox
             // 
-            this.canvasPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.canvasPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.canvasPictureBox.BackColor = System.Drawing.Color.Silver;
             this.canvasPictureBox.ContextMenuStrip = this.controlContextMenuStrip;
             this.canvasPictureBox.Location = new System.Drawing.Point(27, 24);
@@ -296,8 +300,8 @@
             // 
             // controlToolbox
             // 
-            this.controlToolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.controlToolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.controlToolbox.AutoScroll = true;
             this.controlToolbox.AutoScrollMinSize = new System.Drawing.Size(120, 0);
             this.controlToolbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
@@ -313,6 +317,18 @@
             this.controlToolbox.Size = new System.Drawing.Size(150, 558);
             this.controlToolbox.TabIndex = 8;
             this.controlToolbox.Visible = false;
+            // 
+            // themeManagerToolStripMenuItem
+            // 
+            this.themeManagerToolStripMenuItem.Name = "themeManagerToolStripMenuItem";
+            this.themeManagerToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.themeManagerToolStripMenuItem.Text = "Theme Manager";
+            this.themeManagerToolStripMenuItem.Click += new System.EventHandler(this.themeManagerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(176, 6);
             // 
             // MainForm
             // 
@@ -368,6 +384,8 @@
         private System.Windows.Forms.ToolStripMenuItem bringToFrontToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sendToBackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem themeManagerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

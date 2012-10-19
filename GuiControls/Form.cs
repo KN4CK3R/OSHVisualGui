@@ -25,6 +25,12 @@ namespace OSHVisualGui.GuiControls
         public FormClosingEvent FormClosingEvent { get; set; }
         #endregion
 
+		public Form(Point location)
+			: this()
+		{
+			base.Location = location;
+		}
+
         public Form()
         {
             Type = ControlType.Form;

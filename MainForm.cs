@@ -792,5 +792,10 @@ namespace OSHVisualGui
         {
             Close();
         }
+
+        private void themeManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ThemeManagerForm().ShowDialog();
+        }
     }
 }
