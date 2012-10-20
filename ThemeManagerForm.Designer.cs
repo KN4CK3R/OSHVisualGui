@@ -288,7 +288,6 @@
             "Panel",
             "Form",
             "GroupBox",
-            "ScrollBar",
             "ListBox",
             "ProgressBar",
             "TrackBar",
@@ -318,7 +317,7 @@
 			// 
 			// previewPictureBox
 			// 
-			this.previewPictureBox.BackColor = System.Drawing.Color.Silver;
+			this.previewPictureBox.BackColor = System.Drawing.Color.Transparent;
 			this.previewPictureBox.Location = new System.Drawing.Point(9, 19);
 			this.previewPictureBox.Name = "previewPictureBox";
 			this.previewPictureBox.Size = new System.Drawing.Size(406, 203);

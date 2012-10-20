@@ -25,7 +25,11 @@ namespace OSHVisualGui.GuiControls
 
         public override void Render(Graphics graphics)
         {
-            graphics.DrawString(text, underlinedFont, foreBrush, new RectangleF(AbsoluteLocation, Size));
+			if (BackColor.A != 0)
+			{
+				graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
+			}
+			graphics.DrawString(text, underlinedFont, foreBrush, new RectangleF(AbsoluteLocation, Size));
         }
 
         public override Control Copy()

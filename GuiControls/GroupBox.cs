@@ -20,6 +20,7 @@ namespace OSHVisualGui.GuiControls
         internal override Point ContainerLocation { get { return base.ContainerLocation.Add(panel.Location); } }
         internal override Point ContainerAbsoluteLocation { get { return panel.ContainerAbsoluteLocation; } }
         internal override Size ContainerSize { get { return panel.ContainerSize; } }
+		public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
         #endregion
 
         public GroupBox()
@@ -73,7 +74,7 @@ namespace OSHVisualGui.GuiControls
             label.Render(graphics);
 
             graphics.FillRectangle(foreBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 5, 3, 1);
-            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + label.Size.Width, AbsoluteLocation.Y + 5, Size.Width - label.Size.Width - 6, 1);
+            graphics.FillRectangle(foreBrush, AbsoluteLocation.X + label.Size.Width + 5, AbsoluteLocation.Y + 5, Size.Width - label.Size.Width - 6, 1);
             graphics.FillRectangle(foreBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 6, 1, Size.Height - 7);
             graphics.FillRectangle(foreBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 6, 1, Size.Height - 7);
             graphics.FillRectangle(foreBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 1, Size.Width - 2, 1);
