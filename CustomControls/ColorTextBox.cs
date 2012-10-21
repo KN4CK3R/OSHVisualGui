@@ -19,7 +19,7 @@ namespace OSHVisualGui
 		private ColorStyle style;
 		public ColorStyle Style { get { return style; } set { style = value; ColorToText(Color); } }
 		private Color color;
-		public Color Color { get { return color; } set { color = value; BackColor = Color.FromArgb(value.R, value.G, value.B); ColorToText(color); ForeColor = Color.FromArgb(255 - value.R, 255 - value.G, 255 - value.B); OnColorChanged(); } }
+		public Color Color { get { return color; } set { if (color != value) { color = value; BackColor = Color.FromArgb(value.R, value.G, value.B); ColorToText(color); ForeColor = Color.FromArgb(255 - value.R, 255 - value.G, 255 - value.B); OnColorChanged(); } } }
 
 		private Button switchStyle;
 		private Button openColorPicker;
@@ -95,42 +95,50 @@ namespace OSHVisualGui
 			{
 				e.Handled = true;
 
-				Regex colorRegex = new Regex(@"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/){2,3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b|([0-9a-fA-F]{8})", RegexOptions.Compiled);
-				if (colorRegex.IsMatch(Text))
+				Color colorByName = Text.ToLower() == "none" || Text.ToLower() == "empty" ? Color.Empty : Color.FromName(Text);
+				if (colorByName.IsKnownColor || colorByName == Color.Empty)
 				{
-					string[] seperated = Text.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-					if (seperated.Length == 3 || seperated.Length == 4)
-					{
-						style = ColorStyle.RGB;
-
-						int index = 0;
-						int a = 255;
-
-						if (seperated.Length == 4)
-						{
-							style = ColorStyle.ARGB;
-							a = int.Parse(seperated[index]);
-							index = 1;
-						}
-
-						int[] rgb = new int[3];
-						for (int i = 0; i < 3; ++i, ++index)
-						{
-							rgb[i] = int.Parse(seperated[index]);
-						}
-
-						Color = Color.FromArgb(a, rgb[0], rgb[1], rgb[2]);
-					}
-					else
-					{
-						int argb = int.Parse(Text, NumberStyles.HexNumber, CultureInfo.CurrentCulture);
-						style = ColorStyle.HEX;
-						Color = Color.FromArgb(argb);
-					}
+					Color = colorByName;
 				}
 				else
 				{
-					ColorToText(BackColor);
+					Regex colorRegex = new Regex(@"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/){2,3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b|([0-9a-fA-F]{8})", RegexOptions.Compiled);
+					if (colorRegex.IsMatch(Text))
+					{
+						string[] seperated = Text.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+						if (seperated.Length == 3 || seperated.Length == 4)
+						{
+							style = ColorStyle.RGB;
+
+							int index = 0;
+							int a = 255;
+
+							if (seperated.Length == 4)
+							{
+								style = ColorStyle.ARGB;
+								a = int.Parse(seperated[index]);
+								index = 1;
+							}
+
+							int[] rgb = new int[3];
+							for (int i = 0; i < 3; ++i, ++index)
+							{
+								rgb[i] = int.Parse(seperated[index]);
+							}
+
+							Color = Color.FromArgb(a, rgb[0], rgb[1], rgb[2]);
+						}
+						else
+						{
+							int argb = int.Parse(Text, NumberStyles.HexNumber, CultureInfo.CurrentCulture);
+							style = ColorStyle.HEX;
+							Color = Color.FromArgb(argb);
+						}
+					}
+					else
+					{
+						ColorToText(BackColor);
+					}
 				}
 			}
 

@@ -127,18 +127,21 @@
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.newToolStripMenuItem.Text = "New...";
+			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
 			this.loadToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.loadToolStripMenuItem.Text = "Load...";
+			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.saveToolStripMenuItem.Text = "Save...";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -150,6 +153,7 @@
 			this.showCodeToolStripMenuItem.Name = "showCodeToolStripMenuItem";
 			this.showCodeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.showCodeToolStripMenuItem.Text = "Show Code";
+			this.showCodeToolStripMenuItem.Click += new System.EventHandler(this.showCodeToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -161,6 +165,7 @@
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
 			this.closeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// authorTextBox
 			// 
@@ -207,6 +212,8 @@
 			this.defaultForeColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
 			this.defaultForeColorTextBox.TabIndex = 17;
 			this.defaultForeColorTextBox.Text = "255/255/255";
+			this.defaultForeColorTextBox.ColorChanged += new System.EventHandler(this.defaultForeColorTextBox_ColorChanged);
+			this.defaultForeColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.defaultForeColorTextBox_ColorPickerHover);
 			// 
 			// defaultBackColorTextBox
 			// 
@@ -219,6 +226,8 @@
 			this.defaultBackColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
 			this.defaultBackColorTextBox.TabIndex = 16;
 			this.defaultBackColorTextBox.Text = "0/0/0";
+			this.defaultBackColorTextBox.ColorChanged += new System.EventHandler(this.defaultBackColorTextBox_ColorChanged);
+			this.defaultBackColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.defaultBackColorTextBox_ColorPickerHover);
 			// 
 			// groupBox2
 			// 
@@ -246,7 +255,6 @@
 			this.controlColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
 			this.controlColorTextBox.TabIndex = 18;
 			this.controlColorTextBox.Text = "255/255/255";
-			this.controlColorTextBox.ColorChanged += new System.EventHandler(this.controlColorTextBox_ColorChanged);
 			this.controlColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.controlColorTextBox_ColorPickerHover);
 			// 
 			// backColorRadioButton
@@ -335,6 +343,7 @@
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.menuStrip1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "ThemeManagerForm";
 			this.Text = "OldSchoolHack VisualGui - ThemeManager";

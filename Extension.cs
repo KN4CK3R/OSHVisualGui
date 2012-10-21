@@ -351,5 +351,14 @@ namespace OSHVisualGui
                 return x;
             }
         }
+
+		public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> d, TKey key, TValue def)
+		{
+			if (d.ContainsKey(key))
+			{
+				return d[key];
+			}
+			return def;
+		}
     }
 }

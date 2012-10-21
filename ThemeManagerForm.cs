@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using System.Web.Script.Serialization;
 
 namespace OSHVisualGui
 {
@@ -19,6 +21,8 @@ namespace OSHVisualGui
 		private string previewControlName;
 		private Theme theme;
 		private Theme.ControlTheme controlTheme;
+
+		private EventHandler controlColotTextBox_ColorChangedHandler;
 
         public ThemeManagerForm()
         {
@@ -35,9 +39,9 @@ namespace OSHVisualGui
 			preview2Form.Size = new Size(200, 200);
 			preview2Form.Text = "Preview 2";
 
-			theme = new Theme();
-			theme.Name = "Theme 1";
-			LoadTheme(theme);
+			controlColotTextBox_ColorChangedHandler = new System.EventHandler(controlColorTextBox_ColorChanged);
+
+			newToolStripMenuItem_Click(null, null);
 
 			controlsListBox.SelectedIndex = 0;
         }
@@ -48,6 +52,26 @@ namespace OSHVisualGui
 			authorTextBox.Text = theme.Author;
 			defaultForeColorTextBox.Color = theme.DefaultColor.ForeColor;
 			defaultBackColorTextBox.Color = theme.DefaultColor.BackColor;
+
+			controlsListBox.SelectedIndex = 0;
+
+			RecolorFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
+		}
+
+		private void RecolorFormAndControl(Color foreColor, Color backColor)
+		{
+			Theme.ControlTheme formTheme = theme.ControlThemes["form"];
+            if (!formTheme.Changed)
+            {
+                preview1Form.ForeColor = preview2Form.ForeColor = foreColor;
+                preview1Form.BackColor = preview2Form.BackColor = backColor;
+            }
+
+			if (!controlTheme.Changed)
+			{
+				preview1Control.ForeColor = preview2Control.ForeColor = foreColor;
+				preview1Control.BackColor = preview2Control.BackColor = backColor;
+			}
 		}
 
 		private void controlColorTextBox_ColorPickerHover(Color color)
@@ -83,19 +107,22 @@ namespace OSHVisualGui
 				preview1Control.BackColor = preview2Control.BackColor = controlColorTextBox.Color;
 				controlTheme.BackColor = controlColorTextBox.Color;
 			}
+			controlTheme.Changed = true;
 			previewPictureBox.Invalidate();
 		}
 
 		private void ColorRadioButton_CheckedChanged(object sender, EventArgs e)
 		{
-			controlColorTextBox.Color = foreColorRadioButton.Checked ? controlTheme.ForeColor : controlTheme.BackColor;
+			controlColorTextBox.ColorChanged -= controlColotTextBox_ColorChangedHandler;
+			controlColorTextBox.Color = foreColorRadioButton.Checked ? controlTheme.Changed ? controlTheme.ForeColor : theme.DefaultColor.ForeColor : controlTheme.Changed ? controlTheme.BackColor : theme.DefaultColor.BackColor;
+			controlColorTextBox.ColorChanged += controlColotTextBox_ColorChangedHandler;
 			if (foreColorRadioButton.Checked)
 			{
-				preview1Control.BackColor = controlTheme.BackColor;
+				preview1Control.BackColor = controlTheme.Changed ? controlTheme.BackColor : theme.DefaultColor.BackColor;
 			}
 			else
 			{
-				preview1Control.ForeColor = controlTheme.ForeColor;
+				preview1Control.ForeColor = controlTheme.Changed ? controlTheme.ForeColor : theme.DefaultColor.ForeColor;
 			}
 		}
 
@@ -105,6 +132,11 @@ namespace OSHVisualGui
 
 			if (preview1Control != null)
 			{
+				if (preview1Control is GuiControls.TabPage)
+				{
+					preview1Control = preview1Control.Parent;
+					preview2Control = preview2Control.Parent;
+				}
 				preview1Form.RemoveControl(preview1Control);
 				preview2Form.RemoveControl(preview2Control);
 			}
@@ -112,8 +144,7 @@ namespace OSHVisualGui
 			switch (controlsListBox.SelectedItem.ToString())
 			{
 				case "Label":
-					previewControlName = "label";
-					controlTheme = theme.ControlThemes[previewControlName];
+					controlTheme = theme.ControlThemes["label"];
 					GuiControls.Label label = new GuiControls.Label();
 					label.Text = "Preview";
 					preview1Form.AddControl(label);
@@ -122,8 +153,7 @@ namespace OSHVisualGui
 					preview2Form.AddControl(preview2Control);
 					break;
 				case "LinkLabel":
-					previewControlName = "linklabel";
-					controlTheme = theme.ControlThemes[previewControlName];
+					controlTheme = theme.ControlThemes["linklabel"];
 					GuiControls.LinkLabel linklabel = new GuiControls.LinkLabel();
 					linklabel.Text = "Preview";
 					preview1Form.AddControl(linklabel);
@@ -132,8 +162,7 @@ namespace OSHVisualGui
 					preview2Form.AddControl(preview2Control);
 					break;
 				case "Button":
-					previewControlName = "button";
-					controlTheme = theme.ControlThemes[previewControlName];
+					controlTheme = theme.ControlThemes["button"];
 					GuiControls.Button button = new GuiControls.Button();
 					button.Text = "Preview";
 					preview1Form.AddControl(button);
@@ -142,8 +171,7 @@ namespace OSHVisualGui
 					preview2Form.AddControl(preview2Control);
 					break;
 				case "ComboBox":
-					previewControlName = "combobox";
-					controlTheme = theme.ControlThemes[previewControlName];
+					controlTheme = theme.ControlThemes["combobox"];
 					GuiControls.ComboBox combobox = new GuiControls.ComboBox();
 					combobox.Items = new string[] { "Preview" };
 					combobox.Text = "Preview";
@@ -260,61 +288,111 @@ namespace OSHVisualGui
 				case "ColorBar":
 					break;
 			}
-			preview1Control.ForeColor = controlTheme.ForeColor;
-			preview1Control.BackColor = controlTheme.BackColor;
-			preview2Control.ForeColor = controlTheme.ForeColor;
-			preview2Control.BackColor = controlTheme.BackColor;
-
+			preview1Control.ForeColor = preview2Control.ForeColor = controlTheme.Changed ? controlTheme.ForeColor : theme.DefaultColor.ForeColor;
+			preview1Control.BackColor = preview2Control.BackColor = controlTheme.Changed ? controlTheme.BackColor : theme.DefaultColor.BackColor;
+			
 			previewPictureBox.Invalidate();
 
 			ColorRadioButton_CheckedChanged(null, null);
 		}
-    }
 
-	public class Theme
-	{
-		public class ControlTheme
+		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			public Color ForeColor;
-			public Color BackColor;
+			AskAndSave();
 
-			public ControlTheme(Color foreColor, Color backColor)
+			theme = new Theme();
+			theme.Name = "Theme 1";
+			LoadTheme(theme);
+		}
+
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = "Theme-File (*.tm)|*.tm";
+			if (ofd.ShowDialog() == DialogResult.OK)
 			{
-				ForeColor = foreColor;
-				BackColor = backColor;
+				AskAndSave();
+
+				try
+				{
+					Theme loadTheme = new Theme();
+					loadTheme.Load(ofd.FileName);
+					theme = loadTheme;
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+				}
 			}
 		}
 
-		public string Name;
-		public string Author;
-		public ControlTheme DefaultColor;
-		public Dictionary<string, ControlTheme> ControlThemes;
-
-		public Theme()
+		private void AskAndSave()
 		{
-			Name = string.Empty;
-			Author = string.Empty;
-			DefaultColor = new ControlTheme(Color.White, Color.Black);
-			ControlThemes = new Dictionary<string, ControlTheme>();
-			ControlThemes.Add("label", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("linklabel", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("button", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("combobox", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("checkbox", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("radiobutton", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("panel", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("form", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("groupbox", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("scrollbar", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("listbox", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("progressbar", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("trackbar", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("textbox", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("tabcontrol", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("tabpage", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("picturebox", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("colorpicker", new ControlTheme(Color.White, Color.Black));
-			ControlThemes.Add("colorbar", new ControlTheme(Color.White, Color.Black));
+			if (theme != null)
+			{
+				if (MessageBox.Show("Save Theme?", "Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
+				{
+					saveToolStripMenuItem_Click(null, null);
+				}
+			}
 		}
-	}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog sfd = new SaveFileDialog();
+			sfd.Filter = "Theme-File (*.tm)|*.tm";
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+				string json = "";
+				using (StreamWriter sw = new StreamWriter(sfd.OpenFile()))
+				{
+					sw.Write(json);
+				}
+			}
+		}
+
+		private void showCodeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+
+		private void defaultForeColorTextBox_ColorChanged(object sender, EventArgs e)
+		{
+			theme.DefaultColor.ForeColor = defaultForeColorTextBox.Color;
+
+			RecolorFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
+
+			previewPictureBox.Invalidate();
+		}
+
+		private void defaultBackColorTextBox_ColorChanged(object sender, EventArgs e)
+		{
+			theme.DefaultColor.BackColor = defaultBackColorTextBox.Color;
+
+			RecolorFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
+
+			previewPictureBox.Invalidate();
+		}
+
+        private void defaultBackColorTextBox_ColorPickerHover(Color color)
+        {
+			preview1Form.BackColor = color;
+			preview1Control.BackColor = color;
+
+			previewPictureBox.Invalidate();
+        }
+
+		private void defaultForeColorTextBox_ColorPickerHover(Color color)
+		{
+			preview1Form.ForeColor = color;
+			preview1Control.ForeColor = color;
+
+			previewPictureBox.Invalidate();
+		}
+    }
 }

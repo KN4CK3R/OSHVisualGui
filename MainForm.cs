@@ -212,11 +212,6 @@ namespace OSHVisualGui
             {
                 (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).RenderDragArea(renderer);
             }
-
-			/*string s = String.Format("&Font: Name={0}, Style={1}, Size={2}", font.Name, font.Style, font.SizeInPoints);
-			Size size = TextRenderer.MeasureText(renderer, "H", font, new Size(100, 100), TextFormatFlags.NoPadding);
-			e.Graphics.FillRectangle(Brushes.Beige, 0, 0, size.Width, size.Height);
-			TextRenderer.DrawText(e.Graphics, "H", font, new Rectangle(0, 0, size.Width, size.Height), Color.Red);*/
         }
 
         private void canvasPictureBox_MouseDown(object sender, MouseEventArgs e)
