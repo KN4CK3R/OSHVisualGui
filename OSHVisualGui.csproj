@@ -124,13 +124,6 @@
     <Compile Include="FastColoredTextBox\TextSource.cs" />
     <Compile Include="FastColoredTextBox\TypeDescriptor.cs" />
     <Compile Include="FastColoredTextBox\VisualMarker.cs" />
-    <Compile Include="fastJSON\Formatter.cs" />
-    <Compile Include="fastJSON\Getters.cs" />
-    <Compile Include="fastJSON\JSON.cs" />
-    <Compile Include="fastJSON\JsonParser.cs" />
-    <Compile Include="fastJSON\JsonSerializer.cs" />
-    <Compile Include="fastJSON\Reflection.cs" />
-    <Compile Include="fastJSON\SafeDictionary.cs" />
     <Compile Include="FilenameEditor.cs" />
     <Compile Include="GuiControls\Button.cs" />
     <Compile Include="GuiControls\CheckBox.cs" />
@@ -155,6 +148,20 @@
     <Compile Include="GuiControls\TextBox.cs" />
     <Compile Include="GuiControls\Timer.cs" />
     <Compile Include="GuiControls\TrackBar.cs" />
+    <Compile Include="JSON\CloseBracketStrategy.cs" />
+    <Compile Include="JSON\CloseSquareBracketStrategy.cs" />
+    <Compile Include="JSON\ColonCharacterStrategy.cs" />
+    <Compile Include="JSON\CommaCharacterStrategy.cs" />
+    <Compile Include="JSON\DefaultCharacterStrategy.cs" />
+    <Compile Include="JSON\DoubleQuoteStrategy.cs" />
+    <Compile Include="JSON\ICharacterStrategy.cs" />
+    <Compile Include="JSON\JsonPPStrategyContext.cs" />
+    <Compile Include="JSON\JsonPrettyPrinter.cs" />
+    <Compile Include="JSON\OpenBracketStrategy.cs" />
+    <Compile Include="JSON\OpenSquareBracketStrategy.cs" />
+    <Compile Include="JSON\PPScopeState.cs" />
+    <Compile Include="JSON\SingleQuoteStrategy.cs" />
+    <Compile Include="JSON\SkipWhileNotInStringStrategy.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

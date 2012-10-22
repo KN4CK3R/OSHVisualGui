@@ -23,6 +23,13 @@ namespace OSHVisualGui
 			}
 		}
 
+		public enum ColorStyle
+		{
+			Text,
+			Array,
+			Integer
+		};
+
 		public string Name;
 		public string Author;
 		public ControlTheme DefaultColor;
@@ -135,6 +142,57 @@ namespace OSHVisualGui
 						}
 					}
 				}
+			}
+		}
+
+		public void Save(string pathToThemeFile, ColorStyle colorStyle)
+		{
+			using (StreamWriter sr = new StreamWriter(pathToThemeFile))
+			{
+				Func<Color, ColorStyle, object> ColorToJson = delegate(Color value, ColorStyle style)
+				{
+					switch (style)
+					{
+						case ColorStyle.Text:
+							Dictionary<string, int> colorDict = new Dictionary<string, int>();
+							colorDict["a"] = value.A;
+							colorDict["r"] = value.R;
+							colorDict["g"] = value.G;
+							colorDict["b"] = value.B;
+							return colorDict;
+						case ColorStyle.Array:
+							return new int[] { value.A, value.R, value.G, value.B };
+						case ColorStyle.Integer:
+							return string.Format("{0:X08}", value.ToArgb());
+					}
+					throw new Exception();
+				};
+
+				Dictionary<string, object> root = new Dictionary<string, object>();
+				root["name"] = Name;
+				root["author"] = Author;
+				Dictionary<string, object> defaultColor = new Dictionary<string, object>();
+				defaultColor["forecolor"] = ColorToJson(DefaultColor.ForeColor, colorStyle);
+				defaultColor["backcolor"] = ColorToJson(DefaultColor.BackColor, colorStyle);
+				root["default"] = defaultColor;
+				Dictionary<string, object> controlThemes = new Dictionary<string, object>();
+				foreach (var it in ControlThemes)
+				{
+					if (it.Value.Changed)
+					{
+						Dictionary<string, object> controlColor = new Dictionary<string, object>();
+						controlColor["forecolor"] = ColorToJson(it.Value.ForeColor, colorStyle);
+						controlColor["backcolor"] = ColorToJson(it.Value.BackColor, colorStyle);
+						controlThemes[it.Key] = controlColor;
+					}
+				}
+				root["themes"] = controlThemes;
+				
+				JavaScriptSerializer ser = new JavaScriptSerializer();
+				string json = ser.Serialize(root);
+				JsonPrettyPrinterPlus.JsonPrettyPrinter pp = new JsonPrettyPrinterPlus.JsonPrettyPrinter(new JsonPrettyPrinterPlus.JsonPrettyPrinterInternals.JsonPPStrategyContext());
+				json = pp.PrettyPrint(json);
+				sr.Write(json);
 			}
 		}
 	}

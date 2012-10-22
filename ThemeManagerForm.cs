@@ -48,6 +48,8 @@ namespace OSHVisualGui
 
 		private void LoadTheme(Theme theme)
 		{
+			this.theme = theme;
+
 			nameTextBox.Text = theme.Name;
 			authorTextBox.Text = theme.Author;
 			defaultForeColorTextBox.Color = theme.DefaultColor.ForeColor;
@@ -55,10 +57,12 @@ namespace OSHVisualGui
 
 			controlsListBox.SelectedIndex = 0;
 
-			RecolorFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
+			controlsListBox_SelectedIndexChanged(null, null);
+
+			RecolorPreviewFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
 		}
 
-		private void RecolorFormAndControl(Color foreColor, Color backColor)
+		private void RecolorPreviewFormAndControl(Color foreColor, Color backColor)
 		{
 			Theme.ControlTheme formTheme = theme.ControlThemes["form"];
             if (!formTheme.Changed)
@@ -205,6 +209,7 @@ namespace OSHVisualGui
 					preview1Form.AddControl(panel);
 					preview1Control = panel;
 					preview2Control = panel.Copy();
+					preview2Control.Name = string.Empty;
 					preview2Form.AddControl(preview2Control);
 					break;
 				case "Form":
@@ -282,10 +287,13 @@ namespace OSHVisualGui
 					preview2Form.AddControl(copy);
 					break;
 				case "PictureBox":
-					break;
-				case "ColorPicker":
-					break;
-				case "ColorBar":
+					controlTheme = theme.ControlThemes["picturebox"];
+					GuiControls.PictureBox picturebox = new GuiControls.PictureBox();
+					picturebox.Size = new Size(100, 100);
+					preview1Form.AddControl(picturebox);
+					preview1Control = picturebox;
+					preview2Control = picturebox.Copy();
+					preview2Form.AddControl(preview2Control);
 					break;
 			}
 			preview1Control.ForeColor = preview2Control.ForeColor = controlTheme.Changed ? controlTheme.ForeColor : theme.DefaultColor.ForeColor;
@@ -317,7 +325,7 @@ namespace OSHVisualGui
 				{
 					Theme loadTheme = new Theme();
 					loadTheme.Load(ofd.FileName);
-					theme = loadTheme;
+					LoadTheme(loadTheme);
 				}
 				catch (Exception ex)
 				{
@@ -330,7 +338,7 @@ namespace OSHVisualGui
 		{
 			if (theme != null)
 			{
-				if (MessageBox.Show("Save Theme?", "Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
+				if (MessageBox.Show("Save current theme?", "Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					saveToolStripMenuItem_Click(null, null);
 				}
@@ -343,11 +351,7 @@ namespace OSHVisualGui
 			sfd.Filter = "Theme-File (*.tm)|*.tm";
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
-				string json = "";
-				using (StreamWriter sw = new StreamWriter(sfd.OpenFile()))
-				{
-					sw.Write(json);
-				}
+				theme.Save(sfd.FileName, Theme.ColorStyle.Text);
 			}
 		}
 
@@ -365,7 +369,15 @@ namespace OSHVisualGui
 		{
 			theme.DefaultColor.ForeColor = defaultForeColorTextBox.Color;
 
-			RecolorFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
+			foreach (var it in theme.ControlThemes)
+			{
+				if (!it.Value.Changed)
+				{
+					it.Value.ForeColor = defaultForeColorTextBox.Color;
+				}
+			}
+
+			RecolorPreviewFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
 
 			previewPictureBox.Invalidate();
 		}
@@ -374,7 +386,15 @@ namespace OSHVisualGui
 		{
 			theme.DefaultColor.BackColor = defaultBackColorTextBox.Color;
 
-			RecolorFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
+			foreach (var it in theme.ControlThemes)
+			{
+				if (!it.Value.Changed)
+				{
+					it.Value.BackColor = defaultBackColorTextBox.Color;
+				}
+			}
+
+			RecolorPreviewFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
 
 			previewPictureBox.Invalidate();
 		}
@@ -393,6 +413,21 @@ namespace OSHVisualGui
 			preview1Control.ForeColor = color;
 
 			previewPictureBox.Invalidate();
+		}
+
+		private void nameTextBox_TextChanged(object sender, EventArgs e)
+		{
+			theme.Name = nameTextBox.Text;
+		}
+
+		private void authorTextBox_TextChanged(object sender, EventArgs e)
+		{
+			theme.Author = authorTextBox.Text;
+		}
+
+		private void ThemeManagerForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			AskAndSave();
 		}
     }
 }
