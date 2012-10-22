@@ -18,11 +18,12 @@ namespace OSHVisualGui
 		private GuiControls.Control preview2Control;
 		private GuiControls.Form preview2Form;
 
-		private string previewControlName;
 		private Theme theme;
 		private Theme.ControlTheme controlTheme;
 
 		private EventHandler controlColotTextBox_ColorChangedHandler;
+
+		private bool themeChanged;
 
         public ThemeManagerForm()
         {
@@ -60,6 +61,8 @@ namespace OSHVisualGui
 			controlsListBox_SelectedIndexChanged(null, null);
 
 			RecolorPreviewFormAndControl(theme.DefaultColor.ForeColor, theme.DefaultColor.BackColor);
+
+			themeChanged = false;
 		}
 
 		private void RecolorPreviewFormAndControl(Color foreColor, Color backColor)
@@ -101,6 +104,8 @@ namespace OSHVisualGui
 
 		private void controlColorTextBox_ColorChanged(object sender, EventArgs e)
 		{
+			themeChanged = true;
+
 			if (foreColorRadioButton.Checked)
 			{
 				preview1Control.ForeColor = preview2Control.ForeColor = controlColorTextBox.Color;
@@ -336,7 +341,7 @@ namespace OSHVisualGui
 
 		private void AskAndSave()
 		{
-			if (theme != null)
+			if (theme != null && themeChanged)
 			{
 				if (MessageBox.Show("Save current theme?", "Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
@@ -352,12 +357,15 @@ namespace OSHVisualGui
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				theme.Save(sfd.FileName, Theme.ColorStyle.Text);
+
+				themeChanged = false;
 			}
 		}
 
 		private void showCodeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			ThemeCodeForm tcf = new ThemeCodeForm(theme);
+			tcf.ShowDialog();
 		}
 
 		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -367,6 +375,8 @@ namespace OSHVisualGui
 
 		private void defaultForeColorTextBox_ColorChanged(object sender, EventArgs e)
 		{
+			themeChanged = true;
+
 			theme.DefaultColor.ForeColor = defaultForeColorTextBox.Color;
 
 			foreach (var it in theme.ControlThemes)
@@ -384,6 +394,8 @@ namespace OSHVisualGui
 
 		private void defaultBackColorTextBox_ColorChanged(object sender, EventArgs e)
 		{
+			themeChanged = true;
+
 			theme.DefaultColor.BackColor = defaultBackColorTextBox.Color;
 
 			foreach (var it in theme.ControlThemes)
@@ -417,11 +429,15 @@ namespace OSHVisualGui
 
 		private void nameTextBox_TextChanged(object sender, EventArgs e)
 		{
+			themeChanged = true;
+
 			theme.Name = nameTextBox.Text;
 		}
 
 		private void authorTextBox_TextChanged(object sender, EventArgs e)
 		{
+			themeChanged = true;
+
 			theme.Author = authorTextBox.Text;
 		}
 
