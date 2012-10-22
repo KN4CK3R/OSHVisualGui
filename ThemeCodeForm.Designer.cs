@@ -28,28 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.themeFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThemeCodeForm));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.themeFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// themeFastColoredTextBox
-			// 
-			this.themeFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.themeFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
-			this.themeFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.themeFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
-			this.themeFastColoredTextBox.LeftBracket = '(';
-			this.themeFastColoredTextBox.Location = new System.Drawing.Point(12, 27);
-			this.themeFastColoredTextBox.Name = "themeFastColoredTextBox";
-			this.themeFastColoredTextBox.RightBracket = ')';
-			this.themeFastColoredTextBox.Size = new System.Drawing.Size(780, 270);
-			this.themeFastColoredTextBox.TabIndex = 2;
-			this.themeFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.themeFastColoredTextBox_TextChanged);
 			// 
 			// menuStrip1
 			// 
@@ -74,6 +59,23 @@
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
 			this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// themeFastColoredTextBox
+			// 
+			this.themeFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.themeFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
+			this.themeFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.themeFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.themeFastColoredTextBox.LeftBracket = '(';
+			this.themeFastColoredTextBox.Location = new System.Drawing.Point(12, 27);
+			this.themeFastColoredTextBox.Name = "themeFastColoredTextBox";
+			this.themeFastColoredTextBox.RightBracket = ')';
+			this.themeFastColoredTextBox.Size = new System.Drawing.Size(780, 270);
+			this.themeFastColoredTextBox.TabIndex = 2;
+			this.themeFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.themeFastColoredTextBox_TextChanged);
 			// 
 			// ThemeCodeForm
 			// 
@@ -82,8 +84,10 @@
 			this.ClientSize = new System.Drawing.Size(804, 309);
 			this.Controls.Add(this.themeFastColoredTextBox);
 			this.Controls.Add(this.menuStrip1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "ThemeCodeForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "OldSchoolHack VisualGui - ThemeCode";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();

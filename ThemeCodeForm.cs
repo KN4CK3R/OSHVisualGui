@@ -86,5 +86,10 @@ namespace OSHVisualGui
 			e.ChangedRange.SetFoldingMarkers("{", "}");//allow to collapse brackets block
 			e.ChangedRange.SetFoldingMarkers(@"/\*", @"\*/");//allow to collapse comment block
 		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
 	}
 }

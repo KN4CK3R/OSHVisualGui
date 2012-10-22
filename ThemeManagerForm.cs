@@ -354,6 +354,7 @@ namespace OSHVisualGui
 		{
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "Theme-File (*.tm)|*.tm";
+			sfd.InitialDirectory = @"C:\Users\KN4CK3R\Desktop\themes";
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				theme.Save(sfd.FileName, Theme.ColorStyle.Text);

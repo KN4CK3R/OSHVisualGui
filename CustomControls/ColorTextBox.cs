@@ -19,7 +19,24 @@ namespace OSHVisualGui
 		private ColorStyle style;
 		public ColorStyle Style { get { return style; } set { style = value; ColorToText(Color); } }
 		private Color color;
-		public Color Color { get { return color; } set { if (color != value) { color = value; BackColor = Color.FromArgb(value.R, value.G, value.B); ColorToText(color); ForeColor = Color.FromArgb(255 - value.R, 255 - value.G, 255 - value.B); OnColorChanged(); } } }
+		public Color Color
+		{
+			get
+			{
+				return color;
+			}
+			set
+			{
+				if (color != value)
+				{
+					color = value;
+					BackColor = Color.FromArgb(value.R, value.G, value.B); //filter alpha
+					ColorToText(color);
+					ForeColor = value.GetBrightness() > 0.5f ? Color.Black : Color.White;
+					OnColorChanged();
+				}
+			}
+		}
 
 		private Button switchStyle;
 		private Button openColorPicker;
