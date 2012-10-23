@@ -401,6 +401,20 @@ namespace OSHVisualGui
             }
         }
 
+		private void RecursiveRemove(GuiControls.Control control)
+		{
+			if (control is GuiControls.ContainerControl)
+			{
+				var container = control as GuiControls.ContainerControl;
+				foreach (var it in container.Controls.ToArray()) //ToArray fixes invalid iterator error
+				{
+					RecursiveRemove(it);
+				}
+			}
+			control.RealParent.RemoveControl(control);
+			RemoveControlFromList(control);
+		}
+
         private bool isCopiedControl = false;
         private void canvasPictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -410,8 +424,7 @@ namespace OSHVisualGui
                 {
                     GuiControls.Control removeControl = GuiControls.Control.FocusedControl;
 
-                    removeControl.RealParent.RemoveControl(removeControl);
-                    RemoveControlFromList(removeControl);
+					RecursiveRemove(removeControl);
 
                     form.Focus();
 
@@ -436,8 +449,9 @@ namespace OSHVisualGui
                         return;
                     }
                     copiedControl = GuiControls.Control.FocusedControl;
-                    GuiControls.Control.FocusedControl.RealParent.RemoveControl(GuiControls.Control.FocusedControl);
-                    RemoveControlFromList(GuiControls.Control.FocusedControl);
+
+					RecursiveRemove(GuiControls.Control.FocusedControl);
+
                     controlComboBox.SelectedIndex = 0;
 
                     isCopiedControl = false;
