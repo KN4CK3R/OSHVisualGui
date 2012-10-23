@@ -18,8 +18,6 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "tabControl"; } }
         private List<TabPageButtonBinding> tabPageButtonBindings;
 
-		public override Font Font { get { return base.Font; } set { base.Font = value; foreach (var it in tabPageButtonBindings) { it.button.Font = it.tabPage.Font = value; } } }
-
         private int startIndex;
         private int maxIndex;
         private TabPageButtonBinding selected;
@@ -75,6 +73,7 @@ namespace OSHVisualGui.GuiControls
                 }
             }
         } }
+		public override Font Font { get { return base.Font; } set { base.Font = value; foreach (var it in tabPageButtonBindings) { it.button.Font = it.tabPage.Font = value; } } }
         public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; foreach (var binding in tabPageButtonBindings) { binding.button.ForeColor = value; binding.tabPage.ForeColor = value; } lastSwitchButton.ForeColor = value; nextSwitchButton.ForeColor = value; } }
         public override Color BackColor { get { return base.BackColor; } set { base.BackColor = value; foreach (var binding in tabPageButtonBindings) { binding.button.BackColor = value; binding.tabPage.BackColor = value; } lastSwitchButton.BackColor = value; nextSwitchButton.BackColor = value; } }
         internal override Point ContainerLocation { get { return base.ContainerLocation.Add(selected.tabPage.Location); } }
