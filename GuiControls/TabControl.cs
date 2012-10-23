@@ -18,6 +18,8 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "tabControl"; } }
         private List<TabPageButtonBinding> tabPageButtonBindings;
 
+		public override Font Font { get { return base.Font; } set { base.Font = value; foreach (var it in tabPageButtonBindings) { it.button.Font = it.tabPage.Font = value; } } }
+
         private int startIndex;
         private int maxIndex;
         private TabPageButtonBinding selected;
