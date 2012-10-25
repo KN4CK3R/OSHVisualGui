@@ -65,7 +65,7 @@ namespace OSHVisualGui
             //class name highlighting
             e.ChangedRange.SetStyle(BoldStyle, @"\b(class|struct)\s+(?<range>\w+?)\b");
             //keyword highlighting
-            e.ChangedRange.SetStyle(BlueStyle, @"\b(static|sizeof|using|namespace|void|short|int|long|float|double|char|bool|false|true|break|continue|throw|switch|case|try|catch|finally|this|return|new|class|struct|enum|virtual|public|private|protected|operator|goto|if|else|do|while|for|const|OSHGui|Control|Button|CheckBox|ColorBar|ColorPicker|ComboBox|Form|GroupBox|Label|LinkLabel|ListBox|Panel|PictureBox|ProgressBar|RadioButton|TabControl|TabPage|TextBox|Timer|TrackBar|Misc|Drawing|AnsiString|AnsiChar|UnicodeString|UnicodeChar|Point|Size|Rectangle|Color|AnchorTop|AnchorBottom|AnchorLeft|AnchorRight)\b");
+			e.ChangedRange.SetStyle(BlueStyle, @"\b(XorStr|static|sizeof|nullptr|using|namespace|void|short|int|long|float|double|char|bool|false|true|break|continue|throw|switch|case|try|catch|finally|this|return|new|class|struct|enum|virtual|public|private|protected|operator|goto|if|else|do|while|for|const|OSHGui|Control|Button|CheckBox|ColorBar|ColorPicker|ComboBox|Form|GroupBox|Label|LinkLabel|ListBox|Panel|PictureBox|ProgressBar|RadioButton|TabControl|TabPage|TextBox|Timer|TrackBar|Misc|Drawing|AnsiString|AnsiChar|UnicodeString|UnicodeChar|Point|Size|Rectangle|Color|AnchorTop|AnchorBottom|AnchorLeft|AnchorRight)\b");
 
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();

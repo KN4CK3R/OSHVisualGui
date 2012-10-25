@@ -214,6 +214,10 @@ namespace OSHVisualGui.GuiControls
                     {
                         control.Location = control.Location.Add(new Point(offset.Width, offset.Height));
                     }
+					else if (anchor == (AnchorStyles.Bottom | AnchorStyles.Left))
+					{
+						control.Location = control.Location.Add(new Point(0, offset.Height));
+					}
                 }
             }
         }

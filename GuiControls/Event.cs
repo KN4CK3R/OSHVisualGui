@@ -49,7 +49,7 @@ namespace OSHVisualGui.GuiControls
     public class ClickEvent : Event
     {
         public ClickEvent(Control control)
-            : base(control, "_Clicked", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_Clicked", new string[] { "Control *sender" })
         {
 
         }
@@ -58,7 +58,7 @@ namespace OSHVisualGui.GuiControls
     public class LocationChangedEvent : Event
     {
         public LocationChangedEvent(Control control)
-            : base(control, "_LocationChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_LocationChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -67,7 +67,7 @@ namespace OSHVisualGui.GuiControls
     public class SizeChangedEvent : Event
     {
         public SizeChangedEvent(Control control)
-            : base(control, "_SizeChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_SizeChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -76,7 +76,7 @@ namespace OSHVisualGui.GuiControls
     public class KeyDownEvent : Event
     {
         public KeyDownEvent(Control control)
-            : base(control, "_KeyDown", new string[] { "OSHGui::Control *sender", "OSHGui::KeyEventArgs &e" })
+            : base(control, "_KeyDown", new string[] { "Control *sender", "KeyEventArgs &e" })
         {
 
         }
@@ -85,7 +85,7 @@ namespace OSHVisualGui.GuiControls
     public class KeyPressEvent : Event
     {
         public KeyPressEvent(Control control)
-            : base(control, "_KeyPress", new string[] { "OSHGui::Control *sender", "OSHGui::KeyPressEventArgs &e" })
+            : base(control, "_KeyPress", new string[] { "Control *sender", "KeyPressEventArgs &e" })
         {
 
         }
@@ -94,7 +94,7 @@ namespace OSHVisualGui.GuiControls
     public class KeyUpEvent : Event
     {
         public KeyUpEvent(Control control)
-            : base(control, "_KeyUp", new string[] { "OSHGui::Control *sender", "OSHGui::KeyEventArgs &e" })
+            : base(control, "_KeyUp", new string[] { "Control *sender", "KeyEventArgs &e" })
         {
 
         }
@@ -103,7 +103,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseClickEvent : Event
     {
         public MouseClickEvent(Control control)
-            : base(control, "_MouseClick", new string[] { "OSHGui::Control *sender", "OSHGui::MouseEventArgs &e" })
+            : base(control, "_MouseClick", new string[] { "Control *sender", "MouseEventArgs &e" })
         {
 
         }
@@ -112,7 +112,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseDownEvent : Event
     {
         public MouseDownEvent(Control control)
-            : base(control, "_MouseDown", new string[] { "OSHGui::Control *sender", "OSHGui::MouseEventArgs &e" })
+            : base(control, "_MouseDown", new string[] { "Control *sender", "MouseEventArgs &e" })
         {
 
         }
@@ -121,7 +121,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseUpEvent : Event
     {
         public MouseUpEvent(Control control)
-            : base(control, "_MouseUp", new string[] { "OSHGui::Control *sender", "OSHGui::MouseEventArgs &e" })
+            : base(control, "_MouseUp", new string[] { "Control *sender", "MouseEventArgs &e" })
         {
 
         }
@@ -130,7 +130,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseMoveEvent : Event
     {
         public MouseMoveEvent(Control control)
-            : base(control, "_MouseMove", new string[] { "OSHGui::Control *sender", "OSHGui::MouseEventArgs &e" })
+            : base(control, "_MouseMove", new string[] { "Control *sender", "MouseEventArgs &e" })
         {
 
         }
@@ -139,7 +139,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseScrollEvent : Event
     {
         public MouseScrollEvent(Control control)
-            : base(control, "_MouseScroll", new string[] { "OSHGui::Control *sender", "OSHGui::MouseEventArgs &e" })
+            : base(control, "_MouseScroll", new string[] { "Control *sender", "MouseEventArgs &e" })
         {
 
         }
@@ -148,7 +148,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseEnterEvent : Event
     {
         public MouseEnterEvent(Control control)
-            : base(control, "_MouseEnter", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_MouseEnter", new string[] { "Control *sender" })
         {
 
         }
@@ -157,7 +157,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseLeaveEvent : Event
     {
         public MouseLeaveEvent(Control control)
-            : base(control, "_MouseLeave", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_MouseLeave", new string[] { "Control *sender" })
         {
 
         }
@@ -166,7 +166,7 @@ namespace OSHVisualGui.GuiControls
     public class MouseCaptureChangedEvent : Event
     {
         public MouseCaptureChangedEvent(Control control)
-            : base(control, "_MouseCaptureChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_MouseCaptureChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -175,7 +175,7 @@ namespace OSHVisualGui.GuiControls
     public class FocusGotEvent : Event
     {
         public FocusGotEvent(Control control)
-            : base(control, "_FocusGot", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_FocusGot", new string[] { "Control *sender" })
         {
 
         }
@@ -184,7 +184,7 @@ namespace OSHVisualGui.GuiControls
     public class FocusLostEvent : Event
     {
         public FocusLostEvent(Control control)
-            : base(control, "_FocusLost", new string[] { "OSHGui::Control *sender", "OSHGui::Control *newFocusedControl" })
+            : base(control, "_FocusLost", new string[] { "Control *sender", "Control *newFocusedControl" })
         {
 
         }
@@ -193,7 +193,7 @@ namespace OSHVisualGui.GuiControls
     public class FormClosingEvent : Event
     {
         public FormClosingEvent(Control control)
-            : base(control, "_FormClosing", new string[] { "OSHGui::Control *sender", "bool &canClose" })
+            : base(control, "_FormClosing", new string[] { "Control *sender", "bool &canClose" })
         {
 
         }
@@ -202,7 +202,7 @@ namespace OSHVisualGui.GuiControls
     public class SelectedIndexChangedEvent : Event
     {
         public SelectedIndexChangedEvent(Control control)
-            : base(control, "_SelectedIndexChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_SelectedIndexChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -211,7 +211,7 @@ namespace OSHVisualGui.GuiControls
     public class ColorChangedEvent : Event
     {
         public ColorChangedEvent(Control control)
-            : base(control, "_ColorChanged", new string[] { "OSHGui::Control *sender", "OSHGui::Drawing::Color &color" })
+            : base(control, "_ColorChanged", new string[] { "Control *sender", "Drawing::Color &color" })
         {
 
         }
@@ -220,7 +220,7 @@ namespace OSHVisualGui.GuiControls
     public class CheckedChangedEvent : Event
     {
         public CheckedChangedEvent(Control control)
-            : base(control, "_CheckedChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_CheckedChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -229,7 +229,7 @@ namespace OSHVisualGui.GuiControls
     public class TextChangedEvent : Event
     {
         public TextChangedEvent(Control control)
-            : base(control, "_TextChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_TextChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -238,7 +238,7 @@ namespace OSHVisualGui.GuiControls
     public class ValueChangedEvent : Event
     {
         public ValueChangedEvent(Control control)
-            : base(control, "_ValueChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_ValueChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -247,7 +247,7 @@ namespace OSHVisualGui.GuiControls
     public class TickEvent : Event
     {
         public TickEvent(Control control)
-            : base(control, "_TickChanged", new string[] { "OSHGui::Control *sender" })
+            : base(control, "_TickChanged", new string[] { "Control *sender" })
         {
 
         }
@@ -256,7 +256,7 @@ namespace OSHVisualGui.GuiControls
     public class ScrollEvent : Event
     {
         public ScrollEvent(Control control)
-            : base(control, "_Scroll", new string[] { "OSHGui::Control *sender", "OSHGui::ScrollEventArgs &e" })
+            : base(control, "_Scroll", new string[] { "Control *sender", "ScrollEventArgs &e" })
         {
 
         }
