@@ -29,7 +29,7 @@ namespace OSHVisualGui.GuiControls
 
         protected Event(Control control, string stub, string[] parameter)
         {
-            if (string.IsNullOrEmpty(stub))
+            if (stub == null)
             {
                 throw new ArgumentNullException("stub");
             }
@@ -45,6 +45,15 @@ namespace OSHVisualGui.GuiControls
             return !string.IsNullOrEmpty(code) ? "void " + Control.Name + stub + "(" + string.Join(", ", Parameter) + ")" : string.Empty;
         }
     }
+
+	public class ConstructorEvent : Event
+	{
+		public ConstructorEvent(Control control)
+            : base(control, "", new string[] { "" })
+        {
+
+        }
+	}
 
     public class ClickEvent : Event
     {

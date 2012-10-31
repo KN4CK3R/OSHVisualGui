@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Text.RegularExpressions;
 using OSHVisualGui.GuiControls;
 
 namespace OSHVisualGui
@@ -108,6 +109,17 @@ namespace OSHVisualGui
             code.AppendLine(form.Name + "::" + form.Name + "()");
             code.AppendLine("{");
             code.AppendLine("\tInitializeComponent();");
+
+			if (!string.IsNullOrEmpty(form.Constructor.Code))
+			{
+				string constCode = form.Constructor.Code;
+				Regex constRegex = new Regex(@"void .+?\(\).+?{(.*)}", RegexOptions.Compiled | RegexOptions.Singleline);
+				if (constRegex.IsMatch(constCode))
+				{
+					code.AppendLine("\n\t" + constRegex.Match(constCode).Groups[1].Value.Trim());
+				}
+			}
+
             code.AppendLine("}");
             code.AppendLine("//---------------------------------------------------------------------------");
 
