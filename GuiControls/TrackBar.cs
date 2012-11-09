@@ -16,7 +16,7 @@ namespace OSHVisualGui.GuiControls
         private int maximum;
         public int Maximum { get { return maximum; } set { if (value > minimum) { maximum = value; } } }
         private int value;
-        public int Value { get { return value; } set { if (value >= minimum && value < maximum) { this.value = value; } } }
+        public int Value { get { return value; } set { if (value >= minimum && value =< maximum) { this.value = value; } } }
         private int tickFrequency;
         public int TickFrequency { get { return tickFrequency; } set { if (value >= 1) { this.tickFrequency = value; } } }
 
