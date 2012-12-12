@@ -135,6 +135,7 @@
     <Compile Include="GuiControls\Form.cs" />
     <Compile Include="GuiControls\GroupBox.cs" />
     <Compile Include="GuiControls\ComboBox.cs" />
+    <Compile Include="GuiControls\HotkeyControl.cs" />
     <Compile Include="GuiControls\PictureBox.cs" />
     <Compile Include="GuiControls\LinkLabel.cs" />
     <Compile Include="GuiControls\Label.cs" />

@@ -45,15 +45,15 @@
 			this.authorTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.defaultForeColorTextBox = new OSHVisualGui.ColorTextBox();
+			this.defaultBackColorTextBox = new OSHVisualGui.ColorTextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.controlColorTextBox = new OSHVisualGui.ColorTextBox();
 			this.backColorRadioButton = new System.Windows.Forms.RadioButton();
 			this.foreColorRadioButton = new System.Windows.Forms.RadioButton();
 			this.controlsListBox = new System.Windows.Forms.ListBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.previewPictureBox = new System.Windows.Forms.PictureBox();
-			this.controlColorTextBox = new OSHVisualGui.ColorTextBox();
-			this.defaultForeColorTextBox = new OSHVisualGui.ColorTextBox();
-			this.defaultBackColorTextBox = new OSHVisualGui.ColorTextBox();
 			this.menuStrip1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -204,6 +204,34 @@
 			this.groupBox1.TabIndex = 15;
 			this.groupBox1.TabStop = false;
 			// 
+			// defaultForeColorTextBox
+			// 
+			this.defaultForeColorTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.defaultForeColorTextBox.Color = System.Drawing.Color.White;
+			this.defaultForeColorTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.defaultForeColorTextBox.Location = new System.Drawing.Point(222, 32);
+			this.defaultForeColorTextBox.Name = "defaultForeColorTextBox";
+			this.defaultForeColorTextBox.Size = new System.Drawing.Size(192, 20);
+			this.defaultForeColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
+			this.defaultForeColorTextBox.TabIndex = 17;
+			this.defaultForeColorTextBox.Text = "255/255/255";
+			this.defaultForeColorTextBox.ColorChanged += new System.EventHandler(this.defaultForeColorTextBox_ColorChanged);
+			this.defaultForeColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.defaultForeColorTextBox_ColorPickerHover);
+			// 
+			// defaultBackColorTextBox
+			// 
+			this.defaultBackColorTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.defaultBackColorTextBox.Color = System.Drawing.Color.Black;
+			this.defaultBackColorTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.defaultBackColorTextBox.Location = new System.Drawing.Point(222, 71);
+			this.defaultBackColorTextBox.Name = "defaultBackColorTextBox";
+			this.defaultBackColorTextBox.Size = new System.Drawing.Size(192, 20);
+			this.defaultBackColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
+			this.defaultBackColorTextBox.TabIndex = 16;
+			this.defaultBackColorTextBox.Text = "0/0/0";
+			this.defaultBackColorTextBox.ColorChanged += new System.EventHandler(this.defaultBackColorTextBox_ColorChanged);
+			this.defaultBackColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.defaultBackColorTextBox_ColorPickerHover);
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.BackColor = System.Drawing.Color.Transparent;
@@ -218,6 +246,19 @@
 			this.groupBox2.TabIndex = 16;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Controls";
+			// 
+			// controlColorTextBox
+			// 
+			this.controlColorTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.controlColorTextBox.Color = System.Drawing.Color.White;
+			this.controlColorTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.controlColorTextBox.Location = new System.Drawing.Point(221, 29);
+			this.controlColorTextBox.Name = "controlColorTextBox";
+			this.controlColorTextBox.Size = new System.Drawing.Size(192, 20);
+			this.controlColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
+			this.controlColorTextBox.TabIndex = 18;
+			this.controlColorTextBox.Text = "255/255/255";
+			this.controlColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.controlColorTextBox_ColorPickerHover);
 			// 
 			// backColorRadioButton
 			// 
@@ -264,7 +305,8 @@
             "TextBox",
             "TabControl",
             "TabPage",
-            "PictureBox"});
+            "PictureBox",
+            "HotkeyControl"});
 			this.controlsListBox.Location = new System.Drawing.Point(8, 19);
 			this.controlsListBox.Name = "controlsListBox";
 			this.controlsListBox.Size = new System.Drawing.Size(109, 43);
@@ -292,47 +334,6 @@
 			this.previewPictureBox.TabIndex = 0;
 			this.previewPictureBox.TabStop = false;
 			this.previewPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.previewPictureBox_Paint);
-			// 
-			// controlColorTextBox
-			// 
-			this.controlColorTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.controlColorTextBox.Color = System.Drawing.Color.White;
-			this.controlColorTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.controlColorTextBox.Location = new System.Drawing.Point(221, 29);
-			this.controlColorTextBox.Name = "controlColorTextBox";
-			this.controlColorTextBox.Size = new System.Drawing.Size(192, 20);
-			this.controlColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
-			this.controlColorTextBox.TabIndex = 18;
-			this.controlColorTextBox.Text = "255/255/255";
-			this.controlColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.controlColorTextBox_ColorPickerHover);
-			// 
-			// defaultForeColorTextBox
-			// 
-			this.defaultForeColorTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.defaultForeColorTextBox.Color = System.Drawing.Color.White;
-			this.defaultForeColorTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.defaultForeColorTextBox.Location = new System.Drawing.Point(222, 32);
-			this.defaultForeColorTextBox.Name = "defaultForeColorTextBox";
-			this.defaultForeColorTextBox.Size = new System.Drawing.Size(192, 20);
-			this.defaultForeColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
-			this.defaultForeColorTextBox.TabIndex = 17;
-			this.defaultForeColorTextBox.Text = "255/255/255";
-			this.defaultForeColorTextBox.ColorChanged += new System.EventHandler(this.defaultForeColorTextBox_ColorChanged);
-			this.defaultForeColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.defaultForeColorTextBox_ColorPickerHover);
-			// 
-			// defaultBackColorTextBox
-			// 
-			this.defaultBackColorTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.defaultBackColorTextBox.Color = System.Drawing.Color.Black;
-			this.defaultBackColorTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.defaultBackColorTextBox.Location = new System.Drawing.Point(222, 71);
-			this.defaultBackColorTextBox.Name = "defaultBackColorTextBox";
-			this.defaultBackColorTextBox.Size = new System.Drawing.Size(192, 20);
-			this.defaultBackColorTextBox.Style = OSHVisualGui.ColorTextBox.ColorStyle.RGB;
-			this.defaultBackColorTextBox.TabIndex = 16;
-			this.defaultBackColorTextBox.Text = "0/0/0";
-			this.defaultBackColorTextBox.ColorChanged += new System.EventHandler(this.defaultBackColorTextBox_ColorChanged);
-			this.defaultBackColorTextBox.ColorPickerHover += new OSHVisualGui.ColorTextBox.ColorPickerHoverEventHandler(this.defaultBackColorTextBox_ColorPickerHover);
 			// 
 			// ThemeManagerForm
 			// 

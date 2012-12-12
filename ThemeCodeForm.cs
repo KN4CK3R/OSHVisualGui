@@ -39,7 +39,7 @@ namespace OSHVisualGui
 			sb.AppendLine("theme.DefaultColor.BackColor = Drawing::" + theme.DefaultColor.BackColor.ToCppString() + ";");
 			if (theme.ControlThemes.Count > 0)
 			{
-				sb.AppendLine("#define MakeTheme(control, color1, color2) theme.SetControlColorTheme(control, Drawing::Theme::ControlTheme(color1, color2))");
+				sb.AppendLine("#define MakeTheme(control, color1, color2) theme.SetControlColorTheme(Control::ControlTypeToString(control), Drawing::Theme::ControlTheme(color1, color2))");
 				foreach (var it in theme.ControlThemes)
 				{
 					if (it.Value.Changed)

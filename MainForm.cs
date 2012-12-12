@@ -38,6 +38,7 @@ namespace OSHVisualGui
             allControlsGroup.Items.Add(new ToolboxItem("ColorPicker", 3, GuiControls.ControlType.ColorPicker));
             allControlsGroup.Items.Add(new ToolboxItem("ComboBox", 4, GuiControls.ControlType.ComboBox));
             allControlsGroup.Items.Add(new ToolboxItem("GroupBox", 5, GuiControls.ControlType.GroupBox));
+			allControlsGroup.Items.Add(new ToolboxItem("HotkeyControl", 14, GuiControls.ControlType.HotkeyControl));
             allControlsGroup.Items.Add(new ToolboxItem("Label", 6, GuiControls.ControlType.Label));
             allControlsGroup.Items.Add(new ToolboxItem("LinkLabel", 7, GuiControls.ControlType.LinkLabel));
             allControlsGroup.Items.Add(new ToolboxItem("ListBox", 8, GuiControls.ControlType.ListBox));
@@ -384,6 +385,11 @@ namespace OSHVisualGui
                         trackBar.Name = "trackBar" + cm.GetControlCount(typeof(GuiControls.TrackBar));
                         newControl = trackBar;
                         break;
+					case GuiControls.ControlType.HotkeyControl:
+						GuiControls.HotkeyControl hotkeyControl = new GuiControls.HotkeyControl();
+						hotkeyControl.Name = "hotkeyControl" + cm.GetControlCount(typeof(GuiControls.HotkeyControl));
+						newControl = hotkeyControl;
+						break;
                 }
                 if (newControl == null)
                 {

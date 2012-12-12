@@ -28,7 +28,8 @@ namespace OSHVisualGui.GuiControls
         TabPage,
         TextBox,
         Timer,
-        TrackBar
+        TrackBar,
+		HotkeyControl
     }
 
     public class Mouse

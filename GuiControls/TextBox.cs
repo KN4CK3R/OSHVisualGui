@@ -14,7 +14,7 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "textBox"; } }
         private string text;
         protected string DefaultText;
-        public string Text { get { return text; } set { text = value; } }
+        public virtual string Text { get { return text; } set { text = value; } }
 
         [Category("Events")]
         public TextChangedEvent TextChangedEvent { get; set; }

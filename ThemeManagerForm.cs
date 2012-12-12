@@ -300,6 +300,15 @@ namespace OSHVisualGui
 					preview2Control = picturebox.Copy();
 					preview2Form.AddControl(preview2Control);
 					break;
+				case "HotkeyControl":
+					controlTheme = theme.ControlThemes["textbox"];
+					GuiControls.TextBox hotkeyControl = new GuiControls.TextBox();
+					hotkeyControl.Text = "Control + A";
+					preview1Form.AddControl(hotkeyControl);
+					preview1Control = hotkeyControl;
+					preview2Control = hotkeyControl.Copy();
+					preview2Form.AddControl(preview2Control);
+					break;
 			}
 			preview1Control.ForeColor = preview2Control.ForeColor = controlTheme.Changed ? controlTheme.ForeColor : theme.DefaultColor.ForeColor;
 			preview1Control.BackColor = preview2Control.BackColor = controlTheme.Changed ? controlTheme.BackColor : theme.DefaultColor.BackColor;
@@ -354,7 +363,6 @@ namespace OSHVisualGui
 		{
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "Theme-File (*.tm)|*.tm";
-			sfd.InitialDirectory = @"C:\Users\KN4CK3R\Desktop\themes";
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				theme.Save(sfd.FileName, Theme.ColorStyle.Text);
