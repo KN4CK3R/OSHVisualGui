@@ -84,11 +84,14 @@ namespace OSHVisualGui.GuiControls
         protected override void WriteToXmlElement(XElement element)
         {
             base.WriteToXmlElement(element);
-            
-            foreach (string item in Items)
-            {
-                element.Add(new XElement("item", item));
-            }
+
+			if (Items != null)
+			{
+				foreach (string item in Items)
+				{
+					element.Add(new XElement("item", item));
+				}
+			}
         }
 
         public override void ReadPropertiesFromXml(XElement element)

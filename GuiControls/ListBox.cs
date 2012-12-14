@@ -110,10 +110,13 @@ namespace OSHVisualGui.GuiControls
             base.WriteToXmlElement(element);
 
             element.Add(new XAttribute("autoScrollEnabled", autoScrollEnabled.ToString().ToLower()));
-            foreach (string item in Items)
-            {
-                element.Add(new XElement("item", item));
-            }
+			if (Items != null)
+			{
+				foreach (string item in Items)
+				{
+					element.Add(new XElement("item", item));
+				}
+			}
         }
 
         public override void ReadPropertiesFromXml(XElement element)
