@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -294,7 +295,7 @@ namespace OSHVisualGui.GuiControls
             element.Add(new XAttribute("size", size.Width + "," + size.Height));
             element.Add(new XAttribute("anchor", anchor.Serialize()));
             element.Add(new XAttribute("autoSize", autoSize.ToString().ToLower()));
-            element.Add(new XAttribute("font", font.Name + "," + font.Size + "," + font.Bold.ToString().ToLower() + "," + font.Italic.ToString().ToLower() + "," + font.Underline.ToString().ToLower()));
+            element.Add(new XAttribute("font", font.Name + "," + font.Size.ToString(CultureInfo.InvariantCulture) + "," + font.Bold.ToString().ToLower() + "," + font.Italic.ToString().ToLower() + "," + font.Underline.ToString().ToLower()));
             element.Add(new XAttribute("foreColor", foreColor.ToArgb().ToString("X")));
             element.Add(new XAttribute("backColor", backColor.ToArgb().ToString("X")));
             foreach (var controlEvent in GetUsedEvents())

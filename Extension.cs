@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
+using System.Globalization;
 
 namespace OSHVisualGui
 {
@@ -109,12 +110,12 @@ namespace OSHVisualGui
 
         public static Font Parse(this Font font, string value)
         {
-            int size;
+            float size;
             bool bold;
             bool italic;
             bool underline;
             string[] values = value.Split(',');
-            if (values.Length != 5 || !int.TryParse(values[1], out size) || !bool.TryParse(values[2], out bold) || !bool.TryParse(values[3], out italic) || !bool.TryParse(values[4], out underline))
+            if (values.Length != 5 || !float.TryParse(values[1], NumberStyles.Any, CultureInfo.InvariantCulture, out size) || !bool.TryParse(values[2], out bold) || !bool.TryParse(values[3], out italic) || !bool.TryParse(values[4], out underline))
             {
                 throw new Exception("ParseError: Font '" + value + "'");
             }
