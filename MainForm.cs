@@ -219,6 +219,7 @@ namespace OSHVisualGui
                 Cursor.Clip = canvasPictureBox.RectangleToScreen(new Rectangle(0, 0, canvasPictureBox.Width - 3, canvasPictureBox.Height - 3));
 
                 GuiControls.Control oldFocusedControl = GuiControls.Control.FocusedControl;
+
                 ProcessMouseMessage(new GuiControls.Mouse(e.Location, GuiControls.Mouse.MouseStates.LeftDown));
 
                 if (GuiControls.Control.FocusedControl != oldFocusedControl)
@@ -266,7 +267,14 @@ namespace OSHVisualGui
         {
             Cursor.Clip = new Rectangle();
 
+			GuiControls.Control oldFocusedControl = GuiControls.Control.FocusedControl;
+
             ProcessMouseMessage(new GuiControls.Mouse(e.Location, GuiControls.Mouse.MouseStates.LeftUp));
+
+			if (GuiControls.Control.FocusedControl != oldFocusedControl)
+			{
+				controlComboBox.SelectedItem = GuiControls.Control.FocusedControl;
+			}
         }
 
         private void canvasPictureBox_DragEnter(object sender, DragEventArgs e)

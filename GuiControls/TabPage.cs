@@ -53,7 +53,7 @@ namespace OSHVisualGui.GuiControls
             DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF474747));
             DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
-            isSubControl = true;
+            //isSubControl = true;
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()

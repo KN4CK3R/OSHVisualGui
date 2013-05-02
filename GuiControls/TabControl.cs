@@ -22,7 +22,7 @@ namespace OSHVisualGui.GuiControls
         private int startIndex;
         private int maxIndex;
         private TabPageButtonBinding selected;
-        public TabPage CurrentTabPage { get { return selected != null ? selected.tabPage : null; } }
+        //public TabPage CurrentTabPage { get { return selected != null ? selected.tabPage : null; } }
         private TabControlSwitchButton lastSwitchButton;
         private TabControlSwitchButton nextSwitchButton;
 
@@ -437,6 +437,8 @@ namespace OSHVisualGui.GuiControls
 
                 TabControl tabControl = Parent as TabControl;
                 tabControl.SelectedTabPage = binding.index;
+
+				Control.FocusedControl = binding.tabPage;
             }
         }
 
