@@ -6,6 +6,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     class GroupBox : ContainerControl
     {
         #region Properties

@@ -9,6 +9,7 @@ using System.Xml.Linq;
 namespace OSHVisualGui.GuiControls
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
+	[Serializable]
     public class TabPage : Panel
     {
         #region Properties

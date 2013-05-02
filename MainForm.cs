@@ -16,7 +16,6 @@ namespace OSHVisualGui
 {
     public partial class MainForm : Form
     {
-        private GuiControls.Control copiedControl;
         private GuiControls.Form form;
         private bool stickToolBoxToggle;
 
@@ -28,8 +27,6 @@ namespace OSHVisualGui
             InitializeComponent();
 
             stickToolBoxToggle = false;
-
-            copiedControl = null;
 
             ToolboxGroup allControlsGroup = new ToolboxGroup("All Controls");
             allControlsGroup.Items.Add(new ToolboxItem("Button", 0, GuiControls.ControlType.Button));
@@ -421,7 +418,6 @@ namespace OSHVisualGui
 			RemoveControlFromList(control);
 		}
 
-        private bool isCopiedControl = false;
         private void canvasPictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (GuiControls.Control.FocusedControl != null)
@@ -443,10 +439,10 @@ namespace OSHVisualGui
                         return;
                     }
 
-                    copiedControl = GuiControls.Control.FocusedControl.Copy();
-                    copiedControl.Location = copiedControl.Location.Add(new Point(10, 10));
-
-                    isCopiedControl = true;
+					Clipboard.Clear();
+					var control = GuiControls.Control.FocusedControl.Copy();
+					control.Location = control.Location.Add(new Point(10, 10));
+					Clipboard.SetData("oshvisualgui_control", control);
                 }
                 else if (e.Control && e.KeyCode == Keys.X)
                 {
@@ -454,17 +450,18 @@ namespace OSHVisualGui
                     {
                         return;
                     }
-                    copiedControl = GuiControls.Control.FocusedControl;
+
+					Clipboard.Clear();
+					var control = GuiControls.Control.FocusedControl;
+					Clipboard.SetData("oshvisualgui_control", control);
 
 					RecursiveRemove(GuiControls.Control.FocusedControl);
 
                     controlComboBox.SelectedIndex = 0;
-
-                    isCopiedControl = false;
                 }
                 else if (e.Control && e.KeyCode == Keys.V)
                 {
-                    if (copiedControl == null)
+                    if (!Clipboard.ContainsData("oshvisualgui_control"))
                     {
                         return;
                     }
@@ -478,6 +475,9 @@ namespace OSHVisualGui
                     {
                         parent = GuiControls.Control.FocusedControl.RealParent;
                     }
+
+					var copiedControl = Clipboard.GetData("oshvisualgui_control") as GuiControls.Control;
+
                     parent.AddControl(copiedControl);
 
                     AddControlToList(copiedControl);
@@ -493,16 +493,6 @@ namespace OSHVisualGui
                     }
 
                     RegisterEvents(copiedControl);
-
-                    if (isCopiedControl)
-                    {
-                        copiedControl = copiedControl.Copy();
-                        copiedControl.Location = copiedControl.Location.Add(new Point(10, 10));
-                    }
-                    else
-                    {
-                        copiedControl = null;
-                    }
                 }
             }
         }

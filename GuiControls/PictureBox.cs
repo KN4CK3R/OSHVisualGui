@@ -9,6 +9,7 @@ using System.Drawing.Design;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     public class PictureBox : ScalableControl
     {
         #region Properties
@@ -62,6 +63,12 @@ namespace OSHVisualGui.GuiControls
             {
                 graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
             }
+
+			using (Pen pen = new Pen(Color.Black, 1))
+			{
+				pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+				graphics.DrawRectangle(pen, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
+			}
 
             if (image != null)
             {

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -52,6 +53,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public abstract class Control
     {
         internal virtual string DefaultName { get { return "form"; } }
@@ -81,10 +83,12 @@ namespace OSHVisualGui.GuiControls
         private Font font;
         protected Font DefaultFont;
         public virtual Font Font { get { return font; } set { font = value; } }
+		[NonSerialized]
         protected Brush foreBrush;
         private Color foreColor;
         protected Color DefaultForeColor;
         public virtual Color ForeColor { get { return foreColor; } set { foreColor = value; foreBrush = new SolidBrush(foreColor); } }
+		[NonSerialized]
         protected Brush backBrush;
         private Color backColor;
         protected Color DefaultBackColor;
@@ -278,6 +282,13 @@ namespace OSHVisualGui.GuiControls
         {
             return name;
         }
+
+		[OnDeserialized]
+		internal void OnDeserializedMethod(StreamingContext context)
+		{
+			ForeColor = foreColor;
+			BackColor = backColor;
+		}
 
         public XElement SerializeToXml()
         {

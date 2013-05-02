@@ -8,6 +8,7 @@ namespace OSHVisualGui.GuiControls
 {
     [Editor(typeof(EventEditor), typeof(UITypeEditor))]
     [ImmutableObject(true)]
+	[Serializable]
     public class Event
     {
         private Control control;
@@ -46,6 +47,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
 	public class ConstructorEvent : Event
 	{
 		public ConstructorEvent(Control control)
@@ -55,6 +57,7 @@ namespace OSHVisualGui.GuiControls
         }
 	}
 
+	[Serializable]
     public class ClickEvent : Event
     {
         public ClickEvent(Control control)
@@ -64,6 +67,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class LocationChangedEvent : Event
     {
         public LocationChangedEvent(Control control)
@@ -73,6 +77,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class SizeChangedEvent : Event
     {
         public SizeChangedEvent(Control control)
@@ -82,6 +87,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class KeyDownEvent : Event
     {
         public KeyDownEvent(Control control)
@@ -91,6 +97,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class KeyPressEvent : Event
     {
         public KeyPressEvent(Control control)
@@ -100,6 +107,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class KeyUpEvent : Event
     {
         public KeyUpEvent(Control control)
@@ -109,6 +117,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseClickEvent : Event
     {
         public MouseClickEvent(Control control)
@@ -118,6 +127,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseDownEvent : Event
     {
         public MouseDownEvent(Control control)
@@ -127,6 +137,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseUpEvent : Event
     {
         public MouseUpEvent(Control control)
@@ -136,6 +147,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseMoveEvent : Event
     {
         public MouseMoveEvent(Control control)
@@ -145,6 +157,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseScrollEvent : Event
     {
         public MouseScrollEvent(Control control)
@@ -154,6 +167,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseEnterEvent : Event
     {
         public MouseEnterEvent(Control control)
@@ -163,6 +177,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseLeaveEvent : Event
     {
         public MouseLeaveEvent(Control control)
@@ -172,6 +187,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class MouseCaptureChangedEvent : Event
     {
         public MouseCaptureChangedEvent(Control control)
@@ -181,6 +197,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class FocusGotEvent : Event
     {
         public FocusGotEvent(Control control)
@@ -190,6 +207,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class FocusLostEvent : Event
     {
         public FocusLostEvent(Control control)
@@ -199,6 +217,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class FormClosingEvent : Event
     {
         public FormClosingEvent(Control control)
@@ -208,6 +227,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class SelectedIndexChangedEvent : Event
     {
         public SelectedIndexChangedEvent(Control control)
@@ -217,6 +237,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class ColorChangedEvent : Event
     {
         public ColorChangedEvent(Control control)
@@ -226,6 +247,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class CheckedChangedEvent : Event
     {
         public CheckedChangedEvent(Control control)
@@ -235,6 +257,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class TextChangedEvent : Event
     {
         public TextChangedEvent(Control control)
@@ -244,6 +267,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class ValueChangedEvent : Event
     {
         public ValueChangedEvent(Control control)
@@ -253,6 +277,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class TickEvent : Event
     {
         public TickEvent(Control control)
@@ -262,6 +287,7 @@ namespace OSHVisualGui.GuiControls
         }
     }
 
+	[Serializable]
     public class ScrollEvent : Event
     {
         public ScrollEvent(Control control)
@@ -270,4 +296,14 @@ namespace OSHVisualGui.GuiControls
 
         }
     }
+
+	[Serializable]
+	public class HotkeyChangedEvent : Event
+	{
+		public HotkeyChangedEvent(Control control)
+			: base(control, "_HotkeyChanged", new string[] { "Control *sender" })
+		{
+
+		}
+	}
 }

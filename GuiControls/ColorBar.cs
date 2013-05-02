@@ -8,6 +8,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     class ColorBar : ScalableControl
     {
         #region Properties

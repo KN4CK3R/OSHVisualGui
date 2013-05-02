@@ -9,6 +9,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     class ListBox : ScalableControl
     {
         #region Properties

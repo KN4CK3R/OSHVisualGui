@@ -5,6 +5,7 @@ using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     public abstract class ScalableControl : Control
     {
         public enum DragDirection
@@ -198,6 +199,7 @@ namespace OSHVisualGui.GuiControls
             throw new NotImplementedException();
         }
 
+		[Serializable]
         internal class DragPoint : Control
         {
             private bool isDragging;

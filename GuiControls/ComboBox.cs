@@ -9,6 +9,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     public class ComboBox : Button
     {
         #region Properties

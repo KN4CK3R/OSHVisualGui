@@ -8,6 +8,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     public class Form : ContainerControl
     {
         #region Properties

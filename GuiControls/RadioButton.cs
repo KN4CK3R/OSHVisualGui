@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     class RadioButton : CheckBox
     {
         #region Properties

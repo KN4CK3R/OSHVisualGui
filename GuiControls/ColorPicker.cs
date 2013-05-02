@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     class ColorPicker : ScalableControl
     {
         #region Properties

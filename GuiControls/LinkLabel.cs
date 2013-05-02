@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     public class LinkLabel : Label
     {
         #region Properties

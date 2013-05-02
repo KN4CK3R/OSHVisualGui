@@ -12,6 +12,7 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
+	[Serializable]
     public class TabControl : ContainerControl
     {
         #region Properties
