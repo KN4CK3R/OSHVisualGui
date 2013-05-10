@@ -259,7 +259,7 @@ namespace OSHVisualGui
             }
             else
             {
-                canvasPictureBox.Cursor = tempControl != null ? tempControl is GuiControls.Form ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
+                canvasPictureBox.Cursor = tempControl != null ? tempControl is GuiControls.ContainerControl ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
             }
         }
 

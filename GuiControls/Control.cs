@@ -102,6 +102,11 @@ namespace OSHVisualGui.GuiControls
         {
             get
             {
+				if (Parent == null)
+				{
+					return this as ContainerControl;
+				}
+
                 Control parent = Parent;
                 while (parent.isSubControl && parent != this)
                 {
@@ -115,6 +120,7 @@ namespace OSHVisualGui.GuiControls
 
         protected bool hasCaptured;
         protected bool isInside;
+		protected bool isFocusable;
         protected bool isFocused;
         protected bool isClicked;
         public bool isSubControl;
@@ -178,6 +184,7 @@ namespace OSHVisualGui.GuiControls
 
 			MinimumSize = new Size(5, 5);
 
+			isFocusable = true;
             isFocused = false;
             isHighlighted = false;
             isSubControl = false;
@@ -390,33 +397,39 @@ namespace OSHVisualGui.GuiControls
 
         protected virtual void OnGotFocus(Control control)
         {
-            if (FocusedControl != this)
-            {
-                if (FocusedControl != null)
-                {
-                    FocusedControl.OnLostFocus(this);
-                }
-                FocusedControl = this;
-                isFocused = true;
+			if (isFocusable)
+			{
+				if (FocusedControl != this)
+				{
+					if (FocusedControl != null)
+					{
+						FocusedControl.OnLostFocus(this);
+					}
+					FocusedControl = this;
+					isFocused = true;
 
-                if (GotFocus != null)
-                {
-                    GotFocus(this, null);
-                }
-            }
+					if (GotFocus != null)
+					{
+						GotFocus(this, null);
+					}
+				}
+			}
         }
 
         protected virtual void OnLostFocus(Control control)
         {
-            isFocused = false;
-            isClicked = false;
+			if (isFocusable)
+			{
+				isFocused = false;
+				isClicked = false;
 
-            FocusedControl = null;
+				FocusedControl = null;
 
-            if (LostFocus != null)
-            {
-                LostFocus(this, null);
-            }
+				if (LostFocus != null)
+				{
+					LostFocus(this, null);
+				}
+			}
         }
 
         protected virtual void OnClick(Mouse mouse)

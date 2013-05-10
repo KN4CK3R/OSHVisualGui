@@ -24,6 +24,7 @@ namespace OSHVisualGui.GuiControls
 
         [Category("Events")]
 		public ConstructorEvent Constructor { get; set; }
+		[Category("Events")]
         public FormClosingEvent FormClosingEvent { get; set; }
         #endregion
 

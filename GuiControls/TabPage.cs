@@ -19,7 +19,7 @@ namespace OSHVisualGui.GuiControls
         private Panel containerPanel = new Panel();
 
         protected string DefaultText;
-        public string Text { get { return text; } set { text = value == null ? string.Empty : value; } }
+		public string Text { get { return text; } set { text = value == null ? string.Empty : value; if (button != null) { button.CalculateSize(); } } }
         internal override List<Control> Controls { get { return containerPanel.Controls; } }
 
         [Browsable(false)]
@@ -54,6 +54,8 @@ namespace OSHVisualGui.GuiControls
             DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             //isSubControl = true;
+
+			Mode = DragMode.None;
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()

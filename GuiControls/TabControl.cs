@@ -294,6 +294,8 @@ namespace OSHVisualGui.GuiControls
                 {
                     yield return child;
                 }
+
+				yield return selected.tabPage;
             }
         }
 
@@ -393,12 +395,24 @@ namespace OSHVisualGui.GuiControls
             internal TabControlButton(TabPageButtonBinding binding)
             {
                 //isSubControl = true;
+				isFocusable = false;
 
                 active = false;
                 this.binding = binding;
 
-                Size = TextRenderer.MeasureText(binding.tabPage.Text, Font).Add(new Size(8, 4));
+				CalculateSize();
             }
+
+			public void CalculateSize()
+			{
+				Size = TextRenderer.MeasureText(binding.tabPage.Text, Font).Add(new Size(8, 4));
+
+				TabControl tabControl = Parent as TabControl;
+				if (tabControl != null)
+				{
+					tabControl.CalculateButtonLocationAndCount();
+				}
+			}
 
             public override void Render(Graphics graphics)
             {
@@ -438,7 +452,7 @@ namespace OSHVisualGui.GuiControls
                 TabControl tabControl = Parent as TabControl;
                 tabControl.SelectedTabPage = binding.index;
 
-				Control.FocusedControl = binding.tabPage;
+				tabControl.Focus();
             }
         }
 
