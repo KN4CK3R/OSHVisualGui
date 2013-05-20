@@ -146,8 +146,11 @@ namespace OSHVisualGui
                 case "trackbar":
                     control = new GuiControls.TrackBar();
                     break;
+				case "hotkeycontrol":
+					control = new GuiControls.HotkeyControl();
+					break;
                 default:
-                    throw new Exception("");
+					throw new Exception(element.Name.LocalName.ToLower());
             }
             return control;
         }
