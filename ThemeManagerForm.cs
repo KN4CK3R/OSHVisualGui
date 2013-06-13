@@ -287,7 +287,7 @@ namespace OSHVisualGui
 					tabcontrol2.AddTabPage(tabPage2);
 					preview1Form.AddControl(tabcontrol2);
 					preview1Control = tabPage2;
-					GuiControls.TabControl copy = tabPage2.Copy() as GuiControls.TabControl;
+					GuiControls.TabControl copy = tabcontrol2.Copy() as GuiControls.TabControl;
 					preview2Control = copy.TabPages[0];
 					preview2Form.AddControl(copy);
 					break;
