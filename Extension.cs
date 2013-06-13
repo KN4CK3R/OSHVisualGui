@@ -192,6 +192,10 @@ namespace OSHVisualGui
             {
                 return ((AnchorStyles)obj).ToCppString();
             }
+			if (obj is Keys)
+			{
+				return ((Keys)obj).ToCppString();
+			}
             return obj.ToString();
         }
 
@@ -232,33 +236,13 @@ namespace OSHVisualGui
 
         public static string ToCppString(this AnchorStyles anchor)
         {
-            StringBuilder sb = new StringBuilder();
-
-            if ((anchor & AnchorStyles.Top) == AnchorStyles.Top)
-            {
-                sb.Append("AnchorTop");
-            }
-            if ((anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom)
-            {
-                if (sb.Length > 0)
-                    sb.Append("|");
-                sb.Append("AnchorBottom");
-            }
-            if ((anchor & AnchorStyles.Left) == AnchorStyles.Left)
-            {
-                if (sb.Length > 0)
-                    sb.Append("|");
-                sb.Append("AnchorLeft");
-            }
-            if ((anchor & AnchorStyles.Right) == AnchorStyles.Right)
-            {
-                if (sb.Length > 0)
-                    sb.Append("|");
-                sb.Append("AnchorRight");
-            }
-
-            return sb.ToString();
+			return "Anchor" + anchor.ToString().Replace(", ", "|Anchor");
         }
+
+		public static string ToCppString(this Keys keys)
+		{
+			return "Key::" + keys.ToString().Replace(", ", "|Key::");
+		}
 
         public static string Serialize(this AnchorStyles anchor)
         {

@@ -16,8 +16,8 @@ namespace OSHVisualGui.GuiControls
         internal override string DefaultName { get { return "hotkeyControl"; } }
         public override string Text { get { return base.Text; } set {  } }
 
-		private Keys modifier;
-		public Keys Modifier { get { return modifier; } set { modifier = value; HotkeyToText(); } }
+		//private Keys modifier;
+		//public Keys Modifier { get { return modifier; } set { modifier = value; HotkeyToText(); } }
 		private Keys hotkey;
 		public Keys Hotkey { get { return hotkey; } set { hotkey = value; HotkeyToText(); } }
 
@@ -29,11 +29,29 @@ namespace OSHVisualGui.GuiControls
         {
             Type = ControlType.HotkeyControl;
 
-			Modifier = Keys.Control;
-			Hotkey = Keys.F12;
+			Hotkey = Keys.None;
 
 			HotkeyChangedEvent = new HotkeyChangedEvent(this);
         }
+
+		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		{
+			foreach (var pair in base.GetChangedProperties())
+			{
+				if (pair.Key != "SetText")
+				{
+					yield return pair;
+				}
+			}
+			if ((hotkey & Keys.Modifiers) != Keys.None)
+			{
+				yield return new KeyValuePair<string, object>("SetModifier", hotkey & Keys.Modifiers);
+			}
+			if ((hotkey & Keys.KeyCode) != Keys.None)
+			{
+				yield return new KeyValuePair<string, object>("SetHotkey", hotkey & Keys.KeyCode);
+			}
+		}
 
         public override Control Copy()
         {
@@ -49,27 +67,24 @@ namespace OSHVisualGui.GuiControls
 
 		private string ModifierToText()
 		{
-			List<string> modifiers = new List<string>();
-			if ((modifier & Keys.Control) != Keys.None) modifiers.Add("Control");
-			if ((modifier & Keys.Menu) != Keys.None) modifiers.Add("Alt");
-			if ((modifier & Keys.Shift) != Keys.None) modifiers.Add("Shift");
-
-			return string.Join(" + ", modifiers.ToArray());
+			return (hotkey & Keys.Modifiers).ToString().Replace(", ", " + ");
 		}
 
 		private void HotkeyToText()
 		{
-			if (modifier == Keys.None && hotkey == Keys.None)
+			var modifier = hotkey & Keys.Modifiers;
+			var key = hotkey & Keys.KeyCode;
+			if (modifier == Keys.None && key == Keys.None)
 			{
 				base.Text = "None";
 			}
 			else if (modifier == Keys.None)
 			{
-				base.Text = hotkey.ToString();
+				base.Text = key.ToString();
 			}
 			else if (hotkey != Keys.None)
 			{
-				base.Text = ModifierToText() + " + " + hotkey.ToString();
+				base.Text = ModifierToText() + " + " + key.ToString();
 			}
 			else
 			{
