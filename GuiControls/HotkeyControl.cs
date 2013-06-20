@@ -10,14 +10,18 @@ using System.Windows.Forms;
 namespace OSHVisualGui.GuiControls
 {
 	[Serializable]
-    class HotkeyControl : TextBox
+	class HotkeyControl : ScalableControl
     {
+		private TextBox textBox;
+
         #region Properties
         internal override string DefaultName { get { return "hotkeyControl"; } }
-        public override string Text { get { return base.Text; } set {  } }
 
-		//private Keys modifier;
-		//public Keys Modifier { get { return modifier; } set { modifier = value; HotkeyToText(); } }
+		public override Size Size { get { return base.Size; } set { base.Size = value; textBox.Size = Size; } }
+		public override Font Font { get { return base.Font; } set { base.Font = value; textBox.Font = Font; } }
+		public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; textBox.ForeColor = ForeColor; } }
+		public override Color BackColor { get { return base.BackColor; } set { base.BackColor = value; textBox.BackColor = BackColor; } }
+		
 		private Keys hotkey;
 		public Keys Hotkey { get { return hotkey; } set { hotkey = value; HotkeyToText(); } }
 
@@ -28,6 +32,15 @@ namespace OSHVisualGui.GuiControls
 		public HotkeyControl()
         {
             Type = ControlType.HotkeyControl;
+
+			textBox = new TextBox();
+			textBox.Location = new Point(0, 0);
+			textBox.Parent = this;
+
+			DefaultSize = Size = new Size(100, 24);
+
+			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF242321));
+			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
 			Hotkey = Keys.None;
 
@@ -53,6 +66,18 @@ namespace OSHVisualGui.GuiControls
 			}
 		}
 
+		public override void CalculateAbsoluteLocation()
+		{
+			base.CalculateAbsoluteLocation();
+
+			textBox.CalculateAbsoluteLocation();
+		}
+
+		public override void Render(Graphics graphics)
+		{
+			textBox.Render(graphics);
+		}
+
         public override Control Copy()
         {
 			HotkeyControl copy = new HotkeyControl();
@@ -76,19 +101,19 @@ namespace OSHVisualGui.GuiControls
 			var key = hotkey & Keys.KeyCode;
 			if (modifier == Keys.None && key == Keys.None)
 			{
-				base.Text = "None";
+				textBox.Text = "None";
 			}
 			else if (modifier == Keys.None)
 			{
-				base.Text = key.ToString();
+				textBox.Text = key.ToString();
 			}
 			else if (hotkey != Keys.None)
 			{
-				base.Text = ModifierToText() + " + " + key.ToString();
+				textBox.Text = ModifierToText() + " + " + key.ToString();
 			}
 			else
 			{
-				base.Text = ModifierToText();
+				textBox.Text = ModifierToText();
 			}
 		}
 
