@@ -110,9 +110,9 @@ namespace OSHVisualGui
             code.AppendLine("{");
             code.AppendLine("\tInitializeComponent();");
 
-			if (!string.IsNullOrEmpty(form.Constructor.Code))
+			if (!string.IsNullOrEmpty(form.ConstructorEvent.Code))
 			{
-				string constCode = form.Constructor.Code;
+				string constCode = form.ConstructorEvent.Code;
 				Regex constRegex = new Regex(@"void .+?\(\).+?{(.*)}", RegexOptions.Compiled | RegexOptions.Singleline);
 				if (constRegex.IsMatch(constCode))
 				{

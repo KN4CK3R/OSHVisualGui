@@ -23,7 +23,7 @@ namespace OSHVisualGui.GuiControls
         public override Size Size { get { return base.Size; } set { Size tempSize = value; if (tempSize.Width < 80 || tempSize.Height < 50) { tempSize = new Size(Math.Max(80, tempSize.Width), Math.Max(50, tempSize.Height)); } base.Size = tempSize; panel.Size = new Size(value.Width - 2 * 6, value.Height - 17 - 2 * 6); } }
 
         [Category("Events")]
-		public ConstructorEvent Constructor { get; set; }
+		public ConstructorEvent ConstructorEvent { get; set; }
 		[Category("Events")]
         public FormClosingEvent FormClosingEvent { get; set; }
         #endregion
@@ -53,7 +53,7 @@ namespace OSHVisualGui.GuiControls
             DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
 
             FormClosingEvent = new FormClosingEvent(this);
-			Constructor = new ConstructorEvent(this);
+			ConstructorEvent = new ConstructorEvent(this);
         }
 
         public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()

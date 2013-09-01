@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.IO;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -105,8 +106,21 @@ namespace OSHVisualGui.GuiControls
         {
             base.ReadPropertiesFromXml(element);
 
-            if (element.Attribute("image") != null)
-                Path = element.Attribute("image").Value.Trim();
+			if (element.Attribute("image") != null)
+			{
+				var path = element.Attribute("image").Value.Trim();
+				if (File.Exists(path))
+				{
+					try
+					{
+						Path = path;
+					}
+					catch
+					{
+						//Image not found or something
+					}
+				}
+			}
         }
     }
 }
