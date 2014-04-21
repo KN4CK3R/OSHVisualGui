@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using OSHVisualGui.Toolbox;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace OSHVisualGui
 {
@@ -25,6 +27,18 @@ namespace OSHVisualGui
         public MainForm()
         {
             InitializeComponent();
+
+			/*using (var ms = new MemoryStream())
+			{
+				var bf = new BinaryFormatter();
+				bf.Serialize(ms, new GuiControls.Button());
+				ms.Position = 0;
+				var b = bf.Deserialize(ms);
+				//bf.Serialize(ms, new GuiControls.CheckBox());
+				//bf.Serialize(ms, new GuiControls.ColorBar());
+				//bf.Serialize(ms, new GuiControls.TabControl());
+			}*/
+			
 
             stickToolBoxToggle = false;
 
@@ -474,33 +488,43 @@ namespace OSHVisualGui
                         return;
                     }
 
-                    GuiControls.ContainerControl parent = null;
-                    if (GuiControls.Control.FocusedControl is GuiControls.ContainerControl)
-                    {
-                        parent = GuiControls.Control.FocusedControl as GuiControls.ContainerControl;
-                    }
-                    else
-                    {
-                        parent = GuiControls.Control.FocusedControl.RealParent;
-                    }
-
 					var copiedControl = Clipboard.GetData("oshvisualgui_control") as GuiControls.Control;
+					if (copiedControl != null)
+					{
+						GuiControls.ContainerControl parent = null;
+						if (copiedControl is GuiControls.TabPage && !(GuiControls.Control.FocusedControl is GuiControls.TabControl))
+						{
+							MessageBox.Show("A TabPage needs to be inserted into a TabControl.");
+							return;
+						}
+						if (GuiControls.Control.FocusedControl is GuiControls.ContainerControl)
+						{
+							parent = GuiControls.Control.FocusedControl as GuiControls.ContainerControl;
+						}
+						else
+						{
+							parent = GuiControls.Control.FocusedControl.RealParent;
+						}
 
-                    parent.AddControl(copiedControl);
+						parent.AddControl(copiedControl);
 
-                    AddControlToList(copiedControl);
-                    if (copiedControl is GuiControls.ContainerControl)
-                    {
-                        foreach (GuiControls.ScalableControl control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
-                        {
-                            RegisterEvents(control);
+						AddControlToList(copiedControl);
+						if (copiedControl is GuiControls.ContainerControl)
+						{
+							foreach (GuiControls.Control control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
+							{
+								if (control is GuiControls.ScalableControl)
+								{
+									RegisterEvents(control);
 
-                            AddControlToList(control);
-                        }
-                        controlComboBox.SelectedItem = copiedControl;
-                    }
+									AddControlToList(control);
+								}
+							}
+							controlComboBox.SelectedItem = copiedControl;
+						}
 
-                    RegisterEvents(copiedControl);
+						RegisterEvents(copiedControl);
+					}
                 }
             }
         }

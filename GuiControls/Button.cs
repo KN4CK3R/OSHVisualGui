@@ -6,113 +6,139 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Runtime.Serialization;
 
 namespace OSHVisualGui.GuiControls
 {
 	[Serializable]
-    public class Button : ScalableControl
-    {
-        #region Properties
-        internal override string DefaultName { get { return "button"; } }
-        private Label label;
+	public class Button : ScalableControl
+	{
+		#region Properties
+		internal override string DefaultName { get { return "button"; } }
+		private Label label;
 
-        public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
-        protected string DefaultText;
-        public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (AutoSize) { base.Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
-        public override Size Size { get { return base.Size; } set { base.Size = value; CalculateLabelLocation(); } }
-        #endregion
+		public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
+		protected string DefaultText;
+		public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (AutoSize) { base.Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
+		public override Size Size { get { return base.Size; } set { base.Size = value; CalculateLabelLocation(); } }
+		#endregion
 
-        public Button()
-        {
-            Type = ControlType.Button;
+		public Button()
+		{
+			Initialize();
 
-            label = new Label();
-            label.Location = new Point(6, 5);
+			Size = DefaultSize;
 
-            DefaultText = string.Empty;
+			BackColor = DefaultBackColor;
+			ForeColor = DefaultForeColor;
+		}
 
-            DefaultSize = Size = new Size(92, 24);
+		protected Button(SerializationInfo info, StreamingContext context)
+			: base(info, context)
+		{
+			Initialize();
 
-            DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
-            DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
-        }
+			Text = info.GetString("text");
+		}
 
-        public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
-        {
-            foreach (var pair in base.GetChangedProperties())
-            {
-                yield return pair;
-            }
-            if (Text != DefaultText)
-            {
-                yield return new KeyValuePair<string, object>("SetText", Text);
-            }
-        }
+		private void Initialize()
+		{
+			Type = ControlType.Button;
 
-        private void CalculateLabelLocation()
-        {
-            label.Location = new Point(Size.Width / 2 - label.Size.Width / 2, Size.Height / 2 - label.Size.Height / 2);
-        }
+			label = new Label();
+			label.Location = new Point(6, 5);
 
-        public override void CalculateAbsoluteLocation()
-        {
-            base.CalculateAbsoluteLocation();
+			DefaultText = string.Empty;
 
-            label.Parent = this;
-        }
+			DefaultSize = new Size(92, 24);
 
-        public override void Render(Graphics graphics)
-        {
-            Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 10, 10, 10)));
-            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, Size.Height - 1);
-            graphics.FillRectangle(tempBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, Size.Width, Size.Height - 3);
-            tempBrush = new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50)));
-            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 2, Size.Width - 2, 2);
-            graphics.FillRectangle(tempBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
-            Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 2, Size.Width - 2, Size.Height - 4);
-            LinearGradientBrush temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
-            graphics.FillRectangle(temp, rect);
-            rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 1, Size.Width - 4, Size.Height - 2);
-            temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
-            graphics.FillRectangle(temp, rect);
-            
-            label.Render(graphics);
-        }
+			DefaultBackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
+			DefaultForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+		}
 
-        public override Control Copy()
-        {
-            Button copy = new Button();
-            CopyTo(copy);
-            return copy;
-        }
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
 
-        protected override void CopyTo(Control copy)
-        {
-            base.CopyTo(copy);
+			info.AddValue("text", Text);
+		}
 
-            Button button = copy as Button;
-            button.Text = Text;
-        }
+		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		{
+			foreach (var pair in base.GetChangedProperties())
+			{
+				yield return pair;
+			}
+			if (Text != DefaultText)
+			{
+				yield return new KeyValuePair<string, object>("SetText", Text);
+			}
+		}
 
-        public override string ToString()
-        {
-            return Name + " - Button";
-        }
+		private void CalculateLabelLocation()
+		{
+			label.Location = new Point(Size.Width / 2 - label.Size.Width / 2, Size.Height / 2 - label.Size.Height / 2);
+		}
 
-        protected override void WriteToXmlElement(XElement element)
-        {
-            base.WriteToXmlElement(element);
-            element.Add(new XAttribute("text", Text));
-        }
+		public override void CalculateAbsoluteLocation()
+		{
+			base.CalculateAbsoluteLocation();
 
-        public override void ReadPropertiesFromXml(XElement element)
-        {
-            base.ReadPropertiesFromXml(element);
+			label.Parent = this;
+		}
 
-            if (element.Attribute("text") != null)
-                Text = element.Attribute("text").Value;
-            else
-                throw new Exception("Missing attribute 'text': " + element.Name);
-        }
-    }
+		public override void Render(Graphics graphics)
+		{
+			Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 10, 10, 10)));
+			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, Size.Height - 1);
+			graphics.FillRectangle(tempBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, Size.Width, Size.Height - 3);
+			tempBrush = new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50)));
+			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 2, Size.Width - 2, 2);
+			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
+			Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 2, Size.Width - 2, Size.Height - 4);
+			LinearGradientBrush temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+			graphics.FillRectangle(temp, rect);
+			rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 1, Size.Width - 4, Size.Height - 2);
+			temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+			graphics.FillRectangle(temp, rect);
+
+			label.Render(graphics);
+		}
+
+		public override Control Copy()
+		{
+			Button copy = new Button();
+			CopyTo(copy);
+			return copy;
+		}
+
+		protected override void CopyTo(Control copy)
+		{
+			base.CopyTo(copy);
+
+			Button button = copy as Button;
+			button.Text = Text;
+		}
+
+		public override string ToString()
+		{
+			return Name + " - Button";
+		}
+
+		protected override void WriteToXmlElement(XElement element)
+		{
+			base.WriteToXmlElement(element);
+			element.Add(new XAttribute("text", Text));
+		}
+
+		public override void ReadPropertiesFromXml(XElement element)
+		{
+			base.ReadPropertiesFromXml(element);
+
+			if (element.Attribute("text") != null)
+				Text = element.Attribute("text").Value;
+			else
+				throw new Exception("Missing attribute 'text': " + element.Name);
+		}
+	}
 }
