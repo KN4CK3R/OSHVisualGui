@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ECF7E162-F589-4CBA-9140-E95055AC0924}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OSHVisualGui</RootNamespace>
+    <AssemblyName>OSHVisualGui</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>osh.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CodeForm.Designer.cs">
+      <DependentUpon>CodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CodeSerializer.cs" />
+    <Compile Include="CustomControls\ColorPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControlManager.cs" />
+    <Compile Include="ControlSerializer.cs" />
+    <Compile Include="CustomControls\ColorTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\PoperContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\PoperContainer.Designer.cs">
+      <DependentUpon>PoperContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DelayedEventHandler.cs" />
+    <Compile Include="EventEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventEditor.Designer.cs">
+      <DependentUpon>EventEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extension.cs" />
+    <Compile Include="FastColoredTextBox\AutocompleteItem.cs" />
+    <Compile Include="FastColoredTextBox\AutocompleteMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\Char.cs" />
+    <Compile Include="FastColoredTextBox\CommandManager.cs" />
+    <Compile Include="FastColoredTextBox\Commands.cs" />
+    <Compile Include="FastColoredTextBox\Export.cs" />
+    <Compile Include="FastColoredTextBox\FastColoredTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\FileTextSource.cs" />
+    <Compile Include="FastColoredTextBox\FindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\FindForm.Designer.cs">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FastColoredTextBox\GoToForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\GoToForm.Designer.cs">
+      <DependentUpon>GoToForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FastColoredTextBox\LimitedStack.cs" />
+    <Compile Include="FastColoredTextBox\Line.cs" />
+    <Compile Include="FastColoredTextBox\LinesAccessor.cs" />
+    <Compile Include="FastColoredTextBox\Place.cs" />
+    <Compile Include="FastColoredTextBox\PlatformType.cs" />
+    <Compile Include="FastColoredTextBox\Range.cs" />
+    <Compile Include="FastColoredTextBox\ReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FastColoredTextBox\ReplaceForm.Designer.cs">
+      <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FastColoredTextBox\Style.cs" />
+    <Compile Include="FastColoredTextBox\SyntaxDescriptor.cs" />
+    <Compile Include="FastColoredTextBox\SyntaxHighlighter.cs" />
+    <Compile Include="FastColoredTextBox\TextSource.cs" />
+    <Compile Include="FastColoredTextBox\TypeDescriptor.cs" />
+    <Compile Include="FastColoredTextBox\VisualMarker.cs" />
+    <Compile Include="FilenameEditor.cs" />
+    <Compile Include="GuiControls\Button.cs" />
+    <Compile Include="GuiControls\CheckBox.cs" />
+    <Compile Include="GuiControls\ColorBar.cs" />
+    <Compile Include="GuiControls\ColorPicker.cs" />
+    <Compile Include="GuiControls\ContainerControl.cs" />
+    <Compile Include="GuiControls\Control.cs" />
+    <Compile Include="GuiControls\Event.cs" />
+    <Compile Include="GuiControls\Form.cs" />
+    <Compile Include="GuiControls\GroupBox.cs" />
+    <Compile Include="GuiControls\ComboBox.cs" />
+    <Compile Include="GuiControls\HotkeyControl.cs" />
+    <Compile Include="GuiControls\PictureBox.cs" />
+    <Compile Include="GuiControls\LinkLabel.cs" />
+    <Compile Include="GuiControls\Label.cs" />
+    <Compile Include="GuiControls\ListBox.cs" />
+    <Compile Include="GuiControls\Panel.cs" />
+    <Compile Include="GuiControls\ProgressBar.cs" />
+    <Compile Include="GuiControls\RadioButton.cs" />
+    <Compile Include="GuiControls\ScalableControl.cs" />
+    <Compile Include="GuiControls\TabControl.cs" />
+    <Compile Include="GuiControls\TabPage.cs" />
+    <Compile Include="GuiControls\TextBox.cs" />
+    <Compile Include="GuiControls\Timer.cs" />
+    <Compile Include="GuiControls\TrackBar.cs" />
+    <Compile Include="JSON\CloseBracketStrategy.cs" />
+    <Compile Include="JSON\CloseSquareBracketStrategy.cs" />
+    <Compile Include="JSON\ColonCharacterStrategy.cs" />
+    <Compile Include="JSON\CommaCharacterStrategy.cs" />
+    <Compile Include="JSON\DefaultCharacterStrategy.cs" />
+    <Compile Include="JSON\DoubleQuoteStrategy.cs" />
+    <Compile Include="JSON\ICharacterStrategy.cs" />
+    <Compile Include="JSON\JsonPPStrategyContext.cs" />
+    <Compile Include="JSON\JsonPrettyPrinter.cs" />
+    <Compile Include="JSON\OpenBracketStrategy.cs" />
+    <Compile Include="JSON\OpenSquareBracketStrategy.cs" />
+    <Compile Include="JSON\PPScopeState.cs" />
+    <Compile Include="JSON\SingleQuoteStrategy.cs" />
+    <Compile Include="JSON\SkipWhileNotInStringStrategy.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Theme.cs" />
+    <Compile Include="ThemeCodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThemeCodeForm.Designer.cs">
+      <DependentUpon>ThemeCodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThemeManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThemeManagerForm.Designer.cs">
+      <DependentUpon>ThemeManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Toolbox\Toolbox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Toolbox\ToolboxGroup.cs" />
+    <Compile Include="Toolbox\ToolboxItem.cs" />
+    <Compile Include="Toolbox\ToolboxItemBase.cs" />
+    <Compile Include="Toolbox\ToolboxType.cs" />
+    <EmbeddedResource Include="CodeForm.resx">
+      <DependentUpon>CodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventEditor.resx">
+      <DependentUpon>EventEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\FastColoredTextBox.resx">
+      <DependentUpon>FastColoredTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\FindForm.resx">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\GoToForm.resx">
+      <DependentUpon>GoToForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FastColoredTextBox\ReplaceForm.resx">
+      <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="ThemeCodeForm.resx">
+      <DependentUpon>ThemeCodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThemeManagerForm.resx">
+      <DependentUpon>ThemeManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="osh.ico" />
+    <None Include="Toolbox\plus.png" />
+    <None Include="Toolbox\minus.png" />
+    <None Include="sidebar.png" />
+    <None Include="toolbox_hover.png" />
+    <None Include="toolbox.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
