@@ -211,12 +211,12 @@ namespace OSHVisualGui
 
         public static string ToCppString(this Point point)
         {
-            return "Point(" + point.X + ", " + point.Y + ")";
+            return "PointI(" + point.X + ", " + point.Y + ")";
         }
 
         public static string ToCppString(this Size size)
         {
-            return "Size(" + size.Width + ", " + size.Height + ")";
+            return "SizeI(" + size.Width + ", " + size.Height + ")";
         }
 
         public static string ToCppString(this Color color)
@@ -226,11 +226,13 @@ namespace OSHVisualGui
 
         public static string ToCppString(this Font font)
         {
+			//TODO
             return "Application::Instance()->GetRenderer()->CreateNewFont(\"" + font.Name + "\", " + (int)(font.Size + 3) + ", " + font.Bold.ToString().ToLower() + ", " + font.Italic.ToString().ToLower() + ")";
         }
 
         public static string ToCppString(this FileInfo file)
         {
+			//TODO
             return "Application::Instance()->GetRenderer()->CreateNewTexture(\"" + file.FullName.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")";
         }
 
