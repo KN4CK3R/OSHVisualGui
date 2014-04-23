@@ -485,7 +485,7 @@ namespace OSHVisualGui.GuiControls
 				yield return new KeyValuePair<string, object>("SetVisible", Visible);
 			if (Location != DefaultLocation)
 				yield return new KeyValuePair<string, object>("SetLocation", Location);
-			if (Size != DefaultSize)
+			if (Size != DefaultSize && AutoSize == false)
 				yield return new KeyValuePair<string, object>("SetSize", Size);
 			if (Anchor != (AnchorStyles.Top | AnchorStyles.Left))
 				yield return new KeyValuePair<string, object>("SetAnchor", Anchor);
