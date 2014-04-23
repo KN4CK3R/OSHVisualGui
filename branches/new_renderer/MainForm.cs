@@ -13,6 +13,7 @@ using OSHVisualGui.Toolbox;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
 
 namespace OSHVisualGui
 {
@@ -23,12 +24,11 @@ namespace OSHVisualGui
 
 		internal static Graphics renderer;
 
-		Font font = new Font("Arial", 14, GraphicsUnit.Pixel);
 		public MainForm()
 		{
 			InitializeComponent();
 
-			var fo = new Font("Arial", 14, FontStyle.Bold);
+			this.Text += Assembly.GetExecutingAssembly().GetName().Version.ToString(2);
 
 			stickToolBoxToggle = false;
 
