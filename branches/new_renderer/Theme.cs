@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.IO;
 using System.Web.Script.Serialization;
 
@@ -187,7 +186,7 @@ namespace OSHVisualGui
 					}
 				}
 				root["themes"] = controlThemes;
-				
+
 				JavaScriptSerializer ser = new JavaScriptSerializer();
 				string json = ser.Serialize(root);
 				JsonPrettyPrinterPlus.JsonPrettyPrinter pp = new JsonPrettyPrinterPlus.JsonPrettyPrinter(new JsonPrettyPrinterPlus.JsonPrettyPrinterInternals.JsonPPStrategyContext());

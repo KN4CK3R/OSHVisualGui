@@ -1,65 +1,75 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Text;
 
 namespace OSHVisualGui
 {
-    public class DelayedEventHandler
-    {
-        private Timer delayTimer = new Timer();
+	public class DelayedEventHandler
+	{
+		private Timer delayTimer = new Timer();
 
-        private EventHandler eventDelegate;
-        public EventHandler OnDelay;
+		private EventHandler eventDelegate;
+		public EventHandler OnDelay;
 
-        private object sender;
-        private EventArgs e;
+		private object sender;
+		private EventArgs e;
 
-        public DelayedEventHandler(int delay, EventHandler eventDelegate)
-        {
+		public DelayedEventHandler(int delay, EventHandler eventDelegate)
+		{
 
-            delayTimer.Interval = delay;
-            delayTimer.Tick += new EventHandler(delayTimer_Tick);
-            
-            this.eventDelegate = eventDelegate;
+			delayTimer.Interval = delay;
+			delayTimer.Tick += new EventHandler(delayTimer_Tick);
 
-            OnDelay = new EventHandler(this.Register);
-        }
+			this.eventDelegate = eventDelegate;
 
-        public int Delay
-        {
-            get { return this.delayTimer.Interval; }
-            set { this.delayTimer.Interval = value; }
-        }
+			OnDelay = new EventHandler(this.Register);
+		}
 
-        private bool stopAndRestart = true;
-        public bool StopAndRestart
-        {
-            get { return stopAndRestart; }
-            set { stopAndRestart = value; }
-        }
+		public int Delay
+		{
+			get
+			{
+				return this.delayTimer.Interval;
+			}
+			set
+			{
+				this.delayTimer.Interval = value;
+			}
+		}
 
-        private void delayTimer_Tick(object sender, EventArgs e)
-        {
-            delayTimer.Stop();
+		private bool stopAndRestart = true;
+		public bool StopAndRestart
+		{
+			get
+			{
+				return stopAndRestart;
+			}
+			set
+			{
+				stopAndRestart = value;
+			}
+		}
 
-            if (eventDelegate != null)
-            {
-                eventDelegate(this.sender, this.e);
-            }
-        }
+		private void delayTimer_Tick(object sender, EventArgs e)
+		{
+			delayTimer.Stop();
 
-        private void Register(object sender, EventArgs e)
-        {
-            this.sender = sender;
-            this.e = e;
+			if (eventDelegate != null)
+			{
+				eventDelegate(this.sender, this.e);
+			}
+		}
 
-            if (StopAndRestart)
-            {
-                delayTimer.Stop();
-            }
+		private void Register(object sender, EventArgs e)
+		{
+			this.sender = sender;
+			this.e = e;
 
-            delayTimer.Start();
-        }
-    }
+			if (StopAndRestart)
+			{
+				delayTimer.Stop();
+			}
+
+			delayTimer.Start();
+		}
+	}
 }

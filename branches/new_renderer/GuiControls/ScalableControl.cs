@@ -42,7 +42,10 @@ namespace OSHVisualGui.GuiControls
 		private DragMode mode;
 		internal DragMode Mode
 		{
-			get { return mode; }
+			get
+			{
+				return mode;
+			}
 			set
 			{
 				mode = value;
@@ -60,8 +63,30 @@ namespace OSHVisualGui.GuiControls
 			}
 		}
 
-		public override Point Location { get { return base.Location; } set { base.Location = value; CalculateDragPointLocations(); } }
-		public override Size Size { get { return base.Size; } set { base.Size = value; CalculateDragPointLocations(); } }
+		public override Point Location
+		{
+			get
+			{
+				return base.Location;
+			}
+			set
+			{
+				base.Location = value;
+				CalculateDragPointLocations();
+			}
+		}
+		public override Size Size
+		{
+			get
+			{
+				return base.Size;
+			}
+			set
+			{
+				base.Size = value;
+				CalculateDragPointLocations();
+			}
+		}
 
 		public delegate void DragEventHandler(Control sender);
 		public event DragEventHandler DragStart;
@@ -218,7 +243,13 @@ namespace OSHVisualGui.GuiControls
 			private bool isDragging;
 			private Point oldDragLocation;
 			private DragDirection direction;
-			public DragDirection Direction { get { return direction; } }
+			public DragDirection Direction
+			{
+				get
+				{
+					return direction;
+				}
+			}
 
 			public delegate void DragEventHandler(Control sender, Point deltaLocation, Size deltaSize);
 			public DragEventHandler Drag;
