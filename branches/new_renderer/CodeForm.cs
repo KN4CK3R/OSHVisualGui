@@ -24,7 +24,7 @@ namespace OSHVisualGui
 
 		private void CodeForm_Load(object sender, EventArgs e)
 		{
-			CodeSerializer ser = new CodeSerializer(form);
+			CodeSerializer ser = new CodeSerializer(form, null);
 
 			hppFastColoredTextBox.Text = ser.GenerateHeaderCode();
 			cppFastColoredTextBox.Text = ser.GenerateSourceCode();
@@ -93,5 +93,17 @@ namespace OSHVisualGui
 				}
 			}
 		}
+
+        private void setNamesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CodeSerializer ser = null;
+            CodeSerializer.Options codeOptions = new CodeSerializer.Options();
+
+            codeOptions.setNames = setNamesToolStripMenuItem.Checked;
+
+            ser = new CodeSerializer(form, codeOptions);
+            hppFastColoredTextBox.Text = ser.GenerateHeaderCode();
+            cppFastColoredTextBox.Text = ser.GenerateSourceCode();
+        }
 	}
 }

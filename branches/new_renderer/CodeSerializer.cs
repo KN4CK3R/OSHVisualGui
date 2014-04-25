@@ -9,18 +9,43 @@ namespace OSHVisualGui
 {
 	class CodeSerializer
 	{
+        public class Options
+        {
+            public bool setNames;
+
+            public bool CheckProperty(System.Collections.Generic.KeyValuePair<String, Object> property)
+            {
+                return !(property.Key == "SetName" && !setNames);
+            }
+
+            public Options()
+            {
+                setNames = true;
+            }
+        }
+
 		private Form form;
 		private string prefix;
 		private List<string> eventMethodList;
+        private Options options;
 
-		public CodeSerializer(Form form)
+        public CodeSerializer(Form form, Options options)
 		{
-			if (form == null)
-			{
-				throw new ArgumentNullException("form");
-			}
+            if (form == null)
+            {
+                throw new ArgumentNullException("form");
+            }
 
-			this.form = form;
+            if (options == null)
+            {
+                this.options = new Options();
+            }
+            else
+            {
+                this.options = options;
+            }
+
+            this.form = form;
 		}
 
 		public string GenerateHeaderCode()
@@ -45,7 +70,10 @@ namespace OSHVisualGui
 
 			foreach (var property in form.GetChangedProperties())
 			{
-				code.AppendLine("\t\t" + property.Key + "(" + property.Value.ToCppString() + ");");
+                if (options.CheckProperty(property))
+                {
+                    code.AppendLine("\t\t" + property.Key + "(" + property.Value.ToCppString() + ");");
+                }
 			}
 
 			foreach (var controlEvent in form.GetUsedEvents())
@@ -142,7 +170,10 @@ namespace OSHVisualGui
 
 			foreach (var property in control.GetChangedProperties())
 			{
-				code.AppendLine(prefix + control.Name + "->" + property.Key + "(" + property.Value.ToCppString() + ");");
+                if (options.CheckProperty(property))
+                {
+                    code.AppendLine(prefix + control.Name + "->" + property.Key + "(" + property.Value.ToCppString() + ");");
+                }
 			}
 
 			foreach (var controlEvent in control.GetUsedEvents())
