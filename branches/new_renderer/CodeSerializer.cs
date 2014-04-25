@@ -9,43 +9,40 @@ namespace OSHVisualGui
 {
 	class CodeSerializer
 	{
-        public class Options
-        {
-            public bool setNames;
+		public class SerializeOptions
+		{
+			public bool SetNames { get; set; }
 
-            public bool CheckProperty(System.Collections.Generic.KeyValuePair<String, Object> property)
-            {
-                return !(property.Key == "SetName" && !setNames);
-            }
+			public SerializeOptions()
+			{
+				SetNames = true;
+			}
 
-            public Options()
-            {
-                setNames = true;
-            }
-        }
+			public bool CheckProperty(string property)
+			{
+				return !(property == "SetName" && SetNames == false);
+			}
+		}
 
 		private Form form;
 		private string prefix;
 		private List<string> eventMethodList;
-        private Options options;
-
-        public CodeSerializer(Form form, Options options)
+		public SerializeOptions Options
 		{
-            if (form == null)
-            {
-                throw new ArgumentNullException("form");
-            }
+			get;
+			private set;
+		}
 
-            if (options == null)
-            {
-                this.options = new Options();
-            }
-            else
-            {
-                this.options = options;
-            }
+		public CodeSerializer(Form form)
+		{
+			if (form == null)
+			{
+				throw new ArgumentNullException("form");
+			}
 
-            this.form = form;
+			this.form = form;
+
+			Options = new SerializeOptions();
 		}
 
 		public string GenerateHeaderCode()
@@ -70,10 +67,10 @@ namespace OSHVisualGui
 
 			foreach (var property in form.GetChangedProperties())
 			{
-                if (options.CheckProperty(property))
-                {
-                    code.AppendLine("\t\t" + property.Key + "(" + property.Value.ToCppString() + ");");
-                }
+				if (Options.CheckProperty(property.Key))
+				{
+					code.AppendLine("\t\t" + property.Key + "(" + property.Value.ToCppString() + ");");
+				}
 			}
 
 			foreach (var controlEvent in form.GetUsedEvents())
@@ -170,10 +167,10 @@ namespace OSHVisualGui
 
 			foreach (var property in control.GetChangedProperties())
 			{
-                if (options.CheckProperty(property))
-                {
-                    code.AppendLine(prefix + control.Name + "->" + property.Key + "(" + property.Value.ToCppString() + ");");
-                }
+				if (Options.CheckProperty(property.Key))
+				{
+					code.AppendLine(prefix + control.Name + "->" + property.Key + "(" + property.Value.ToCppString() + ");");
+				}
 			}
 
 			foreach (var controlEvent in control.GetUsedEvents())

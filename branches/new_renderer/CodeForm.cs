@@ -14,20 +14,17 @@ namespace OSHVisualGui
 	public partial class CodeForm : Form
 	{
 		private GuiControls.Form form;
+		private CodeSerializer codeSerializer;
 
 		public CodeForm(GuiControls.Form form)
 		{
 			this.form = form;
 
 			InitializeComponent();
-		}
 
-		private void CodeForm_Load(object sender, EventArgs e)
-		{
-			CodeSerializer ser = new CodeSerializer(form, null);
+			codeSerializer = new CodeSerializer(form);
 
-			hppFastColoredTextBox.Text = ser.GenerateHeaderCode();
-			cppFastColoredTextBox.Text = ser.GenerateSourceCode();
+			GenerateCode();
 		}
 
 		TextStyle BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
@@ -94,16 +91,17 @@ namespace OSHVisualGui
 			}
 		}
 
-        private void setNamesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CodeSerializer ser = null;
-            CodeSerializer.Options codeOptions = new CodeSerializer.Options();
+		private void GenerateCode()
+		{
+			hppFastColoredTextBox.Text = codeSerializer.GenerateHeaderCode();
+			cppFastColoredTextBox.Text = codeSerializer.GenerateSourceCode();
+		}
 
-            codeOptions.setNames = setNamesToolStripMenuItem.Checked;
+		private void setNamesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			codeSerializer.Options.SetNames = setNamesToolStripMenuItem.Checked;
 
-            ser = new CodeSerializer(form, codeOptions);
-            hppFastColoredTextBox.Text = ser.GenerateHeaderCode();
-            cppFastColoredTextBox.Text = ser.GenerateSourceCode();
-        }
+			GenerateCode();
+		}
 	}
 }
