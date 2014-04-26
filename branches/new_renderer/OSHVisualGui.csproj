@@ -74,14 +74,14 @@
     <Compile Include="CustomControls\PoperContainer.Designer.cs">
       <DependentUpon>PoperContainer.cs</DependentUpon>
     </Compile>
-    <Compile Include="DelayedEventHandler.cs" />
+    <Compile Include="Utils\DelayedEventHandler.cs" />
     <Compile Include="EventEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EventEditor.Designer.cs">
       <DependentUpon>EventEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extension.cs" />
+    <Compile Include="Utils\Extension.cs" />
     <Compile Include="FastColoredTextBox\AutocompleteItem.cs" />
     <Compile Include="FastColoredTextBox\AutocompleteMenu.cs">
       <SubType>Component</SubType>

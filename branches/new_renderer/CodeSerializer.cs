@@ -12,15 +12,76 @@ namespace OSHVisualGui
 		public class SerializeOptions
 		{
 			public bool SetNames { get; set; }
+			public string Namespace
+			{
+				get
+				{
+					return namespace_;
+				}
+
+				set
+				{
+					if (value == null || value == "")
+					{
+						NamespaceCount = 0;
+						namespace_ = "";
+					}
+					else
+					{
+						string[] namespaces = value.Replace("::", ".").Split('.');
+
+						NamespaceCount = namespaces.Length;
+						namespace_ = value;
+					}
+				}
+			}
+
+			public int NamespaceCount { get; private set; }
+
+			private string namespace_;
 
 			public SerializeOptions()
 			{
 				SetNames = true;
+				Namespace = "";
+				NamespaceCount = 0;
 			}
 
 			public bool CheckProperty(string property)
 			{
 				return !(property == "SetName" && SetNames == false);
+			}
+
+			public string GetNamespacesBegin()
+			{
+				string result = "";
+
+				if (NamespaceCount > 0)
+				{
+					string[] namespaces = Namespace.Replace("::", ".").Split('.');
+					string tabs = "";
+
+					foreach (string ns in namespaces)
+					{
+						result += tabs + "namespace " + ns + "\n";
+						result += tabs + "{\n";
+						tabs += "\t";
+					}
+				}
+
+				return result;
+			}
+
+			public string GetNamespacesEnd()
+			{
+				string result = "";
+
+				for (int i = NamespaceCount; i > 0; i--)
+				{
+					result += new string('\t', i - 1) + "}\n";
+				}
+
+				return result;
 			}
 		}
 
@@ -47,29 +108,30 @@ namespace OSHVisualGui
 
 		public string GenerateHeaderCode()
 		{
-			prefix = string.Empty;
+			prefix = new string('\t', Options.NamespaceCount);
 			eventMethodList = new List<string>();
 
 			StringBuilder code = new StringBuilder();
-			code.AppendLine("#ifndef OSHGUI_" + form.Name.ToUpper() + "_HPP");
-			code.AppendLine("#define OSHGUI_" + form.Name.ToUpper() + "_HPP\n");
+			code.AppendLine("#ifndef OSHGUI_" + Options.Namespace.ToUpper().Replace("::", "_") + "_" + form.Name.ToUpper() + "_HPP");
+			code.AppendLine("#define OSHGUI_" + Options.Namespace.ToUpper().Replace("::", "_") + "_" + form.Name.ToUpper() + "_HPP\n");
 			code.AppendLine("#include <OSHGui.hpp>\n");
-			code.AppendLine("class " + form.Name + " : public OSHGui::Form");
-			code.AppendLine("{");
-			code.AppendLine("public:");
-			code.AppendLine("\t" + form.Name + "();");
-			code.AppendLine("\nprivate:");
-			code.AppendLine("\tvoid InitializeComponent()");
-			code.AppendLine("\t{");
-			code.AppendLine("\t\tusing namespace OSHGui;");
-			code.AppendLine("\t\tusing namespace OSHGui::Misc;");
-			code.AppendLine("\t\tusing namespace OSHGui::Drawing;\n");
+			code.Append(Options.GetNamespacesBegin());
+			code.AppendLine(prefix + "class " + form.Name + " : public OSHGui::Form");
+			code.AppendLine(prefix + "{");
+			code.AppendLine(prefix + "public:");
+			code.AppendLine(prefix + "\t" + form.Name + "();\n");
+			code.AppendLine(prefix + "private:");
+			code.AppendLine(prefix + "\tvoid InitializeComponent()");
+			code.AppendLine(prefix + "\t{");
+			code.AppendLine(prefix + "\t\tusing namespace OSHGui;");
+			code.AppendLine(prefix + "\t\tusing namespace OSHGui::Misc;");
+			code.AppendLine(prefix + "\t\tusing namespace OSHGui::Drawing;\n");
 
 			foreach (var property in form.GetChangedProperties())
 			{
 				if (Options.CheckProperty(property.Key))
 				{
-					code.AppendLine("\t\t" + property.Key + "(" + property.Value.ToCppString() + ");");
+					code.AppendLine(prefix + "\t\t" + property.Key + "(" + property.Value.ToCppString() + ");");
 				}
 			}
 
@@ -82,45 +144,46 @@ namespace OSHVisualGui
 				{
 					placeholder += ", std::placeholders::_" + i;
 				}
-				code.AppendLine("\t\tGet" + controlEvent.GetType().Name + "() += " + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
+				code.AppendLine(prefix + "\t\tGet" + controlEvent.GetType().Name + "() += " + controlEvent.GetType().Name + "Handler(std::bind(&" + form.Name + "::" + controlEvent.Signature + ", this, " + placeholder + "));");
 			}
 
 			if (form.Controls.Count > 0)
 			{
-				prefix = "\t\t";
+				prefix += "\t\t";
 				code.AppendLine(string.Empty);
 				foreach (Control control in form.Controls)
 				{
 					code.Append(GenerateControlHeaderCode(control));
-					code.AppendLine("\t\tAddControl(" + control.Name + ");\n");
+					code.AppendLine(prefix + "AddControl(" + control.Name + ");\n");
 				}
 				code.Length -= 1;
 
-				prefix = string.Empty;
+				prefix = new string('\t', Options.NamespaceCount);
 
-				code.AppendLine("\t}\n");
+				code.AppendLine(prefix + "\t}\n");
 				foreach (Control control in ControlManager.Instance().Controls)
 				{
 					if (control != form)
 					{
-						code.AppendLine("\tOSHGui::" + control.GetType().Name + " *" + control.Name + ";");
+						code.AppendLine(prefix + "\tOSHGui::" + control.GetType().Name + " *" + control.Name + ";");
 					}
 				}
 			}
 			else
 			{
-				code.AppendLine("\t}");
+				code.AppendLine(prefix + "\t}");
 			}
 			if (eventMethodList.Count > 0)
 			{
 				code.AppendLine();
 				foreach (string method in eventMethodList)
 				{
-					code.AppendLine("\t" + method);
+					code.AppendLine(prefix + "\t" + method);
 				}
 			}
 
-			code.AppendLine("};\n");
+			code.AppendLine(prefix + "};");
+			code.Append(Options.GetNamespacesEnd());
 			code.AppendLine("#endif");
 
 			return code.ToString();
@@ -128,15 +191,16 @@ namespace OSHVisualGui
 
 		public string GenerateSourceCode()
 		{
-			prefix = string.Empty;
+			prefix = new string('\t', Options.NamespaceCount);
 
 			StringBuilder code = new StringBuilder();
 
 			code.AppendLine("#include \"" + form.Name + ".hpp\"");
 			code.AppendLine("using namespace OSHGui;\n");
-			code.AppendLine(form.Name + "::" + form.Name + "()");
-			code.AppendLine("{");
-			code.AppendLine("\tInitializeComponent();");
+			code.Append(Options.GetNamespacesBegin());
+			code.AppendLine(prefix + form.Name + "::" + form.Name + "()");
+			code.AppendLine(prefix + "{");
+			code.AppendLine(prefix + "\tInitializeComponent();");
 
 			if (!string.IsNullOrEmpty(form.ConstructorEvent.Code))
 			{
@@ -148,8 +212,8 @@ namespace OSHVisualGui
 				}
 			}
 
-			code.AppendLine("}");
-			code.AppendLine("//---------------------------------------------------------------------------");
+			code.AppendLine(prefix + "}");
+			code.AppendLine(prefix + "//---------------------------------------------------------------------------");
 
 			string events = GenerateControlSourceCode(form);
 			if (!string.IsNullOrEmpty(events))
@@ -157,6 +221,7 @@ namespace OSHVisualGui
 				code.Append(events);
 			}
 
+			code.Append(Options.GetNamespacesEnd());
 			return code.ToString();
 		}
 
@@ -215,8 +280,8 @@ namespace OSHVisualGui
 
 			foreach (var controlEvent in control.GetUsedEvents())
 			{
-				code.AppendLine(controlEvent.Code.Replace(controlEvent.Signature, form.Name + "::" + controlEvent.Signature));
-				code.AppendLine("//---------------------------------------------------------------------------");
+				code.AppendLine(prefix + controlEvent.Code.Replace(controlEvent.Signature, form.Name + "::" + controlEvent.Signature).Replace("\n", "\n" + prefix));
+				code.AppendLine(prefix + "//---------------------------------------------------------------------------");
 			}
 
 			if (control is ContainerControl)

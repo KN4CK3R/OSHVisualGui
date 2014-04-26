@@ -103,5 +103,12 @@ namespace OSHVisualGui
 
 			GenerateCode();
 		}
+
+		private void namespaceToolStripTextBox_TextChanged(object sender, EventArgs e)
+		{
+			codeSerializer.Options.Namespace = namespaceToolStripTextBox.Text;
+
+			GenerateCode();
+		}
 	}
 }

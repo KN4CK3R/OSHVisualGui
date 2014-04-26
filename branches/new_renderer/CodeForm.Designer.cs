@@ -31,18 +31,20 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CodeForm));
 			this.sourceTabControl = new System.Windows.Forms.TabControl();
 			this.hppTabPage = new System.Windows.Forms.TabPage();
-			this.hppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.cppTabPage = new System.Windows.Forms.TabPage();
-			this.cppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.cppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.setNamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.cppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.namespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.namespaceToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+			this.hppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.cppFastColoredTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.sourceTabControl.SuspendLayout();
 			this.hppTabPage.SuspendLayout();
 			this.cppTabPage.SuspendLayout();
@@ -51,9 +53,9 @@
 			// 
 			// sourceTabControl
 			// 
-			this.sourceTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.sourceTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.sourceTabControl.Controls.Add(this.hppTabPage);
 			this.sourceTabControl.Controls.Add(this.cppTabPage);
 			this.sourceTabControl.Location = new System.Drawing.Point(12, 27);
@@ -73,22 +75,6 @@
 			this.hppTabPage.Text = ".hpp";
 			this.hppTabPage.UseVisualStyleBackColor = true;
 			// 
-			// hppFastColoredTextBox
-			// 
-			this.hppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.hppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
-			this.hppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.hppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
-			this.hppFastColoredTextBox.LeftBracket = '(';
-			this.hppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
-			this.hppFastColoredTextBox.Name = "hppFastColoredTextBox";
-			this.hppFastColoredTextBox.RightBracket = ')';
-			this.hppFastColoredTextBox.Size = new System.Drawing.Size(465, 382);
-			this.hppFastColoredTextBox.TabIndex = 1;
-			this.hppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
-			// 
 			// cppTabPage
 			// 
 			this.cppTabPage.Controls.Add(this.cppFastColoredTextBox);
@@ -99,22 +85,6 @@
 			this.cppTabPage.TabIndex = 1;
 			this.cppTabPage.Text = ".cpp";
 			this.cppTabPage.UseVisualStyleBackColor = true;
-			// 
-			// cppFastColoredTextBox
-			// 
-			this.cppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.cppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
-			this.cppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.cppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
-			this.cppFastColoredTextBox.LeftBracket = '(';
-			this.cppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
-			this.cppFastColoredTextBox.Name = "cppFastColoredTextBox";
-			this.cppFastColoredTextBox.RightBracket = ')';
-			this.cppFastColoredTextBox.Size = new System.Drawing.Size(465, 385);
-			this.cppFastColoredTextBox.TabIndex = 2;
-			this.cppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
 			// 
 			// menuStrip
 			// 
@@ -140,36 +110,27 @@
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.saveToolStripMenuItem.Text = "Save...";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(104, 6);
 			// 
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.closeToolStripMenuItem.Text = "Close";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
-			// 
-			// hppSaveFileDialog
-			// 
-			this.hppSaveFileDialog.DefaultExt = "hpp";
-			this.hppSaveFileDialog.Filter = "OSHGui-Header|*.hpp";
-			// 
-			// cppSaveFileDialog
-			// 
-			this.cppSaveFileDialog.DefaultExt = "cpp";
-			this.cppSaveFileDialog.Filter = "OSHGui-Source|*.cpp";
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setNamesToolStripMenuItem});
+            this.setNamesToolStripMenuItem,
+            this.namespaceToolStripMenuItem});
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
 			this.optionsToolStripMenuItem.Text = "Options";
@@ -183,6 +144,62 @@
 			this.setNamesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.setNamesToolStripMenuItem.Text = "SetNames";
 			this.setNamesToolStripMenuItem.Click += new System.EventHandler(this.setNamesToolStripMenuItem_Click);
+			// 
+			// hppSaveFileDialog
+			// 
+			this.hppSaveFileDialog.DefaultExt = "hpp";
+			this.hppSaveFileDialog.Filter = "OSHGui-Header|*.hpp";
+			// 
+			// cppSaveFileDialog
+			// 
+			this.cppSaveFileDialog.DefaultExt = "cpp";
+			this.cppSaveFileDialog.Filter = "OSHGui-Source|*.cpp";
+			// 
+			// namespaceToolStripMenuItem
+			// 
+			this.namespaceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.namespaceToolStripTextBox});
+			this.namespaceToolStripMenuItem.Name = "namespaceToolStripMenuItem";
+			this.namespaceToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.namespaceToolStripMenuItem.Text = "Namespace(s)";
+			// 
+			// namespaceToolStripTextBox
+			// 
+			this.namespaceToolStripTextBox.Name = "namespaceToolStripTextBox";
+			this.namespaceToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+			this.namespaceToolStripTextBox.TextChanged += new System.EventHandler(this.namespaceToolStripTextBox_TextChanged);
+			// 
+			// hppFastColoredTextBox
+			// 
+			this.hppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.hppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(25, 15);
+			this.hppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.hppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.hppFastColoredTextBox.LeftBracket = '(';
+			this.hppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
+			this.hppFastColoredTextBox.Name = "hppFastColoredTextBox";
+			this.hppFastColoredTextBox.RightBracket = ')';
+			this.hppFastColoredTextBox.Size = new System.Drawing.Size(465, 382);
+			this.hppFastColoredTextBox.TabIndex = 1;
+			this.hppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
+			// 
+			// cppFastColoredTextBox
+			// 
+			this.cppFastColoredTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.cppFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(2, 15);
+			this.cppFastColoredTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.cppFastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.cppFastColoredTextBox.LeftBracket = '(';
+			this.cppFastColoredTextBox.Location = new System.Drawing.Point(6, 6);
+			this.cppFastColoredTextBox.Name = "cppFastColoredTextBox";
+			this.cppFastColoredTextBox.RightBracket = ')';
+			this.cppFastColoredTextBox.Size = new System.Drawing.Size(465, 385);
+			this.cppFastColoredTextBox.TabIndex = 2;
+			this.cppFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox_TextChanged);
 			// 
 			// CodeForm
 			// 
@@ -222,5 +239,7 @@
 		private System.Windows.Forms.SaveFileDialog cppSaveFileDialog;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem setNamesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem namespaceToolStripMenuItem;
+		private System.Windows.Forms.ToolStripTextBox namespaceToolStripTextBox;
 	}
 }
