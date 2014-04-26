@@ -106,9 +106,19 @@ namespace OSHVisualGui
 
 		private void namespaceToolStripTextBox_TextChanged(object sender, EventArgs e)
 		{
-			codeSerializer.Options.Namespace = namespaceToolStripTextBox.Text;
+			if (string.IsNullOrEmpty(namespaceToolStripTextBox.Text)
+			 || Regex.IsMatch(namespaceToolStripTextBox.Text, @"^([a-z_][a-z0-9_]*\.)*[a-z_][a-z0-9_]*$"))
+			{
+				namespaceToolStripTextBox.BackColor = SystemColors.Window;
 
-			GenerateCode();
+				codeSerializer.Options.NamespaceCombined = namespaceToolStripTextBox.Text;
+
+				GenerateCode();
+			}
+			else
+			{
+				namespaceToolStripTextBox.BackColor = Color.LightCoral;
+			}
 		}
 	}
 }
