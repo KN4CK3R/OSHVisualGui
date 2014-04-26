@@ -21,14 +21,14 @@ namespace OSHVisualGui
 
 				set
 				{
-					if (value == null || value == "")
+					if (string.IsNullOrEmpty(value))
 					{
 						NamespaceCount = 0;
 						namespace_ = "";
 					}
 					else
 					{
-						string[] namespaces = value.Replace("::", ".").Split('.');
+						string[] namespaces = value.Split(new string[] { "::" }, StringSplitOptions.RemoveEmptyEntries);
 
 						NamespaceCount = namespaces.Length;
 						namespace_ = value;
@@ -58,7 +58,7 @@ namespace OSHVisualGui
 
 				if (NamespaceCount > 0)
 				{
-					string[] namespaces = Namespace.Replace("::", ".").Split('.');
+					string[] namespaces = Namespace.Split(new string[] { "::" }, StringSplitOptions.RemoveEmptyEntries);
 					string tabs = "";
 
 					foreach (string ns in namespaces)
