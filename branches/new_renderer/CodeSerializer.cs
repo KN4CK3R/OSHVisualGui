@@ -20,11 +20,13 @@ namespace OSHVisualGui
 					return NamespaceCombined.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
 				}
 			}
+			public bool XorStr { get; set; }
 
 			public SerializeOptions()
 			{
 				SetNames = true;
 				NamespaceCombined = string.Empty;
+				XorStr = false;
 			}
 
 			
@@ -61,7 +63,8 @@ namespace OSHVisualGui
 			var includeGuard = string.IsNullOrEmpty(Options.NamespaceCombined) ? string.Empty : Options.NamespaceCombined.ToUpper().Replace('.', '_') + "_";
 			code.AppendLine("#ifndef OSHGUI_" + includeGuard + form.Name.ToUpper() + "_HPP");
 			code.AppendLine("#define OSHGUI_" + includeGuard + form.Name.ToUpper() + "_HPP\n");
-			code.AppendLine("#include <OSHGui.hpp>\n");
+			code.AppendLine("#include <OSHGui.hpp>");
+			code.AppendLine(Options.XorStr ? "#include <XorStr.hpp>\n" : string.Empty);
 			code.Append(GetNamespacesBegin());
 			code.AppendLine(prefix + "class " + form.Name + " : public OSHGui::Form");
 			code.AppendLine(prefix + "{");
@@ -78,7 +81,7 @@ namespace OSHVisualGui
 			{
 				if (CheckValidProperty(property.Key))
 				{
-					code.AppendLine(prefix + "\t\t" + property.Key + "(" + property.Value.ToCppString() + ");");
+					code.AppendLine(prefix + "\t\t" + property.Key + "(" + GetCppString(property.Value) + ");");
 				}
 			}
 
@@ -180,7 +183,7 @@ namespace OSHVisualGui
 			{
 				if (CheckValidProperty(property.Key))
 				{
-					code.AppendLine(prefix + control.Name + "->" + property.Key + "(" + property.Value.ToCppString() + ");");
+					code.AppendLine(prefix + control.Name + "->" + property.Key + "(" + GetCppString(property.Value) + ");");
 				}
 			}
 
@@ -283,6 +286,18 @@ namespace OSHVisualGui
 			}
 
 			return sb.ToString();
+		}
+
+		private string GetCppString(object value)
+		{
+			if (Options.XorStr && value is string)
+			{
+				return XorStr.Generate((string)value);
+			}
+			else
+			{
+				return value.ToCppString();
+			}
 		}
 	}
 }

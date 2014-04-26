@@ -120,5 +120,12 @@ namespace OSHVisualGui
 				namespaceToolStripTextBox.BackColor = Color.LightCoral;
 			}
 		}
+
+		private void xorStringToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			codeSerializer.Options.XorStr = xorStringToolStripMenuItem.Checked;
+
+			GenerateCode();
+		}
 	}
 }

@@ -45,6 +45,7 @@
 			this.namespaceToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
 			this.hppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.cppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.xorStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sourceTabControl.SuspendLayout();
 			this.hppTabPage.SuspendLayout();
 			this.cppTabPage.SuspendLayout();
@@ -162,7 +163,8 @@
 			// 
 			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.setNamesToolStripMenuItem,
-            this.namespaceToolStripMenuItem});
+            this.namespaceToolStripMenuItem,
+            this.xorStringToolStripMenuItem});
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
 			this.optionsToolStripMenuItem.Text = "Options";
@@ -200,6 +202,14 @@
 			// 
 			this.cppSaveFileDialog.DefaultExt = "cpp";
 			this.cppSaveFileDialog.Filter = "OSHGui-Source|*.cpp";
+			// 
+			// xorStringToolStripMenuItem
+			// 
+			this.xorStringToolStripMenuItem.CheckOnClick = true;
+			this.xorStringToolStripMenuItem.Name = "xorStringToolStripMenuItem";
+			this.xorStringToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.xorStringToolStripMenuItem.Text = "XorStr";
+			this.xorStringToolStripMenuItem.Click += new System.EventHandler(this.xorStringToolStripMenuItem_Click);
 			// 
 			// CodeForm
 			// 
@@ -241,5 +251,6 @@
 		private System.Windows.Forms.ToolStripMenuItem setNamesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem namespaceToolStripMenuItem;
 		private System.Windows.Forms.ToolStripTextBox namespaceToolStripTextBox;
+		private System.Windows.Forms.ToolStripMenuItem xorStringToolStripMenuItem;
 	}
 }
