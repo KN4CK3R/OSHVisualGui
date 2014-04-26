@@ -28,8 +28,6 @@ namespace OSHVisualGui
 				NamespaceCombined = string.Empty;
 				XorStr = false;
 			}
-
-			
 		}
 
 		private Form form;
@@ -60,9 +58,11 @@ namespace OSHVisualGui
 
 			var code = new StringBuilder();
 
-			var includeGuard = string.IsNullOrEmpty(Options.NamespaceCombined) ? string.Empty : Options.NamespaceCombined.ToUpper().Replace('.', '_') + "_";
-			code.AppendLine("#ifndef OSHGUI_" + includeGuard + form.Name.ToUpper() + "_HPP");
-			code.AppendLine("#define OSHGUI_" + includeGuard + form.Name.ToUpper() + "_HPP\n");
+			var includeGuard = "OSHGUI_";
+			includeGuard += string.IsNullOrEmpty(Options.NamespaceCombined) ? string.Empty : Options.NamespaceCombined.ToUpper().Replace('.', '_') + "_";
+			includeGuard += form.Name.ToUpper() + "_HPP";
+			code.AppendLine("#ifndef " + includeGuard);
+			code.AppendLine("#define " + includeGuard + "\n");
 			code.AppendLine("#include <OSHGui.hpp>");
 			code.AppendLine(Options.XorStr ? "#include <XorStr.hpp>\n" : string.Empty);
 			code.Append(GetNamespacesBegin());
