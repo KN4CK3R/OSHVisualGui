@@ -107,7 +107,7 @@ namespace OSHVisualGui
 		private void namespaceToolStripTextBox_TextChanged(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty(namespaceToolStripTextBox.Text)
-			 || Regex.IsMatch(namespaceToolStripTextBox.Text, @"^([a-z_][a-z0-9_]*\.)*[a-z_][a-z0-9_]*$"))
+			 || Regex.IsMatch(namespaceToolStripTextBox.Text, @"^([a-z_][a-z0-9_]*\.)*[a-z_][a-z0-9_]*$", RegexOptions.IgnoreCase))
 			{
 				namespaceToolStripTextBox.BackColor = SystemColors.Window;
 
