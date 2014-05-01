@@ -49,6 +49,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.PictureBox;
 
+			Path = string.Empty;
+
 			DefaultSize = Size = new Size(100, 100);
 
 			DefaultBackColor = BackColor = Color.Empty;
@@ -82,7 +84,12 @@ namespace OSHVisualGui.GuiControls
 
 			if (image != null)
 			{
-				graphics.DrawImage(image, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
+				var size = image.Size;
+				if (size.Width > Size.Width)
+					size.Width = Size.Width;
+				if (size.Height > Size.Height)
+					size.Height = Size.Height;
+				graphics.DrawImage(image, AbsoluteLocation.X, AbsoluteLocation.Y, size.Width, size.Height);
 			}
 		}
 
