@@ -574,7 +574,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				if (property.Value.UseForXML)
 				{
-					element.Add(new XAttribute(property.Key, property.Value.ToXMLString()));
+					element.Add(new XAttribute(property.Key, property.Value.Value.ToXMLString()));
 				}
 			}
 
