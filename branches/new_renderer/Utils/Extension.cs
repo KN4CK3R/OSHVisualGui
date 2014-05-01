@@ -158,6 +158,7 @@ namespace OSHVisualGui
 			return ASCIIEncoding.ASCII.GetString(bytes);
 		}
 
+		#region ToCppString
 		public static string ToCppString(this object obj)
 		{
 			if (obj is bool)
@@ -243,6 +244,77 @@ namespace OSHVisualGui
 		{
 			return "Key::" + keys.ToString().Replace(", ", "|Key::");
 		}
+		#endregion
+
+		#region ToXMLString
+		public static string ToXMLString(this object obj)
+		{
+			if (obj is bool)
+			{
+				return ((bool)obj).ToXMLString();
+			}
+			if (obj is float)
+			{
+				return ((float)obj).ToXMLString();
+			}
+			if (obj is Point)
+			{
+				return ((Point)obj).ToXMLString();
+			}
+			if (obj is Size)
+			{
+				return ((Size)obj).ToXMLString();
+			}
+			if (obj is Color)
+			{
+				return ((Color)obj).ToXMLString();
+			}
+			if (obj is Font)
+			{
+				return ((Font)obj).ToXMLString();
+			}
+			if (obj is AnchorStyles)
+			{
+				return ((AnchorStyles)obj).ToXMLString();
+			}
+			return obj.ToString();
+		}
+
+		public static string ToXMLString(this bool val)
+		{
+			return val ? "true" : "false";
+		}
+
+		public static string ToXMLString(this float val)
+		{
+			return val.ToString(CultureInfo.InvariantCulture);
+		}
+
+		public static string ToXMLString(this Point point)
+		{
+			return point.X + "," + point.Y;
+		}
+
+		public static string ToXMLString(this Size size)
+		{
+			return size.Width + "," + size.Height;
+		}
+
+		public static string ToXMLString(this Color color)
+		{
+			return color.ToArgb().ToString("X");
+		}
+
+		public static string ToXMLString(this Font font)
+		{
+			return font.Name + "," + font.Size.ToXMLString() + "," + font.Bold.ToXMLString() + "," + font.Italic.ToXMLString() + "," + font.Underline.ToXMLString();
+		}
+
+		public static string ToXMLString(this AnchorStyles anchor)
+		{
+			return anchor.Serialize();
+		}
+		#endregion
 
 		public static string Serialize(this AnchorStyles anchor)
 		{
