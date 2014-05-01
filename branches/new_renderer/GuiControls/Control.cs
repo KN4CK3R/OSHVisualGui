@@ -176,7 +176,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			get
 			{
-				return font;
+				return font != null ? font : Parent != null ? Parent.Font : DefaultFont;
 			}
 			set
 			{
@@ -389,7 +389,7 @@ namespace OSHVisualGui.GuiControls
 
 			location = DefaultLocation;
 
-			font = DefaultFont;
+			//font = DefaultFont;
 		}
 
 		protected Control(SerializationInfo info, StreamingContext context)
@@ -522,11 +522,11 @@ namespace OSHVisualGui.GuiControls
 
 		public virtual void CalculateAbsoluteLocation()
 		{
-			if (parent != null && parent != this)
+			if (parent != null)
 			{
 				absoluteLocation = parent.absoluteLocation.Add(location);
 			}
-			if (parent == this)
+			else
 			{
 				absoluteLocation = location;
 			}

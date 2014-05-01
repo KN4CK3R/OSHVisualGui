@@ -824,5 +824,10 @@ namespace OSHVisualGui
 		{
 			new ThemeManagerForm().ShowDialog();
 		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//TODO
+		}
 	}
 }

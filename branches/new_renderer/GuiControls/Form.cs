@@ -105,7 +105,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.Form;
 
-			Parent = this;
+			Parent = null;
 
 			Mode = DragMode.GrowOnly;
 
