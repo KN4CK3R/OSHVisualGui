@@ -145,12 +145,6 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - ColorBar";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-			element.Add(new XAttribute("color", Color.ToArgb().ToString("X")));
-		}
-
 		public override void ReadPropertiesFromXml(XElement element)
 		{
 			base.ReadPropertiesFromXml(element);

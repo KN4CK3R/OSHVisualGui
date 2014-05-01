@@ -96,12 +96,6 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - TextBox";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-			element.Add(new XAttribute("text", text));
-		}
-
 		public override void ReadPropertiesFromXml(XElement element)
 		{
 			base.ReadPropertiesFromXml(element);

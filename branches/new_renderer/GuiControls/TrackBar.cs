@@ -169,15 +169,6 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - TrackBar";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-			element.Add(new XAttribute("tickFrequency", tickFrequency.ToString()));
-			element.Add(new XAttribute("minimum", minimum.ToString()));
-			element.Add(new XAttribute("maximum", maximum.ToString()));
-			element.Add(new XAttribute("value", value.ToString()));
-		}
-
 		public override void ReadPropertiesFromXml(XElement element)
 		{
 			base.ReadPropertiesFromXml(element);

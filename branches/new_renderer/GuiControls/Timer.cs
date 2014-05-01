@@ -279,14 +279,6 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - Timer";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			element.Add(new XAttribute("name", Name));
-			element.Add(new XAttribute("location", Location.X + "," + Location.Y));
-			element.Add(new XAttribute("enabled", Enabled.ToString().ToLower()));
-			element.Add(new XAttribute("interval", Interval.ToString()));
-		}
-
 		public override void ReadPropertiesFromXml(XElement element)
 		{
 			if (element.Attribute("name") != null)

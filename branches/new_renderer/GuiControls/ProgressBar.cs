@@ -159,14 +159,6 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - ProgressBar";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-			element.Add(new XAttribute("minimum", minimum.ToString()));
-			element.Add(new XAttribute("maximum", maximum.ToString()));
-			element.Add(new XAttribute("value", value.ToString()));
-		}
-
 		public override void ReadPropertiesFromXml(XElement element)
 		{
 			base.ReadPropertiesFromXml(element);

@@ -172,13 +172,6 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - CheckBox";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-			element.Add(new XAttribute("text", Text));
-			element.Add(new XAttribute("checked", Checked.ToString().ToLower()));
-		}
-
 		public override void ReadPropertiesFromXml(XElement element)
 		{
 			base.ReadPropertiesFromXml(element);

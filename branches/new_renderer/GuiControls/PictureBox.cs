@@ -43,6 +43,12 @@ namespace OSHVisualGui.GuiControls
 			}
 		}
 		private Image image;
+		private bool DefaultStretch;
+		public bool Stretch
+		{
+			get;
+			set;
+		}
 		#endregion
 
 		public PictureBox()
@@ -55,6 +61,8 @@ namespace OSHVisualGui.GuiControls
 
 			DefaultBackColor = BackColor = Color.Empty;
 			DefaultForeColor = ForeColor = Color.Empty;
+
+			DefaultStretch = Stretch = false;
 		}
 
 		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
@@ -84,12 +92,15 @@ namespace OSHVisualGui.GuiControls
 
 			if (image != null)
 			{
-				var size = image.Size;
-				if (size.Width > Size.Width)
-					size.Width = Size.Width;
-				if (size.Height > Size.Height)
-					size.Height = Size.Height;
-				graphics.DrawImage(image, AbsoluteLocation.X, AbsoluteLocation.Y, size.Width, size.Height);
+				var size = Stretch ? Size : image.Size;
+				/*if (!Stretch)
+				{
+					if (size.Width > Size.Width)
+						size.Width = Size.Width;
+					if (size.Height > Size.Height)
+						size.Height = Size.Height;
+				}*/
+				graphics.DrawImage(image, new Rectangle(new Point(), size));
 			}
 		}
 
@@ -108,14 +119,6 @@ namespace OSHVisualGui.GuiControls
 		public override string ToString()
 		{
 			return Name + " - PictureBox";
-		}
-
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-
-			if (path != null)
-				element.Add(new XAttribute("image", path));
 		}
 
 		public override void ReadPropertiesFromXml(XElement element)

@@ -571,16 +571,11 @@ namespace OSHVisualGui.GuiControls
 
 		protected virtual void WriteToXmlElement(XElement element)
 		{
-			element.Add(new XAttribute("name", name));
-			element.Add(new XAttribute("enabled", enabled.ToString().ToLower()));
-			element.Add(new XAttribute("visible", visible.ToString().ToLower()));
-			element.Add(new XAttribute("location", location.X + "," + location.Y));
-			element.Add(new XAttribute("size", size.Width + "," + size.Height));
-			element.Add(new XAttribute("anchor", anchor.Serialize()));
-			element.Add(new XAttribute("autoSize", autoSize.ToString().ToLower()));
-			element.Add(new XAttribute("font", font.Name + "," + font.Size.ToString(CultureInfo.InvariantCulture) + "," + font.Bold.ToString().ToLower() + "," + font.Italic.ToString().ToLower() + "," + font.Underline.ToString().ToLower()));
-			element.Add(new XAttribute("foreColor", foreColor.ToArgb().ToString("X")));
-			element.Add(new XAttribute("backColor", backColor.ToArgb().ToString("X")));
+			foreach (var prop in GetChangedProperties())
+			{
+				element.Add(new XAttribute(prop.Key, prop.Value.ToXMLString()));
+			}
+
 			foreach (var controlEvent in GetUsedEvents())
 			{
 				element.Add(new XAttribute(controlEvent.GetType().Name, controlEvent.Code.ToBase64String()));

@@ -140,7 +140,6 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.WriteToXmlElement(element);
 
-			element.Add(new XAttribute("autoScrollEnabled", autoScrollEnabled.ToString().ToLower()));
 			if (Items != null)
 			{
 				foreach (string item in Items)

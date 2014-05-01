@@ -471,11 +471,6 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - TabControl";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-		}
-
 		internal override void RegisterInternalControls()
 		{
 			foreach (var binding in tabPageButtonBindings)
@@ -570,11 +565,6 @@ namespace OSHVisualGui.GuiControls
 				throw new NotImplementedException();
 			}
 
-			protected override void WriteToXmlElement(XElement element)
-			{
-				base.WriteToXmlElement(element);
-			}
-
 			protected override void OnClick(Mouse mouse)
 			{
 				base.OnClick(mouse);
@@ -632,11 +622,6 @@ namespace OSHVisualGui.GuiControls
 			public override Control Copy()
 			{
 				throw new NotImplementedException();
-			}
-
-			protected override void WriteToXmlElement(XElement element)
-			{
-				base.WriteToXmlElement(element);
 			}
 		}
 
