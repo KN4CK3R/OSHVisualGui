@@ -67,6 +67,18 @@ namespace OSHVisualGui.GuiControls
 			ColorChangedEvent = new ColorChangedEvent(this);
 		}
 
+		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		{
+			foreach (var pair in base.GetChangedProperties())
+			{
+				yield return pair;
+			}
+			if (Color != Color.Black)
+			{
+				yield return new KeyValuePair<string, object>("color", Color);
+			}
+		}
+
 		private Color GetColorAtPoint(int x, int y)
 		{
 			Color tmpColor;

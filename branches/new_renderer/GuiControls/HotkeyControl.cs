@@ -116,18 +116,15 @@ namespace OSHVisualGui.GuiControls
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
-				if (pair.Key != "SetText")
-				{
-					yield return pair;
-				}
+				yield return pair;
 			}
 			if ((hotkey & Keys.Modifiers) != Keys.None)
 			{
-				yield return new KeyValuePair<string, object>("SetModifier", hotkey & Keys.Modifiers);
+				yield return new KeyValuePair<string, object>("modifier", hotkey & Keys.Modifiers);
 			}
 			if ((hotkey & Keys.KeyCode) != Keys.None)
 			{
-				yield return new KeyValuePair<string, object>("SetHotkey", hotkey & Keys.KeyCode);
+				yield return new KeyValuePair<string, object>("hotkey", hotkey & Keys.KeyCode);
 			}
 		}
 

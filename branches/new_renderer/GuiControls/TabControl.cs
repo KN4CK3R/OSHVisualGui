@@ -227,7 +227,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (SelectedTabPage != DefaultSelectedTabPage)
 			{
-				yield return new KeyValuePair<string, object>("SetSelectedIndex", SelectedTabPage);
+				yield return new KeyValuePair<string, object>("selectedindex", SelectedTabPage);
 			}
 		}
 

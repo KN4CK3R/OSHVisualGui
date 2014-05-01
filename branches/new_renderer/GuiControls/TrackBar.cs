@@ -111,19 +111,19 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Minimum != 1)
 			{
-				yield return new KeyValuePair<string, object>("SetMinimum", Minimum);
+				yield return new KeyValuePair<string, object>("minimum", Minimum);
 			}
 			if (Maximum != 10)
 			{
-				yield return new KeyValuePair<string, object>("SetMaximum", Maximum);
+				yield return new KeyValuePair<string, object>("maximum", Maximum);
 			}
 			if (TickFrequency != 1)
 			{
-				yield return new KeyValuePair<string, object>("SetTickFrequency", TickFrequency);
+				yield return new KeyValuePair<string, object>("tickfrequency", TickFrequency);
 			}
 			if (Value != 0)
 			{
-				yield return new KeyValuePair<string, object>("SetValue", Value);
+				yield return new KeyValuePair<string, object>("value", Value);
 			}
 		}
 

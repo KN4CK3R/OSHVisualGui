@@ -71,12 +71,12 @@ namespace OSHVisualGui.GuiControls
 			{
 				yield return pair;
 			}
-			yield return new KeyValuePair<string, object>("SetAutoScrollEnabled", autoScrollEnabled);
+			yield return new KeyValuePair<string, object>("autoscrollenabled", autoScrollEnabled);
 			if (Items != null && Items.Length > 0)
 			{
 				foreach (var item in Items)
 				{
-					yield return new KeyValuePair<string, object>("AddItem", item);
+					yield return new KeyValuePair<string, object>("item", item);
 				}
 			}
 		}

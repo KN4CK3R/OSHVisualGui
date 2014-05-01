@@ -478,25 +478,25 @@ namespace OSHVisualGui.GuiControls
 
 		public virtual IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
 		{
-			yield return new KeyValuePair<string, object>("SetName", Name);
+			yield return new KeyValuePair<string, object>("name", Name);
 			if (!Enabled)
-				yield return new KeyValuePair<string, object>("SetEnabled", Enabled);
+				yield return new KeyValuePair<string, object>("enabled", Enabled);
 			if (!Visible)
-				yield return new KeyValuePair<string, object>("SetVisible", Visible);
+				yield return new KeyValuePair<string, object>("visible", Visible);
 			if (Location != DefaultLocation)
-				yield return new KeyValuePair<string, object>("SetLocation", Location);
+				yield return new KeyValuePair<string, object>("location", Location);
 			if (Size != DefaultSize && AutoSize == false)
-				yield return new KeyValuePair<string, object>("SetSize", Size);
+				yield return new KeyValuePair<string, object>("size", Size);
 			if (Anchor != (AnchorStyles.Top | AnchorStyles.Left))
-				yield return new KeyValuePair<string, object>("SetAnchor", Anchor);
+				yield return new KeyValuePair<string, object>("anchor", Anchor);
 			if (AutoSize != DefaultAutoSize)
-				yield return new KeyValuePair<string, object>("SetAutoSize", AutoSize);
+				yield return new KeyValuePair<string, object>("autosize", AutoSize);
 			if (!this.Font.Equals(DefaultFont))
-				yield return new KeyValuePair<string, object>("SetFont", Font);
+				yield return new KeyValuePair<string, object>("font", Font);
 			if (ForeColor != DefaultForeColor)
-				yield return new KeyValuePair<string, object>("SetForeColor", ForeColor);
+				yield return new KeyValuePair<string, object>("forecolor", ForeColor);
 			if (BackColor != DefaultBackColor)
-				yield return new KeyValuePair<string, object>("SetBackColor", BackColor);
+				yield return new KeyValuePair<string, object>("backcolor", BackColor);
 		}
 
 		public virtual IEnumerable<Event> GetUsedEvents()

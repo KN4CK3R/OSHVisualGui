@@ -39,6 +39,46 @@ namespace OSHVisualGui
 			private set;
 		}
 
+		private Dictionary<string, string> TranslateProperties = new Dictionary<string, string>()
+			{
+				//Control
+				{ "name", "SetName" },
+				{ "enabled", "SetEnabled" },
+				{ "visible", "SetVisible" },
+				{ "location", "SetLocation" },
+				{ "size", "SetSize" },
+				{ "anchor", "SetAnchor" },
+				{ "autosize", "SetAutoSize" },
+				{ "font", "SetFont" },
+				{ "forecolor", "SetForeColor" },
+				{ "backcolor", "SetBackColor" },
+				//Form, Button, Label, CheckBox, GroupBox, TabPage, TextBox
+				{ "text", "SetText" },
+				//CheckBox
+				{ "checked", "SetChecked" },
+				//ComboBox, ListBox
+				{ "item" , "AddItem" },
+				//ColorBar, ColorPicker
+				{ "color" , "SetColor" },
+				//ListBox
+				{ "autoscrollenabled", "SetAutoScrollEnabled" },
+				//PictureBox
+				{ "image", "SetImage" },
+				//HotkeyControl
+				{ "modifier", "SetModifier" },
+				{ "hotkey", "SetHotkey" },
+				//TabControl
+				{ "selectedindex", "SetSelectedIndex" },
+				//Timer
+				{ "interval", "SetInterval" },
+				//ProgressBar, TrackBar
+				{ "minimum", "SetMinimum" },
+				{ "maximum", "SetMaximum" },
+				{ "value", "SetValue" },
+				//TrackBar
+				{ "tickfrequency", "SetTickFrequency" }
+			};
+
 		public CodeSerializer(Form form)
 		{
 			if (form == null)
@@ -81,7 +121,7 @@ namespace OSHVisualGui
 			{
 				if (CheckValidProperty(property.Key))
 				{
-					code.AppendLine(prefix + "\t\t" + property.Key + "(" + GetCppString(property.Value) + ");");
+					code.AppendLine(prefix + "\t\t" + TranslateProperties[property.Key] + "(" + GetCppString(property.Value) + ");");
 				}
 			}
 
@@ -183,7 +223,7 @@ namespace OSHVisualGui
 			{
 				if (CheckValidProperty(property.Key))
 				{
-					code.AppendLine(prefix + control.Name + "->" + property.Key + "(" + GetCppString(property.Value) + ");");
+					code.AppendLine(prefix + control.Name + "->" + TranslateProperties[property.Key] + "(" + GetCppString(property.Value) + ");");
 				}
 			}
 
@@ -253,7 +293,7 @@ namespace OSHVisualGui
 		{
 			switch (property)
 			{
-				case "SetName":
+				case "name":
 					return Options.SetNames;
 				//maybe more
 			}

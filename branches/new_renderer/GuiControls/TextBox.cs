@@ -63,7 +63,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Text != DefaultText)
 			{
-				yield return new KeyValuePair<string, object>("SetText", Text);
+				yield return new KeyValuePair<string, object>("text", Text);
 			}
 		}
 

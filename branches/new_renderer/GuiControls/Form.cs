@@ -129,7 +129,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				yield return pair;
 			}
-			yield return new KeyValuePair<string, object>("SetText", Text);
+			yield return new KeyValuePair<string, object>("text", Text);
 		}
 
 		public override void AddControl(Control control)

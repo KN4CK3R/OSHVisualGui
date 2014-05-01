@@ -147,13 +147,13 @@ namespace OSHVisualGui.GuiControls
 
 		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
 		{
-			yield return new KeyValuePair<string, object>("SetName", Name);
+			yield return new KeyValuePair<string, object>("name", Name);
 			if (ForeColor != DefaultForeColor)
-				yield return new KeyValuePair<string, object>("SetForeColor", ForeColor);
+				yield return new KeyValuePair<string, object>("forecolor", ForeColor);
 			if (BackColor != DefaultBackColor)
-				yield return new KeyValuePair<string, object>("SetBackColor", BackColor);
+				yield return new KeyValuePair<string, object>("backcolor", BackColor);
 			if (Text != DefaultText)
-				yield return new KeyValuePair<string, object>("SetText", Text);
+				yield return new KeyValuePair<string, object>("text", Text);
 		}
 
 		public override void AddControl(Control control)

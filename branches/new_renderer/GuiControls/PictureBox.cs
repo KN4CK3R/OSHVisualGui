@@ -63,7 +63,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (!string.IsNullOrEmpty(Path))
 			{
-				yield return new KeyValuePair<string, object>("SetImage", new System.IO.FileInfo(path));
+				yield return new KeyValuePair<string, object>("image", new System.IO.FileInfo(path));
 			}
 		}
 

@@ -241,11 +241,11 @@ namespace OSHVisualGui.GuiControls
 
 		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
 		{
-			yield return new KeyValuePair<string, object>("SetName", Name);
+			yield return new KeyValuePair<string, object>("name", Name);
 			if (Enabled)
-				yield return new KeyValuePair<string, object>("SetEnabled", Enabled);
+				yield return new KeyValuePair<string, object>("enabled", Enabled);
 			if (interval != DefaultInterval)
-				yield return new KeyValuePair<string, object>("SetInterval", Interval);
+				yield return new KeyValuePair<string, object>("interval", Interval);
 		}
 
 		public override IEnumerable<Event> GetUsedEvents()

@@ -60,7 +60,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				foreach (var item in Items)
 				{
-					yield return new KeyValuePair<string, object>("AddItem", item);
+					yield return new KeyValuePair<string, object>("item", item);
 				}
 			}
 		}

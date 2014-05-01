@@ -96,6 +96,26 @@ namespace OSHVisualGui.GuiControls
 			BarColor = Color.FromArgb(unchecked((int)0xFF67AFF5));
 		}
 
+		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		{
+			foreach (var pair in base.GetChangedProperties())
+			{
+				yield return pair;
+			}
+			if (Minimum != 0)
+			{
+				yield return new KeyValuePair<string, object>("minimum", Minimum);
+			}
+			if (Maximum != 100)
+			{
+				yield return new KeyValuePair<string, object>("maximum", Maximum);
+			}
+			if (Value != 0)
+			{
+				yield return new KeyValuePair<string, object>("value", Value);
+			}
+		}
+
 		public override void Render(Graphics graphics)
 		{
 			if (BackColor.A > 0)

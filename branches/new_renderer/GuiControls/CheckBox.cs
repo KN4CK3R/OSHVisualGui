@@ -116,11 +116,11 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Checked != DefaultChecked)
 			{
-				yield return new KeyValuePair<string, object>("SetChecked", Checked);
+				yield return new KeyValuePair<string, object>("checked", Checked);
 			}
 			if (Text != DefaultText)
 			{
-				yield return new KeyValuePair<string, object>("SetText", Text);
+				yield return new KeyValuePair<string, object>("text", Text);
 			}
 		}
 
