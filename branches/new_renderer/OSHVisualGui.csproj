@@ -240,6 +240,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Icons\imagenotfound.png" />
     <Content Include="osh.ico" />
     <None Include="Toolbox\plus.png" />
     <None Include="Toolbox\minus.png" />

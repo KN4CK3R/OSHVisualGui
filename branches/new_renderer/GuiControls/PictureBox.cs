@@ -31,15 +31,14 @@ namespace OSHVisualGui.GuiControls
 			}
 			set
 			{
+				path = value;
 				try
 				{
-					Image tempImage = Image.FromFile(value);
-					path = value;
-					image = tempImage;
+					image = Image.FromFile(path);
 				}
 				catch
 				{
-					throw new Exception("Can't open: " + value);
+					image = Properties.Resources.imagenotfound;
 				}
 			}
 		}
@@ -118,18 +117,7 @@ namespace OSHVisualGui.GuiControls
 
 			if (element.Attribute("image") != null)
 			{
-				var path = element.Attribute("image").Value.Trim();
-				if (File.Exists(path))
-				{
-					try
-					{
-						Path = path;
-					}
-					catch
-					{
-						//Image not found or something
-					}
-				}
+				Path = element.Attribute("image").Value.Trim();
 			}
 		}
 	}
