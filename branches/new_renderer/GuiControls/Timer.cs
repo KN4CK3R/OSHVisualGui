@@ -281,20 +281,12 @@ namespace OSHVisualGui.GuiControls
 
 		public override void ReadPropertiesFromXml(XElement element)
 		{
-			if (element.Attribute("name") != null)
-				Name = element.Attribute("name").Value.Trim();
-			else
-				throw new Exception("Missing attribute 'name': " + element.Name);
-			if (element.Attribute("location") != null)
-				Location = Location.Parse(element.Attribute("location").Value.Trim());
-			if (element.Attribute("enabled") != null)
-				Enabled = bool.Parse(element.Attribute("enabled").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'enabled': " + element.Name);
-			if (element.Attribute("interval") != null)
-				Interval = long.Parse(element.Attribute("interval").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'interval': " + element.Name);
+			if (element.HasAttribute("name"))
+				Name = Name.FromXMLString(element.Attribute("name").Value.Trim());
+			if (element.HasAttribute("enabled"))
+				Enabled = Enabled.FromXMLString(element.Attribute("enabled").Value.Trim());
+			if (element.HasAttribute("interval"))
+				Interval = Interval.FromXMLString(element.Attribute("interval").Value.Trim());
 		}
 	}
 }

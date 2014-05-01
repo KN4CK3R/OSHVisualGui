@@ -243,9 +243,6 @@
     <Content Include="osh.ico" />
     <None Include="Toolbox\plus.png" />
     <None Include="Toolbox\minus.png" />
-    <None Include="sidebar.png" />
-    <None Include="toolbox_hover.png" />
-    <None Include="toolbox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

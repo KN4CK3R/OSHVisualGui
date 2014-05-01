@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.IO;
 using System.Globalization;
+using System.Xml.Linq;
 
 namespace OSHVisualGui
 {
@@ -84,68 +85,6 @@ namespace OSHVisualGui
 			comboBox.Items.Insert(index, item);
 		}
 
-		public static Point Parse(this Point point, string value)
-		{
-			int x;
-			int y;
-			string[] values = value.Split(',');
-			if (values.Length != 2 || !int.TryParse(values[0], out x) || !int.TryParse(values[1], out y))
-			{
-				throw new Exception("ParseError: Point '" + value + "'");
-			}
-			return new Point(x, y);
-		}
-
-		public static Size Parse(this Size point, string value)
-		{
-			int w;
-			int h;
-			string[] values = value.Split(',');
-			if (values.Length != 2 || !int.TryParse(values[0], out w) || !int.TryParse(values[1], out h))
-			{
-				throw new Exception("ParseError: Size '" + value + "'");
-			}
-			return new Size(w, h);
-		}
-
-		public static Font Parse(this Font font, string value)
-		{
-			float size;
-			bool bold;
-			bool italic;
-			bool underline;
-			string[] values = value.Split(',');
-			if (values.Length != 5 || !float.TryParse(values[1], NumberStyles.Any, CultureInfo.InvariantCulture, out size) || !bool.TryParse(values[2], out bold) || !bool.TryParse(values[3], out italic) || !bool.TryParse(values[4], out underline))
-			{
-				throw new Exception("ParseError: Font '" + value + "'");
-			}
-			FontStyle style = FontStyle.Regular;
-			if (bold)
-				style |= FontStyle.Bold;
-			if (italic)
-				style |= FontStyle.Italic;
-			if (underline)
-				style |= FontStyle.Underline;
-			return new Font(values[0], size, style, GraphicsUnit.Pixel);
-		}
-
-		public static Color Parse(this Color color, string value)
-		{
-			int col;
-			if (value == "0")
-			{
-				col = 0;
-			}
-			else
-			{
-				if (!int.TryParse(value, System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.CurrentCulture, out col))
-				{
-					throw new Exception("ParseError: Color '" + value + "'");
-				}
-			}
-			return Color.FromArgb(col);
-		}
-
 		public static string ToBase64String(this string str)
 		{
 			byte[] bytes = ASCIIEncoding.ASCII.GetBytes(str);
@@ -159,6 +98,7 @@ namespace OSHVisualGui
 		}
 
 		#region ToCppString
+
 		public static string ToCppString(this object obj)
 		{
 			if (obj is bool)
@@ -232,30 +172,28 @@ namespace OSHVisualGui
 
 		public static string ToCppString(this FileInfo file)
 		{
-			return "Image::FromFile(\"" + file.FullName.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")";
+			return "Image::FromFile(\"" + file.FullName.Replace("\\", "/").Replace("\"", "\\\"") + "\")";
 		}
 
 		public static string ToCppString(this AnchorStyles anchor)
 		{
-			return "Anchor" + anchor.ToString().Replace(", ", "|Anchor");
+			return "AnchorStyles::" + anchor.ToString().Replace(", ", "|AnchorStyles::");
 		}
 
 		public static string ToCppString(this Keys keys)
 		{
 			return "Key::" + keys.ToString().Replace(", ", "|Key::");
 		}
+
 		#endregion
 
 		#region ToXMLString
+
 		public static string ToXMLString(this object obj)
 		{
 			if (obj is bool)
 			{
 				return ((bool)obj).ToXMLString();
-			}
-			if (obj is float)
-			{
-				return ((float)obj).ToXMLString();
 			}
 			if (obj is Point)
 			{
@@ -285,11 +223,6 @@ namespace OSHVisualGui
 			return val ? "true" : "false";
 		}
 
-		public static string ToXMLString(this float val)
-		{
-			return val.ToString(CultureInfo.InvariantCulture);
-		}
-
 		public static string ToXMLString(this Point point)
 		{
 			return point.X + "," + point.Y;
@@ -311,12 +244,6 @@ namespace OSHVisualGui
 		}
 
 		public static string ToXMLString(this AnchorStyles anchor)
-		{
-			return anchor.Serialize();
-		}
-		#endregion
-
-		public static string Serialize(this AnchorStyles anchor)
 		{
 			StringBuilder sb = new StringBuilder();
 
@@ -346,30 +273,118 @@ namespace OSHVisualGui
 			return sb.ToString();
 		}
 
-		public static AnchorStyles Parse(this AnchorStyles anchor, string value)
+		#endregion
+
+		#region FromXMLString
+
+		public static bool FromXMLString(this bool _, string value)
 		{
-			string[] styles = value.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-			AnchorStyles retanchor = AnchorStyles.None;
+			return bool.Parse(value);
+		}
+
+		public static string FromXMLString(this string _, string value)
+		{
+			return value;
+		}
+
+		public static int FromXMLString(this int _, string value)
+		{
+			return int.Parse(value);
+		}
+
+		public static long FromXMLString(this long _, string value)
+		{
+			return long.Parse(value);
+		}
+
+		public static Point FromXMLString(this Point _, string value)
+		{
+			int x;
+			int y;
+			var values = value.Split(',');
+			if (values.Length != 2 || !int.TryParse(values[0], out x) || !int.TryParse(values[1], out y))
+			{
+				throw new Exception("ParseError: Point '" + value + "'");
+			}
+			return new Point(x, y);
+		}
+
+		public static Size FromXMLString(this Size _, string value)
+		{
+			int w;
+			int h;
+			var values = value.Split(',');
+			if (values.Length != 2 || !int.TryParse(values[0], out w) || !int.TryParse(values[1], out h))
+			{
+				throw new Exception("ParseError: Size '" + value + "'");
+			}
+			return new Size(w, h);
+		}
+
+		public static Color FromXMLString(this Color _, string value)
+		{
+			int col;
+			if (value == "0")
+			{
+				col = 0;
+			}
+			else
+			{
+				if (!int.TryParse(value, System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.CurrentCulture, out col))
+				{
+					throw new Exception("ParseError: Color '" + value + "'");
+				}
+			}
+			return Color.FromArgb(col);
+		}
+
+		public static Font FromXMLString(this Font _, string value)
+		{
+			float size;
+			bool bold;
+			bool italic;
+			bool underline;
+			string[] values = value.Split(',');
+			if (values.Length != 5 || !float.TryParse(values[1], NumberStyles.Any, CultureInfo.InvariantCulture, out size) || !bool.TryParse(values[2], out bold) || !bool.TryParse(values[3], out italic) || !bool.TryParse(values[4], out underline))
+			{
+				throw new Exception("ParseError: Font '" + value + "'");
+			}
+			FontStyle style = FontStyle.Regular;
+			if (bold)
+				style |= FontStyle.Bold;
+			if (italic)
+				style |= FontStyle.Italic;
+			if (underline)
+				style |= FontStyle.Underline;
+			return new Font(values[0], size, style, GraphicsUnit.Pixel);
+		}
+
+		public static AnchorStyles FromXMLString(this AnchorStyles _, string value)
+		{
+			var styles = value.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+			AnchorStyles val = AnchorStyles.None;
 			foreach (string style in styles)
 			{
 				switch (style.ToLower())
 				{
 					case "top":
-						retanchor |= AnchorStyles.Top;
+						val |= AnchorStyles.Top;
 						break;
 					case "bottom":
-						retanchor |= AnchorStyles.Bottom;
+						val |= AnchorStyles.Bottom;
 						break;
 					case "left":
-						retanchor |= AnchorStyles.Left;
+						val |= AnchorStyles.Left;
 						break;
 					case "right":
-						retanchor |= AnchorStyles.Right;
+						val |= AnchorStyles.Right;
 						break;
 				}
 			}
-			return retanchor;
+			return val;
 		}
+
+		#endregion
 
 		private static Dictionary<string, int> offsets = new Dictionary<string, int>();
 		public static int LocationOffset(this Font font)
@@ -407,6 +422,11 @@ namespace OSHVisualGui
 
 				return x;
 			}
+		}
+
+		public static bool HasAttribute(this XElement element, string attribute)
+		{
+			return element.Attribute(attribute) != null;
 		}
 
 		public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> d, TKey key, TValue def)

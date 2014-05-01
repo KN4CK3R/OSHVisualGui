@@ -204,10 +204,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.ReadPropertiesFromXml(element);
 
-			if (element.Attribute("text") != null)
-				Text = element.Attribute("text").Value;
-			else
-				throw new Exception("Missing attribute 'text': " + element.Name);
+			if (element.HasAttribute("text"))
+				Text = Text.FromXMLString(element.Attribute("text").Value.Trim());
 		}
 	}
 }

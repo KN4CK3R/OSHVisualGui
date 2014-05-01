@@ -125,10 +125,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.ReadPropertiesFromXml(element);
 
-			if (element.Attribute("image") != null)
-			{
-				Path = element.Attribute("image").Value.Trim();
-			}
+			if (element.HasAttribute("image"))
+				Path = Path.FromXMLString(element.Attribute("image").Value.Trim());
 		}
 	}
 }

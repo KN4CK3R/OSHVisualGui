@@ -811,8 +811,7 @@ namespace OSHVisualGui
 
 		private void generateCCodeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			CodeForm codeForm = new CodeForm(form);
-			codeForm.ShowDialog();
+			new CodeForm(form).ShowDialog();
 		}
 
 		private void closeToolStripMenuItem_Click(object sender, EventArgs e)

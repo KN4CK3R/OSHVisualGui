@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Reflection;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -388,8 +389,6 @@ namespace OSHVisualGui.GuiControls
 			autoSize = DefaultAutoSize;
 
 			location = DefaultLocation;
-
-			//font = DefaultFont;
 		}
 
 		protected Control(SerializationInfo info, StreamingContext context)
@@ -584,46 +583,26 @@ namespace OSHVisualGui.GuiControls
 
 		public virtual void ReadPropertiesFromXml(XElement element)
 		{
-			if (element.Attribute("name") != null)
-				Name = element.Attribute("name").Value.Trim();
-			else
-				throw new Exception("Missing attribute 'name': " + element.Name);
-			if (element.Attribute("enabled") != null)
-				Enabled = element.Attribute("enabled").Value.Trim().ToLower() == "true";
-			else
-				throw new Exception("Missing attribute 'enabled': " + element.Name);
-			if (element.Attribute("visible") != null)
-				Visible = bool.Parse(element.Attribute("visible").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'visible': " + element.Name);
-			if (element.Attribute("location") != null)
-				Location = location.Parse(element.Attribute("location").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'location': " + element.Name);
-			if (element.Attribute("size") != null)
-				Size = size.Parse(element.Attribute("size").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'size': " + element.Name);
-			if (element.Attribute("anchor") != null)
-				Anchor = anchor.Parse(element.Attribute("anchor").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'anchor': " + element.Name);
-			if (element.Attribute("autoSize") != null)
-				AutoSize = bool.Parse(element.Attribute("autoSize").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'autoSize': " + element.Name);
-			if (element.Attribute("font") != null)
-				Font = font.Parse(element.Attribute("font").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'font': " + element.Name);
-			if (element.Attribute("foreColor") != null)
-				ForeColor = foreColor.Parse(element.Attribute("foreColor").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'foreColor': " + element.Name);
-			if (element.Attribute("backColor") != null)
-				BackColor = backColor.Parse(element.Attribute("backColor").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'backColor': " + element.Name);
+			if (element.HasAttribute("name"))
+				Name = Name.FromXMLString(element.Attribute("name").Value.Trim());
+			if (element.HasAttribute("enabled"))
+				Enabled = Enabled.FromXMLString(element.Attribute("enabled").Value.Trim());
+			if (element.HasAttribute("visible"))
+				Visible = Visible.FromXMLString(element.Attribute("visible").Value.Trim());
+			if (element.HasAttribute("location"))
+				Location = Location.FromXMLString(element.Attribute("location").Value.Trim());
+			if (element.HasAttribute("size"))
+				Size = Size.FromXMLString(element.Attribute("size").Value.Trim());
+			if (element.HasAttribute("anchor"))
+				Anchor = Anchor.FromXMLString(element.Attribute("anchor").Value.Trim());
+			if (element.HasAttribute("autosize"))
+				AutoSize = AutoSize.FromXMLString(element.Attribute("autosize").Value.Trim());
+			if (element.HasAttribute("font"))
+				Font = Font.FromXMLString(element.Attribute("font").Value.Trim());
+			if (element.HasAttribute("forecolor"))
+				ForeColor = ForeColor.FromXMLString(element.Attribute("forecolor").Value.Trim());
+			if (element.HasAttribute("backcolor"))
+				BackColor = BackColor.FromXMLString(element.Attribute("backcolor").Value.Trim());
 
 			foreach (var property in GetType().GetProperties())
 			{

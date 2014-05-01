@@ -196,10 +196,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.ReadPropertiesFromXml(element);
 
-			if (element.Attribute("color") != null)
-				Color = color.Parse(element.Attribute("color").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'color': " + element.Name);
+			if (element.HasAttribute("color"))
+				Color = Color.FromXMLString(element.Attribute("color").Value.Trim());
 		}
 	}
 }

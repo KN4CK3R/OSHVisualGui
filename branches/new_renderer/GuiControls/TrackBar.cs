@@ -173,22 +173,12 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.ReadPropertiesFromXml(element);
 
-			if (element.Attribute("tickFrequency") != null)
-				TickFrequency = int.Parse(element.Attribute("tickFrequency").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'tickFrequency': " + element.Name);
-			if (element.Attribute("minimum") != null)
-				Minimum = int.Parse(element.Attribute("minimum").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'minimum': " + element.Name);
-			if (element.Attribute("maximum") != null)
-				Maximum = int.Parse(element.Attribute("maximum").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'maximum': " + element.Name);
-			if (element.Attribute("value") != null)
-				Value = int.Parse(element.Attribute("value").Value.Trim());
-			else
-				throw new Exception("Missing attribute 'value': " + element.Name);
+			if (element.HasAttribute("tickFrequency"))
+				TickFrequency = TickFrequency.FromXMLString(element.Attribute("tickFrequency").Value.Trim());
+			if (element.HasAttribute("minimum"))
+				Minimum = Minimum.FromXMLString(element.Attribute("minimum").Value.Trim());
+			if (element.HasAttribute("maximum"))
+				Maximum = Maximum.FromXMLString(element.Attribute("maximum").Value.Trim());
 		}
 	}
 }

@@ -153,10 +153,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.ReadPropertiesFromXml(element);
 
-			if (element.Attribute("autoScrollEnabled") != null)
-				AutoScrollEnabled = element.Attribute("autoScrollEnabled").Value.Trim().ToLower() == "true";
-			else
-				throw new Exception("Missing attribute 'autoScrollEnabled': " + element.Name);
+			if (element.HasAttribute("autoScrollEnabled"))
+				AutoScrollEnabled = AutoScrollEnabled.FromXMLString(element.Attribute("autoScrollEnabled").Value.Trim());
 
 			List<string> itemList = new List<string>();
 			foreach (XElement itemElement in element.Nodes())
