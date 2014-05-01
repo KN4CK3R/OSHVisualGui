@@ -100,7 +100,7 @@ namespace OSHVisualGui.GuiControls
 					if (size.Height > Size.Height)
 						size.Height = Size.Height;
 				}*/
-				graphics.DrawImage(image, new Rectangle(new Point(), size));
+				graphics.DrawImage(image, new Rectangle(AbsoluteLocation, size));
 			}
 		}
 

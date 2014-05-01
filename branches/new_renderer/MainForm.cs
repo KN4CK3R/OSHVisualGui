@@ -585,17 +585,20 @@ namespace OSHVisualGui
 			controlShouldDrag = false;
 			controlRealDrag = false;
 
-			GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
-			if (GuiControls.Control.FocusedControl.RealParent != container)
+			if (!(GuiControls.Control.FocusedControl is GuiControls.Form))
 			{
-				GuiControls.Control.FocusedControl.Location = GuiControls.Control.FocusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
+				GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
+				if (GuiControls.Control.FocusedControl.RealParent != container)
+				{
+					GuiControls.Control.FocusedControl.Location = GuiControls.Control.FocusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
 
-				GuiControls.ContainerControl oldContainer = GuiControls.Control.FocusedControl.Parent as GuiControls.ContainerControl;
-				oldContainer.RemoveControl(GuiControls.Control.FocusedControl);
-				container.AddControl(GuiControls.Control.FocusedControl);
+					GuiControls.ContainerControl oldContainer = GuiControls.Control.FocusedControl.Parent as GuiControls.ContainerControl;
+					oldContainer.RemoveControl(GuiControls.Control.FocusedControl);
+					container.AddControl(GuiControls.Control.FocusedControl);
+				}
+
+				controlPropertyGrid.Refresh();
 			}
-
-			controlPropertyGrid.Refresh();
 		}
 
 		private void control_DragEnd(GuiControls.Control sender)
