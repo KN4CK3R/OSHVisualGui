@@ -239,13 +239,13 @@ namespace OSHVisualGui.GuiControls
 			TickEvent = new TickEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
-			yield return new KeyValuePair<string, object>("name", Name);
+			yield return new KeyValuePair<string, ChangedProperty>("name", new ChangedProperty(Name));
 			if (Enabled)
-				yield return new KeyValuePair<string, object>("enabled", Enabled);
+				yield return new KeyValuePair<string, ChangedProperty>("enabled", new ChangedProperty(Enabled));
 			if (interval != DefaultInterval)
-				yield return new KeyValuePair<string, object>("interval", Interval);
+				yield return new KeyValuePair<string, ChangedProperty>("interval", new ChangedProperty(Interval));
 		}
 
 		public override IEnumerable<Event> GetUsedEvents()

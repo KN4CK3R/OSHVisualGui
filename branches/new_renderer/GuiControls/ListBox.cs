@@ -65,18 +65,18 @@ namespace OSHVisualGui.GuiControls
 			SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
 				yield return pair;
 			}
-			yield return new KeyValuePair<string, object>("autoscrollenabled", autoScrollEnabled);
+			yield return new KeyValuePair<string, ChangedProperty>("autoscrollenabled", new ChangedProperty(autoScrollEnabled));
 			if (Items != null && Items.Length > 0)
 			{
 				foreach (var item in Items)
 				{
-					yield return new KeyValuePair<string, object>("item", item);
+					yield return new KeyValuePair<string, ChangedProperty>("item", new ChangedProperty(item, true, false));
 				}
 			}
 		}

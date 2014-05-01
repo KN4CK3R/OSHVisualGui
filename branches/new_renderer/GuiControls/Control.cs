@@ -475,27 +475,27 @@ namespace OSHVisualGui.GuiControls
 			}
 		}
 
-		public virtual IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public virtual IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
-			yield return new KeyValuePair<string, object>("name", Name);
+			yield return new KeyValuePair<string, ChangedProperty>("name", new ChangedProperty(Name));
 			if (!Enabled)
-				yield return new KeyValuePair<string, object>("enabled", Enabled);
+				yield return new KeyValuePair<string, ChangedProperty>("enabled", new ChangedProperty(Enabled));
 			if (!Visible)
-				yield return new KeyValuePair<string, object>("visible", Visible);
+				yield return new KeyValuePair<string, ChangedProperty>("visible", new ChangedProperty(Visible));
 			if (Location != DefaultLocation)
-				yield return new KeyValuePair<string, object>("location", Location);
+				yield return new KeyValuePair<string, ChangedProperty>("location", new ChangedProperty(Location));
 			if (Size != DefaultSize && AutoSize == false)
-				yield return new KeyValuePair<string, object>("size", Size);
+				yield return new KeyValuePair<string, ChangedProperty>("size", new ChangedProperty(Size));
 			if (Anchor != (AnchorStyles.Top | AnchorStyles.Left))
-				yield return new KeyValuePair<string, object>("anchor", Anchor);
+				yield return new KeyValuePair<string, ChangedProperty>("anchor", new ChangedProperty(Anchor));
 			if (AutoSize != DefaultAutoSize)
-				yield return new KeyValuePair<string, object>("autosize", AutoSize);
+				yield return new KeyValuePair<string, ChangedProperty>("autosize", new ChangedProperty(AutoSize));
 			if (!this.Font.Equals(DefaultFont))
-				yield return new KeyValuePair<string, object>("font", Font);
+				yield return new KeyValuePair<string, ChangedProperty>("font", new ChangedProperty(Font));
 			if (ForeColor != DefaultForeColor)
-				yield return new KeyValuePair<string, object>("forecolor", ForeColor);
+				yield return new KeyValuePair<string, ChangedProperty>("forecolor", new ChangedProperty(ForeColor));
 			if (BackColor != DefaultBackColor)
-				yield return new KeyValuePair<string, object>("backcolor", BackColor);
+				yield return new KeyValuePair<string, ChangedProperty>("backcolor", new ChangedProperty(BackColor));
 		}
 
 		public virtual IEnumerable<Event> GetUsedEvents()
@@ -570,9 +570,12 @@ namespace OSHVisualGui.GuiControls
 
 		protected virtual void WriteToXmlElement(XElement element)
 		{
-			foreach (var prop in GetChangedProperties())
+			foreach (var property in GetChangedProperties())
 			{
-				element.Add(new XAttribute(prop.Key, prop.Value.ToXMLString()));
+				if (property.Value.UseForXML)
+				{
+					element.Add(new XAttribute(property.Key, property.Value.ToXMLString()));
+				}
 			}
 
 			foreach (var controlEvent in GetUsedEvents())

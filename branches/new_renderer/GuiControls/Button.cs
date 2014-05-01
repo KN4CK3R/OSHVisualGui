@@ -63,7 +63,7 @@ namespace OSHVisualGui.GuiControls
 			info.AddValue("text", Text);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -71,7 +71,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Text != DefaultText)
 			{
-				yield return new KeyValuePair<string, object>("text", Text);
+				yield return new KeyValuePair<string, ChangedProperty>("text", new ChangedProperty(Text));
 			}
 		}
 

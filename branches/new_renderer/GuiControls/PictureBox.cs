@@ -65,7 +65,7 @@ namespace OSHVisualGui.GuiControls
 			DefaultStretch = Stretch = false;
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -73,7 +73,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (!string.IsNullOrEmpty(Path))
 			{
-				yield return new KeyValuePair<string, object>("image", new System.IO.FileInfo(path));
+				yield return new KeyValuePair<string, ChangedProperty>("image", new ChangedProperty(new System.IO.FileInfo(path)));
 			}
 		}
 

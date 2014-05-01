@@ -50,7 +50,7 @@ namespace OSHVisualGui.GuiControls
 			SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -60,7 +60,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				foreach (var item in Items)
 				{
-					yield return new KeyValuePair<string, object>("item", item);
+					yield return new KeyValuePair<string, ChangedProperty>("item", new ChangedProperty(item, true, false));
 				}
 			}
 		}

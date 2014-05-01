@@ -145,15 +145,15 @@ namespace OSHVisualGui.GuiControls
 			Mode = DragMode.None;
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
-			yield return new KeyValuePair<string, object>("name", Name);
+			yield return new KeyValuePair<string, ChangedProperty>("name", new ChangedProperty(Name));
 			if (ForeColor != DefaultForeColor)
-				yield return new KeyValuePair<string, object>("forecolor", ForeColor);
+				yield return new KeyValuePair<string, ChangedProperty>("forecolor", new ChangedProperty(ForeColor));
 			if (BackColor != DefaultBackColor)
-				yield return new KeyValuePair<string, object>("backcolor", BackColor);
+				yield return new KeyValuePair<string, ChangedProperty>("backcolor", new ChangedProperty(BackColor));
 			if (Text != DefaultText)
-				yield return new KeyValuePair<string, object>("text", Text);
+				yield return new KeyValuePair<string, ChangedProperty>("text", new ChangedProperty(Text));
 		}
 
 		public override void AddControl(Control control)

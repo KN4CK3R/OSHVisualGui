@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangedProperty.cs" />
     <Compile Include="CodeForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -123,13 +123,13 @@ namespace OSHVisualGui.GuiControls
 			ConstructorEvent = new ConstructorEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
 				yield return pair;
 			}
-			yield return new KeyValuePair<string, object>("text", Text);
+			yield return new KeyValuePair<string, ChangedProperty>("text", new ChangedProperty(Text));
 		}
 
 		public override void AddControl(Control control)

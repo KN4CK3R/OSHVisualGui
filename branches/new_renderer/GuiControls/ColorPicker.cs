@@ -67,7 +67,7 @@ namespace OSHVisualGui.GuiControls
 			ColorChangedEvent = new ColorChangedEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -75,7 +75,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Color != Color.Black)
 			{
-				yield return new KeyValuePair<string, object>("color", Color);
+				yield return new KeyValuePair<string, ChangedProperty>("color", new ChangedProperty(Color));
 			}
 		}
 

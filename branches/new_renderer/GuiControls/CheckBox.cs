@@ -108,7 +108,7 @@ namespace OSHVisualGui.GuiControls
 			CheckedChangedEvent = new CheckedChangedEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -116,11 +116,11 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Checked != DefaultChecked)
 			{
-				yield return new KeyValuePair<string, object>("checked", Checked);
+				yield return new KeyValuePair<string, ChangedProperty>("checked", new ChangedProperty(Checked));
 			}
 			if (Text != DefaultText)
 			{
-				yield return new KeyValuePair<string, object>("text", Text);
+				yield return new KeyValuePair<string, ChangedProperty>("text", new ChangedProperty(Text));
 			}
 		}
 

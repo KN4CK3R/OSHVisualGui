@@ -96,7 +96,7 @@ namespace OSHVisualGui.GuiControls
 			BarColor = Color.FromArgb(unchecked((int)0xFF67AFF5));
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -104,15 +104,15 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Minimum != 0)
 			{
-				yield return new KeyValuePair<string, object>("minimum", Minimum);
+				yield return new KeyValuePair<string, ChangedProperty>("minimum", new ChangedProperty(Minimum));
 			}
 			if (Maximum != 100)
 			{
-				yield return new KeyValuePair<string, object>("maximum", Maximum);
+				yield return new KeyValuePair<string, ChangedProperty>("maximum", new ChangedProperty(Maximum));
 			}
 			if (Value != 0)
 			{
-				yield return new KeyValuePair<string, object>("value", Value);
+				yield return new KeyValuePair<string, ChangedProperty>("value", new ChangedProperty(Value));
 			}
 		}
 

@@ -112,7 +112,7 @@ namespace OSHVisualGui.GuiControls
 			HotkeyChangedEvent = new HotkeyChangedEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -120,11 +120,11 @@ namespace OSHVisualGui.GuiControls
 			}
 			if ((hotkey & Keys.Modifiers) != Keys.None)
 			{
-				yield return new KeyValuePair<string, object>("modifier", hotkey & Keys.Modifiers);
+				yield return new KeyValuePair<string, ChangedProperty>("modifier", new ChangedProperty(hotkey & Keys.Modifiers));
 			}
 			if ((hotkey & Keys.KeyCode) != Keys.None)
 			{
-				yield return new KeyValuePair<string, object>("hotkey", hotkey & Keys.KeyCode);
+				yield return new KeyValuePair<string, ChangedProperty>("hotkey", new ChangedProperty(hotkey & Keys.KeyCode));
 			}
 		}
 

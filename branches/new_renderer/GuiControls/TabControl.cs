@@ -219,7 +219,7 @@ namespace OSHVisualGui.GuiControls
 			SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
 		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -227,7 +227,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (SelectedTabPage != DefaultSelectedTabPage)
 			{
-				yield return new KeyValuePair<string, object>("selectedindex", SelectedTabPage);
+				yield return new KeyValuePair<string, ChangedProperty>("selectedindex", new ChangedProperty(SelectedTabPage));
 			}
 		}
 
