@@ -32,9 +32,14 @@ namespace OSHVisualGui.GuiControls
 			set
 			{
 				path = value;
+				if (string.IsNullOrEmpty(path))
+				{
+					image = null;
+					return;
+				}
 				try
 				{
-					image = Image.FromFile(path);
+					image = (Bitmap)Bitmap.FromFile(path);
 				}
 				catch
 				{
@@ -42,7 +47,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
-		private Image image;
+		private Bitmap image;
 		private bool DefaultStretch;
 		public bool Stretch
 		{
@@ -92,15 +97,15 @@ namespace OSHVisualGui.GuiControls
 
 			if (image != null)
 			{
-				var size = Stretch ? Size : image.Size;
-				/*if (!Stretch)
+				if (Stretch == false)
 				{
-					if (size.Width > Size.Width)
-						size.Width = Size.Width;
-					if (size.Height > Size.Height)
-						size.Height = Size.Height;
-				}*/
-				graphics.DrawImage(image, new Rectangle(AbsoluteLocation, size));
+					var size = new Size(Math.Min(image.Size.Width, Size.Width), Math.Min(image.Size.Height, Size.Height));
+					graphics.DrawImageUnscaledAndClipped(image, new Rectangle(AbsoluteLocation, size));
+				}
+				else
+				{
+					graphics.DrawImage(image, new Rectangle(AbsoluteLocation, Size));
+				}
 			}
 		}
 
