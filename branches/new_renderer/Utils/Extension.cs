@@ -162,7 +162,7 @@ namespace OSHVisualGui
 
 		public static string ToCppString(this Color color)
 		{
-			return "Color(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + ")";
+			return "Color::FromARGB(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + ")";
 		}
 
 		public static string ToCppString(this Font font)
