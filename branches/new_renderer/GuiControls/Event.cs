@@ -281,7 +281,7 @@ namespace OSHVisualGui.GuiControls
 	public class ColorChangedEvent : Event
 	{
 		public ColorChangedEvent(Control control)
-			: base(control, "_ColorChanged", new string[] { "Control *sender", "Drawing::Color &color" })
+			: base(control, "_ColorChanged", new string[] { "Control *sender", "const Drawing::Color &color" })
 		{
 
 		}
