@@ -1,16 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Runtime.Serialization;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public class Button : ScalableControl
 	{
 		#region Properties
@@ -25,24 +20,6 @@ namespace OSHVisualGui.GuiControls
 
 		public Button()
 		{
-			Initialize();
-
-			Size = DefaultSize;
-
-			BackColor = DefaultBackColor;
-			ForeColor = DefaultForeColor;
-		}
-
-		protected Button(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-			Initialize();
-
-			Text = info.GetString("text");
-		}
-
-		private void Initialize()
-		{
 			Type = ControlType.Button;
 
 			label = new Label();
@@ -54,16 +31,14 @@ namespace OSHVisualGui.GuiControls
 
 			DefaultBackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
 			DefaultForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+
+			Size = DefaultSize;
+
+			BackColor = DefaultBackColor;
+			ForeColor = DefaultForeColor;
 		}
 
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-
-			info.AddValue("text", Text);
-		}
-
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
@@ -71,7 +46,7 @@ namespace OSHVisualGui.GuiControls
 			}
 			if (Text != DefaultText)
 			{
-				yield return new KeyValuePair<string, object>("SetText", Text);
+				yield return new KeyValuePair<string, ChangedProperty>("text", new ChangedProperty(Text));
 			}
 		}
 
@@ -125,20 +100,12 @@ namespace OSHVisualGui.GuiControls
 			return Name + " - Button";
 		}
 
-		protected override void WriteToXmlElement(XElement element)
-		{
-			base.WriteToXmlElement(element);
-			element.Add(new XAttribute("text", Text));
-		}
-
 		public override void ReadPropertiesFromXml(XElement element)
 		{
 			base.ReadPropertiesFromXml(element);
 
-			if (element.Attribute("text") != null)
-				Text = element.Attribute("text").Value;
-			else
-				throw new Exception("Missing attribute 'text': " + element.Name);
+			if (element.HasAttribute("text"))
+				Text = Text.FromXMLString(element.Attribute("text").Value.Trim());
 		}
 	}
 }

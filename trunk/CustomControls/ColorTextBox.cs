@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Drawing;
@@ -17,7 +16,18 @@ namespace OSHVisualGui
 		}
 
 		private ColorStyle style;
-		public ColorStyle Style { get { return style; } set { style = value; ColorToText(Color); } }
+		public ColorStyle Style
+		{
+			get
+			{
+				return style;
+			}
+			set
+			{
+				style = value;
+				ColorToText(Color);
+			}
+		}
 		private Color color;
 		public Color Color
 		{

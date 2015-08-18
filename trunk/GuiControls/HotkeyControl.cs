@@ -1,37 +1,97 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Xml.Linq;
 using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	class HotkeyControl : ScalableControl
-    {
+	{
 		private TextBox textBox;
 
-        #region Properties
-        internal override string DefaultName { get { return "hotkeyControl"; } }
+		#region Properties
+		internal override string DefaultName
+		{
+			get
+			{
+				return "hotkeyControl";
+			}
+		}
 
-		public override Size Size { get { return base.Size; } set { base.Size = value; textBox.Size = Size; } }
-		public override Font Font { get { return base.Font; } set { base.Font = value; textBox.Font = Font; } }
-		public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; textBox.ForeColor = ForeColor; } }
-		public override Color BackColor { get { return base.BackColor; } set { base.BackColor = value; textBox.BackColor = BackColor; } }
-		
+		public override Size Size
+		{
+			get
+			{
+				return base.Size;
+			}
+			set
+			{
+				base.Size = value;
+				textBox.Size = Size;
+			}
+		}
+		public override Font Font
+		{
+			get
+			{
+				return base.Font;
+			}
+			set
+			{
+				base.Font = value;
+				textBox.Font = Font;
+			}
+		}
+		public override Color ForeColor
+		{
+			get
+			{
+				return base.ForeColor;
+			}
+			set
+			{
+				base.ForeColor = value;
+				textBox.ForeColor = ForeColor;
+			}
+		}
+		public override Color BackColor
+		{
+			get
+			{
+				return base.BackColor;
+			}
+			set
+			{
+				base.BackColor = value;
+				textBox.BackColor = BackColor;
+			}
+		}
+
 		private Keys hotkey;
-		public Keys Hotkey { get { return hotkey; } set { hotkey = value; HotkeyToText(); } }
+		public Keys Hotkey
+		{
+			get
+			{
+				return hotkey;
+			}
+			set
+			{
+				hotkey = value;
+				HotkeyToText();
+			}
+		}
 
 		[Category("Events")]
-		public HotkeyChangedEvent HotkeyChangedEvent { get; set; }
-        #endregion
+		public HotkeyChangedEvent HotkeyChangedEvent
+		{
+			get;
+			set;
+		}
+		#endregion
 
 		public HotkeyControl()
-        {
-            Type = ControlType.HotkeyControl;
+		{
+			Type = ControlType.HotkeyControl;
 
 			textBox = new TextBox();
 			textBox.Location = new Point(0, 0);
@@ -45,24 +105,21 @@ namespace OSHVisualGui.GuiControls
 			Hotkey = Keys.None;
 
 			HotkeyChangedEvent = new HotkeyChangedEvent(this);
-        }
+		}
 
-		public override IEnumerable<KeyValuePair<string, object>> GetChangedProperties()
+		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
 		{
 			foreach (var pair in base.GetChangedProperties())
 			{
-				if (pair.Key != "SetText")
-				{
-					yield return pair;
-				}
+				yield return pair;
 			}
 			if ((hotkey & Keys.Modifiers) != Keys.None)
 			{
-				yield return new KeyValuePair<string, object>("SetModifier", hotkey & Keys.Modifiers);
+				yield return new KeyValuePair<string, ChangedProperty>("modifier", new ChangedProperty(hotkey & Keys.Modifiers));
 			}
 			if ((hotkey & Keys.KeyCode) != Keys.None)
 			{
-				yield return new KeyValuePair<string, object>("SetHotkey", hotkey & Keys.KeyCode);
+				yield return new KeyValuePair<string, ChangedProperty>("hotkey", new ChangedProperty(hotkey & Keys.KeyCode));
 			}
 		}
 
@@ -78,17 +135,17 @@ namespace OSHVisualGui.GuiControls
 			textBox.Render(graphics);
 		}
 
-        public override Control Copy()
-        {
+		public override Control Copy()
+		{
 			HotkeyControl copy = new HotkeyControl();
-            CopyTo(copy);
-            return copy;
-        }
+			CopyTo(copy);
+			return copy;
+		}
 
-        protected override void CopyTo(Control copy)
-        {
-            base.CopyTo(copy);
-        }
+		protected override void CopyTo(Control copy)
+		{
+			base.CopyTo(copy);
+		}
 
 		private string ModifierToText()
 		{
@@ -117,9 +174,9 @@ namespace OSHVisualGui.GuiControls
 			}
 		}
 
-        public override string ToString()
-        {
-            return Name + " - HotkeyControl";
-        }
-    }
+		public override string ToString()
+		{
+			return Name + " - HotkeyControl";
+		}
+	}
 }
