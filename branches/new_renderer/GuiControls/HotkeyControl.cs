@@ -1,15 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Xml.Linq;
 using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	class HotkeyControl : ScalableControl
 	{
 		private TextBox textBox;

@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Collections;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public class TabControl : ContainerControl
 	{
 		#region Properties
@@ -491,7 +485,6 @@ namespace OSHVisualGui.GuiControls
 
 		#region Internals
 
-		[Serializable]
 		internal class TabPageButtonBinding
 		{
 			public int index;

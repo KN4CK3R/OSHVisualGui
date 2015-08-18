@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public abstract class ContainerControl : ScalableControl
 	{
 		public override Size Size

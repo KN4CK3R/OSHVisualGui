@@ -1,14 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
 using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	class ColorBar : ScalableControl
 	{
 		#region Properties

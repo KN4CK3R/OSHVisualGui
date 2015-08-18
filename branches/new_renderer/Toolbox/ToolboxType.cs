@@ -2,22 +2,13 @@ using System;
 
 namespace OSHVisualGui.Toolbox
 {
-	[Serializable]
 	public class ToolboxType
 	{
-		private Type type;
+		public Type Type { get; private set; }
 
 		public ToolboxType(Type type)
 		{
-			this.type = type;
-		}
-
-		public Type Type
-		{
-			get
-			{
-				return type;
-			}
+			Type = type;
 		}
 	}
 }

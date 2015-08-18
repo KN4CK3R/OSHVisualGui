@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
 using System.Xml.Linq;
 using System.ComponentModel;
 using System.Drawing.Design;
-using System.IO;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public class PictureBox : ScalableControl
 	{
 		#region Properties

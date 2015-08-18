@@ -1,13 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using System.Windows.Forms;
-using System.Globalization;
-using System.Runtime.Serialization;
-using System.Reflection;
 
 namespace OSHVisualGui.GuiControls
 {
@@ -57,12 +53,12 @@ namespace OSHVisualGui.GuiControls
 
 		public Mouse(Point location, MouseStates buttons)
 		{
-			this.Location = location;
-			this.Buttons = buttons;
+			Location = location;
+			Buttons = buttons;
 		}
 	}
 
-	public abstract class Control : ISerializable
+	public abstract class Control
 	{
 		internal virtual string DefaultName
 		{
@@ -145,9 +141,9 @@ namespace OSHVisualGui.GuiControls
 				size = value.LimitMin(MinimumSize.Width, MinimumSize.Height);
 			}
 		}
-		internal System.Windows.Forms.AnchorStyles anchor;
+		internal AnchorStyles anchor;
 		[Editor(typeof(System.Windows.Forms.Design.AnchorEditor), typeof(System.Drawing.Design.UITypeEditor))]
-		public virtual System.Windows.Forms.AnchorStyles Anchor
+		public virtual AnchorStyles Anchor
 		{
 			get
 			{
@@ -381,52 +377,18 @@ namespace OSHVisualGui.GuiControls
 
 		public Control()
 		{
-			Initialize();
-
 			enabled = true;
 			visible = true;
 
 			autoSize = DefaultAutoSize;
 
 			location = DefaultLocation;
-		}
 
-		protected Control(SerializationInfo info, StreamingContext context)
-		{
-			Initialize();
-
-			enabled = info.GetBoolean("enabled");
-			visible = info.GetBoolean("visible");
-
-			autoSize = info.GetBoolean("autoSize");
-			size = (Size)info.GetValue("size", typeof(Size));
-
-			Anchor = (AnchorStyles)info.GetValue("anchor", typeof(AnchorStyles));
-
-			Font = info.GetValue("font", typeof(Font)) as Font;
-			ForeColor = (Color)info.GetValue("foreColor", typeof(Color));
-			BackColor = (Color)info.GetValue("backColor", typeof(Color));
-
-			foreach (var it in info)
-			{
-				if (it.Name.Contains("Event"))
-				{
-					var controlEvent = GetType().GetProperty(it.Name).GetValue(this, null) as Event;
-					if (controlEvent != null)
-					{
-						controlEvent.Code = it.Value.ToString();
-					}
-				}
-			}
-		}
-
-		private void Initialize()
-		{
 			DefaultAutoSize = false;
 
 			DefaultLocation = new Point(6, 6);
 
-			Anchor = AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left;
+			Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
 			MinimumSize = new Size(5, 5);
 
@@ -438,6 +400,9 @@ namespace OSHVisualGui.GuiControls
 			_zOrder = 0;
 
 			DefaultFont = new Font("Arial", 11, GraphicsUnit.Pixel);
+
+			ForeColor = DefaultForeColor;
+			BackColor = DefaultBackColor;
 
 			LocationChangedEvent = new LocationChangedEvent(this);
 			SizeChangedEvent = new SizeChangedEvent(this);
@@ -455,24 +420,6 @@ namespace OSHVisualGui.GuiControls
 			MouseCaptureChangedEvent = new MouseCaptureChangedEvent(this);
 			FocusGotEvent = new FocusGotEvent(this);
 			FocusLostEvent = new FocusLostEvent(this);
-		}
-
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue("name", name);
-			info.AddValue("enabled", enabled);
-			info.AddValue("visible", visible);
-			info.AddValue("location", location);
-			info.AddValue("size", size);
-			info.AddValue("anchor", anchor);
-			info.AddValue("autoSize", autoSize);
-			info.AddValue("font", font);
-			info.AddValue("foreColor", foreColor);
-			info.AddValue("backColor", backColor);
-			foreach (var controlEvent in GetUsedEvents())
-			{
-				info.AddValue(controlEvent.GetType().Name, controlEvent.Code);
-			}
 		}
 
 		public virtual IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
@@ -552,13 +499,6 @@ namespace OSHVisualGui.GuiControls
 		public override string ToString()
 		{
 			return name;
-		}
-
-		[OnDeserialized]
-		internal void OnDeserializedMethod(StreamingContext context)
-		{
-			ForeColor = foreColor;
-			BackColor = backColor;
 		}
 
 		public XElement SerializeToXml()

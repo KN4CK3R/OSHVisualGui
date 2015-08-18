@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Xml.Linq;
+﻿using System.Drawing;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public class LinkLabel : Label
 	{
 		#region Properties
@@ -39,6 +33,9 @@ namespace OSHVisualGui.GuiControls
 			Type = ControlType.LinkLabel;
 
 			underlinedFont = new Font(Font, FontStyle.Underline);
+
+			DefaultBackColor = Color.Empty;
+			DefaultForeColor = Color.White;
 		}
 
 		public override void Render(Graphics graphics)

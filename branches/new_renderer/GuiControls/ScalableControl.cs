@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public abstract class ScalableControl : Control
 	{
 		public enum DragDirection
@@ -94,17 +91,6 @@ namespace OSHVisualGui.GuiControls
 		public event DragEventHandler DragEnd;
 
 		public ScalableControl()
-		{
-			Initialize();
-		}
-
-		protected ScalableControl(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-			Initialize();
-		}
-
-		private void Initialize()
 		{
 			drag = new bool[8];
 			dragPoints = new DragPoint[8];

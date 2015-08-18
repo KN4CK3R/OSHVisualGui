@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OSHVisualGui
+﻿namespace OSHVisualGui
 {
 	public struct ChangedProperty
 	{
+		public object Value { get; }
+		public bool UseForCPP { get; }
+		public bool UseForXML { get; }
+
 		public ChangedProperty(object value)
 			: this(value, true, true)
 		{
@@ -19,9 +18,5 @@ namespace OSHVisualGui
 			UseForCPP = useForCPP;
 			UseForXML = useForXML;
 		}
-
-		public object Value;
-		public bool UseForCPP;
-		public bool UseForXML;
 	}
 }

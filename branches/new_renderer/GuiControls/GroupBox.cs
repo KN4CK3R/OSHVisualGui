@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	class GroupBox : ContainerControl
 	{
 		#region Properties

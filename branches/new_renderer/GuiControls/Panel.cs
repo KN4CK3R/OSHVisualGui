@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
-using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public class Panel : ContainerControl
 	{
 		#region Properties

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public class Label : ScalableControl
 	{
 		#region Properties
@@ -90,8 +87,8 @@ namespace OSHVisualGui.GuiControls
 			DefaultAutoSize = AutoSize = true;
 			MinimumSize = new Size(0, 0);
 
-			DefaultBackColor = BackColor = Color.Empty;
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			DefaultBackColor = Color.Empty;
+			DefaultForeColor = Color.White;
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()

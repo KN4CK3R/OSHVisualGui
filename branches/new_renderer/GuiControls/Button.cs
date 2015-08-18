@@ -1,16 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Runtime.Serialization;
 
 namespace OSHVisualGui.GuiControls
 {
-	[Serializable]
 	public class Button : ScalableControl
 	{
 		#region Properties
@@ -25,24 +20,6 @@ namespace OSHVisualGui.GuiControls
 
 		public Button()
 		{
-			Initialize();
-
-			Size = DefaultSize;
-
-			BackColor = DefaultBackColor;
-			ForeColor = DefaultForeColor;
-		}
-
-		protected Button(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-			Initialize();
-
-			Text = info.GetString("text");
-		}
-
-		private void Initialize()
-		{
 			Type = ControlType.Button;
 
 			label = new Label();
@@ -54,13 +31,11 @@ namespace OSHVisualGui.GuiControls
 
 			DefaultBackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
 			DefaultForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
-		}
 
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
+			Size = DefaultSize;
 
-			info.AddValue("text", Text);
+			BackColor = DefaultBackColor;
+			ForeColor = DefaultForeColor;
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
