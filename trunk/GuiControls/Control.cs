@@ -122,7 +122,7 @@ namespace OSHVisualGui.GuiControls
 		protected bool isClicked;
 		public bool isSubControl;
 
-		public delegate void MouseEventHandler(Control sender, Mouse mouse);
+		public delegate void MouseEventHandler(Control sender, Mouse e);
 		public event MouseEventHandler MouseDown;
 		public event MouseEventHandler MouseUp;
 		public event MouseEventHandler MouseMove;

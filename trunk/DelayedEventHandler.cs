@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Text;
+using System.Timers;
 
 namespace OSHVisualGui
 {
@@ -19,7 +19,7 @@ namespace OSHVisualGui
         {
 
             delayTimer.Interval = delay;
-            delayTimer.Tick += new EventHandler(delayTimer_Tick);
+            delayTimer.Elapsed += new ElapsedEventHandler(delayTimer_Tick);
             
             this.eventDelegate = eventDelegate;
 
@@ -28,7 +28,7 @@ namespace OSHVisualGui
 
         public int Delay
         {
-            get { return this.delayTimer.Interval; }
+            get { return (int)this.delayTimer.Interval; }
             set { this.delayTimer.Interval = value; }
         }
 
