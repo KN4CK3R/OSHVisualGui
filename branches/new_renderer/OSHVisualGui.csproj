@@ -192,7 +192,6 @@
     <Compile Include="Toolbox\ToolboxItem.cs" />
     <Compile Include="Toolbox\ToolboxItemBase.cs" />
     <Compile Include="Toolbox\ToolboxType.cs" />
-    <Compile Include="Utils\XorStr.cs" />
     <EmbeddedResource Include="CodeForm.resx">
       <DependentUpon>CodeForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -332,7 +332,7 @@ namespace OSHVisualGui
 		{
 			if (Options.XorStr && value is string)
 			{
-				return XorStr.Generate((string)value);
+				return string.Format("_xor_({0})", value.ToCppString());
 			}
 			else
 			{
