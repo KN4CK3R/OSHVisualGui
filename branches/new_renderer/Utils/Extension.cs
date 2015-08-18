@@ -37,9 +37,19 @@ namespace OSHVisualGui
 			return new Point(point.X + point2.X, point.Y + point2.Y);
 		}
 
+		public static Point Add(this Point point, int x, int y)
+		{
+			return new Point(point.X + x, point.Y + y);
+		}
+
 		public static Point Substract(this Point point, Point point2)
 		{
 			return new Point(point.X - point2.X, point.Y - point2.Y);
+		}
+
+		public static Point Substract(this Point point, int x, int y)
+		{
+			return new Point(point.X - x, point.Y - y);
 		}
 
 		public static Size Add(this Size size, Size size2)
@@ -47,9 +57,19 @@ namespace OSHVisualGui
 			return new Size(size.Width + size2.Width, size.Height + size2.Height);
 		}
 
+		public static Size Add(this Size size, int width, int height)
+		{
+			return new Size(size.Width + width, size.Height + height);
+		}
+
 		public static Size Substract(this Size size, Size size2)
 		{
 			return new Size(size.Width - size2.Width, size.Height - size2.Height);
+		}
+
+		public static Size Substract(this Size size, int width, int height)
+		{
+			return new Size(size.Width - width, size.Height - height);
 		}
 
 		public static Size LimitMin(this Size size, int minWidth, int minHeight)

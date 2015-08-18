@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
@@ -144,11 +143,13 @@ namespace OSHVisualGui.GuiControls
 
 		public override void Render(Graphics graphics)
 		{
-			Rectangle rect = new Rectangle(AbsoluteLocation, Size);
-			LinearGradientBrush linearBrush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 100, 100, 100)), LinearGradientMode.Vertical);
+			graphics.FillRectangle(new SolidBrush(BackColor.Substract(Color.FromArgb(0, 100, 100, 100))), new Rectangle(AbsoluteLocation, Size));
 
+			var rect = new Rectangle(AbsoluteLocation.Add(1, 1), Size.Substract(2, 2));
+			var linearBrush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 90, 90, 90)), LinearGradientMode.Vertical);
 			graphics.FillRectangle(linearBrush, rect);
-			graphics.DrawString(text, Font, foreBrush, new Point(AbsoluteLocation.X, AbsoluteLocation.Y + 2));
+
+			graphics.DrawString(text, Font, foreBrush, new Point(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 3));
 			graphics.FillRectangle(new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50))), AbsoluteLocation.X + 5, AbsoluteLocation.Y + 17 + 2, Size.Width - 10, 1);
 
 			Point crossLocation = new Point(AbsoluteLocation.X + Size.Width - 16, AbsoluteLocation.Y + 6);
