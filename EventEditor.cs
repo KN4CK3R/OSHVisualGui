@@ -7,6 +7,7 @@ using System.Windows.Forms.Design;
 using FastColoredTextBoxNS;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Security.Permissions;
 
 namespace OSHVisualGui
 {
@@ -99,6 +100,7 @@ namespace OSHVisualGui
             return UITypeEditorEditStyle.DropDown;
         }
 
+		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
         {
             IWindowsFormsEditorService svc = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
