@@ -98,11 +98,7 @@ namespace OSHVisualGui
 
 			var code = new StringBuilder();
 
-			var includeGuard = "OSHGUI_";
-			includeGuard += string.IsNullOrEmpty(Options.NamespaceCombined) ? string.Empty : Options.NamespaceCombined.ToUpper().Replace('.', '_') + "_";
-			includeGuard += form.Name.ToUpper() + "_HPP";
-			code.AppendLine("#ifndef " + includeGuard);
-			code.AppendLine("#define " + includeGuard + "\n");
+			code.AppendLine("#pragma once\n");
 			code.AppendLine("#include <OSHGui.hpp>");
 			code.AppendLine(Options.XorStr ? "#include <XorStr.hpp>\n" : string.Empty);
 			code.Append(GetNamespacesBegin());
@@ -172,7 +168,6 @@ namespace OSHVisualGui
 
 			code.AppendLine(prefix + "};");
 			code.AppendLine(GetNamespacesEnd());
-			code.AppendLine("#endif");
 
 			return code.ToString();
 		}
