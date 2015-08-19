@@ -34,8 +34,8 @@ namespace OSHVisualGui.GuiControls
 
 			underlinedFont = new Font(Font, FontStyle.Underline);
 
-			DefaultBackColor = Color.Empty;
-			DefaultForeColor = Color.White;
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.Empty;
 		}
 
 		public override void Render(Graphics graphics)

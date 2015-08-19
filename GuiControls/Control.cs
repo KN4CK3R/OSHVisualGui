@@ -380,17 +380,12 @@ namespace OSHVisualGui.GuiControls
 			enabled = true;
 			visible = true;
 
-			autoSize = DefaultAutoSize;
+			autoSize = DefaultAutoSize = false;
 
-			location = DefaultLocation;
-
-			DefaultAutoSize = false;
-
-			DefaultLocation = new Point(6, 6);
-
-			Anchor = AnchorStyles.Top | AnchorStyles.Left;
-
+			location = DefaultLocation = new Point(6, 6);
 			MinimumSize = new Size(5, 5);
+
+			anchor = AnchorStyles.Top | AnchorStyles.Left;
 
 			isFocusable = true;
 			isFocused = false;
@@ -401,8 +396,8 @@ namespace OSHVisualGui.GuiControls
 
 			DefaultFont = new Font("Arial", 11, GraphicsUnit.Pixel);
 
-			ForeColor = DefaultForeColor;
-			BackColor = DefaultBackColor;
+			DefaultForeColor = Color.Empty;
+			DefaultBackColor = Color.Empty;
 
 			LocationChangedEvent = new LocationChangedEvent(this);
 			SizeChangedEvent = new SizeChangedEvent(this);

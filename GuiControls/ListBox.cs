@@ -53,10 +53,10 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.ListBox;
 
-			DefaultSize = Size = new Size(120, 95);
+			Size = DefaultSize = new Size(120, 95);
 
-			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF171614));
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF171614));
 
 			SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
 		}
@@ -67,7 +67,10 @@ namespace OSHVisualGui.GuiControls
 			{
 				yield return pair;
 			}
-			yield return new KeyValuePair<string, ChangedProperty>("autoscrollenabled", new ChangedProperty(autoScrollEnabled));
+			if (autoScrollEnabled)
+			{
+				yield return new KeyValuePair<string, ChangedProperty>("autoscrollenabled", new ChangedProperty(autoScrollEnabled));
+			}
 			if (Items != null && Items.Length > 0)
 			{
 				foreach (var item in Items)

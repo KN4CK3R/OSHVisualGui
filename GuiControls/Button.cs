@@ -29,13 +29,10 @@ namespace OSHVisualGui.GuiControls
 
 			DefaultSize = new Size(92, 24);
 
-			DefaultBackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
-			DefaultForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF4E4E4E));
 
 			Size = DefaultSize;
-
-			BackColor = DefaultBackColor;
-			ForeColor = DefaultForeColor;
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()

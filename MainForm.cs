@@ -59,7 +59,7 @@ namespace OSHVisualGui
 			renderer = Graphics.FromHwnd(this.Handle);
 			renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
-			form = new GuiControls.Form();
+			form = new GuiControls.Form(new Point(6, 6));
 			form.Text = form.Name = "Form1";
 			form.DragEnd += control_DragEnd;
 			AddControlToList(form);

@@ -87,9 +87,9 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.GroupBox;
 
-			DefaultText = string.Empty;
+			Text = DefaultText = string.Empty;
 
-			DefaultSize = Size = new Size(200, 200);
+			Size = DefaultSize = new Size(200, 200);
 
 			label.Location = new Point(5, -1);
 			label.isSubControl = true;
@@ -99,8 +99,8 @@ namespace OSHVisualGui.GuiControls
 			panel.isSubControl = true;
 			AddSubControl(panel);
 
-			DefaultBackColor = BackColor = Color.Empty;
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.Empty;
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()

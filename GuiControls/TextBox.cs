@@ -41,12 +41,12 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.TextBox;
 
-			DefaultText = text = string.Empty;
+			Text = DefaultText = string.Empty;
 
-			DefaultSize = Size = new Size(100, 24);
+			Size = DefaultSize = new Size(100, 24);
 
-			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF242321));
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF242321));
 
 			TextChangedEvent = new TextChangedEvent(this);
 		}

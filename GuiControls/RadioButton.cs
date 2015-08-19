@@ -42,6 +42,9 @@ namespace OSHVisualGui.GuiControls
 		public RadioButton()
 		{
 			Type = ControlType.RadioButton;
+
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF222222));
 		}
 
 		public override void Render(Graphics graphics)

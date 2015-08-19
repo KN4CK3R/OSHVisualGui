@@ -125,6 +125,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.TabPage;
 
+			Mode = DragMode.None;
+
 			button = null;
 
 			containerPanel.Location = new Point(2, 2);
@@ -132,14 +134,12 @@ namespace OSHVisualGui.GuiControls
 			containerPanel.Parent = this;
 			AddSubControl(containerPanel);
 
-			DefaultText = string.Empty;
+			Text = DefaultText = string.Empty;
 
-			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF474747));
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF474747));
 
 			//isSubControl = true;
-
-			Mode = DragMode.None;
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
