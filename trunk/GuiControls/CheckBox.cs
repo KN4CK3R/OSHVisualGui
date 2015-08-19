@@ -97,10 +97,10 @@ namespace OSHVisualGui.GuiControls
 			DefaultChecked = false;
 			DefaultText = string.Empty;
 
-			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF222222));
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF222222));
 
-			DefaultAutoSize = AutoSize = true;
+			AutoSize = DefaultAutoSize = true;
 
 			CalculateAbsoluteLocation();
 

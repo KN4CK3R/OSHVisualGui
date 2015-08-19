@@ -54,12 +54,12 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.ColorPicker;
 
-			Size = new Size(100, 150);
+			Size = DefaultSize = new Size(100, 150);
 
-			BackColor = Color.Empty;
-			ForeColor = Color.Empty;
+			Color = Color.Black;
 
-			Color = Color.White;
+			ForeColor = DefaultForeColor = Color.Empty;
+			BackColor = DefaultBackColor = Color.Empty;
 
 			ColorChangedEvent = new ColorChangedEvent(this);
 		}

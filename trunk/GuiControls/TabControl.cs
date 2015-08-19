@@ -205,10 +205,10 @@ namespace OSHVisualGui.GuiControls
 			nextSwitchButton = new TabControlSwitchButton(1);
 			AddSubControl(nextSwitchButton);
 
-			DefaultSize = Size = new Size(200, 200);
+			Size = DefaultSize = new Size(200, 200);
 
-			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF737373));
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF737373));
 
 			SelectedIndexChangedEvent = new SelectedIndexChangedEvent(this);
 		}

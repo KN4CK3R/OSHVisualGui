@@ -92,10 +92,10 @@ namespace OSHVisualGui.GuiControls
 			maximum = 10;
 			tickFrequency = 1;
 
-			DefaultSize = Size = new Size(110, 18);
+			Size = DefaultSize = new Size(110, 18);
 
-			DefaultBackColor = BackColor = Color.Empty;
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFA6A4A1));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.Empty;
 
 			ValueChangedEvent = new ValueChangedEvent(this);
 		}

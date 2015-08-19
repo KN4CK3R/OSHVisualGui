@@ -63,6 +63,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		private Brush barBrush;
 		private Color barColor;
+		protected Color DefaultBarColor;
 		public virtual Color BarColor
 		{
 			get
@@ -81,15 +82,16 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.ProgressBar;
 
-			Size = new Size(110, 24);
+			Size = DefaultSize = new Size(110, 24);
 
 			minimum = 0;
 			maximum = 100;
 			value = 0;
 
-			BackColor = Color.Empty;
-			ForeColor = Color.FromArgb(unchecked((int)0xFF5A5857));
-			BarColor = Color.FromArgb(unchecked((int)0xFF67AFF5));
+			ForeColor = DefaultForeColor = Color.FromArgb(unchecked((int)0xFF5A5857));
+			BackColor = DefaultBackColor = Color.Empty;
+
+			BarColor = DefaultBarColor = Color.FromArgb(unchecked((int)0xFF67AFF5));
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
@@ -109,6 +111,10 @@ namespace OSHVisualGui.GuiControls
 			if (Value != 0)
 			{
 				yield return new KeyValuePair<string, ChangedProperty>("value", new ChangedProperty(Value));
+			}
+			if (BarColor != DefaultBarColor)
+			{
+				yield return new KeyValuePair<string, ChangedProperty>("barColor", new ChangedProperty(BarColor));
 			}
 		}
 

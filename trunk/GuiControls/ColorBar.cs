@@ -60,12 +60,12 @@ namespace OSHVisualGui.GuiControls
 
 			colorBar = new Bitmap[3];
 
-			Size = new Size(150, 45);
+			Size = DefaultSize = new Size(150, 45);
 
 			Color = Color.Black;
 
-			BackColor = Color.Empty;
-			ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.Empty;
 
 			ColorChangedEvent = new ColorChangedEvent(this);
 		}

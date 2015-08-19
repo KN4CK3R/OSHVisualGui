@@ -58,12 +58,12 @@ namespace OSHVisualGui.GuiControls
 
 			Path = string.Empty;
 
-			DefaultSize = Size = new Size(100, 100);
+			Size = DefaultSize = new Size(100, 100);
 
-			DefaultBackColor = BackColor = Color.Empty;
-			DefaultForeColor = ForeColor = Color.Empty;
+			ForeColor = DefaultForeColor = Color.Empty;
+			BackColor = DefaultBackColor = Color.Empty;
 
-			DefaultStretch = Stretch = false;
+			Stretch = DefaultStretch = false;
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()

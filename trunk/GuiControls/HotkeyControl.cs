@@ -97,10 +97,10 @@ namespace OSHVisualGui.GuiControls
 			textBox.Location = new Point(0, 0);
 			textBox.Parent = this;
 
-			DefaultSize = Size = new Size(100, 24);
+			Size = DefaultSize = new Size(100, 24);
 
-			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF242321));
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF242321));
 
 			Hotkey = Keys.None;
 

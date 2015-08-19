@@ -19,10 +19,10 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.Panel;
 
-			DefaultSize = Size = new Size(200, 200);
+			Size = DefaultSize = new Size(200, 200);
 
-			DefaultBackColor = BackColor = Color.Empty;
-			DefaultForeColor = ForeColor = Color.Empty;
+			ForeColor = DefaultForeColor = Color.Empty;
+			BackColor = DefaultBackColor = Color.Empty;
 		}
 
 		public override void Render(Graphics graphics)

@@ -100,6 +100,7 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		public Form()
+			: base()
 		{
 			Type = ControlType.Form;
 
@@ -112,10 +113,10 @@ namespace OSHVisualGui.GuiControls
 			panel.isSubControl = true;
 			AddSubControl(panel);
 
-			DefaultSize = Size = new Size(300, 300);
+			Size = DefaultSize = new Size(300, 300);
 
-			DefaultBackColor = BackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
-			DefaultForeColor = ForeColor = Color.FromArgb(unchecked((int)0xFFE5E0E4));
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.FromArgb(unchecked((int)0xFF7C7B79));
 
 			FormClosingEvent = new FormClosingEvent(this);
 			ConstructorEvent = new ConstructorEvent(this);

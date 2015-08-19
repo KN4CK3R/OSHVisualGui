@@ -82,13 +82,13 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.Label;
 
-			DefaultText = text = string.Empty;
+			text = DefaultText = string.Empty;
 
-			DefaultAutoSize = AutoSize = true;
+			AutoSize = DefaultAutoSize = true;
 			MinimumSize = new Size(0, 0);
 
-			DefaultBackColor = Color.Empty;
-			DefaultForeColor = Color.White;
+			ForeColor = DefaultForeColor = Color.White;
+			BackColor = DefaultBackColor = Color.Empty;
 		}
 
 		public override IEnumerable<KeyValuePair<string, ChangedProperty>> GetChangedProperties()
