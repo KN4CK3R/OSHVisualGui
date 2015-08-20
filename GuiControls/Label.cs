@@ -109,7 +109,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
 			}
-			TextRenderer.DrawText(graphics, text, Font, new Rectangle(AbsoluteLocation, Size), ForeColor);
+			graphics.DrawString(text, Font, foreBrush, new Rectangle(AbsoluteLocation, Size));
 		}
 
 		public override Control Copy()
