@@ -94,7 +94,7 @@ namespace OSHVisualGui.GuiControls
 				enabled = value;
 			}
 		}
-		internal bool Hidden { get; set; }
+		internal bool DesignerHidden { get; set; }
 		private bool visible;
 		public virtual bool Visible
 		{
@@ -381,7 +381,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			enabled = true;
 			visible = true;
-			Hidden = false;
+			DesignerHidden = false;
 
 			autoSize = DefaultAutoSize = false;
 

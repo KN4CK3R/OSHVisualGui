@@ -159,7 +159,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			foreach (var control in controls)
 			{
-				if (control.Hidden == false)
+				if (control.DesignerHidden == false)
 				{
 					control.Render(graphics);
 				}
