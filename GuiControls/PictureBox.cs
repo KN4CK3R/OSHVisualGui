@@ -72,6 +72,10 @@ namespace OSHVisualGui.GuiControls
 			{
 				yield return pair;
 			}
+			if (Stretch != DefaultStretch)
+			{
+				yield return new KeyValuePair<string, ChangedProperty>("stretch", new ChangedProperty(Stretch));
+			}
 			if (!string.IsNullOrEmpty(Path))
 			{
 				yield return new KeyValuePair<string, ChangedProperty>("image", new ChangedProperty(new System.IO.FileInfo(path)));
