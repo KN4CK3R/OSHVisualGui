@@ -816,7 +816,7 @@ namespace OSHVisualGui
 
 		private void themeManagerToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new ThemeManagerForm().ShowDialog();
+			new StyleManagerForm().ShowDialog();
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

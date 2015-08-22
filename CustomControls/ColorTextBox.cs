@@ -55,12 +55,21 @@ namespace OSHVisualGui
 		private PoperContainer poperContainer;
 		private ColorPicker colorPicker;
 
-		public event EventHandler ColorChanged;
-		public delegate void ColorPickerHoverEventHandler(Color color);
+		public delegate void ColorChangedEventHandler(object sender, Color color);
+		public event ColorChangedEventHandler ColorChanged;
+
+		public delegate void ColorPickerHoverEventHandler(object sender, Color color);
 		public event ColorPickerHoverEventHandler ColorPickerHover;
+
+		public event EventHandler ColorPickerCancled;
 
 		public ColorTextBox()
 		{
+			LostFocus += delegate (object sender, EventArgs e)
+			{
+				TextToColor();
+			};
+
 			style = ColorStyle.RGB;
 
 			switchStyle = new Button();
@@ -79,22 +88,40 @@ namespace OSHVisualGui
 			openColorPicker.Dock = DockStyle.Right;
 			openColorPicker.Text = "°";
 			openColorPicker.Cursor = Cursors.Default;
-			openColorPicker.Click += new EventHandler(openColorPicker_Click);
+			openColorPicker.Click += openColorPicker_Click;
 			Controls.Add(openColorPicker);
 
 			colorPicker = new ColorPicker();
-			colorPicker.MouseMove += new MouseEventHandler(delegate(object sender, MouseEventArgs e)
+			colorPicker.MouseMove += delegate(object sender, MouseEventArgs e)
 			{
 				if (ColorPickerHover != null)
 				{
-					ColorPickerHover(colorPicker.HoverColor);
+					ColorPickerHover(sender, colorPicker.HoverColor);
 				}
-			});
-			colorPicker.ColorPicked += new EventHandler(delegate(object sender, EventArgs e)
+			};
+
+			bool cancled = true;
+			colorPicker.ColorChanged += delegate(object sender, Color color)
 			{
-				this.Color = colorPicker.SelectedColor;
+				cancled = false;
+
+				Color = color;
+
 				poperContainer.Hide();
-			});
+			};
+
+			poperContainer = new PoperContainer(colorPicker);
+			poperContainer.Opened += delegate(object sender, EventArgs e)
+			{
+				cancled = true;
+			};
+			poperContainer.Closed += delegate(object sender, ToolStripDropDownClosedEventArgs e)
+			{
+				if (cancled && ColorPickerCancled != null)
+				{
+					ColorPickerCancled(this, EventArgs.Empty);
+				}
+			};
 
 			buttonForeColor = switchStyle.ForeColor;
 			buttonBackColor = switchStyle.BackColor;
@@ -116,57 +143,62 @@ namespace OSHVisualGui
 			}
 		}
 
+		private void TextToColor()
+		{
+			var colorByName = Text.ToLower() == "none" || Text.ToLower() == "empty" ? Color.Empty : Color.FromName(Text);
+			if (colorByName.IsKnownColor || colorByName == Color.Empty)
+			{
+				Color = colorByName;
+			}
+			else
+			{
+				var colorRegex = new Regex(@"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/){2,3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b|([0-9a-fA-F]{8})", RegexOptions.Compiled);
+				if (colorRegex.IsMatch(Text))
+				{
+					var seperated = Text.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+					if (seperated.Length == 3 || seperated.Length == 4)
+					{
+						style = ColorStyle.RGB;
+
+						int index = 0;
+						int a = 255;
+
+						if (seperated.Length == 4)
+						{
+							style = ColorStyle.ARGB;
+							a = int.Parse(seperated[index]);
+							index = 1;
+						}
+
+						var rgb = new int[3];
+						for (int i = 0; i < 3; ++i, ++index)
+						{
+							rgb[i] = int.Parse(seperated[index]);
+						}
+
+						Color = Color.FromArgb(a, rgb[0], rgb[1], rgb[2]);
+					}
+					else
+					{
+						int argb = int.Parse(Text, NumberStyles.HexNumber, CultureInfo.CurrentCulture);
+						style = ColorStyle.HEX;
+						Color = Color.FromArgb(argb);
+					}
+				}
+				else
+				{
+					ColorToText(BackColor);
+				}
+			}
+		}
+
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Return)
 			{
 				e.Handled = true;
 
-				Color colorByName = Text.ToLower() == "none" || Text.ToLower() == "empty" ? Color.Empty : Color.FromName(Text);
-				if (colorByName.IsKnownColor || colorByName == Color.Empty)
-				{
-					Color = colorByName;
-				}
-				else
-				{
-					Regex colorRegex = new Regex(@"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/){2,3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b|([0-9a-fA-F]{8})", RegexOptions.Compiled);
-					if (colorRegex.IsMatch(Text))
-					{
-						string[] seperated = Text.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-						if (seperated.Length == 3 || seperated.Length == 4)
-						{
-							style = ColorStyle.RGB;
-
-							int index = 0;
-							int a = 255;
-
-							if (seperated.Length == 4)
-							{
-								style = ColorStyle.ARGB;
-								a = int.Parse(seperated[index]);
-								index = 1;
-							}
-
-							int[] rgb = new int[3];
-							for (int i = 0; i < 3; ++i, ++index)
-							{
-								rgb[i] = int.Parse(seperated[index]);
-							}
-
-							Color = Color.FromArgb(a, rgb[0], rgb[1], rgb[2]);
-						}
-						else
-						{
-							int argb = int.Parse(Text, NumberStyles.HexNumber, CultureInfo.CurrentCulture);
-							style = ColorStyle.HEX;
-							Color = Color.FromArgb(argb);
-						}
-					}
-					else
-					{
-						ColorToText(BackColor);
-					}
-				}
+				TextToColor();
 			}
 
 			base.OnKeyDown(e);
@@ -209,7 +241,6 @@ namespace OSHVisualGui
 
 		private void openColorPicker_Click(object sender, EventArgs e)
 		{
-			poperContainer = new PoperContainer(colorPicker);
 			poperContainer.Show(openColorPicker.PointToScreen(new Point(0, openColorPicker.Height)));
 		}
 
@@ -217,7 +248,7 @@ namespace OSHVisualGui
 		{
 			if (ColorChanged != null)
 			{
-				ColorChanged(this, EventArgs.Empty);
+				ColorChanged(this, Color);
 			}
 		}
 	}
