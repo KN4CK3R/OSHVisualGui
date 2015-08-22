@@ -349,7 +349,7 @@ namespace FastColoredTextBoxNS
                 return !string.IsNullOrEmpty(lines[iLine].FoldingEndMarker);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (fs != null)
                 fs.Dispose();

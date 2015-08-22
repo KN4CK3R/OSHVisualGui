@@ -1183,7 +1183,7 @@ namespace FastColoredTextBoxNS
         /// Fake event for correct data binding
         /// </summary>
         [Browsable(false)]
-        internal new event EventHandler BindingTextChanged;
+        internal event EventHandler BindingTextChanged;
 
         /// <summary>
         /// TextChanging event.

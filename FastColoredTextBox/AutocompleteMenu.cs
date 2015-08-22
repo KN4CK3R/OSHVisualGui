@@ -67,7 +67,7 @@ namespace FastColoredTextBoxNS
             MinFragmentLength = 2;
         }
 
-        internal override void OnOpening(CancelEventArgs args)
+        internal new void OnOpening(CancelEventArgs args)
         {
             if (Opening != null)
                 Opening(this, args);
