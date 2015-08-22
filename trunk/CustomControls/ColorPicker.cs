@@ -6,16 +6,17 @@ namespace OSHVisualGui
 {
 	class ColorPicker : Panel
 	{
-		private Bitmap canvas;
-		private Graphics graphics;
-		private Color selectedColor;
-		public Color SelectedColor
+		private Bitmap gradient;
+
+		private Color color;
+		public Color Color
 		{
 			get
 			{
-				return selectedColor;
+				return color;
 			}
 		}
+
 		private Color hoverColor;
 		public Color HoverColor
 		{
@@ -24,7 +25,9 @@ namespace OSHVisualGui
 				return hoverColor;
 			}
 		}
-		public event EventHandler ColorPicked;
+
+		public delegate void ColorChangedEventHandler(object sender, Color color);
+		public event ColorChangedEventHandler ColorChanged;
 
 		public ColorPicker()
 		{
@@ -34,49 +37,46 @@ namespace OSHVisualGui
 
 			Size = new Size(140, 210);
 
-			UpdateBackBuffer();
 			UpdateGradient();
-		}
-
-		private void UpdateBackBuffer()
-		{
-			if (this.Width != 0)
-			{
-				canvas = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
-				graphics = Graphics.FromImage(canvas);
-			}
 		}
 
 		private void UpdateGradient()
 		{
-			for (int y = 0; y < canvas.Height; ++y)
+			if (Width != 0)
 			{
-				for (int x = 0; x < canvas.Width; ++x)
+				gradient = new Bitmap(ClientSize.Width, ClientSize.Height);
+				using (var graphics = Graphics.FromImage(gradient))
 				{
-					graphics.FillRectangle(new SolidBrush(GetColorAtPoint(x, y)), new Rectangle(x, y, 1, 1));
+					for (int y = 0; y < gradient.Height; ++y)
+					{
+						for (int x = 0; x < gradient.Width; ++x)
+						{
+							graphics.FillRectangle(new SolidBrush(GetColorAtPoint(x, y)), new Rectangle(x, y, 1, 1));
+						}
+					}
 				}
 			}
 		}
 
 		private Color GetColorAtPoint(int x, int y)
 		{
-			if (x < 0 || x > canvas.Width || y < 0 || y > canvas.Height)
+			if (x < 0 || x > gradient.Width || y < 0 || y > gradient.Height)
 			{
 				throw new ArgumentOutOfRangeException();
 			}
 
-			double hue = (1.0 / canvas.Width) * x;
+			double hue = (1.0 / gradient.Width) * x;
 			hue = hue - (int)hue;
 			double saturation, brightness;
-			if (y <= canvas.Height / 2.0)
+			if (y <= gradient.Height / 2.0)
 			{
-				saturation = y / (canvas.Height / 2.0);
+				saturation = y / (gradient.Height / 2.0);
 				brightness = 1;
 			}
 			else
 			{
-				saturation = (canvas.Height / 2.0) / y;
-				brightness = ((canvas.Height / 2.0) - y + (canvas.Height / 2.0)) / y;
+				saturation = (gradient.Height / 2.0) / y;
+				brightness = ((gradient.Height / 2.0) - y + (gradient.Height / 2.0)) / y;
 			}
 
 			double h = hue == 1.0 ? 0 : hue * 6.0;
@@ -87,50 +87,50 @@ namespace OSHVisualGui
 			if (h < 1)
 			{
 				return Color.FromArgb(
-								(int)(brightness * 255),
-								(int)(t * 255),
-								(int)(p * 255)
-								);
+					(int)(brightness * 255),
+					(int)(t * 255),
+					(int)(p * 255)
+				);
 			}
 			else if (h < 2)
 			{
 				return Color.FromArgb(
-								(int)(q * 255),
-								(int)(brightness * 255),
-								(int)(p * 255)
-								);
+					(int)(q * 255),
+					(int)(brightness * 255),
+					(int)(p * 255)
+				);
 			}
 			else if (h < 3)
 			{
 				return Color.FromArgb(
-								(int)(p * 255),
-								(int)(brightness * 255),
-								(int)(t * 255)
-								);
+					(int)(p * 255),
+					(int)(brightness * 255),
+					(int)(t * 255)
+				);
 			}
 			else if (h < 4)
 			{
 				return Color.FromArgb(
-								(int)(p * 255),
-								(int)(q * 255),
-								(int)(brightness * 255)
-								);
+					(int)(p * 255),
+					(int)(q * 255),
+					(int)(brightness * 255)
+				);
 			}
 			else if (h < 5)
 			{
 				return Color.FromArgb(
-								(int)(t * 255),
-								(int)(p * 255),
-								(int)(brightness * 255)
-								);
+					(int)(t * 255),
+					(int)(p * 255),
+					(int)(brightness * 255)
+				);
 			}
 			else
 			{
 				return Color.FromArgb(
-								(int)(brightness * 255),
-								(int)(p * 255),
-								(int)(q * 255)
-								);
+					(int)(brightness * 255),
+					(int)(p * 255),
+					(int)(q * 255)
+				);
 			}
 		}
 
@@ -138,7 +138,6 @@ namespace OSHVisualGui
 		{
 			base.OnSizeChanged(e);
 
-			UpdateBackBuffer();
 			UpdateGradient();
 		}
 
@@ -146,16 +145,19 @@ namespace OSHVisualGui
 		{
 			base.OnPaint(e);
 
-			e.Graphics.DrawImageUnscaled(canvas, new Point(0, 0));
+			e.Graphics.DrawImageUnscaled(gradient, new Point(0, 0));
 		}
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			selectedColor = GetColorAtPoint(e.X, e.Y);
+			color = GetColorAtPoint(e.X, e.Y);
 
 			base.OnMouseClick(e);
 
-			OnColorPicked();
+			if (ColorChanged != null)
+			{
+				ColorChanged(this, Color);
+			}
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -163,14 +165,6 @@ namespace OSHVisualGui
 			hoverColor = GetColorAtPoint(e.X, e.Y);
 
 			base.OnMouseMove(e);
-		}
-
-		private void OnColorPicked()
-		{
-			if (ColorPicked != null)
-			{
-				ColorPicked(this, EventArgs.Empty);
-			}
 		}
 	}
 }

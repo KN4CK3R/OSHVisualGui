@@ -7,9 +7,9 @@ namespace OSHVisualGui
 {
 	public partial class PoperContainer : ToolStripDropDown
 	{
-		private Control m_popedContainer;
-		private ToolStripControlHost m_host;
-		private bool m_fade = true;
+		private Control popedControl;
+		private ToolStripControlHost host;
+		private bool fade = true;
 
 		public PoperContainer(Control popedControl)
 		{
@@ -17,21 +17,21 @@ namespace OSHVisualGui
 
 			if (popedControl == null)
 			{
-				throw new ArgumentNullException("content");
+				throw new ArgumentNullException();
 			}
+			
+			this.popedControl = popedControl;
 
-			this.m_popedContainer = popedControl;
+			fade = SystemInformation.IsMenuAnimationEnabled && SystemInformation.IsMenuFadeEnabled;
 
-			this.m_fade = SystemInformation.IsMenuAnimationEnabled && SystemInformation.IsMenuFadeEnabled;
+			host = new ToolStripControlHost(popedControl);
+			host.AutoSize = false;
 
-			this.m_host = new ToolStripControlHost(popedControl);
-			m_host.AutoSize = false;
-
-			Padding = Margin = m_host.Padding = m_host.Margin = Padding.Empty;
+			Padding = Margin = host.Padding = host.Margin = Padding.Empty;
 
 			popedControl.Location = Point.Empty;
 
-			this.Items.Add(m_host);
+			Items.Add(host);
 
 			popedControl.Disposed += delegate(object sender, EventArgs e)
 			{
@@ -54,7 +54,7 @@ namespace OSHVisualGui
 		{
 			if (control == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException();
 			}
 
 			Show(control, control.ClientRectangle);
@@ -62,19 +62,19 @@ namespace OSHVisualGui
 
 		public void Show(Form f, Point p)
 		{
-			this.Show(f, new Rectangle(p, new Size(0, 0)));
+			Show(f, new Rectangle(p, new Size(0, 0)));
 		}
 
 		private void Show(Control control, Rectangle area)
 		{
 			if (control == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException();
 			}
 
-			Point location = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
+			var location = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
 
-			Rectangle screen = Screen.FromControl(control).WorkingArea;
+			var screen = Screen.FromControl(control).WorkingArea;
 
 			if (location.X + Size.Width > (screen.Left + screen.Width))
 				location.X = (screen.Left + screen.Width) - Size.Width;
@@ -94,12 +94,12 @@ namespace OSHVisualGui
 		protected override void SetVisibleCore(bool visible)
 		{
 			double opacity = Opacity;
-			if (visible && m_fade)
+			if (visible && fade)
 				Opacity = 0;
 
 			base.SetVisibleCore(visible);
 
-			if (!visible || !m_fade)
+			if (!visible || !fade)
 				return;
 
 			for (int i = 1; i <= frames; i++)
@@ -108,14 +108,14 @@ namespace OSHVisualGui
 				{
 					System.Threading.Thread.Sleep(frameduration);
 				}
-				Opacity = opacity * (double)i / (double)frames;
+				Opacity = opacity * i / frames;
 			}
 			Opacity = opacity;
 		}
 
 		protected override void OnOpening(CancelEventArgs e)
 		{
-			if (m_popedContainer.IsDisposed || m_popedContainer.Disposing)
+			if (popedControl.IsDisposed || popedControl.Disposing)
 			{
 				e.Cancel = true;
 				return;
@@ -125,7 +125,7 @@ namespace OSHVisualGui
 
 		protected override void OnOpened(EventArgs e)
 		{
-			m_popedContainer.Focus();
+			popedControl.Focus();
 
 			base.OnOpened(e);
 		}
