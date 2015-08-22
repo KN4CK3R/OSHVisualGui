@@ -19,10 +19,10 @@
                 {
                     components.Dispose();
                 }
-                if (m_popedContainer != null)
+                if (popedControl != null)
                 {
-                    System.Windows.Forms.Control _content = m_popedContainer;
-                    m_popedContainer = null;
+                    System.Windows.Forms.Control _content = popedControl;
+                    popedControl = null;
                     _content.Dispose();
                 }
             }

@@ -55,9 +55,13 @@ namespace OSHVisualGui
 		private PoperContainer poperContainer;
 		private ColorPicker colorPicker;
 
-		public event EventHandler ColorChanged;
-		public delegate void ColorPickerHoverEventHandler(Color color);
+		public delegate void ColorChangedEventHandler(object sender, Color color);
+		public event ColorChangedEventHandler ColorChanged;
+
+		public delegate void ColorPickerHoverEventHandler(object sender, Color color);
 		public event ColorPickerHoverEventHandler ColorPickerHover;
+
+		public event EventHandler ColorPickerCancled;
 
 		public ColorTextBox()
 		{
@@ -79,22 +83,40 @@ namespace OSHVisualGui
 			openColorPicker.Dock = DockStyle.Right;
 			openColorPicker.Text = "°";
 			openColorPicker.Cursor = Cursors.Default;
-			openColorPicker.Click += new EventHandler(openColorPicker_Click);
+			openColorPicker.Click += openColorPicker_Click;
 			Controls.Add(openColorPicker);
 
 			colorPicker = new ColorPicker();
-			colorPicker.MouseMove += new MouseEventHandler(delegate(object sender, MouseEventArgs e)
+			colorPicker.MouseMove += delegate(object sender, MouseEventArgs e)
 			{
 				if (ColorPickerHover != null)
 				{
-					ColorPickerHover(colorPicker.HoverColor);
+					ColorPickerHover(sender, colorPicker.HoverColor);
 				}
-			});
-			colorPicker.ColorPicked += new EventHandler(delegate(object sender, EventArgs e)
+			};
+
+			bool cancled = true;
+			colorPicker.ColorChanged += delegate(object sender, Color color)
 			{
-				this.Color = colorPicker.SelectedColor;
+				cancled = false;
+
+				Color = color;
+
 				poperContainer.Hide();
-			});
+			};
+
+			poperContainer = new PoperContainer(colorPicker);
+			poperContainer.Opened += delegate(object sender, EventArgs e)
+			{
+				cancled = true;
+			};
+			poperContainer.Closed += delegate(object sender, ToolStripDropDownClosedEventArgs e)
+			{
+				if (cancled && ColorPickerCancled != null)
+				{
+					ColorPickerCancled(this, EventArgs.Empty);
+				}
+			};
 
 			buttonForeColor = switchStyle.ForeColor;
 			buttonBackColor = switchStyle.BackColor;
@@ -209,7 +231,6 @@ namespace OSHVisualGui
 
 		private void openColorPicker_Click(object sender, EventArgs e)
 		{
-			poperContainer = new PoperContainer(colorPicker);
 			poperContainer.Show(openColorPicker.PointToScreen(new Point(0, openColorPicker.Height)));
 		}
 
@@ -217,7 +238,7 @@ namespace OSHVisualGui
 		{
 			if (ColorChanged != null)
 			{
-				ColorChanged(this, EventArgs.Empty);
+				ColorChanged(this, Color);
 			}
 		}
 	}
