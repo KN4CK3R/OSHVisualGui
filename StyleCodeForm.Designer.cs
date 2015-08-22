@@ -38,6 +38,7 @@
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(219)))), ((int)(((byte)(233)))));
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -77,16 +78,17 @@
 			this.themeFastColoredTextBox.TabIndex = 2;
 			this.themeFastColoredTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.themeFastColoredTextBox_TextChanged);
 			// 
-			// ThemeCodeForm
+			// StyleCodeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(57)))), ((int)(((byte)(85)))));
 			this.ClientSize = new System.Drawing.Size(804, 309);
 			this.Controls.Add(this.themeFastColoredTextBox);
 			this.Controls.Add(this.menuStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
-			this.Name = "ThemeCodeForm";
+			this.Name = "StyleCodeForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "OldSchoolHack VisualGui - ThemeCode";
 			this.menuStrip1.ResumeLayout(false);

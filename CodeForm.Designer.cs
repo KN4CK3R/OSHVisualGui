@@ -43,9 +43,9 @@
 			this.setNamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.namespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.namespaceToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+			this.xorStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.cppSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.xorStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sourceTabControl.SuspendLayout();
 			this.hppTabPage.SuspendLayout();
 			this.cppTabPage.SuspendLayout();
@@ -121,6 +121,7 @@
 			// 
 			// menuStrip
 			// 
+			this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(219)))), ((int)(((byte)(233)))));
 			this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.optionsToolStripMenuItem});
@@ -175,7 +176,7 @@
 			this.setNamesToolStripMenuItem.CheckOnClick = true;
 			this.setNamesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.setNamesToolStripMenuItem.Name = "setNamesToolStripMenuItem";
-			this.setNamesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.setNamesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
 			this.setNamesToolStripMenuItem.Text = "SetNames";
 			this.setNamesToolStripMenuItem.Click += new System.EventHandler(this.setNamesToolStripMenuItem_Click);
 			// 
@@ -184,7 +185,7 @@
 			this.namespaceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.namespaceToolStripTextBox});
 			this.namespaceToolStripMenuItem.Name = "namespaceToolStripMenuItem";
-			this.namespaceToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.namespaceToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
 			this.namespaceToolStripMenuItem.Text = "Namespace(s)";
 			// 
 			// namespaceToolStripTextBox
@@ -192,6 +193,14 @@
 			this.namespaceToolStripTextBox.Name = "namespaceToolStripTextBox";
 			this.namespaceToolStripTextBox.Size = new System.Drawing.Size(100, 23);
 			this.namespaceToolStripTextBox.TextChanged += new System.EventHandler(this.namespaceToolStripTextBox_TextChanged);
+			// 
+			// xorStringToolStripMenuItem
+			// 
+			this.xorStringToolStripMenuItem.CheckOnClick = true;
+			this.xorStringToolStripMenuItem.Name = "xorStringToolStripMenuItem";
+			this.xorStringToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			this.xorStringToolStripMenuItem.Text = "XorStr";
+			this.xorStringToolStripMenuItem.Click += new System.EventHandler(this.xorStringToolStripMenuItem_Click);
 			// 
 			// hppSaveFileDialog
 			// 
@@ -203,18 +212,11 @@
 			this.cppSaveFileDialog.DefaultExt = "cpp";
 			this.cppSaveFileDialog.Filter = "OSHGui-Source|*.cpp";
 			// 
-			// xorStringToolStripMenuItem
-			// 
-			this.xorStringToolStripMenuItem.CheckOnClick = true;
-			this.xorStringToolStripMenuItem.Name = "xorStringToolStripMenuItem";
-			this.xorStringToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.xorStringToolStripMenuItem.Text = "XorStr";
-			this.xorStringToolStripMenuItem.Click += new System.EventHandler(this.xorStringToolStripMenuItem_Click);
-			// 
 			// CodeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(57)))), ((int)(((byte)(85)))));
 			this.ClientSize = new System.Drawing.Size(509, 459);
 			this.Controls.Add(this.sourceTabControl);
 			this.Controls.Add(this.menuStrip);

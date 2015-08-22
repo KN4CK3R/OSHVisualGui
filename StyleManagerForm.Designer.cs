@@ -79,7 +79,7 @@
 			// 
 			// menuStrip
 			// 
-			this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(170)))), ((int)(((byte)(193)))));
+			this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(219)))), ((int)(((byte)(233)))));
 			this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.themeToolStripMenuItem});
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -291,7 +291,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackgroundImage = global::OSHVisualGui.Properties.Resources.sidebar;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(57)))), ((int)(((byte)(85)))));
 			this.ClientSize = new System.Drawing.Size(449, 414);
 			this.Controls.Add(this.previewPictureBox);
 			this.Controls.Add(this.groupBox2);
