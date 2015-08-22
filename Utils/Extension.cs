@@ -185,8 +185,47 @@ namespace OSHVisualGui
 			return "SizeI(" + size.Width + ", " + size.Height + ")";
 		}
 
+		private static Dictionary<Color, string> knownColors = null;
 		public static string ToCppString(this Color color)
 		{
+			//known colors
+			if (color.A == 0)
+			{
+				return "Color::Empty()";
+			}
+			if (knownColors == null)
+			{
+				knownColors = new Dictionary<Color, string>()
+				{
+					{ Color.Red, "Color::Red()" },
+					{ Color.Lime, "Color::Lime()" },
+					{ Color.Blue, "Color::Blue()" },
+
+					{ Color.Black, "Color::Black()" },
+					{ Color.Gray, "Color::Gray()" },
+					{ Color.White, "Color::White()" },
+
+					{ Color.Yellow, "Color::Yellow()" },
+					{ Color.Fuchsia, "Color::Fuchsia()" },
+					{ Color.Cyan, "Color::Cyan()" },
+					{ Color.Orange, "Color::Orange()" },
+
+					{ Color.Maroon, "Color::Maroon()" },
+					{ Color.Green, "Color::Green()" },
+					{ Color.Navy, "Color::Navy()" }
+				};
+			}
+			string cpp;
+			if (knownColors.TryGetValue(color, out cpp))
+			{
+				return cpp;
+			}
+
+			if (color.A == 255)
+			{
+				return "Color::FromRGB(" + color.R + ", " + color.G + ", " + color.B + ")";
+			}
+
 			return "Color::FromARGB(" + color.A + ", " + color.R + ", " + color.G + ", " + color.B + ")";
 		}
 
