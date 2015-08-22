@@ -1,17 +1,13 @@
 ﻿using FastColoredTextBoxNS;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace OSHVisualGui
 {
-	public partial class ThemeCodeForm : Form
+	public partial class StyleCodeForm : Form
 	{
 		TextStyle BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
 		TextStyle BoldStyle = new TextStyle(null, null, FontStyle.Bold | FontStyle.Underline);
@@ -22,40 +18,38 @@ namespace OSHVisualGui
 		TextStyle MaroonStyle = new TextStyle(Brushes.Maroon, null, FontStyle.Regular);
 		MarkerStyle SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(40, Color.Gray)));
 
-		public ThemeCodeForm(Theme theme)
+		public StyleCodeForm(Style style)
 		{
-			if (theme == null)
+			if (style == null)
 			{
 				throw new NullReferenceException();
 			}
 			
 			InitializeComponent();
 
-			StringBuilder sb = new StringBuilder();
-			sb.AppendLine("Drawing::Theme theme;");
-			sb.AppendLine("theme.Name = \"" + theme.Name + "\";");
-			sb.AppendLine("theme.Author = \"" + theme.Author + "\";");
-			sb.AppendLine("theme.DefaultColor.ForeColor = Drawing::" + theme.DefaultColor.ForeColor.ToCppString() + ";");
-			sb.AppendLine("theme.DefaultColor.BackColor = Drawing::" + theme.DefaultColor.BackColor.ToCppString() + ";");
-			if (theme.ControlThemes.Count > 0)
+			var sb = new StringBuilder();
+			sb.AppendLine("Drawing::Style style;");
+			sb.AppendLine("style.DefaultColor.ForeColor = Drawing::" + style.DefaultColor.ForeColor.ToCppString() + ";");
+			sb.AppendLine("style.DefaultColor.BackColor = Drawing::" + style.DefaultColor.BackColor.ToCppString() + ";");
+			if (style.ControlStyles.Count > 0)
 			{
-				sb.AppendLine("#define MakeTheme(control, color1, color2) theme.SetControlColorTheme(Control::ControlTypeToString(control), Drawing::Theme::ControlTheme(color1, color2))");
-				foreach (var it in theme.ControlThemes)
+				sb.AppendLine("#define MakeStyle(type, color1, color2) style.SetControlStyle(type, { color1, color2 })");
+				foreach (var it in style.ControlStyles)
 				{
-					if (it.Value.Changed)
+					if (it.Value.UseDefault == false)
 					{
-						sb.AppendLine("MakeTheme(CONTROL_" + it.Key.ToUpper() + ", Drawing::" + it.Value.ForeColor.ToCppString() + ", Drawing::" + it.Value.BackColor.ToCppString() + ");");
+						sb.AppendLine("MakeStyle(ControlType::" + it.Key + ", Drawing::" + it.Value.ForeColor.ToCppString() + ", Drawing::" + it.Value.BackColor.ToCppString() + ");");
 					}
 				}
 			}
-			sb.Append("\n//Application::Instance()->SetTheme(theme);");
+			sb.Append("\n//Application::Instance().SetStyle(style);");
 
 			themeFastColoredTextBox.Text = sb.ToString();
 		}
 
 		private void themeFastColoredTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			FastColoredTextBox fctb = sender as FastColoredTextBox;
+			var fctb = sender as FastColoredTextBox;
 
 			fctb.LeftBracket = '(';
 			fctb.RightBracket = ')';

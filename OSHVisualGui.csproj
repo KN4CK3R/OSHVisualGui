@@ -165,17 +165,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThemeCodeForm.cs">
+    <Compile Include="StyleCodeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ThemeCodeForm.Designer.cs">
-      <DependentUpon>ThemeCodeForm.cs</DependentUpon>
+    <Compile Include="StyleCodeForm.Designer.cs">
+      <DependentUpon>StyleCodeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ThemeManagerForm.cs">
+    <Compile Include="StyleManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ThemeManagerForm.Designer.cs">
-      <DependentUpon>ThemeManagerForm.cs</DependentUpon>
+    <Compile Include="StyleManagerForm.Designer.cs">
+      <DependentUpon>StyleManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Toolbox\Toolbox.cs">
       <SubType>UserControl</SubType>
@@ -215,11 +215,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ThemeCodeForm.resx">
-      <DependentUpon>ThemeCodeForm.cs</DependentUpon>
+    <EmbeddedResource Include="StyleCodeForm.resx">
+      <DependentUpon>StyleCodeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ThemeManagerForm.resx">
-      <DependentUpon>ThemeManagerForm.cs</DependentUpon>
+    <EmbeddedResource Include="StyleManagerForm.resx">
+      <DependentUpon>StyleManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
