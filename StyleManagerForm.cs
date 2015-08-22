@@ -131,7 +131,7 @@ namespace OSHVisualGui
 
 			suppressUpdate = false;
 
-			if ((GuiControls.ControlType)controlsListBox.SelectedItem == GuiControls.ControlType.Form)
+			if (controlsListBox.SelectedItem != null && (GuiControls.ControlType)controlsListBox.SelectedItem == GuiControls.ControlType.Form)
 			{
 				controlsListBox_SelectedIndexChanged(null, null);
 			}
