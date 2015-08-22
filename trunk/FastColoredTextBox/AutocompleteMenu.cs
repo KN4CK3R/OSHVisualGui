@@ -37,7 +37,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Occurs when popup menu is opening
         /// </summary>
-        public event EventHandler<CancelEventArgs> Opening;
+        public new event EventHandler<CancelEventArgs> Opening;
         /// <summary>
         /// Allow TAB for select menu item
         /// </summary>
@@ -67,7 +67,7 @@ namespace FastColoredTextBoxNS
             MinFragmentLength = 2;
         }
 
-        internal void OnOpening(CancelEventArgs args)
+        internal override void OnOpening(CancelEventArgs args)
         {
             if (Opening != null)
                 Opening(this, args);
