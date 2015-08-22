@@ -40,6 +40,8 @@
 			// eventLabel
 			// 
 			this.eventLabel.AutoSize = true;
+			this.eventLabel.BackColor = System.Drawing.Color.Transparent;
+			this.eventLabel.ForeColor = System.Drawing.Color.White;
 			this.eventLabel.Location = new System.Drawing.Point(12, 9);
 			this.eventLabel.Name = "eventLabel";
 			this.eventLabel.Size = new System.Drawing.Size(38, 13);
@@ -104,6 +106,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(57)))), ((int)(((byte)(85)))));
 			this.ClientSize = new System.Drawing.Size(594, 365);
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.cancelButton);
