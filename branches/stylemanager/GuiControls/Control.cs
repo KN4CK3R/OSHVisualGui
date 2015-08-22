@@ -9,13 +9,14 @@ namespace OSHVisualGui.GuiControls
 {
 	public enum ControlType
 	{
-		Button,
+		Button = 1,
 		CheckBox,
 		ColorBar,
 		ColorPicker,
 		ComboBox,
 		Form,
 		GroupBox,
+		HotkeyControl,
 		Label,
 		LinkLabel,
 		ListBox,
@@ -23,12 +24,12 @@ namespace OSHVisualGui.GuiControls
 		PictureBox,
 		ProgressBar,
 		RadioButton,
+		ScrollBar,
 		TabControl,
 		TabPage,
 		TextBox,
 		Timer,
-		TrackBar,
-		HotkeyControl
+		TrackBar
 	}
 
 	public class Mouse
@@ -93,6 +94,7 @@ namespace OSHVisualGui.GuiControls
 				enabled = value;
 			}
 		}
+		internal bool Hidden { get; set; }
 		private bool visible;
 		public virtual bool Visible
 		{
@@ -379,6 +381,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			enabled = true;
 			visible = true;
+			Hidden = false;
 
 			autoSize = DefaultAutoSize = false;
 

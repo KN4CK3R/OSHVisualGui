@@ -157,9 +157,12 @@ namespace OSHVisualGui.GuiControls
 
 		public override void Render(System.Drawing.Graphics graphics)
 		{
-			foreach (Control control in controls)
+			foreach (var control in controls)
 			{
-				control.Render(graphics);
+				if (control.Hidden == false)
+				{
+					control.Render(graphics);
+				}
 			}
 		}
 
