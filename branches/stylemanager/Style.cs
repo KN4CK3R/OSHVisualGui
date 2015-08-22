@@ -51,7 +51,10 @@ namespace OSHVisualGui
 			}
 		}
 
+		[JsonProperty("default")]
 		public ControlStyle DefaultColor { get; set; }
+
+		[JsonProperty("styles")]
 		public Dictionary<GuiControls.ControlType, ControlStyle> ControlStyles { get; set; }
 
 		public Style()
@@ -90,49 +93,11 @@ namespace OSHVisualGui
 			ControlStyles.Add(GuiControls.ControlType.TrackBar, new ControlStyle());
 		}
 
-		private class JsonStyle
-		{
-			[JsonProperty("default")]
-			public ControlStyle DefaultColor { get; set; }
-			[JsonProperty("themes")]
-			public Dictionary<GuiControls.ControlType, ControlStyle> ControlThemes { get; set; }
-
-			public JsonStyle()
-			{
-
-			}
-
-			public JsonStyle(Style style)
-			{
-				DefaultColor = style.DefaultColor;
-				ControlThemes = new Dictionary<GuiControls.ControlType, ControlStyle>();
-				foreach (var ct in style.ControlStyles)
-				{
-					if (ct.Value.UseDefault == false)
-					{
-						ControlThemes.Add(ct.Key, ct.Value);
-					}
-				}
-			}
-		}
-
 		public void Load(string pathToThemeFile)
 		{
 			var settings = new JsonSerializerSettings();
 			settings.Converters.Add(new ColorJsonConverter());
-			var obj = JsonConvert.DeserializeObject<JsonStyle>(File.ReadAllText(pathToThemeFile), settings);
-
-			DefaultColor = obj.DefaultColor;
-			foreach (var ct in obj.ControlThemes)
-			{
-				ControlStyle theme;
-				if (ControlStyles.TryGetValue(ct.Key, out theme))
-				{
-					theme.UseDefault = true;
-					theme.ForeColor = ct.Value.ForeColor;
-					theme.BackColor = ct.Value.BackColor;
-				}
-			}
+			JsonConvert.PopulateObject(File.ReadAllText(pathToThemeFile), this, settings);
 		}
 
 		public void Save(string pathToThemeFile)
@@ -141,7 +106,7 @@ namespace OSHVisualGui
 			{
 				var settings = new JsonSerializerSettings();
 				settings.Converters.Add(new ColorJsonConverter());
-				sr.Write(JsonConvert.SerializeObject(new JsonStyle(this), settings));
+				sr.Write(JsonConvert.SerializeObject(this, settings));
 			}
 		}
 	}
