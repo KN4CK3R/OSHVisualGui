@@ -32,9 +32,9 @@ namespace OSHVisualGui
 		}
 	}
 
-	public class Theme
+	public class Style
 	{
-		public class ControlTheme
+		public class ControlStyle
 		{
 			[JsonProperty("use")]
 			public bool UseDefault { get; set; }
@@ -43,7 +43,7 @@ namespace OSHVisualGui
 			[JsonProperty("backcolor")]
 			public Color BackColor { get; set; }
 
-			public ControlTheme()
+			public ControlStyle()
 			{
 				UseDefault = true;
 				ForeColor = Color.White;
@@ -51,62 +51,62 @@ namespace OSHVisualGui
 			}
 		}
 
-		public ControlTheme DefaultColor { get; set; }
-		public Dictionary<GuiControls.ControlType, ControlTheme> ControlThemes { get; set; }
+		public ControlStyle DefaultColor { get; set; }
+		public Dictionary<GuiControls.ControlType, ControlStyle> ControlStyles { get; set; }
 
-		public Theme()
+		public Style()
 		{
-			DefaultColor = new ControlTheme();
+			DefaultColor = new ControlStyle();
 			DefaultColor.ForeColor = Color.White;
 			DefaultColor.BackColor = Color.Black;
-			ControlThemes = new Dictionary<GuiControls.ControlType, ControlTheme>();
-			AddControlThemes();
+			ControlStyles = new Dictionary<GuiControls.ControlType, ControlStyle>();
+			AddControlStyles();
 		}
 
-		private void AddControlThemes()
+		private void AddControlStyles()
 		{
-			ControlThemes.Clear();
+			ControlStyles.Clear();
 
-			ControlThemes.Add(GuiControls.ControlType.Button, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.CheckBox, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.ColorBar, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.ColorPicker, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.ComboBox, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.Form, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.GroupBox, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.HotkeyControl, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.Label, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.LinkLabel, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.ListBox, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.Panel, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.PictureBox, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.ProgressBar, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.RadioButton, new ControlTheme());
+			ControlStyles.Add(GuiControls.ControlType.Button, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.CheckBox, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.ColorBar, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.ColorPicker, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.ComboBox, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.Form, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.GroupBox, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.HotkeyControl, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.Label, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.LinkLabel, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.ListBox, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.Panel, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.PictureBox, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.ProgressBar, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.RadioButton, new ControlStyle());
 			//ControlThemes.Add(GuiControls.ControlType.ScrollBar, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.TabControl, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.TabPage, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.TextBox, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.Timer, new ControlTheme());
-			ControlThemes.Add(GuiControls.ControlType.TrackBar, new ControlTheme());
+			ControlStyles.Add(GuiControls.ControlType.TabControl, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.TabPage, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.TextBox, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.Timer, new ControlStyle());
+			ControlStyles.Add(GuiControls.ControlType.TrackBar, new ControlStyle());
 		}
 
-		private class JsonTheme
+		private class JsonStyle
 		{
 			[JsonProperty("default")]
-			public ControlTheme DefaultColor { get; set; }
+			public ControlStyle DefaultColor { get; set; }
 			[JsonProperty("themes")]
-			public Dictionary<GuiControls.ControlType, ControlTheme> ControlThemes { get; set; }
+			public Dictionary<GuiControls.ControlType, ControlStyle> ControlThemes { get; set; }
 
-			public JsonTheme()
+			public JsonStyle()
 			{
 
 			}
 
-			public JsonTheme(Theme theme)
+			public JsonStyle(Style style)
 			{
-				DefaultColor = theme.DefaultColor;
-				ControlThemes = new Dictionary<GuiControls.ControlType, ControlTheme>();
-				foreach (var ct in theme.ControlThemes)
+				DefaultColor = style.DefaultColor;
+				ControlThemes = new Dictionary<GuiControls.ControlType, ControlStyle>();
+				foreach (var ct in style.ControlStyles)
 				{
 					if (ct.Value.UseDefault == false)
 					{
@@ -120,13 +120,13 @@ namespace OSHVisualGui
 		{
 			var settings = new JsonSerializerSettings();
 			settings.Converters.Add(new ColorJsonConverter());
-			var obj = JsonConvert.DeserializeObject<JsonTheme>(File.ReadAllText(pathToThemeFile), settings);
+			var obj = JsonConvert.DeserializeObject<JsonStyle>(File.ReadAllText(pathToThemeFile), settings);
 
 			DefaultColor = obj.DefaultColor;
 			foreach (var ct in obj.ControlThemes)
 			{
-				ControlTheme theme;
-				if (ControlThemes.TryGetValue(ct.Key, out theme))
+				ControlStyle theme;
+				if (ControlStyles.TryGetValue(ct.Key, out theme))
 				{
 					theme.UseDefault = true;
 					theme.ForeColor = ct.Value.ForeColor;
@@ -141,7 +141,7 @@ namespace OSHVisualGui
 			{
 				var settings = new JsonSerializerSettings();
 				settings.Converters.Add(new ColorJsonConverter());
-				sr.Write(JsonConvert.SerializeObject(new JsonTheme(this), settings));
+				sr.Write(JsonConvert.SerializeObject(new JsonStyle(this), settings));
 			}
 		}
 	}
