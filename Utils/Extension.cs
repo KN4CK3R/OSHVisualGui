@@ -32,6 +32,11 @@ namespace OSHVisualGui
 			return Color.FromArgb(a, r, g, b);
 		}
 
+		public static int[] ToIntArray(this Color color)
+		{
+			return new int[] { color.A, color.R, color.G, color.B };
+		}
+
 		public static Point Add(this Point point, Point point2)
 		{
 			return new Point(point.X + point2.X, point.Y + point2.Y);
