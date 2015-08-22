@@ -113,8 +113,34 @@ namespace OSHVisualGui
 
 				controlsListBox.Items.Add(kv.Key);
 			}
+		}
 
+		private void NewStyle()
+		{
 			style = new Style();
+
+			LoadStyle();
+		}
+
+		private void LoadStyle()
+		{
+			suppressUpdate = true;
+
+			defaultForeColorTextBox.Color = style.DefaultColor.ForeColor;
+			defaultBackColorTextBox.Color = style.DefaultColor.BackColor;
+
+			suppressUpdate = false;
+
+			if ((GuiControls.ControlType)controlsListBox.SelectedItem == GuiControls.ControlType.Form)
+			{
+				controlsListBox_SelectedIndexChanged(null, null);
+			}
+			else
+			{
+				controlsListBox.SelectedItem = GuiControls.ControlType.Form;
+			}
+
+			styleChanged = false;
 		}
 
 		private void foreColorTextBox_ColorPickerHover(object sender, Color color)
@@ -219,7 +245,7 @@ namespace OSHVisualGui
 
 		private void StyleManagerForm_Load(object sender, EventArgs e)
 		{
-			controlsListBox.SelectedItem = GuiControls.ControlType.Form;
+			NewStyle();
 		}
 
 		private void previewPictureBox_Paint(object sender, PaintEventArgs e)
@@ -231,18 +257,25 @@ namespace OSHVisualGui
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			NewStyle();
 		}
 
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			var ofd = new OpenFileDialog();
+			ofd.Filter = "OSHGui Style-File (*.style)|*.style";
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				style.Load(ofd.FileName);
 
+				LoadStyle();
+			}
 		}
 
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var sfd = new SaveFileDialog();
-			sfd.Filter = "Theme-File (*.tm)|*.tm";
+			sfd.Filter = "OSHGui Style-File (*.style)|*.style";
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				style.Save(sfd.FileName);
