@@ -5,33 +5,23 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui
 {
-	class ControlSerializer
+	static class ControlSerializer
 	{
-		XElement root;
-
-		public void Save(string fileName)
-		{
-			root.Save(fileName);
-		}
-
-		public void Load(string fileName)
-		{
-			root = XElement.Load(fileName);
-		}
-
-		public void Serialize(GuiControls.Control control)
+		public static XElement Serialize(GuiControls.Control control)
 		{
 			if (control == null)
 			{
 				throw new ArgumentNullException("control");
 			}
 
-			root = new XElement("OSHGui");
+			var root = new XElement("OSHGui");
 
 			Serialize(control, root);
+
+			return root;
 		}
 
-		private void Serialize(GuiControls.Control control, XElement parent)
+		private static void Serialize(GuiControls.Control control, XElement parent)
 		{
 			XElement element = control.SerializeToXml();
 			if (control is GuiControls.ContainerControl)
@@ -53,8 +43,13 @@ namespace OSHVisualGui
 			parent.Add(element);
 		}
 
-		public GuiControls.Control Deserialize()
+		public static GuiControls.Control Deserialize(XElement root)
 		{
+			if (root == null)
+			{
+				throw new ArgumentNullException("control");
+			}
+
 			if (root.Name.LocalName == "OSHGui")
 			{
 				XElement main = root.FirstNode as XElement;
@@ -69,7 +64,7 @@ namespace OSHVisualGui
 			return null;
 		}
 
-		private void Deserialize(GuiControls.Control control, XElement element)
+		private static void Deserialize(GuiControls.Control control, XElement element)
 		{
 			control.ReadPropertiesFromXml(element);
 			if (control is GuiControls.ContainerControl)
@@ -84,7 +79,7 @@ namespace OSHVisualGui
 			}
 		}
 
-		private GuiControls.Control GetControlFromXmlElement(XElement element)
+		private static GuiControls.Control GetControlFromXmlElement(XElement element)
 		{
 			GuiControls.Control control = null;
 			switch (element.Name.LocalName.ToLower())

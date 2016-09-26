@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using OSHVisualGui.Toolbox;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace OSHVisualGui
 {
@@ -443,10 +444,9 @@ namespace OSHVisualGui
 						return;
 					}
 
-					Clipboard.Clear();
 					var control = GuiControls.Control.FocusedControl.Copy();
 					control.Location = control.Location.Add(new Point(10, 10));
-					Clipboard.SetData("oshvisualgui_control", control);
+					Clipboard.SetData("OSHVisualGuiControl", ControlSerializer.Serialize(control).ToString());
 				}
 				else if (e.Control && e.KeyCode == Keys.X)
 				{
@@ -455,9 +455,8 @@ namespace OSHVisualGui
 						return;
 					}
 
-					Clipboard.Clear();
 					var control = GuiControls.Control.FocusedControl;
-					Clipboard.SetData("oshvisualgui_control", control);
+					Clipboard.SetData("OSHVisualGuiControl", ControlSerializer.Serialize(control).ToString());
 
 					RecursiveRemove(GuiControls.Control.FocusedControl);
 
@@ -465,47 +464,51 @@ namespace OSHVisualGui
 				}
 				else if (e.Control && e.KeyCode == Keys.V)
 				{
-					if (!Clipboard.ContainsData("oshvisualgui_control"))
+					if (!Clipboard.ContainsData("OSHVisualGuiControl"))
 					{
 						return;
 					}
 
-					var copiedControl = Clipboard.GetData("oshvisualgui_control") as GuiControls.Control;
-					if (copiedControl != null)
+					var serializedControl = Clipboard.GetData("OSHVisualGuiControl") as string;
+					if (serializedControl != null)
 					{
-						GuiControls.ContainerControl parent = null;
-						if (copiedControl is GuiControls.TabPage && !(GuiControls.Control.FocusedControl is GuiControls.TabControl))
+						var copiedControl = ControlSerializer.Deserialize(XElement.Parse(serializedControl));
+						if (copiedControl != null)
 						{
-							MessageBox.Show("A TabPage needs to be inserted into a TabControl.");
-							return;
-						}
-						if (GuiControls.Control.FocusedControl is GuiControls.ContainerControl)
-						{
-							parent = GuiControls.Control.FocusedControl as GuiControls.ContainerControl;
-						}
-						else
-						{
-							parent = GuiControls.Control.FocusedControl.RealParent;
-						}
-
-						parent.AddControl(copiedControl);
-
-						AddControlToList(copiedControl);
-						if (copiedControl is GuiControls.ContainerControl)
-						{
-							foreach (GuiControls.Control control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
+							GuiControls.ContainerControl parent = null;
+							if (copiedControl is GuiControls.TabPage && !(GuiControls.Control.FocusedControl is GuiControls.TabControl))
 							{
-								if (control is GuiControls.ScalableControl)
-								{
-									RegisterEvents(control);
-
-									AddControlToList(control);
-								}
+								MessageBox.Show("A TabPage needs to be inserted into a TabControl.");
+								return;
 							}
-							controlComboBox.SelectedItem = copiedControl;
-						}
+							if (GuiControls.Control.FocusedControl is GuiControls.ContainerControl)
+							{
+								parent = GuiControls.Control.FocusedControl as GuiControls.ContainerControl;
+							}
+							else
+							{
+								parent = GuiControls.Control.FocusedControl.RealParent;
+							}
 
-						RegisterEvents(copiedControl);
+							parent.AddControl(copiedControl);
+
+							AddControlToList(copiedControl);
+							if (copiedControl is GuiControls.ContainerControl)
+							{
+								foreach (GuiControls.Control control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
+								{
+									if (control is GuiControls.ScalableControl)
+									{
+										RegisterEvents(control);
+
+										AddControlToList(control);
+									}
+								}
+								controlComboBox.SelectedItem = copiedControl;
+							}
+
+							RegisterEvents(copiedControl);
+						}
 					}
 				}
 			}
@@ -746,10 +749,7 @@ namespace OSHVisualGui
 			{
 				try
 				{
-					ControlSerializer ser = new ControlSerializer();
-					ser.Load(ofd.FileName);
-
-					GuiControls.Control control = ser.Deserialize();
+					GuiControls.Control control = ControlSerializer.Deserialize(XElement.Load(ofd.FileName));
 					if (control is GuiControls.Form)
 					{
 						form = control as GuiControls.Form;
@@ -798,9 +798,7 @@ namespace OSHVisualGui
 
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
-				ControlSerializer ser = new ControlSerializer();
-				ser.Serialize(form);
-				ser.Save(sfd.FileName);
+				ControlSerializer.Serialize(form).Save(sfd.FileName);
 			}
 		}
 
