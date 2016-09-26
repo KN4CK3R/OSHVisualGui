@@ -72,7 +72,7 @@ namespace OSHVisualGui.GuiControls
 				base.AutoSize = value;
 				if (AutoSize)
 				{
-					base.Size = TextRenderer.MeasureText(text, Font, new Size(1000, 1000), TextFormatFlags.NoPadding);
+					base.Size = TextRenderer.MeasureText(text, Font, new Size(1000, 1000));
 				}
 			}
 		}
@@ -109,7 +109,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
 			}
-			graphics.DrawString(text, Font, foreBrush, new Rectangle(AbsoluteLocation, Size));
+			TextRenderer.DrawText(graphics, Text, Font, new Rectangle(AbsoluteLocation, Size), ForeColor, TextFormatFlags.NoPadding);
 		}
 
 		public override Control Copy()
