@@ -91,7 +91,7 @@ namespace OSHVisualGui
 
 		public int GetControlCount(Type controlType)
 		{
-			int count = 1;
+			int count = 0;
 
 			foreach (Control control in controls)
 			{
@@ -102,6 +102,11 @@ namespace OSHVisualGui
 			}
 
 			return count;
+		}
+
+		public int GetControlCountPlusOne(Type controlType)
+		{
+			return GetControlCount(controlType) + 1;
 		}
 	}
 }
