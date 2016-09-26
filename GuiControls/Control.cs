@@ -481,7 +481,7 @@ namespace OSHVisualGui.GuiControls
 		public abstract Control Copy();
 		protected virtual void CopyTo(Control copy)
 		{
-			copy.name = DefaultName + ControlManager.Instance().GetControlCount(copy.GetType());
+			copy.name = name;
 			copy.enabled = enabled;
 			copy.visible = visible;
 			copy.location = location;
