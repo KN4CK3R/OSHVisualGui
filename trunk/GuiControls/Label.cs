@@ -28,7 +28,7 @@ namespace OSHVisualGui.GuiControls
 				text = value == null ? string.Empty : value;
 				if (AutoSize)
 				{
-					base.Size = TextRenderer.MeasureText(text, Font, new Size(1000, 1000), TextFormatFlags.NoPadding);
+					base.Size = MeasureText(text, Font);
 				}
 			}
 		}
@@ -57,7 +57,7 @@ namespace OSHVisualGui.GuiControls
 				base.Font = value;
 				if (AutoSize)
 				{
-					base.Size = TextRenderer.MeasureText(text, Font, new Size(1000, 1000), TextFormatFlags.NoPadding);
+					base.Size = MeasureText(text, Font);
 				}
 			}
 		}
@@ -72,7 +72,7 @@ namespace OSHVisualGui.GuiControls
 				base.AutoSize = value;
 				if (AutoSize)
 				{
-					base.Size = TextRenderer.MeasureText(text, Font, new Size(1000, 1000));
+					base.Size = MeasureText(text, Font);
 				}
 			}
 		}

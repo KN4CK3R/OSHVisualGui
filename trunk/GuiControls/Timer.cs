@@ -284,6 +284,9 @@ namespace OSHVisualGui.GuiControls
 				Enabled = Enabled.FromXMLString(element.Attribute("enabled").Value.Trim());
 			if (element.HasAttribute("interval"))
 				Interval = Interval.FromXMLString(element.Attribute("interval").Value.Trim());
+
+			if (element.HasAttribute("TickEvent"))
+				TickEvent.Code = element.Attribute("TickEvent").Value.Trim().FromBase64String();
 		}
 	}
 }

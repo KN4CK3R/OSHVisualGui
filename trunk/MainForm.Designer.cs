@@ -367,6 +367,7 @@
 			this.MainMenuStrip = this.menuStrip;
 			this.Name = "MainForm";
 			this.Text = "OSHVisualGui ";
+			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.menuStrip.ResumeLayout(false);
 			this.menuStrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.canvasPictureBox)).EndInit();

@@ -573,6 +573,11 @@ namespace OSHVisualGui.GuiControls
 			OnGotFocus(this);
 		}
 
+		public static Size MeasureText(string text, Font font)
+		{
+			return TextRenderer.MeasureText(MainForm.Renderer, text, font, new Size(1000, 1000), TextFormatFlags.NoPadding);
+		}
+
 		#region EventHandling
 
 		protected virtual void OnGotFocus(Control control)
