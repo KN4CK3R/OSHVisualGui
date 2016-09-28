@@ -94,7 +94,7 @@ namespace OSHVisualGui.GuiControls
 				int y = 5;
 				for (int i = 0; i < Items.Length; ++i)
 				{
-					Size stringSize = TextRenderer.MeasureText(Items[i], Font);
+					Size stringSize = MeasureText(Items[i], Font);
 					if (y + stringSize.Height >= Size.Height)
 					{
 						break;
@@ -122,12 +122,10 @@ namespace OSHVisualGui.GuiControls
 
 			ListBox listBox = copy as ListBox;
 			listBox.autoScrollEnabled = autoScrollEnabled;
-			string[] itemsCopy = new string[items.Length];
-			for (int i = 0; i < items.Length; ++i)
+			if (items != null)
 			{
-				itemsCopy[i] = items[i];
+				listBox.items = (string[])items.Clone();
 			}
-			listBox.items = itemsCopy;
 		}
 
 		public override string ToString()

@@ -15,13 +15,13 @@ namespace OSHVisualGui
 		private GuiControls.Form form;
 		private bool stickToolBoxToggle;
 
-		internal static Graphics renderer;
+		internal static Graphics Renderer { get; private set; }
 
 		public MainForm()
 		{
 			InitializeComponent();
 
-			this.Text += Assembly.GetExecutingAssembly().GetName().Version.ToString(2);
+			Text += Assembly.GetExecutingAssembly().GetName().Version.ToString(2);
 
 			stickToolBoxToggle = false;
 
@@ -57,8 +57,8 @@ namespace OSHVisualGui
 
 			canvasPictureBox.AllowDrop = true;
 
-			renderer = Graphics.FromHwnd(this.Handle);
-			renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+			Renderer = Graphics.FromHwnd(this.Handle);
+			Renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
 			form = new GuiControls.Form(new Point(6, 6));
 			form.Text = form.Name = "Form1";
@@ -198,7 +198,7 @@ namespace OSHVisualGui
 
 		private void canvasPictureBox_Paint(object sender, PaintEventArgs e)
 		{
-			renderer = e.Graphics;
+			var renderer = e.Graphics;
 			renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
 			form.Render(renderer);
@@ -295,101 +295,101 @@ namespace OSHVisualGui
 				{
 					case GuiControls.ControlType.Button:
 						GuiControls.Button button = new GuiControls.Button();
-						button.Text = button.Name = "button" + cm.GetControlCountPlusOne(typeof(GuiControls.Button));
+						button.Text = button.Name = button.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Button));
 						newControl = button;
 						break;
 					case GuiControls.ControlType.CheckBox:
 						GuiControls.CheckBox checkBox = new GuiControls.CheckBox();
-						checkBox.Text = checkBox.Name = "checkBox" + cm.GetControlCountPlusOne(typeof(GuiControls.CheckBox));
+						checkBox.Text = checkBox.Name = checkBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.CheckBox));
 						newControl = checkBox;
 						break;
 					case GuiControls.ControlType.ColorBar:
 						GuiControls.ColorBar colorBar = new GuiControls.ColorBar();
-						colorBar.Name = "colorBar" + cm.GetControlCountPlusOne(typeof(GuiControls.ColorBar));
+						colorBar.Name = colorBar.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ColorBar));
 						newControl = colorBar;
 						break;
 					case GuiControls.ControlType.ColorPicker:
 						GuiControls.ColorPicker colorPicker = new GuiControls.ColorPicker();
-						colorPicker.Name = "colorPicker" + cm.GetControlCountPlusOne(typeof(GuiControls.ColorPicker));
+						colorPicker.Name = colorPicker.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ColorPicker));
 						newControl = colorPicker;
 						break;
 					case GuiControls.ControlType.ComboBox:
 						GuiControls.ComboBox comboBox = new GuiControls.ComboBox();
-						comboBox.Text = comboBox.Name = "comboBox" + cm.GetControlCountPlusOne(typeof(GuiControls.ComboBox));
+						comboBox.Text = comboBox.Name = comboBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ComboBox));
 						newControl = comboBox;
 						break;
 					case GuiControls.ControlType.GroupBox:
 						GuiControls.GroupBox groupBox = new GuiControls.GroupBox();
-						groupBox.Text = groupBox.Name = "groupBox" + cm.GetControlCountPlusOne(typeof(GuiControls.GroupBox));
+						groupBox.Text = groupBox.Name = groupBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.GroupBox));
 						newControl = groupBox;
 						break;
 					case GuiControls.ControlType.Label:
 						GuiControls.Label label = new GuiControls.Label();
-						label.Text = label.Name = "label" + cm.GetControlCountPlusOne(typeof(GuiControls.Label));
+						label.Text = label.Name = label.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Label));
 						newControl = label;
 						break;
 					case GuiControls.ControlType.LinkLabel:
 						GuiControls.LinkLabel linkLabel = new GuiControls.LinkLabel();
-						linkLabel.Text = linkLabel.Name = "linkLabel" + cm.GetControlCountPlusOne(typeof(GuiControls.LinkLabel));
+						linkLabel.Text = linkLabel.Name = linkLabel.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.LinkLabel));
 						newControl = linkLabel;
 						break;
 					case GuiControls.ControlType.ListBox:
 						GuiControls.ListBox listBox = new GuiControls.ListBox();
-						listBox.Name = "listBox" + cm.GetControlCountPlusOne(typeof(GuiControls.ListBox));
+						listBox.Name = listBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ListBox));
 						newControl = listBox;
 						break;
 					case GuiControls.ControlType.Panel:
 						GuiControls.Panel panel = new GuiControls.Panel();
-						panel.Name = "panel" + cm.GetControlCountPlusOne(typeof(GuiControls.Panel));
+						panel.Name = panel.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Panel));
 						newControl = panel;
 						break;
 					case GuiControls.ControlType.PictureBox:
 						GuiControls.PictureBox pictureBox = new GuiControls.PictureBox();
-						pictureBox.Name = "pictureBox" + cm.GetControlCountPlusOne(typeof(GuiControls.PictureBox));
+						pictureBox.Name = pictureBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.PictureBox));
 						newControl = pictureBox;
 						break;
 					case GuiControls.ControlType.ProgressBar:
 						GuiControls.ProgressBar progressBar = new GuiControls.ProgressBar();
-						progressBar.Name = "progressBar" + cm.GetControlCountPlusOne(typeof(GuiControls.ProgressBar));
+						progressBar.Name = progressBar.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ProgressBar));
 						newControl = progressBar;
 						break;
 					case GuiControls.ControlType.RadioButton:
 						GuiControls.RadioButton radioButton = new GuiControls.RadioButton();
-						radioButton.Text = radioButton.Name = "radioButton" + cm.GetControlCountPlusOne(typeof(GuiControls.RadioButton));
+						radioButton.Text = radioButton.Name = radioButton.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.RadioButton));
 						newControl = radioButton;
 						break;
 					case GuiControls.ControlType.TabControl:
 						GuiControls.TabControl tabControl = new GuiControls.TabControl();
-						tabControl.Name = "tabControl" + cm.GetControlCountPlusOne(typeof(GuiControls.TabControl));
+						tabControl.Name = tabControl.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TabControl));
 						GuiControls.TabPage tempTabPage = new GuiControls.TabPage();
-						tempTabPage.Text = tempTabPage.Name = "tabPage" + cm.GetControlCountPlusOne(typeof(GuiControls.TabPage));
+						tempTabPage.Text = tempTabPage.Name = tempTabPage.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TabPage));
 						tabControl.AddTabPage(tempTabPage);
 						AddControlToList(tempTabPage);
 						newControl = tabControl;
 						break;
 					case GuiControls.ControlType.TabPage:
 						GuiControls.TabPage tabPage = new GuiControls.TabPage();
-						tabPage.Text = tabPage.Name = "tabPage" + cm.GetControlCountPlusOne(typeof(GuiControls.TabPage));
+						tabPage.Text = tabPage.Name = tabPage.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TabPage));
 						newControl = tabPage;
 						break;
 					case GuiControls.ControlType.TextBox:
 						GuiControls.TextBox textBox = new GuiControls.TextBox();
-						textBox.Name = textBox.Text = "textBox" + cm.GetControlCountPlusOne(typeof(GuiControls.TextBox));
+						textBox.Name = textBox.Text = textBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TextBox));
 						newControl = textBox;
 						break;
 					case GuiControls.ControlType.Timer:
 						GuiControls.Timer timer = new GuiControls.Timer();
-						timer.Name = "timer" + cm.GetControlCountPlusOne(typeof(GuiControls.Timer));
+						timer.Name = timer.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Timer));
 						newControl = timer;
 						break;
 					case GuiControls.ControlType.TrackBar:
 						GuiControls.TrackBar trackBar = new GuiControls.TrackBar();
-						trackBar.Name = "trackBar" + cm.GetControlCountPlusOne(typeof(GuiControls.TrackBar));
+						trackBar.Name = trackBar.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TrackBar));
 						newControl = trackBar;
 						break;
 					case GuiControls.ControlType.HotkeyControl:
 						GuiControls.HotkeyControl hotkeyControl = new GuiControls.HotkeyControl();
-						hotkeyControl.Name = "hotkeyControl" + cm.GetControlCountPlusOne(typeof(GuiControls.HotkeyControl));
+						hotkeyControl.Name = hotkeyControl.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.HotkeyControl));
 						newControl = hotkeyControl;
 						break;
 				}
@@ -430,10 +430,11 @@ namespace OSHVisualGui
 				if (e.KeyCode == Keys.Delete)
 				{
 					GuiControls.Control removeControl = GuiControls.Control.FocusedControl;
+					var parent = removeControl.RealParent ?? form;
 
 					RecursiveRemove(removeControl);
 
-					form.Focus();
+					parent.Focus();
 
 					controlComboBox.SelectedIndex = 0;
 				}
@@ -833,6 +834,12 @@ namespace OSHVisualGui
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			//TODO
+		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			Renderer = CreateGraphics();
+			Renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 		}
 	}
 }
