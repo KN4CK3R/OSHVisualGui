@@ -279,6 +279,12 @@ namespace OSHVisualGui
 			{
 				return ((AnchorStyles)obj).ToXMLString();
 			}
+
+			if (obj is IFormattable formattable)
+			{
+				return formattable.ToString(null, CultureInfo.InvariantCulture);
+			}
+
 			return obj.ToString();
 		}
 
