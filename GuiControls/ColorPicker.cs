@@ -1,27 +1,18 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class ColorPicker : ScalableControl
+	public class ColorPicker : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "colorPicker";
-			}
-		}
+		internal override string DefaultName => "colorPicker";
 		private Color color;
 		public virtual Color Color
 		{
-			get
-			{
-				return color;
-			}
+			get => color;
 			set
 			{
 				color = value;
@@ -30,10 +21,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				base.Size = value;
@@ -78,8 +66,6 @@ namespace OSHVisualGui.GuiControls
 
 		private Color GetColorAtPoint(int x, int y)
 		{
-			Color tmpColor;
-
 			double hue = (1.0 / Size.Width) * x;
 			hue = hue - (int)hue;
 			double saturation, brightness;
@@ -101,63 +87,58 @@ namespace OSHVisualGui.GuiControls
 			double t = brightness * (1.0 - (saturation * (1.0 - f)));
 			if (h < 1)
 			{
-				tmpColor = Color.FromArgb(
-								(int)(brightness * 255),
-								(int)(t * 255),
-								(int)(p * 255)
-								);
+				return Color.FromArgb(
+					(int)(brightness * 255),
+					(int)(t * 255),
+					(int)(p * 255)
+				);
 			}
-			else if (h < 2)
+			if (h < 2)
 			{
-				tmpColor = Color.FromArgb(
-								(int)(q * 255),
-								(int)(brightness * 255),
-								(int)(p * 255)
-								);
+				return Color.FromArgb(
+					(int)(q * 255),
+					(int)(brightness * 255),
+					(int)(p * 255)
+				);
 			}
-			else if (h < 3)
+			if (h < 3)
 			{
-				tmpColor = Color.FromArgb(
-								(int)(p * 255),
-								(int)(brightness * 255),
-								(int)(t * 255)
-								);
+				return Color.FromArgb(
+					(int)(p * 255),
+					(int)(brightness * 255),
+					(int)(t * 255)
+				);
 			}
-			else if (h < 4)
+			if (h < 4)
 			{
-				tmpColor = Color.FromArgb(
-								(int)(p * 255),
-								(int)(q * 255),
-								(int)(brightness * 255)
-								);
+				return Color.FromArgb(
+					(int)(p * 255),
+					(int)(q * 255),
+					(int)(brightness * 255)
+				);
 			}
-			else if (h < 5)
+			if (h < 5)
 			{
-				tmpColor = Color.FromArgb(
-								(int)(t * 255),
-								(int)(p * 255),
-								(int)(brightness * 255)
-								);
+				return Color.FromArgb(
+					(int)(t * 255),
+					(int)(p * 255),
+					(int)(brightness * 255)
+				);
 			}
-			else
-			{
-				tmpColor = Color.FromArgb(
-								(int)(brightness * 255),
-								(int)(p * 255),
-								(int)(q * 255)
-								);
-			}
-
-			return tmpColor;
+				return Color.FromArgb(
+					(int)(brightness * 255),
+					(int)(p * 255),
+					(int)(q * 255)
+				);
 		}
 
 		private void UpdateGradient()
 		{
 			gradient = new Bitmap(Size.Width, Size.Height);
 
-			for (int y = 0; y < Size.Height; ++y)
+			for (var y = 0; y < Size.Height; ++y)
 			{
-				for (int x = 0; x < Size.Width; ++x)
+				for (var x = 0; x < Size.Width; ++x)
 				{
 					gradient.SetPixel(x, y, GetColorAtPoint(x, y));
 				}
@@ -171,7 +152,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			ColorPicker copy = new ColorPicker();
+			var copy = new ColorPicker();
 			CopyTo(copy);
 			return copy;
 		}
@@ -180,7 +161,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			ColorPicker colorPicker = copy as ColorPicker;
+			var colorPicker = copy as ColorPicker;
 			colorPicker.color = color;
 		}
 

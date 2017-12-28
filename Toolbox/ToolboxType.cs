@@ -4,7 +4,7 @@ namespace OSHVisualGui.Toolbox
 {
 	public class ToolboxType
 	{
-		public Type Type { get; private set; }
+		public Type Type { get; }
 
 		public ToolboxType(Type type)
 		{

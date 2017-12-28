@@ -10,66 +10,37 @@ namespace OSHVisualGui.GuiControls
 	public class Form : ContainerControl
 	{
 		#region Properties
-		private Panel panel;
+
+		private readonly Panel panel;
+
 		private string text;
 		public string Text
 		{
-			get
-			{
-				return text;
-			}
-			set
-			{
-				text = value == null ? string.Empty : value;
-			}
+			get => text;
+			set => text = value ?? string.Empty;
 		}
+
 		public override Point Location
 		{
-			get
-			{
-				return base.Location;
-			}
+			get => base.Location;
 			set
 			{
 			}
 		}
-		internal override List<Control> Controls
-		{
-			get
-			{
-				return panel.Controls;
-			}
-		}
-		internal override Point ContainerLocation
-		{
-			get
-			{
-				return base.ContainerLocation.Add(panel.Location);
-			}
-		}
-		internal override Point ContainerAbsoluteLocation
-		{
-			get
-			{
-				return panel.ContainerAbsoluteLocation;
-			}
-		}
-		internal override Size ContainerSize
-		{
-			get
-			{
-				return panel.ContainerSize;
-			}
-		}
+		internal override List<Control> Controls => panel.Controls;
+
+		internal override Point ContainerLocation => base.ContainerLocation.Add(panel.Location);
+
+		internal override Point ContainerAbsoluteLocation => panel.ContainerAbsoluteLocation;
+
+		internal override Size ContainerSize => panel.ContainerSize;
+
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
-				Size tempSize = value;
+				var tempSize = value;
 				if (tempSize.Width < 80 || tempSize.Height < 50)
 				{
 					tempSize = new Size(Math.Max(80, tempSize.Width), Math.Max(50, tempSize.Height));
@@ -100,7 +71,6 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		public Form()
-			: base()
 		{
 			Type = ControlType.Form;
 
@@ -108,9 +78,11 @@ namespace OSHVisualGui.GuiControls
 
 			Mode = DragMode.GrowOnly;
 
-			panel = new Panel();
-			panel.Location = new Point(6, 6 + 17);
-			panel.isSubControl = true;
+			panel = new Panel
+			{
+				Location = new Point(6, 6 + 17),
+				IsSubControl = true
+			};
 			AddSubControl(panel);
 
 			Size = DefaultSize = new Size(300, 300);
@@ -152,8 +124,8 @@ namespace OSHVisualGui.GuiControls
 			graphics.DrawString(text, Font, foreBrush, new Point(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 3));
 			graphics.FillRectangle(new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50))), AbsoluteLocation.X + 5, AbsoluteLocation.Y + 17 + 2, Size.Width - 10, 1);
 
-			Point crossLocation = new Point(AbsoluteLocation.X + Size.Width - 16, AbsoluteLocation.Y + 6);
-			for (int i = 0; i < 4; ++i)
+			var crossLocation = new Point(AbsoluteLocation.X + Size.Width - 16, AbsoluteLocation.Y + 6);
+			for (var i = 0; i < 4; ++i)
 			{
 				graphics.FillRectangle(foreBrush, crossLocation.X + i, crossLocation.Y + i, 3, 1);
 				graphics.FillRectangle(foreBrush, crossLocation.X + 6 - i, crossLocation.Y + i, 3, 1);
@@ -163,14 +135,14 @@ namespace OSHVisualGui.GuiControls
 
 			panel.Render(graphics);
 
-			if (isHighlighted)
+			if (IsHighlighted)
 			{
-				using (Pen pen = new Pen(Color.Orange, 1))
+				using (var pen = new Pen(Color.Orange, 1))
 				{
 					graphics.DrawRectangle(pen, AbsoluteLocation.X - 2, AbsoluteLocation.Y - 2, Size.Width + 3, Size.Height + 3);
 				}
 
-				isHighlighted = false;
+				IsHighlighted = false;
 			}
 		}
 

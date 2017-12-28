@@ -3,34 +3,30 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
+using System.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
 	public class TabControl : ContainerControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "tabControl";
-			}
-		}
-		private List<TabPageButtonBinding> tabPageButtonBindings;
+
+		internal override string DefaultName => "tabControl";
+
+		private readonly List<TabPageButtonBinding> tabPageButtonBindings;
 
 		private int startIndex;
 		private int maxIndex;
 		private TabPageButtonBinding selected;
 		//public TabPage CurrentTabPage { get { return selected != null ? selected.tabPage : null; } }
-		private TabControlSwitchButton lastSwitchButton;
-		private TabControlSwitchButton nextSwitchButton;
+		private readonly TabControlSwitchButton lastSwitchButton;
+		private readonly TabControlSwitchButton nextSwitchButton;
 
 		internal List<TabPage> TabPages
 		{
 			get
 			{
-				List<TabPage> tempList = new List<TabPage>();
+				var tempList = new List<TabPage>();
 				foreach (var binding in tabPageButtonBindings)
 				{
 					tempList.Add(binding.TabPage);
@@ -42,7 +38,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			get
 			{
-				List<Control> tempList = new List<Control>();
+				var tempList = new List<Control>();
 				foreach (var binding in tabPageButtonBindings)
 				{
 					tempList.Add(binding.TabPage);
@@ -52,10 +48,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public int SelectedTabPage
 		{
-			get
-			{
-				return selected != null ? selected.Index : -1;
-			}
+			get => selected?.Index ?? -1;
 			set
 			{
 				if (value >= 0 && value < tabPageButtonBindings.Count)
@@ -65,9 +58,9 @@ namespace OSHVisualGui.GuiControls
 					selected.Button.Active = true;
 					selected.TabPage.Location = new Point(0, selected.Button.Size.Height);
 
-					int width = 0;
+					var width = 0;
 					startIndex = 0;
-					for (int i = 0; i < tabPageButtonBindings.Count; ++i)
+					for (var i = 0; i < tabPageButtonBindings.Count; ++i)
 					{
 						if (width + tabPageButtonBindings[i].Button.Size.Width > Size.Width)
 						{
@@ -88,10 +81,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				base.Size = value;
@@ -102,7 +92,7 @@ namespace OSHVisualGui.GuiControls
 
 				if (selected != null)
 				{
-					Size tabPageSize = Size.Substract(new Size(0, selected.Button.Size.Height));
+					var tabPageSize = Size.Substract(new Size(0, selected.Button.Size.Height));
 					foreach (var binding in tabPageButtonBindings)
 					{
 						binding.TabPage.Size = tabPageSize;
@@ -112,10 +102,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Font Font
 		{
-			get
-			{
-				return base.Font;
-			}
+			get => base.Font;
 			set
 			{
 				base.Font = value;
@@ -127,10 +114,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Color ForeColor
 		{
-			get
-			{
-				return base.ForeColor;
-			}
+			get => base.ForeColor;
 			set
 			{
 				base.ForeColor = value;
@@ -145,10 +129,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Color BackColor
 		{
-			get
-			{
-				return base.BackColor;
-			}
+			get => base.BackColor;
 			set
 			{
 				base.BackColor = value;
@@ -161,27 +142,11 @@ namespace OSHVisualGui.GuiControls
 				nextSwitchButton.BackColor = value;
 			}
 		}
-		internal override Point ContainerLocation
-		{
-			get
-			{
-				return base.ContainerLocation.Add(selected.TabPage.Location);
-			}
-		}
-		internal override Point ContainerAbsoluteLocation
-		{
-			get
-			{
-				return selected.TabPage.ContainerAbsoluteLocation;
-			}
-		}
-		internal override Size ContainerSize
-		{
-			get
-			{
-				return selected.TabPage.ContainerSize;
-			}
-		}
+		internal override Point ContainerLocation => base.ContainerLocation.Add(selected.TabPage.Location);
+
+		internal override Point ContainerAbsoluteLocation => selected.TabPage.ContainerAbsoluteLocation;
+
+		internal override Size ContainerSize => selected.TabPage.ContainerSize;
 
 		[Category("Events")]
 		public SelectedIndexChangedEvent SelectedIndexChangedEvent
@@ -227,13 +192,13 @@ namespace OSHVisualGui.GuiControls
 
 		public override void AddControl(Control control)
 		{
-			if (control is TabPage)
+			if (control is TabPage page)
 			{
-				AddTabPage(control as TabPage);
+				AddTabPage(page);
 			}
 			else
 			{
-				if (selected == null || selected.TabPage == null)
+				if (selected?.TabPage == null)
 				{
 					return;
 				}
@@ -243,18 +208,13 @@ namespace OSHVisualGui.GuiControls
 
 		public override void RemoveControl(Control control)
 		{
-			if (control is TabPage && tabPageButtonBindings.Count > 1)
+			if (control is TabPage page && tabPageButtonBindings.Count > 1)
 			{
-				RemoveTabPage(control as TabPage);
+				RemoveTabPage(page);
 				return;
 			}
 
-			if (selected == null || selected.TabPage == null)
-			{
-				return;
-			}
-
-			selected.TabPage.RemoveControl(control);
+			selected?.TabPage?.RemoveControl(control);
 		}
 
 		public void AddTabPage(TabPage tabPage)
@@ -264,23 +224,24 @@ namespace OSHVisualGui.GuiControls
 				return;
 			}
 
-			foreach (TabPageButtonBinding binding in tabPageButtonBindings)
+			if (tabPageButtonBindings.Any(binding => binding.TabPage == tabPage))
 			{
-				if (binding.TabPage == tabPage)
-				{
-					return;
-				}
+				return;
 			}
 
-			TabPageButtonBinding newBinding = new TabPageButtonBinding();
-			newBinding.Index = tabPageButtonBindings.Count;
-			newBinding.TabPage = tabPage;
+			var newBinding = new TabPageButtonBinding
+			{
+				Index = tabPageButtonBindings.Count,
+				TabPage = tabPage
+			};
 
-			TabControlButton button = new TabControlButton(newBinding);
-			button.Location = new Point(0, 0);
-			button.ForeColor = ForeColor;
-			button.BackColor = BackColor;
-			button.Font = Font;
+			var button = new TabControlButton(newBinding)
+			{
+				Location = new Point(0, 0),
+				ForeColor = ForeColor,
+				BackColor = BackColor,
+				Font = Font
+			};
 
 			tabPage.Size = Size.Substract(new Size(0, button.Size.Height));
 
@@ -364,11 +325,11 @@ namespace OSHVisualGui.GuiControls
 					binding.Button.Visible = false;
 				}
 
-				int tempWidth = 0;
-				int maxWidth = Size.Width - 9;
-				for (int i = startIndex; i < tabPageButtonBindings.Count; ++i)
+				var tempWidth = 0;
+				var maxWidth = Size.Width - 9;
+				for (var i = startIndex; i < tabPageButtonBindings.Count; ++i)
 				{
-					TabControlButton button = tabPageButtonBindings[i].Button;
+					var button = tabPageButtonBindings[i].Button;
 					if (tempWidth + button.Size.Width <= maxWidth)
 					{
 						button.Location = new Point(tempWidth, 0);
@@ -392,7 +353,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override IEnumerable<Control> PostOrderVisit()
 		{
-			if (selected != null && selected.TabPage != null)
+			if (selected?.TabPage != null)
 			{
 				foreach (var binding in tabPageButtonBindings)
 				{
@@ -402,7 +363,7 @@ namespace OSHVisualGui.GuiControls
 					}
 				}
 
-				foreach (Control child in selected.TabPage.PostOrderVisit())
+				foreach (var child in selected.TabPage.PostOrderVisit())
 				{
 					yield return child;
 				}
@@ -418,9 +379,9 @@ namespace OSHVisualGui.GuiControls
 
 		public override void Render(Graphics graphics)
 		{
-			if (selected != null && selected.TabPage != null)
+			if (selected?.TabPage != null)
 			{
-				for (int i = startIndex; i < maxIndex; ++i)
+				for (var i = startIndex; i < maxIndex; ++i)
 				{
 					tabPageButtonBindings[i].Button.Render(graphics);
 				}
@@ -431,20 +392,20 @@ namespace OSHVisualGui.GuiControls
 				selected.TabPage.Render(graphics);
 			}
 
-			if (isHighlighted)
+			if (IsHighlighted)
 			{
-				using (Pen pen = new Pen(Color.Orange, 1))
+				using (var pen = new Pen(Color.Orange, 1))
 				{
 					graphics.DrawRectangle(pen, AbsoluteLocation.X - 3, AbsoluteLocation.Y - 2, Size.Width + 5, Size.Height + 4);
 				}
 
-				isHighlighted = false;
+				IsHighlighted = false;
 			}
 		}
 
 		public override Control Copy()
 		{
-			TabControl copy = new TabControl();
+			var copy = new TabControl();
 			CopyTo(copy);
 			return copy;
 		}
@@ -453,7 +414,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			TabControl tabControl = copy as TabControl;
+			var tabControl = copy as TabControl;
 			foreach (var binding in tabPageButtonBindings)
 			{
 				tabControl.AddTabPage(binding.TabPage.Copy() as TabPage);
@@ -495,19 +456,11 @@ namespace OSHVisualGui.GuiControls
 		internal class TabControlButton : Control
 		{
 			#region Properties
-			private TabPageButtonBinding binding;
-			private bool active;
-			public bool Active
-			{
-				get
-				{
-					return active;
-				}
-				set
-				{
-					active = value;
-				}
-			}
+
+			private readonly TabPageButtonBinding binding;
+
+			public bool Active { get; set; }
+
 			#endregion
 
 			internal TabControlButton(TabPageButtonBinding binding)
@@ -515,7 +468,7 @@ namespace OSHVisualGui.GuiControls
 				//isSubControl = true;
 				isFocusable = false;
 
-				active = false;
+				Active = false;
 				this.binding = binding;
 
 				CalculateSize();
@@ -525,8 +478,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				Size = MeasureText(binding.TabPage.Text, Font).Add(new Size(8, 4));
 
-				TabControl tabControl = Parent as TabControl;
-				if (tabControl != null)
+				if (Parent is TabControl tabControl)
 				{
 					tabControl.CalculateButtonLocationAndCount();
 				}
@@ -534,10 +486,10 @@ namespace OSHVisualGui.GuiControls
 
 			public override void Render(Graphics graphics)
 			{
-				if (active)
+				if (Active)
 				{
-					Rectangle rect = new Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
-					LinearGradientBrush brush = new LinearGradientBrush(rect, BackColor.Add(Color.FromArgb(0, 43, 43, 43)), BackColor.Substract(Color.FromArgb(0, 10, 10, 10)), LinearGradientMode.Vertical);
+					var rect = new Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
+					var brush = new LinearGradientBrush(rect, BackColor.Add(Color.FromArgb(0, 43, 43, 43)), BackColor.Substract(Color.FromArgb(0, 10, 10, 10)), LinearGradientMode.Vertical);
 					graphics.FillRectangle(brush, rect);
 					rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height);
 					brush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 42, 42, 42)), LinearGradientMode.Vertical);
@@ -546,8 +498,8 @@ namespace OSHVisualGui.GuiControls
 				else
 				{
 					graphics.FillRectangle(new SolidBrush(BackColor.Substract(Color.FromArgb(0, 38, 38, 38))), AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
-					Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 1);
-					LinearGradientBrush brush = new LinearGradientBrush(rect, BackColor.Substract(Color.FromArgb(0, 47, 47, 47)), BackColor.Substract(Color.FromArgb(0, 67, 67, 67)), LinearGradientMode.Vertical);
+					var rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 1);
+					var brush = new LinearGradientBrush(rect, BackColor.Substract(Color.FromArgb(0, 47, 47, 47)), BackColor.Substract(Color.FromArgb(0, 67, 67, 67)), LinearGradientMode.Vertical);
 					graphics.FillRectangle(brush, rect);
 				}
 				graphics.DrawString(binding.TabPage.Text, Font, foreBrush, AbsoluteLocation.Add(new Point(4, 2)));
@@ -562,7 +514,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				base.OnClick(mouse);
 
-				TabControl tabControl = Parent as TabControl;
+				var tabControl = Parent as TabControl;
 				tabControl.SelectedTabPage = binding.Index;
 
 				tabControl.Focus();
@@ -571,11 +523,11 @@ namespace OSHVisualGui.GuiControls
 
 		internal class TabControlSwitchButton : Control
 		{
-			private int direction;
+			private readonly int direction;
 
 			public TabControlSwitchButton(int direction)
 			{
-				isSubControl = true;
+				IsSubControl = true;
 
 				this.direction = direction;
 
@@ -589,23 +541,23 @@ namespace OSHVisualGui.GuiControls
 					return;
 				}
 
-				Brush border = new SolidBrush(BackColor.Add(Color.FromArgb(0, 9, 9, 9)));
+				var border = new SolidBrush(BackColor.Add(Color.FromArgb(0, 9, 9, 9)));
 				graphics.FillRectangle(border, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
 				graphics.FillRectangle(backBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
 
-				int x = AbsoluteLocation.X + 3;
+				var x = AbsoluteLocation.X + 3;
 				if (direction == 0)
 				{
-					int y = AbsoluteLocation.Y + 4;
-					for (int i = 0; i < 3; ++i)
+					var y = AbsoluteLocation.Y + 4;
+					for (var i = 0; i < 3; ++i)
 					{
 						graphics.FillRectangle(foreBrush, x + i, y - i, 1, 1 + i * 2);
 					}
 				}
 				else
 				{
-					int y = AbsoluteLocation.Y + 2;
-					for (int i = 0; i < 3; ++i)
+					var y = AbsoluteLocation.Y + 2;
+					for (var i = 0; i < 3; ++i)
 					{
 						graphics.FillRectangle(foreBrush, x + i, y + i, 1, 5 - i * 2);
 					}

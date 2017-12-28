@@ -5,25 +5,16 @@ using System.Windows.Forms;
 
 namespace OSHVisualGui.GuiControls
 {
-	class HotkeyControl : ScalableControl
+	public class HotkeyControl : ScalableControl
 	{
-		private TextBox textBox;
+		private readonly TextBox textBox;
 
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "hotkeyControl";
-			}
-		}
+		internal override string DefaultName => "hotkeyControl";
 
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				base.Size = value;
@@ -32,10 +23,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Font Font
 		{
-			get
-			{
-				return base.Font;
-			}
+			get => base.Font;
 			set
 			{
 				base.Font = value;
@@ -44,10 +32,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Color ForeColor
 		{
-			get
-			{
-				return base.ForeColor;
-			}
+			get => base.ForeColor;
 			set
 			{
 				base.ForeColor = value;
@@ -56,10 +41,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Color BackColor
 		{
-			get
-			{
-				return base.BackColor;
-			}
+			get => base.BackColor;
 			set
 			{
 				base.BackColor = value;
@@ -70,10 +52,7 @@ namespace OSHVisualGui.GuiControls
 		private Keys hotkey;
 		public Keys Hotkey
 		{
-			get
-			{
-				return hotkey;
-			}
+			get => hotkey;
 			set
 			{
 				hotkey = value;
@@ -93,9 +72,11 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.HotkeyControl;
 
-			textBox = new TextBox();
-			textBox.Location = new Point(0, 0);
-			textBox.Parent = this;
+			textBox = new TextBox
+			{
+				Location = new Point(0, 0),
+				Parent = this
+			};
 
 			Size = DefaultSize = new Size(100, 24);
 
@@ -137,14 +118,9 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			HotkeyControl copy = new HotkeyControl();
+			var copy = new HotkeyControl();
 			CopyTo(copy);
 			return copy;
-		}
-
-		protected override void CopyTo(Control copy)
-		{
-			base.CopyTo(copy);
 		}
 
 		private string ModifierToText()

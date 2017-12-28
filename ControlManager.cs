@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using OSHVisualGui.GuiControls;
 
@@ -7,15 +8,9 @@ namespace OSHVisualGui
 {
 	public class ControlManager
 	{
-		private static ControlManager instance = new ControlManager();
-		private List<Control> controls;
-		public List<Control> Controls
-		{
-			get
-			{
-				return controls;
-			}
-		}
+		private static readonly ControlManager instance = new ControlManager();
+		private readonly List<Control> controls;
+		public List<Control> Controls => controls;
 
 		private ControlManager()
 		{
@@ -36,7 +31,7 @@ namespace OSHVisualGui
 		{
 			if (control == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException(nameof(control));
 			}
 
 			if (controls.Contains(control))
@@ -44,27 +39,21 @@ namespace OSHVisualGui
 				throw new ArgumentException("Control already exists.");
 			}
 
-			foreach (var c in controls)
+			if (controls.Any(c => control.Name == c.Name))
 			{
-				if (control.Name == c.Name)
-				{
-					throw new Exception("A control with name '" + control.Name + "' already exists.");
-				}
+				throw new Exception("A control with name '" + control.Name + "' already exists.");
 			}
 
 			controls.Add(control);
 
-			controls.Sort(delegate(Control c1, Control c2)
-			{
-				return c1.Name.CompareTo(c2.Name);
-			});
+			controls.Sort((c1, c2) => c1.Name.CompareTo(c2.Name));
 		}
 
 		public void UnregisterControl(Control control)
 		{
 			if (control == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException(nameof(control));
 			}
 
 			if (controls.Contains(control))
@@ -79,29 +68,12 @@ namespace OSHVisualGui
 
 		public Control FindByName(string name, Control skip)
 		{
-			foreach (Control control in controls)
-			{
-				if (skip != control && control.Name == name)
-				{
-					return control;
-				}
-			}
-			return null;
+			return controls.FirstOrDefault(control => skip != control && control.Name == name);
 		}
 
 		public int GetControlCount(Type controlType)
 		{
-			int count = 0;
-
-			foreach (Control control in controls)
-			{
-				if (control.GetType() == controlType)
-				{
-					count++;
-				}
-			}
-
-			return count;
+			return controls.Count(control => control.GetType() == controlType);
 		}
 
 		public int GetControlCountPlusOne(Type controlType)

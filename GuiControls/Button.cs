@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Xml.Linq;
@@ -9,21 +8,20 @@ namespace OSHVisualGui.GuiControls
 	public class Button : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName { get { return "button"; } }
-		private Label label;
+		internal override string DefaultName => "button";
+		private readonly Label label;
 
-		public override Color ForeColor { get { return base.ForeColor; } set { base.ForeColor = value; label.ForeColor = value; } }
+		public override Color ForeColor { get => base.ForeColor; set { base.ForeColor = value; label.ForeColor = value; } }
 		protected string DefaultText;
-		public string Text { get { return label.Text; } set { label.Text = value == null ? string.Empty : value; if (AutoSize) { base.Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
-		public override Size Size { get { return base.Size; } set { base.Size = value; CalculateLabelLocation(); } }
+		public string Text { get => label.Text; set { label.Text = value ?? string.Empty; if (AutoSize) { base.Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
+		public override Size Size { get => base.Size; set { base.Size = value; CalculateLabelLocation(); } }
 		#endregion
 
 		public Button()
 		{
 			Type = ControlType.Button;
 
-			label = new Label();
-			label.Location = new Point(6, 5);
+			label = new Label { Location = new Point(6, 5) };
 
 			DefaultText = string.Empty;
 
@@ -61,14 +59,14 @@ namespace OSHVisualGui.GuiControls
 
 		public override void Render(Graphics graphics)
 		{
-			Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 10, 10, 10)));
+			var tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 10, 10, 10)));
 			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, Size.Height - 1);
 			graphics.FillRectangle(tempBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, Size.Width, Size.Height - 3);
 			tempBrush = new SolidBrush(BackColor.Substract(Color.FromArgb(0, 50, 50, 50)));
 			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + Size.Height - 2, Size.Width - 2, 2);
 			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
-			Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 2, Size.Width - 2, Size.Height - 4);
-			LinearGradientBrush temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
+			var rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 2, Size.Width - 2, Size.Height - 4);
+			var temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
 			graphics.FillRectangle(temp, rect);
 			rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 1, Size.Width - 4, Size.Height - 2);
 			temp = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
@@ -79,7 +77,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			Button copy = new Button();
+			var copy = new Button();
 			CopyTo(copy);
 			return copy;
 		}
@@ -88,7 +86,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			Button button = copy as Button;
+			var button = copy as Button;
 			button.Text = Text;
 		}
 

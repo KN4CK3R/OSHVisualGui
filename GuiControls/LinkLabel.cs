@@ -5,21 +5,12 @@ namespace OSHVisualGui.GuiControls
 	public class LinkLabel : Label
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "linkLabel";
-			}
-		}
+		internal override string DefaultName => "linkLabel";
 		private Font underlinedFont;
 
 		public override Font Font
 		{
-			get
-			{
-				return base.Font;
-			}
+			get => base.Font;
 			set
 			{
 				base.Font = value;
@@ -49,7 +40,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			LinkLabel copy = new LinkLabel();
+			var copy = new LinkLabel();
 			CopyTo(copy);
 			return copy;
 		}
@@ -58,7 +49,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			LinkLabel linkLabel = copy as LinkLabel;
+			var linkLabel = copy as LinkLabel;
 			linkLabel.underlinedFont = new Font(underlinedFont, FontStyle.Underline);
 		}
 

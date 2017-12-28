@@ -6,13 +6,9 @@ namespace OSHVisualGui.GuiControls
 	public class Panel : ContainerControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "panel";
-			}
-		}
+
+		internal override string DefaultName => "panel";
+
 		#endregion
 
 		public Panel()
@@ -29,8 +25,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			if (BackColor.A > 0)
 			{
-				Rectangle rect = new Rectangle(AbsoluteLocation, Size);
-				LinearGradientBrush linearBrush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 90, 90, 90)), LinearGradientMode.Vertical);
+				var rect = new Rectangle(AbsoluteLocation, Size);
+				var linearBrush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 90, 90, 90)), LinearGradientMode.Vertical);
 				graphics.FillRectangle(linearBrush, rect);
 			}
 
@@ -38,20 +34,20 @@ namespace OSHVisualGui.GuiControls
 
 			base.Render(graphics);
 
-			if (isHighlighted)
+			if (IsHighlighted)
 			{
-				using (Pen pen = new Pen(Color.Orange, 1))
+				using (var pen = new Pen(Color.Orange, 1))
 				{
 					graphics.DrawRectangle(pen, AbsoluteLocation.X - 3, AbsoluteLocation.Y - 2, Size.Width + 5, Size.Height + 4);
 				}
 
-				isHighlighted = false;
+				IsHighlighted = false;
 			}
 		}
 
 		public override Control Copy()
 		{
-			Panel copy = new Panel();
+			var copy = new Panel();
 			CopyTo(copy);
 			return copy;
 		}
@@ -60,8 +56,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			Panel panel = copy as Panel;
-			foreach (Control control in PreOrderVisit())
+			var panel = copy as Panel;
+			foreach (var control in PreOrderVisit())
 			{
 				panel.AddControl(control.Copy());
 			}

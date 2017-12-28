@@ -8,49 +8,24 @@ namespace OSHVisualGui.GuiControls
 	{
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
-				Size offset = value - base.Size;
+				var offset = value - base.Size;
 				base.Size = value;
 				ProcessAnchors(offset);
 			}
 		}
 		protected List<Control> controls;
-		internal virtual List<Control> Controls
-		{
-			get
-			{
-				return controls;
-			}
-		}
+		internal virtual List<Control> Controls => controls;
 		protected List<Control> internalControls;
-		internal virtual Point ContainerLocation
-		{
-			get
-			{
-				return Location;
-			}
-		}
-		internal virtual Point ContainerAbsoluteLocation
-		{
-			get
-			{
-				return AbsoluteLocation;
-			}
-		}
-		internal virtual Size ContainerSize
-		{
-			get
-			{
-				return Size;
-			}
-		}
+		internal virtual Point ContainerLocation => Location;
 
-		public ContainerControl()
+		internal virtual Point ContainerAbsoluteLocation => AbsoluteLocation;
+
+		internal virtual Size ContainerSize => Size;
+
+		protected ContainerControl()
 		{
 			controls = new List<Control>();
 			internalControls = new List<Control>();
@@ -114,8 +89,8 @@ namespace OSHVisualGui.GuiControls
 				return;
 			}
 
-			int zOrder = control._zOrder;
-			foreach (Control c in internalControls)
+			var zOrder = control._zOrder;
+			foreach (var c in internalControls)
 			{
 				if (c != control && c._zOrder > zOrder)
 				{
@@ -133,9 +108,9 @@ namespace OSHVisualGui.GuiControls
 				return;
 			}
 
-			int zOrder = control._zOrder;
+			var zOrder = control._zOrder;
 			control._zOrder = 1;
-			foreach (Control c in internalControls)
+			foreach (var c in internalControls)
 			{
 				if (c != control && c._zOrder < zOrder)
 				{
@@ -149,7 +124,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CalculateAbsoluteLocation();
 
-			foreach (Control control in internalControls)
+			foreach (var control in internalControls)
 			{
 				control.CalculateAbsoluteLocation();
 			}
@@ -168,16 +143,16 @@ namespace OSHVisualGui.GuiControls
 
 		public virtual IEnumerable<Control> PostOrderVisit()
 		{
-			foreach (Control control in internalControls.FastReverse())
+			foreach (var control in internalControls.FastReverse())
 			{
 				if (control is ContainerControl)
 				{
-					foreach (Control child in (control as ContainerControl).PostOrderVisit())
+					foreach (var child in (control as ContainerControl).PostOrderVisit())
 					{
 						yield return child;
 					}
 				}
-				if (!control.isSubControl)
+				if (!control.IsSubControl)
 				{
 					yield return control;
 				}
@@ -186,16 +161,16 @@ namespace OSHVisualGui.GuiControls
 
 		public virtual IEnumerable<Control> PreOrderVisit()
 		{
-			foreach (Control control in internalControls)
+			foreach (var control in internalControls)
 			{
-				if (!control.isSubControl)
+				if (!control.IsSubControl)
 				{
 					yield return control;
 				}
 
 				if (control is ContainerControl)
 				{
-					foreach (Control child in (control as ContainerControl).PreOrderVisit())
+					foreach (var child in (control as ContainerControl).PreOrderVisit())
 					{
 						yield return child;
 					}
@@ -231,7 +206,7 @@ namespace OSHVisualGui.GuiControls
 					continue;
 				}
 
-				AnchorStyles anchor = control.Anchor;
+				var anchor = control.Anchor;
 				if (anchor != (AnchorStyles.Top | AnchorStyles.Left))
 				{
 					if (anchor == (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right))

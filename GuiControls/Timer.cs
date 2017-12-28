@@ -5,24 +5,17 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class Timer : ScalableControl
+	public class Timer : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "timer";
-			}
-		}
+
+		internal override string DefaultName => "timer";
+
 		private long interval;
 		private long DefaultInterval;
 		public long Interval
 		{
-			get
-			{
-				return interval;
-			}
+			get => interval;
 			set
 			{
 				if (value >= 1)
@@ -35,86 +28,44 @@ namespace OSHVisualGui.GuiControls
 		[Browsable(false)]
 		public override bool AutoSize
 		{
-			get
-			{
-				return base.AutoSize;
-			}
-			set
-			{
-				base.AutoSize = value;
-			}
+			get => base.AutoSize;
+			set => base.AutoSize = value;
 		}
 		[Browsable(false)]
 		public override bool Visible
 		{
-			get
-			{
-				return base.Visible;
-			}
-			set
-			{
-				base.Visible = value;
-			}
+			get => base.Visible;
+			set => base.Visible = value;
 		}
 		[Browsable(false)]
 		public override Point Location
 		{
-			get
-			{
-				return base.Location;
-			}
-			set
-			{
-				base.Location = value;
-			}
+			get => base.Location;
+			set => base.Location = value;
 		}
 		[Browsable(false)]
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
-			set
-			{
-				base.Size = value;
-			}
+			get => base.Size;
+			set => base.Size = value;
 		}
 		[Browsable(false)]
 		public override Font Font
 		{
-			get
-			{
-				return base.Font;
-			}
-			set
-			{
-				base.Font = value;
-			}
+			get => base.Font;
+			set => base.Font = value;
 		}
 		[Browsable(false)]
 		public override Color ForeColor
 		{
-			get
-			{
-				return base.ForeColor;
-			}
-			set
-			{
-				base.ForeColor = value;
-			}
+			get => base.ForeColor;
+			set => base.ForeColor = value;
 		}
 		[Browsable(false)]
 		public override Color BackColor
 		{
-			get
-			{
-				return base.BackColor;
-			}
-			set
-			{
-				base.BackColor = value;
-			}
+			get => base.BackColor;
+			set => base.BackColor = value;
 		}
 
 		[Category("Events")]
@@ -220,6 +171,7 @@ namespace OSHVisualGui.GuiControls
 			get;
 			set;
 		}
+
 		#endregion
 
 		public Timer()
@@ -258,7 +210,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			Timer copy = new Timer();
+			var copy = new Timer();
 			CopyTo(copy);
 			return copy;
 		}
@@ -267,7 +219,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			Timer timer = copy as Timer;
+			var timer = copy as Timer;
 			timer.interval = interval;
 		}
 

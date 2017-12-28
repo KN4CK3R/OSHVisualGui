@@ -5,26 +5,22 @@ using System.Windows.Forms;
 
 namespace OSHVisualGui
 {
-	public class FilenameEditor : System.Drawing.Design.UITypeEditor
+	public class FilenameEditor : UITypeEditor
 	{
 		public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
 		{
-			if ((context != null) && (context.Instance != null))
-			{
-				return UITypeEditorEditStyle.Modal;
-			}
-			return UITypeEditorEditStyle.None;
+			return context?.Instance != null ? UITypeEditorEditStyle.Modal : UITypeEditorEditStyle.None;
 		}
 
 		[RefreshProperties(RefreshProperties.All)]
-		public override Object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
+		public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
 		{
 			if (context == null || provider == null || context.Instance == null)
 			{
 				return base.EditValue(provider, value);
 			}
 
-			FileDialog fileDlg = null;
+			FileDialog fileDlg;
 			if (context.PropertyDescriptor.Attributes[typeof(SaveFileAttribute)] == null)
 			{
 				fileDlg = new OpenFileDialog();
@@ -36,8 +32,7 @@ namespace OSHVisualGui
 			fileDlg.Title = "Select " + context.PropertyDescriptor.DisplayName;
 			fileDlg.FileName = value as string;
 
-			FileDialogFilterAttribute filterAtt = context.PropertyDescriptor.Attributes[typeof(FileDialogFilterAttribute)] as FileDialogFilterAttribute;
-			if ((filterAtt != null))
+			if (context.PropertyDescriptor.Attributes[typeof(FileDialogFilterAttribute)] is FileDialogFilterAttribute filterAtt)
 			{
 				fileDlg.Filter = filterAtt.Filter;
 			}
@@ -53,21 +48,12 @@ namespace OSHVisualGui
 	[AttributeUsage(AttributeTargets.Property)]
 	public class FileDialogFilterAttribute : Attribute
 	{
-
-		private string _filter;
 		//"Text files (*.txt)|*.txt|All files (*.*)|*.*"
-		public string Filter
-		{
-			get
-			{
-				return this._filter;
-			}
-		}
+		public string Filter { get; }
 
 		public FileDialogFilterAttribute(string filter)
-			: base()
 		{
-			this._filter = filter;
+			Filter = filter;
 		}
 	}
 

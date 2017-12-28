@@ -4,43 +4,19 @@ namespace OSHVisualGui.Toolbox
 {
 	public class ToolboxGroup : ToolboxItemBase
 	{
-
-		private List<ToolboxItem> items;
-		private bool expanded;
+		private readonly List<ToolboxItem> items;
 
 		public ToolboxGroup(string caption)
 		{
 			items = new List<ToolboxItem>();
-			this.caption = caption;
-			expanded = false;
+			this.Caption = caption;
+			Expanded = false;
 		}
 
-		public List<ToolboxItem> Items
-		{
-			get
-			{
-				return items;
-			}
-		}
+		public List<ToolboxItem> Items => items;
 
-		public int ItemHeight
-		{
-			get
-			{
-				return 19 * items.Count;
-			}
-		}
+		public int ItemHeight => 19 * items.Count;
 
-		public bool Expanded
-		{
-			get
-			{
-				return expanded;
-			}
-			set
-			{
-				expanded = value;
-			}
-		}
+		public bool Expanded { get; set; }
 	}
 }

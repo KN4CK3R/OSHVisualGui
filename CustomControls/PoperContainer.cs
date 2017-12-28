@@ -8,8 +8,7 @@ namespace OSHVisualGui
 	public partial class PoperContainer : ToolStripDropDown
 	{
 		private Control popedControl;
-		private ToolStripControlHost host;
-		private bool fade = true;
+		private readonly bool fade;
 
 		public PoperContainer(Control popedControl)
 		{
@@ -24,8 +23,7 @@ namespace OSHVisualGui
 
 			fade = SystemInformation.IsMenuAnimationEnabled && SystemInformation.IsMenuFadeEnabled;
 
-			host = new ToolStripControlHost(popedControl);
-			host.AutoSize = false;
+			var host = new ToolStripControlHost(popedControl) { AutoSize = false };
 
 			Padding = Margin = host.Padding = host.Margin = Padding.Empty;
 
@@ -33,7 +31,7 @@ namespace OSHVisualGui
 
 			Items.Add(host);
 
-			popedControl.Disposed += delegate(object sender, EventArgs e)
+			popedControl.Disposed += delegate
 			{
 				popedControl = null;
 				Dispose(true);
@@ -76,11 +74,15 @@ namespace OSHVisualGui
 
 			var screen = Screen.FromControl(control).WorkingArea;
 
-			if (location.X + Size.Width > (screen.Left + screen.Width))
+			if (location.X + Size.Width > screen.Left + screen.Width)
+			{
 				location.X = (screen.Left + screen.Width) - Size.Width;
+			}
 
-			if (location.Y + Size.Height > (screen.Top + screen.Height))
+			if (location.Y + Size.Height > screen.Top + screen.Height)
+			{
 				location.Y -= Size.Height + area.Height;
+			}
 
 			location = control.PointToClient(location);
 
@@ -95,14 +97,18 @@ namespace OSHVisualGui
 		{
 			double opacity = Opacity;
 			if (visible && fade)
+			{
 				Opacity = 0;
+			}
 
 			base.SetVisibleCore(visible);
 
 			if (!visible || !fade)
+			{
 				return;
+			}
 
-			for (int i = 1; i <= frames; i++)
+			for (var i = 1; i <= frames; i++)
 			{
 				if (i > 1)
 				{

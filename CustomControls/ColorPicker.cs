@@ -4,27 +4,13 @@ using System.Windows.Forms;
 
 namespace OSHVisualGui
 {
-	class ColorPicker : Panel
+	internal class ColorPicker : Panel
 	{
 		private Bitmap gradient;
 
-		private Color color;
-		public Color Color
-		{
-			get
-			{
-				return color;
-			}
-		}
+		public Color Color { get; private set; }
 
-		private Color hoverColor;
-		public Color HoverColor
-		{
-			get
-			{
-				return hoverColor;
-			}
-		}
+		public Color HoverColor { get; private set; }
 
 		public delegate void ColorChangedEventHandler(object sender, Color color);
 		public event ColorChangedEventHandler ColorChanged;
@@ -47,9 +33,9 @@ namespace OSHVisualGui
 				gradient = new Bitmap(ClientSize.Width, ClientSize.Height);
 				using (var graphics = Graphics.FromImage(gradient))
 				{
-					for (int y = 0; y < gradient.Height; ++y)
+					for (var y = 0; y < gradient.Height; ++y)
 					{
-						for (int x = 0; x < gradient.Width; ++x)
+						for (var x = 0; x < gradient.Width; ++x)
 						{
 							graphics.FillRectangle(new SolidBrush(GetColorAtPoint(x, y)), new Rectangle(x, y, 1, 1));
 						}
@@ -65,7 +51,7 @@ namespace OSHVisualGui
 				throw new ArgumentOutOfRangeException();
 			}
 
-			double hue = (1.0 / gradient.Width) * x;
+			var hue = 1.0 / gradient.Width * x;
 			hue = hue - (int)hue;
 			double saturation, brightness;
 			if (y <= gradient.Height / 2.0)
@@ -92,7 +78,7 @@ namespace OSHVisualGui
 					(int)(p * 255)
 				);
 			}
-			else if (h < 2)
+			if (h < 2)
 			{
 				return Color.FromArgb(
 					(int)(q * 255),
@@ -100,7 +86,7 @@ namespace OSHVisualGui
 					(int)(p * 255)
 				);
 			}
-			else if (h < 3)
+			if (h < 3)
 			{
 				return Color.FromArgb(
 					(int)(p * 255),
@@ -108,7 +94,7 @@ namespace OSHVisualGui
 					(int)(t * 255)
 				);
 			}
-			else if (h < 4)
+			if (h < 4)
 			{
 				return Color.FromArgb(
 					(int)(p * 255),
@@ -116,7 +102,7 @@ namespace OSHVisualGui
 					(int)(brightness * 255)
 				);
 			}
-			else if (h < 5)
+			if (h < 5)
 			{
 				return Color.FromArgb(
 					(int)(t * 255),
@@ -124,14 +110,11 @@ namespace OSHVisualGui
 					(int)(brightness * 255)
 				);
 			}
-			else
-			{
-				return Color.FromArgb(
-					(int)(brightness * 255),
-					(int)(p * 255),
-					(int)(q * 255)
-				);
-			}
+			return Color.FromArgb(
+				(int)(brightness * 255),
+				(int)(p * 255),
+				(int)(q * 255)
+			);
 		}
 
 		protected override void OnSizeChanged(EventArgs e)
@@ -150,19 +133,16 @@ namespace OSHVisualGui
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			color = GetColorAtPoint(e.X, e.Y);
+			Color = GetColorAtPoint(e.X, e.Y);
 
 			base.OnMouseClick(e);
 
-			if (ColorChanged != null)
-			{
-				ColorChanged(this, Color);
-			}
+			ColorChanged?.Invoke(this, Color);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			hoverColor = GetColorAtPoint(e.X, e.Y);
+			HoverColor = GetColorAtPoint(e.X, e.Y);
 
 			base.OnMouseMove(e);
 		}

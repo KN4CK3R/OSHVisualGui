@@ -61,68 +61,31 @@ namespace OSHVisualGui.GuiControls
 
 	public abstract class Control
 	{
-		internal virtual string DefaultName
-		{
-			get
-			{
-				return "form";
-			}
-		}
+		internal virtual string DefaultName => "form";
 		internal ControlType Type;
 
-		private string name;
-		public string Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
+		public string Name { get; set; }
+
 		private bool enabled;
 		public virtual bool Enabled
 		{
-			get
-			{
-				return enabled;
-			}
-			set
-			{
-				enabled = value;
-			}
+			get => enabled;
+			set => enabled = value;
 		}
 		internal bool DesignerHidden { get; set; }
 		private bool visible;
 		public virtual bool Visible
 		{
-			get
-			{
-				return visible;
-			}
-			set
-			{
-				visible = value;
-			}
+			get => visible;
+			set => visible = value;
 		}
 		private Point absoluteLocation;
-		internal Point AbsoluteLocation
-		{
-			get
-			{
-				return absoluteLocation;
-			}
-		}
+		internal Point AbsoluteLocation => absoluteLocation;
 		private Point location;
 		protected Point DefaultLocation;
 		public virtual Point Location
 		{
-			get
-			{
-				return location;
-			}
+			get => location;
 			set
 			{
 				location = value;
@@ -134,63 +97,37 @@ namespace OSHVisualGui.GuiControls
 		internal Size MinimumSize;
 		public virtual Size Size
 		{
-			get
-			{
-				return size;
-			}
-			set
-			{
-				size = value.LimitMin(MinimumSize.Width, MinimumSize.Height);
-			}
+			get => size;
+			set => size = value.LimitMin(MinimumSize.Width, MinimumSize.Height);
 		}
-		internal AnchorStyles anchor;
+
+		private AnchorStyles anchor;
 		[Editor(typeof(System.Windows.Forms.Design.AnchorEditor), typeof(System.Drawing.Design.UITypeEditor))]
 		public virtual AnchorStyles Anchor
 		{
-			get
-			{
-				return anchor;
-			}
-			set
-			{
-				anchor = value;
-			}
+			get => anchor;
+			set => anchor = value;
 		}
 		private bool autoSize;
 		protected bool DefaultAutoSize;
 		public virtual bool AutoSize
 		{
-			get
-			{
-				return autoSize;
-			}
-			set
-			{
-				autoSize = value;
-			}
+			get => autoSize;
+			set => autoSize = value;
 		}
 		private Font font;
 		protected Font DefaultFont;
 		public virtual Font Font
 		{
-			get
-			{
-				return font != null ? font : Parent != null ? Parent.Font : DefaultFont;
-			}
-			set
-			{
-				font = value;
-			}
+			get => font ?? (Parent != null ? Parent.Font : DefaultFont);
+			set => font = value;
 		}
 		protected Brush foreBrush;
 		private Color foreColor;
 		protected Color DefaultForeColor;
 		public virtual Color ForeColor
 		{
-			get
-			{
-				return foreColor;
-			}
+			get => foreColor;
 			set
 			{
 				foreColor = value;
@@ -202,10 +139,7 @@ namespace OSHVisualGui.GuiControls
 		protected Color DefaultBackColor;
 		public virtual Color BackColor
 		{
-			get
-			{
-				return backColor;
-			}
+			get => backColor;
 			set
 			{
 				backColor = value;
@@ -215,10 +149,7 @@ namespace OSHVisualGui.GuiControls
 		internal int _zOrder;
 		internal virtual int zOrder
 		{
-			get
-			{
-				return _zOrder;
-			}
+			get => _zOrder;
 			set
 			{
 				_zOrder = value;
@@ -229,10 +160,7 @@ namespace OSHVisualGui.GuiControls
 		private Control parent;
 		internal Control Parent
 		{
-			get
-			{
-				return parent;
-			}
+			get => parent;
 			set
 			{
 				parent = value;
@@ -248,8 +176,8 @@ namespace OSHVisualGui.GuiControls
 					return this as ContainerControl;
 				}
 
-				Control parent = Parent;
-				while (parent.isSubControl && parent != this)
+				var parent = Parent;
+				while (parent.IsSubControl && parent != this)
 				{
 					parent = parent.Parent;
 				}
@@ -257,14 +185,14 @@ namespace OSHVisualGui.GuiControls
 			}
 		}
 
-		public bool isHighlighted;
+		public bool IsHighlighted;
 
 		protected bool hasCaptured;
 		protected bool isInside;
 		protected bool isFocusable;
 		protected bool isFocused;
 		protected bool isClicked;
-		public bool isSubControl;
+		public bool IsSubControl;
 
 		public delegate void MouseEventHandler(Control sender, Mouse e);
 		public event MouseEventHandler MouseDown;
@@ -377,7 +305,7 @@ namespace OSHVisualGui.GuiControls
 		public static Control FocusedControl;
 		public static Control MouseCaptureControl;
 
-		public Control()
+		protected Control()
 		{
 			enabled = true;
 			visible = true;
@@ -392,8 +320,8 @@ namespace OSHVisualGui.GuiControls
 
 			isFocusable = true;
 			isFocused = false;
-			isHighlighted = false;
-			isSubControl = false;
+			IsHighlighted = false;
+			IsSubControl = false;
 
 			_zOrder = 0;
 
@@ -449,7 +377,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				if (property.Name.Contains("Event"))
 				{
-					Event controlEvent = property.GetValue(this, null) as Event;
+					var controlEvent = property.GetValue(this, null) as Event;
 					if (!controlEvent.IsEmpty)
 					{
 						yield return controlEvent;
@@ -460,20 +388,12 @@ namespace OSHVisualGui.GuiControls
 
 		public virtual bool Intersect(Point location)
 		{
-			return ((location.X >= absoluteLocation.X && location.X <= absoluteLocation.X + size.Width)
-				&& (location.Y >= absoluteLocation.Y && location.Y <= absoluteLocation.Y + size.Height));
+			return location.X >= absoluteLocation.X && location.X <= absoluteLocation.X + size.Width && location.Y >= absoluteLocation.Y && location.Y <= absoluteLocation.Y + size.Height;
 		}
 
 		public virtual void CalculateAbsoluteLocation()
 		{
-			if (parent != null)
-			{
-				absoluteLocation = parent.absoluteLocation.Add(location);
-			}
-			else
-			{
-				absoluteLocation = location;
-			}
+			absoluteLocation = parent?.absoluteLocation.Add(location) ?? location;
 		}
 
 		public abstract void Render(Graphics graphics);
@@ -481,7 +401,7 @@ namespace OSHVisualGui.GuiControls
 		public abstract Control Copy();
 		protected virtual void CopyTo(Control copy)
 		{
-			copy.name = name;
+			copy.Name = Name;
 			copy.enabled = enabled;
 			copy.visible = visible;
 			copy.location = location;
@@ -496,12 +416,12 @@ namespace OSHVisualGui.GuiControls
 
 		public override string ToString()
 		{
-			return name;
+			return Name;
 		}
 
 		public XElement SerializeToXml()
 		{
-			XElement control = new XElement(DefaultName);
+			var control = new XElement(DefaultName);
 			WriteToXmlElement(control);
 			return control;
 		}
@@ -510,7 +430,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			foreach (var property in GetChangedProperties())
 			{
-				if (property.Value.UseForXML)
+				if (property.Value.UseForXml)
 				{
 					element.Add(new XAttribute(property.Key, property.Value.Value.ToXMLString()));
 				}
@@ -551,7 +471,7 @@ namespace OSHVisualGui.GuiControls
 				{
 					if (element.Attribute(property.Name) != null)
 					{
-						Event controlEvent = property.GetValue(this, null) as Event;
+						var controlEvent = property.GetValue(this, null) as Event;
 						controlEvent.Code = element.Attribute(property.Name).Value.Trim().FromBase64String();
 					}
 				}
@@ -586,17 +506,11 @@ namespace OSHVisualGui.GuiControls
 			{
 				if (FocusedControl != this)
 				{
-					if (FocusedControl != null)
-					{
-						FocusedControl.OnLostFocus(this);
-					}
+					FocusedControl?.OnLostFocus(this);
 					FocusedControl = this;
 					isFocused = true;
 
-					if (GotFocus != null)
-					{
-						GotFocus(this, null);
-					}
+					GotFocus?.Invoke(this, null);
 				}
 			}
 		}
@@ -610,10 +524,7 @@ namespace OSHVisualGui.GuiControls
 
 				FocusedControl = null;
 
-				if (LostFocus != null)
-				{
-					LostFocus(this, null);
-				}
+				LostFocus?.Invoke(this, null);
 			}
 		}
 
@@ -628,10 +539,7 @@ namespace OSHVisualGui.GuiControls
 
 			OnGotMouseCapture();
 
-			if (MouseDown != null)
-			{
-				MouseDown(this, mouse);
-			}
+			MouseDown?.Invoke(this, mouse);
 		}
 
 		protected virtual void OnMouseUp(Mouse mouse)
@@ -640,26 +548,17 @@ namespace OSHVisualGui.GuiControls
 
 			OnLostMouseCapture();
 
-			if (MouseUp != null)
-			{
-				MouseUp(this, mouse);
-			}
+			MouseUp?.Invoke(this, mouse);
 		}
 
 		protected virtual void OnMouseMove(Mouse mouse)
 		{
-			if (MouseMove != null)
-			{
-				MouseMove(this, mouse);
-			}
+			MouseMove?.Invoke(this, mouse);
 		}
 
 		protected virtual void OnGotMouseCapture()
 		{
-			if (MouseCaptureControl != null)
-			{
-				MouseCaptureControl.OnLostMouseCapture();
-			}
+			MouseCaptureControl?.OnLostMouseCapture();
 			MouseCaptureControl = this;
 
 			hasCaptured = true;
@@ -677,15 +576,9 @@ namespace OSHVisualGui.GuiControls
 		{
 			isInside = true;
 
-			if (MouseOverControl != null)
-			{
-				MouseOverControl.OnMouseLeave();
-			}
+			MouseOverControl?.OnMouseLeave();
 
-			if (MouseEnter != null)
-			{
-				MouseEnter(this, null);
-			}
+			MouseEnter?.Invoke(this, null);
 		}
 
 		protected virtual void OnMouseLeave()
@@ -694,10 +587,7 @@ namespace OSHVisualGui.GuiControls
 
 			MouseOverControl = null;
 
-			if (MouseLeave != null)
-			{
-				MouseLeave(this, null);
-			}
+			MouseLeave?.Invoke(this, null);
 		}
 
 		public bool ProcessMouseMessage(Mouse mouse)
@@ -709,7 +599,7 @@ namespace OSHVisualGui.GuiControls
 					{
 						OnMouseDown(mouse);
 
-						if (!isFocused && !isSubControl)
+						if (!isFocused && !IsSubControl)
 						{
 							OnGotFocus(this);
 						}

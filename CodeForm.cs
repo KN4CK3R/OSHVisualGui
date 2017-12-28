@@ -13,8 +13,8 @@ namespace OSHVisualGui
 {
 	public partial class CodeForm : Form
 	{
-		private GuiControls.Form form;
-		private CodeSerializer codeSerializer;
+		private readonly GuiControls.Form form;
+		private readonly CodeSerializer codeSerializer;
 
 		public CodeForm(GuiControls.Form form)
 		{
@@ -27,18 +27,18 @@ namespace OSHVisualGui
 			GenerateCode();
 		}
 
-		TextStyle BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
-		TextStyle BoldStyle = new TextStyle(null, null, FontStyle.Bold | FontStyle.Underline);
-		TextStyle GrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
-		TextStyle MagentaStyle = new TextStyle(Brushes.Magenta, null, FontStyle.Regular);
-		TextStyle GreenStyle = new TextStyle(Brushes.Green, null, FontStyle.Italic);
-		TextStyle BrownStyle = new TextStyle(Brushes.Brown, null, FontStyle.Italic);
-		TextStyle MaroonStyle = new TextStyle(Brushes.Maroon, null, FontStyle.Regular);
-		MarkerStyle SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(40, Color.Gray)));
+		private readonly TextStyle BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
+		private readonly TextStyle BoldStyle = new TextStyle(null, null, FontStyle.Bold | FontStyle.Underline);
+		private readonly TextStyle GrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
+		private readonly TextStyle MagentaStyle = new TextStyle(Brushes.Magenta, null, FontStyle.Regular);
+		private readonly TextStyle GreenStyle = new TextStyle(Brushes.Green, null, FontStyle.Italic);
+		private readonly TextStyle BrownStyle = new TextStyle(Brushes.Brown, null, FontStyle.Italic);
+		private readonly TextStyle MaroonStyle = new TextStyle(Brushes.Maroon, null, FontStyle.Regular);
+		private readonly MarkerStyle SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(40, Color.Gray)));
 
 		private void fastColoredTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			FastColoredTextBox fctb = sender as FastColoredTextBox;
+			var fctb = sender as FastColoredTextBox;
 
 			fctb.LeftBracket = '(';
 			fctb.RightBracket = ')';

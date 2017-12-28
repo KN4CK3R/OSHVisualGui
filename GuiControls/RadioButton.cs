@@ -3,29 +3,22 @@ using System.Drawing.Drawing2D;
 
 namespace OSHVisualGui.GuiControls
 {
-	class RadioButton : CheckBox
+	public class RadioButton : CheckBox
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "radioButton";
-			}
-		}
+
+		internal override string DefaultName => "radioButton";
+
 		public override bool Checked
 		{
-			get
-			{
-				return base._checked;
-			}
+			get => _checked;
 			set
 			{
 				if (_checked != value)
 				{
 					if (Parent != null)
 					{
-						foreach (Control control in (Parent as ContainerControl).Controls)
+						foreach (var control in (Parent as ContainerControl).Controls)
 						{
 							if (control is RadioButton)
 							{
@@ -50,8 +43,8 @@ namespace OSHVisualGui.GuiControls
 		public override void Render(Graphics graphics)
 		{
 			graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, new Size(17, 17)));
-			Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, 15, 15);
-			LinearGradientBrush temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
+			var rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, 15, 15);
+			var temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
 			graphics.FillRectangle(temp, rect);
 			rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 2, 13, 13);
 			temp = new LinearGradientBrush(rect, BackColor, BackColor.Add(Color.FromArgb(0, 55, 55, 55)), LinearGradientMode.Vertical);
@@ -68,7 +61,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			RadioButton copy = new RadioButton();
+			var copy = new RadioButton();
 			CopyTo(copy);
 			return copy;
 		}

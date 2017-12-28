@@ -7,9 +7,9 @@ namespace OSHVisualGui
 {
 	public partial class StyleManagerForm : Form
 	{
-		private GuiControls.Form previewForm;
+		private readonly GuiControls.Form previewForm;
 		private GuiControls.Control previewControl;
-		private Dictionary<GuiControls.ControlType, GuiControls.Control> controlList;
+		private readonly Dictionary<GuiControls.ControlType, GuiControls.Control> controlList;
 
 		private Style style;
 		private Style.ControlStyle controlStyle;
@@ -29,75 +29,68 @@ namespace OSHVisualGui
 
 			string preview = "Preview";
 
-			previewForm = new GuiControls.Form(new Point(1, 1));
-			previewForm.Size = new Size(424, 200);
-			previewForm.Text = preview;
+			previewForm = new GuiControls.Form(new Point(1, 1))
+			{
+				Size = new Size(424, 200),
+				Text = preview
+			};
 
 			previewControl = previewForm;
 
-			var button = new GuiControls.Button();
-			button.Text = preview;
+			var button = new GuiControls.Button { Text = preview };
 			controlList.Add(GuiControls.ControlType.Button, button);
 
-			var checkbox = new GuiControls.CheckBox();
-			checkbox.Text = preview;
+			var checkbox = new GuiControls.CheckBox { Text = preview };
 			controlList.Add(GuiControls.ControlType.CheckBox, checkbox);
 
-			var comboBox = new GuiControls.ComboBox();
-			comboBox.Items = new string[] { preview };
-			comboBox.Text = preview;
+			var comboBox = new GuiControls.ComboBox
+			{
+				Items = new[] { preview },
+				Text = preview
+			};
 			controlList.Add(GuiControls.ControlType.ComboBox, comboBox);
 
 			controlList.Add(GuiControls.ControlType.Form, previewForm);
 
-			var groupbox = new GuiControls.GroupBox();
-			groupbox.Text = preview;
-			groupbox.Size = new Size(100, 100);
+			var groupbox = new GuiControls.GroupBox
+			{
+				Text = preview,
+				Size = new Size(100, 100)
+			};
 			controlList.Add(GuiControls.ControlType.GroupBox, groupbox);
 
-			var hotkeyControl = new GuiControls.HotkeyControl();
-			hotkeyControl.Hotkey = Keys.Control | Keys.A;
+			var hotkeyControl = new GuiControls.HotkeyControl { Hotkey = Keys.Control | Keys.A };
 			controlList.Add(GuiControls.ControlType.HotkeyControl, hotkeyControl);
 
-			var label = new GuiControls.Label();
-			label.Text = preview;
+			var label = new GuiControls.Label { Text = preview };
 			controlList.Add(GuiControls.ControlType.Label, label);
 
-			var linklabel = new GuiControls.LinkLabel();
-			linklabel.Text = preview;
+			var linklabel = new GuiControls.LinkLabel { Text = preview };
 			controlList.Add(GuiControls.ControlType.LinkLabel, linklabel);
 
-			var listbox = new GuiControls.ListBox();
-			listbox.Items = new string[] { preview };
+			var listbox = new GuiControls.ListBox { Items = new[] { preview } };
 			controlList.Add(GuiControls.ControlType.ListBox, listbox);
 
-			var picturebox = new GuiControls.PictureBox();
-			picturebox.Size = new Size(100, 100);
+			var picturebox = new GuiControls.PictureBox { Size = new Size(100, 100) };
 			controlList.Add(GuiControls.ControlType.PictureBox, picturebox);
 
-			var panel = new GuiControls.Panel();
-			panel.Size = new Size(100, 100);
+			var panel = new GuiControls.Panel { Size = new Size(100, 100) };
 			controlList.Add(GuiControls.ControlType.Panel, panel);
 
-			var progressbar = new GuiControls.ProgressBar();
-			progressbar.Value = 50;
+			var progressbar = new GuiControls.ProgressBar { Value = 50 };
 			controlList.Add(GuiControls.ControlType.ProgressBar, progressbar);
 
-			var radiobutton = new GuiControls.RadioButton();
-			radiobutton.Text = preview;
+			var radiobutton = new GuiControls.RadioButton { Text = preview };
 			controlList.Add(GuiControls.ControlType.RadioButton, radiobutton);
 
-			var tabControl = new GuiControls.TabControl();
-			tabControl.Size = new Size(100, 100);
+			var tabControl = new GuiControls.TabControl { Size = new Size(100, 100) };
 			controlList.Add(GuiControls.ControlType.TabControl, tabControl);
 
-			var tabPage = new GuiControls.TabPage();
-			tabPage.Text = preview;
+			var tabPage = new GuiControls.TabPage { Text = preview };
 			tabControl.AddTabPage(tabPage);
 			controlList.Add(GuiControls.ControlType.TabPage, tabPage);
 
-			var textbox = new GuiControls.TextBox();
-			textbox.Text = preview;
+			var textbox = new GuiControls.TextBox { Text = preview };
 			controlList.Add(GuiControls.ControlType.TextBox, textbox);
 
 			var trackbar = new GuiControls.TrackBar();
@@ -262,8 +255,7 @@ namespace OSHVisualGui
 
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var ofd = new OpenFileDialog();
-			ofd.Filter = "OSHGui Style-File (*.style)|*.style";
+			var ofd = new OpenFileDialog { Filter = "OSHGui Style-File (*.style)|*.style" };
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
 				style.Load(ofd.FileName);
@@ -274,8 +266,7 @@ namespace OSHVisualGui
 
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sfd = new SaveFileDialog();
-			sfd.Filter = "OSHGui Style-File (*.style)|*.style";
+			var sfd = new SaveFileDialog { Filter = "OSHGui Style-File (*.style)|*.style" };
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				style.Save(sfd.FileName);

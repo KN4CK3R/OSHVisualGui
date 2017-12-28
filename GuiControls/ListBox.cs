@@ -6,39 +6,22 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class ListBox : ScalableControl
+	public class ListBox : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "listBox";
-			}
-		}
+		internal override string DefaultName => "listBox";
+
 		private string[] items;
 		public string[] Items
 		{
-			get
-			{
-				return items;
-			}
-			set
-			{
-				items = value;
-			}
+			get => items;
+			set => items = value;
 		}
 		private bool autoScrollEnabled;
 		public bool AutoScrollEnabled
 		{
-			get
-			{
-				return autoScrollEnabled;
-			}
-			set
-			{
-				autoScrollEnabled = value;
-			}
+			get => autoScrollEnabled;
+			set => autoScrollEnabled = value;
 		}
 
 		[Category("Events")]
@@ -83,7 +66,7 @@ namespace OSHVisualGui.GuiControls
 		public override void Render(Graphics graphics)
 		{
 			graphics.FillRectangle(backBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
-			Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 54, 53, 52)));
+			var tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 54, 53, 52)));
 			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y, Size.Width - 2, 1);
 			graphics.FillRectangle(tempBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
 			graphics.FillRectangle(tempBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
@@ -91,15 +74,15 @@ namespace OSHVisualGui.GuiControls
 
 			if (Items != null && Items.Length > 0)
 			{
-				int y = 5;
-				for (int i = 0; i < Items.Length; ++i)
+				var y = 5;
+				foreach (var item in Items)
 				{
-					Size stringSize = MeasureText(Items[i], Font);
+					var stringSize = MeasureText(item, Font);
 					if (y + stringSize.Height >= Size.Height)
 					{
 						break;
 					}
-					graphics.DrawString(Items[i], Font, foreBrush, AbsoluteLocation.X + 5, AbsoluteLocation.Y + y);
+					graphics.DrawString(item, Font, foreBrush, AbsoluteLocation.X + 5, AbsoluteLocation.Y + y);
 					y += stringSize.Height;
 				}
 			}
@@ -111,7 +94,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			ListBox copy = new ListBox();
+			var copy = new ListBox();
 			CopyTo(copy);
 			return copy;
 		}
@@ -120,7 +103,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			ListBox listBox = copy as ListBox;
+			var listBox = copy as ListBox;
 			listBox.autoScrollEnabled = autoScrollEnabled;
 			if (items != null)
 			{
@@ -139,7 +122,7 @@ namespace OSHVisualGui.GuiControls
 
 			if (Items != null)
 			{
-				foreach (string item in Items)
+				foreach (var item in Items)
 				{
 					element.Add(new XElement("item", item));
 				}
@@ -153,7 +136,7 @@ namespace OSHVisualGui.GuiControls
 			if (element.HasAttribute("autoScrollEnabled"))
 				AutoScrollEnabled = AutoScrollEnabled.FromXMLString(element.Attribute("autoScrollEnabled").Value.Trim());
 
-			List<string> itemList = new List<string>();
+			var itemList = new List<string>();
 			foreach (XElement itemElement in element.Nodes())
 			{
 				itemList.Add(itemElement.Value);

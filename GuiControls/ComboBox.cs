@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
@@ -8,25 +9,8 @@ namespace OSHVisualGui.GuiControls
 	public class ComboBox : Button
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "comboBox";
-			}
-		}
-		private string[] items;
-		public string[] Items
-		{
-			get
-			{
-				return items;
-			}
-			set
-			{
-				items = value;
-			}
-		}
+		internal override string DefaultName => "comboBox";
+		public string[] Items { get; set; }
 
 		[Category("Events")]
 		public SelectedIndexChangedEvent SelectedIndexChangedEvent
@@ -67,9 +51,9 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.Render(graphics);
 
-			int arrowLeft = AbsoluteLocation.X + Size.Width - 9;
-			int arrowTop = AbsoluteLocation.Y + Size.Height / 2 + 1;
-			for (int i = 0; i < 4; ++i)
+			var arrowLeft = AbsoluteLocation.X + Size.Width - 9;
+			var arrowTop = AbsoluteLocation.Y + Size.Height / 2 + 1;
+			for (var i = 0; i < 4; ++i)
 			{
 				graphics.FillRectangle(foreBrush, arrowLeft - i, arrowTop - i, 1 + i * 2, 1);
 			}
@@ -77,7 +61,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			ComboBox copy = new ComboBox();
+			var copy = new ComboBox();
 			CopyTo(copy);
 			return copy;
 		}
@@ -86,13 +70,13 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			ComboBox comboBox = copy as ComboBox;
-			string[] itemsCopy = new string[items.Length];
-			for (int i = 0; i < items.Length; ++i)
+			var comboBox = copy as ComboBox;
+			var itemsCopy = new string[Items.Length];
+			for (var i = 0; i < Items.Length; ++i)
 			{
-				itemsCopy[i] = items[i];
+				itemsCopy[i] = Items[i];
 			}
-			comboBox.items = itemsCopy;
+			comboBox.Items = itemsCopy;
 		}
 
 		public override string ToString()
@@ -106,7 +90,7 @@ namespace OSHVisualGui.GuiControls
 
 			if (Items != null)
 			{
-				foreach (string item in Items)
+				foreach (var item in Items)
 				{
 					element.Add(new XElement("item", item));
 				}
@@ -117,8 +101,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.ReadPropertiesFromXml(element);
 
-			List<string> itemList = new List<string>();
-			foreach (XElement itemElement in element.Nodes())
+			var itemList = new List<string>();
+			foreach (var itemElement in element.Nodes().OfType<XElement>())
 			{
 				itemList.Add(itemElement.Value);
 			}

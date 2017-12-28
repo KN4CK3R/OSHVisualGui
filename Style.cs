@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace OSHVisualGui
 {
@@ -59,9 +59,11 @@ namespace OSHVisualGui
 
 		public Style()
 		{
-			DefaultColor = new ControlStyle();
-			DefaultColor.ForeColor = Color.White;
-			DefaultColor.BackColor = Color.Black;
+			DefaultColor = new ControlStyle
+			{
+				ForeColor = Color.White,
+				BackColor = Color.Black
+			};
 			ControlStyles = new Dictionary<GuiControls.ControlType, ControlStyle>();
 			AddControlStyles();
 		}
@@ -102,7 +104,7 @@ namespace OSHVisualGui
 
 		public void Save(string pathToThemeFile)
 		{
-			using (StreamWriter sr = new StreamWriter(pathToThemeFile))
+			using (var sr = new StreamWriter(pathToThemeFile))
 			{
 				var settings = new JsonSerializerSettings();
 				settings.Converters.Add(new ColorJsonConverter());

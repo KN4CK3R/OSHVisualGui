@@ -4,77 +4,40 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class GroupBox : ContainerControl
+	public class GroupBox : ContainerControl
 	{
 		#region Properties
-		private Label label = new Label();
-		private Panel panel = new Panel();
 
-		internal override string DefaultName
-		{
-			get
-			{
-				return "groupBox";
-			}
-		}
+		private readonly Label label;
+		private readonly Panel panel;
+
+		internal override string DefaultName => "groupBox";
 		protected string DefaultText;
 		public string Text
 		{
-			get
-			{
-				return label.Text;
-			}
-			set
-			{
-				label.Text = value == null ? string.Empty : value;
-			}
+			get => label.Text;
+			set => label.Text = value ?? string.Empty;
 		}
-		internal override List<Control> Controls
-		{
-			get
-			{
-				return panel.Controls;
-			}
-		}
+		internal override List<Control> Controls => panel.Controls;
+
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				base.Size = value.LimitMin(label.Size.Width + 10, 17);
 				panel.Size = base.Size.Add(new Size(-3 * 2, -3 * 2 - 10));
 			}
 		}
-		internal override Point ContainerLocation
-		{
-			get
-			{
-				return base.ContainerLocation.Add(panel.Location);
-			}
-		}
-		internal override Point ContainerAbsoluteLocation
-		{
-			get
-			{
-				return panel.ContainerAbsoluteLocation;
-			}
-		}
-		internal override Size ContainerSize
-		{
-			get
-			{
-				return panel.ContainerSize;
-			}
-		}
+		internal override Point ContainerLocation => base.ContainerLocation.Add(panel.Location);
+
+		internal override Point ContainerAbsoluteLocation => panel.ContainerAbsoluteLocation;
+
+		internal override Size ContainerSize => panel.ContainerSize;
+
 		public override Color ForeColor
 		{
-			get
-			{
-				return base.ForeColor;
-			}
+			get => base.ForeColor;
 			set
 			{
 				base.ForeColor = value;
@@ -91,12 +54,18 @@ namespace OSHVisualGui.GuiControls
 
 			Size = DefaultSize = new Size(200, 200);
 
-			label.Location = new Point(5, -1);
-			label.isSubControl = true;
+			label = new Label
+			{
+				Location = new Point(5, -1),
+				IsSubControl = true
+			};
 			AddSubControl(label);
 
-			panel.Location = new Point(3, 10);
-			panel.isSubControl = true;
+			panel = new Panel
+			{
+				Location = new Point(3, 10),
+				IsSubControl = true
+			};
 			AddSubControl(panel);
 
 			ForeColor = DefaultForeColor = Color.White;
@@ -141,20 +110,20 @@ namespace OSHVisualGui.GuiControls
 
 			panel.Render(graphics);
 
-			if (isHighlighted)
+			if (IsHighlighted)
 			{
-				using (Pen pen = new Pen(Color.Orange, 1))
+				using (var pen = new Pen(Color.Orange, 1))
 				{
 					graphics.DrawRectangle(pen, AbsoluteLocation.X - 3, AbsoluteLocation.Y - 2, Size.Width + 5, Size.Height + 4);
 				}
 
-				isHighlighted = false;
+				IsHighlighted = false;
 			}
 		}
 
 		public override Control Copy()
 		{
-			GroupBox copy = new GroupBox();
+			var copy = new GroupBox();
 			CopyTo(copy);
 			return copy;
 		}
@@ -163,10 +132,10 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			GroupBox groupBox = copy as GroupBox;
+			var groupBox = copy as GroupBox;
 			groupBox.Text = Text;
 
-			foreach (Control control in panel.Controls)
+			foreach (var control in panel.Controls)
 			{
 				groupBox.AddControl(control.Copy());
 			}

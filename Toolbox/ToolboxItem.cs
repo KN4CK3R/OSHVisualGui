@@ -3,36 +3,15 @@ namespace OSHVisualGui.Toolbox
 {
 	public class ToolboxItem : ToolboxItemBase
 	{
-
-		private int iconIndex;
-		private object data;
-
 		public ToolboxItem(string caption, int iconIndex, object data)
 		{
-			this.caption = caption;
-			this.iconIndex = iconIndex;
-			this.data = data;
+			this.Caption = caption;
+			IconIndex = iconIndex;
+			Data = data;
 		}
 
-		public int IconIndex
-		{
-			get
-			{
-				return iconIndex;
-			}
-			set
-			{
-				iconIndex = value;
-			}
-		}
+		public int IconIndex { get; set; }
 
-		public object Data
-		{
-			get
-			{
-				return data;
-			}
-		}
-
+		public object Data { get; }
 	}
 }

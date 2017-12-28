@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Linq;
+using OSHVisualGui.GuiControls;
 
 namespace OSHVisualGui
 {
 	static class ControlSerializer
 	{
-		public static XElement Serialize(GuiControls.Control control)
+		public static XElement Serialize(Control control)
 		{
 			if (control == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException(nameof(control));
 			}
 
 			var root = new XElement("OSHGui");
@@ -21,12 +20,11 @@ namespace OSHVisualGui
 			return root;
 		}
 
-		private static void Serialize(GuiControls.Control control, XElement parent)
+		private static void Serialize(Control control, XElement parent)
 		{
-			XElement element = control.SerializeToXml();
-			if (control is GuiControls.ContainerControl)
+			var element = control.SerializeToXml();
+			if (control is ContainerControl container)
 			{
-				GuiControls.ContainerControl container = control as GuiControls.ContainerControl;
 				foreach (var child in container.Controls)
 				{
 					Serialize(child, element);
@@ -43,19 +41,18 @@ namespace OSHVisualGui
 			parent.Add(element);
 		}
 
-		public static GuiControls.Control Deserialize(XElement root)
+		public static Control Deserialize(XElement root)
 		{
 			if (root == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException(nameof(root));
 			}
 
 			if (root.Name.LocalName == "OSHGui")
 			{
-				XElement main = root.FirstNode as XElement;
-				if (main != null)
+				if (root.FirstNode is XElement main)
 				{
-					GuiControls.Control control = GetControlFromXmlElement(main);
+					var control = GetControlFromXmlElement(main);
 					Deserialize(control, main);
 					return control;
 				}
@@ -64,85 +61,85 @@ namespace OSHVisualGui
 			return null;
 		}
 
-		private static void Deserialize(GuiControls.Control control, XElement element)
+		private static void Deserialize(Control control, XElement element)
 		{
 			control.ReadPropertiesFromXml(element);
-			if (control is GuiControls.ContainerControl)
+			if (control is ContainerControl container)
 			{
-				GuiControls.ContainerControl container = control as GuiControls.ContainerControl;
-				foreach (XElement node in element.Nodes())
+				foreach (var xNode in element.Nodes())
 				{
-					GuiControls.Control child = GetControlFromXmlElement(node);
+					var node = (XElement)xNode;
+					var child = GetControlFromXmlElement(node);
 					Deserialize(child, node);
 					container.AddControl(child);
 				}
 			}
 		}
 
-		private static GuiControls.Control GetControlFromXmlElement(XElement element)
+		private static Control GetControlFromXmlElement(XElement element)
 		{
-			GuiControls.Control control = null;
+			Control control = null;
 			switch (element.Name.LocalName.ToLower())
 			{
 				case "button":
-					control = new GuiControls.Button();
+					control = new Button();
 					break;
 				case "checkbox":
-					control = new GuiControls.CheckBox();
+					control = new CheckBox();
 					break;
 				case "colorbar":
-					control = new GuiControls.ColorBar();
+					control = new ColorBar();
 					break;
 				case "colorpicker":
 					control = new GuiControls.ColorPicker();
 					break;
 				case "combobox":
-					control = new GuiControls.ComboBox();
+					control = new ComboBox();
 					break;
 				case "form":
-					control = new GuiControls.Form();
+					control = new Form();
 					break;
 				case "groupbox":
-					control = new GuiControls.GroupBox();
+					control = new GroupBox();
 					break;
 				case "label":
-					control = new GuiControls.Label();
+					control = new Label();
 					break;
 				case "linklabel":
-					control = new GuiControls.LinkLabel();
+					control = new LinkLabel();
 					break;
 				case "listbox":
-					control = new GuiControls.ListBox();
+					control = new ListBox();
 					break;
 				case "panel":
-					control = new GuiControls.Panel();
+					control = new Panel();
 					break;
 				case "picturebox":
-					control = new GuiControls.PictureBox();
+					control = new PictureBox();
 					break;
 				case "progressbar":
-					control = new GuiControls.ProgressBar();
+					control = new ProgressBar();
 					break;
 				case "radiobutton":
-					control = new GuiControls.RadioButton();
+					control = new RadioButton();
 					break;
 				case "tabcontrol":
-					control = new GuiControls.TabControl();
+					control = new TabControl();
 					break;
 				case "tabpage":
-					control = new GuiControls.TabPage();
+					control = new TabPage();
 					break;
 				case "textbox":
-					control = new GuiControls.TextBox();
+					control = new TextBox();
 					break;
 				case "timer":
-					control = new GuiControls.Timer();
+					control = new Timer();
 					break;
 				case "trackbar":
-					control = new GuiControls.TrackBar();
+					control = new TrackBar();
 					break;
 				case "hotkeycontrol":
-					control = new GuiControls.HotkeyControl();
+					control = new HotkeyControl();
 					break;
 				default:
 					throw new Exception(element.Name.LocalName.ToLower());

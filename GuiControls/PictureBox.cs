@@ -10,21 +10,13 @@ namespace OSHVisualGui.GuiControls
 	public class PictureBox : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "pictureBox";
-			}
-		}
+		internal override string DefaultName => "pictureBox";
+
 		private string path;
 		[Editor(typeof(FilenameEditor), typeof(UITypeEditor)), FileDialogFilter("Image files (*.jpg, *.bmp, *.gif, *.png)|*.jpg;*.bmp;*.gif;*.png|All files (*.*)|*.*")]
 		public string Path
 		{
-			get
-			{
-				return path;
-			}
+			get => path;
 			set
 			{
 				path = value;
@@ -35,7 +27,7 @@ namespace OSHVisualGui.GuiControls
 				}
 				try
 				{
-					image = (Bitmap)Bitmap.FromFile(path);
+					image = (Bitmap)Image.FromFile(path);
 				}
 				catch
 				{
@@ -44,7 +36,8 @@ namespace OSHVisualGui.GuiControls
 			}
 		}
 		private Bitmap image;
-		private bool DefaultStretch;
+
+		private readonly bool DefaultStretch;
 		public bool Stretch
 		{
 			get;
@@ -89,7 +82,7 @@ namespace OSHVisualGui.GuiControls
 				graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
 			}
 
-			using (Pen pen = new Pen(Color.Black, 1))
+			using (var pen = new Pen(Color.Black, 1))
 			{
 				pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 				graphics.DrawRectangle(pen, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
@@ -111,14 +104,9 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			PictureBox copy = new PictureBox();
+			var copy = new PictureBox();
 			CopyTo(copy);
 			return copy;
-		}
-
-		protected override void CopyTo(Control copy)
-		{
-			base.CopyTo(copy);
 		}
 
 		public override string ToString()

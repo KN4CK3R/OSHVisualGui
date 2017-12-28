@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Xml.Linq;
@@ -10,108 +10,60 @@ namespace OSHVisualGui.GuiControls
 	public class TabPage : Panel
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "tabPage";
-			}
-		}
-		protected string text;
-		internal TabControl.TabControlButton button;
-		private Panel containerPanel = new Panel();
 
+		internal override string DefaultName => "tabPage";
+
+		internal TabControl.TabControlButton button;
+
+		private readonly Panel containerPanel;
+
+		protected string text;
 		protected string DefaultText;
 		public string Text
 		{
-			get
-			{
-				return text;
-			}
+			get => text;
 			set
 			{
-				text = value == null ? string.Empty : value;
-				if (button != null)
-				{
-					button.CalculateSize();
-				}
+				text = value ?? string.Empty;
+				button?.CalculateSize();
 			}
 		}
-		internal override List<Control> Controls
-		{
-			get
-			{
-				return containerPanel.Controls;
-			}
-		}
+		internal override List<Control> Controls => containerPanel.Controls;
 
 		[Browsable(false)]
 		public override bool AutoSize
 		{
-			get
-			{
-				return base.AutoSize;
-			}
-			set
-			{
-				base.AutoSize = value;
-			}
+			get => base.AutoSize;
+			set => base.AutoSize = value;
 		}
 		[Browsable(false)]
 		public override bool Enabled
 		{
-			get
-			{
-				return base.Enabled;
-			}
-			set
-			{
-				base.Enabled = value;
-			}
+			get => base.Enabled;
+			set => base.Enabled = value;
 		}
 		[Browsable(false)]
 		public override bool Visible
 		{
-			get
-			{
-				return base.Visible;
-			}
-			set
-			{
-				base.Visible = value;
-			}
+			get => base.Visible;
+			set => base.Visible = value;
 		}
 		[Browsable(false)]
 		public override Point Location
 		{
-			get
-			{
-				return base.Location;
-			}
-			set
-			{
-				base.Location = value;
-			}
+			get => base.Location;
+			set => base.Location = value;
 		}
 		[Browsable(false)]
 		public override Font Font
 		{
-			get
-			{
-				return base.Font;
-			}
-			set
-			{
-				base.Font = value;
-			}
+			get => base.Font;
+			set => base.Font = value;
 		}
 		[Browsable(false)]
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				base.Size = value;
@@ -129,9 +81,12 @@ namespace OSHVisualGui.GuiControls
 
 			button = null;
 
-			containerPanel.Location = new Point(2, 2);
-			containerPanel.isSubControl = true;
-			containerPanel.Parent = this;
+			containerPanel = new Panel
+			{
+				Location = new Point(2, 2),
+				IsSubControl = true,
+				Parent = this
+			};
 			AddSubControl(containerPanel);
 
 			Text = DefaultText = string.Empty;
@@ -169,7 +124,7 @@ namespace OSHVisualGui.GuiControls
 			{
 				Brush brush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 32, 32, 32)));
 				graphics.FillRectangle(brush, AbsoluteLocation.X, AbsoluteLocation.Y, Size.Width, Size.Height);
-				Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
+				var rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
 				brush = new LinearGradientBrush(rect, BackColor, BackColor.Substract(Color.FromArgb(0, 20, 20, 20)), LinearGradientMode.Vertical);
 				graphics.FillRectangle(brush, rect);
 			}
@@ -179,7 +134,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			TabPage copy = new TabPage();
+			var copy = new TabPage();
 			CopyTo(copy);
 			return copy;
 		}
@@ -188,7 +143,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			TabPage tabPage = copy as TabPage;
+			var tabPage = copy as TabPage;
 			tabPage.Text = text;
 		}
 

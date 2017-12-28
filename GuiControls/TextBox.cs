@@ -5,28 +5,18 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class TextBox : ScalableControl
+	public class TextBox : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "textBox";
-			}
-		}
+
+		internal override string DefaultName => "textBox";
+
 		private string text;
 		protected string DefaultText;
 		public virtual string Text
 		{
-			get
-			{
-				return text;
-			}
-			set
-			{
-				text = value;
-			}
+			get => text;
+			set => text = value;
 		}
 
 		[Category("Events")]
@@ -35,6 +25,7 @@ namespace OSHVisualGui.GuiControls
 			get;
 			set;
 		}
+
 		#endregion
 
 		public TextBox()
@@ -65,7 +56,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override void Render(Graphics graphics)
 		{
-			Brush tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 20, 20, 20)));
+			var tempBrush = new SolidBrush(BackColor.Add(Color.FromArgb(0, 20, 20, 20)));
 			graphics.FillRectangle(tempBrush, new Rectangle(AbsoluteLocation, Size));
 			graphics.FillRectangle(backBrush, AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, Size.Width - 2, Size.Height - 2);
 
@@ -74,7 +65,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			TextBox copy = new TextBox();
+			var copy = new TextBox();
 			CopyTo(copy);
 			return copy;
 		}
@@ -83,7 +74,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			TextBox textBox = copy as TextBox;
+			var textBox = copy as TextBox;
 			textBox.text = text;
 		}
 

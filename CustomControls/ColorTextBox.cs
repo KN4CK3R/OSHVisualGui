@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace OSHVisualGui
 {
-	class ColorTextBox : TextBox
+	internal class ColorTextBox : TextBox
 	{
 		public enum ColorStyle
 		{
@@ -18,10 +18,7 @@ namespace OSHVisualGui
 		private ColorStyle style;
 		public ColorStyle Style
 		{
-			get
-			{
-				return style;
-			}
+			get => style;
 			set
 			{
 				style = value;
@@ -31,10 +28,7 @@ namespace OSHVisualGui
 		private Color color;
 		public Color Color
 		{
-			get
-			{
-				return color;
-			}
+			get => color;
 			set
 			{
 				if (color != value)
@@ -48,12 +42,11 @@ namespace OSHVisualGui
 			}
 		}
 
-		private Button switchStyle;
-		private Button openColorPicker;
-		private Color buttonForeColor;
-		private Color buttonBackColor;
-		private PoperContainer poperContainer;
-		private ColorPicker colorPicker;
+		private readonly Button switchStyle;
+		private readonly Button openColorPicker;
+		private readonly Color buttonForeColor;
+		private readonly Color buttonBackColor;
+		private readonly PoperContainer poperContainer;
 
 		public delegate void ColorChangedEventHandler(object sender, Color color);
 		public event ColorChangedEventHandler ColorChanged;
@@ -65,42 +58,43 @@ namespace OSHVisualGui
 
 		public ColorTextBox()
 		{
-			LostFocus += delegate (object sender, EventArgs e)
+			LostFocus += delegate
 			{
 				TextToColor();
 			};
 
 			style = ColorStyle.RGB;
 
-			switchStyle = new Button();
-			switchStyle.FlatStyle = FlatStyle.Flat;
+			switchStyle = new Button
+			{
+				FlatStyle = FlatStyle.Flat,
+				TextAlign = ContentAlignment.TopCenter,
+				Text = "Y",
+				Cursor = Cursors.Default,
+				Dock = DockStyle.Right
+			};
 			switchStyle.Width = switchStyle.Height = Height - 2;
-			switchStyle.TextAlign = ContentAlignment.TopCenter;
-			switchStyle.Text = "Y";
-			switchStyle.Cursor = Cursors.Default;
-			switchStyle.Dock = DockStyle.Right;
-			switchStyle.Click += new EventHandler(switchStyle_Click);
+			switchStyle.Click += switchStyle_Click;
 			Controls.Add(switchStyle);
 
-			openColorPicker = new Button();
-			openColorPicker.FlatStyle = FlatStyle.Flat;
-			openColorPicker.Width = switchStyle.Height = Height - 2;
-			openColorPicker.Dock = DockStyle.Right;
-			openColorPicker.Text = "°";
-			openColorPicker.Cursor = Cursors.Default;
+			openColorPicker = new Button
+			{
+				FlatStyle = FlatStyle.Flat,
+				Dock = DockStyle.Right,
+				Text = "°",
+				Cursor = Cursors.Default,
+				Width = switchStyle.Height = Height - 2
+			};
 			openColorPicker.Click += openColorPicker_Click;
 			Controls.Add(openColorPicker);
 
-			colorPicker = new ColorPicker();
+			var colorPicker = new ColorPicker();
 			colorPicker.MouseMove += delegate(object sender, MouseEventArgs e)
 			{
-				if (ColorPickerHover != null)
-				{
-					ColorPickerHover(sender, colorPicker.HoverColor);
-				}
+				ColorPickerHover?.Invoke(sender, colorPicker.HoverColor);
 			};
 
-			bool cancled = true;
+			var cancled = true;
 			colorPicker.ColorChanged += delegate(object sender, Color color)
 			{
 				cancled = false;
@@ -111,15 +105,12 @@ namespace OSHVisualGui
 			};
 
 			poperContainer = new PoperContainer(colorPicker);
-			poperContainer.Opened += delegate(object sender, EventArgs e)
+			poperContainer.Opened += (sender, args) => cancled = true;
+			poperContainer.Closed += delegate
 			{
-				cancled = true;
-			};
-			poperContainer.Closed += delegate(object sender, ToolStripDropDownClosedEventArgs e)
-			{
-				if (cancled && ColorPickerCancled != null)
+				if (cancled)
 				{
-					ColorPickerCancled(this, EventArgs.Empty);
+					ColorPickerCancled?.Invoke(this, EventArgs.Empty);
 				}
 			};
 
@@ -132,13 +123,13 @@ namespace OSHVisualGui
 			switch (style)
 			{
 				case ColorStyle.RGB:
-					base.Text = string.Format("{0}/{1}/{2}", color.R, color.G, color.B);
+					Text = $"{color.R}/{color.G}/{color.B}";
 					break;
 				case ColorStyle.ARGB:
-					base.Text = string.Format("{0}/{1}/{2}/{3}", color.A, color.R, color.G, color.B);
+					Text = $"{color.A}/{color.R}/{color.G}/{color.B}";
 					break;
 				case ColorStyle.HEX:
-					base.Text = string.Format("{0:X08}", color.ToArgb());
+					Text = $"{color.ToArgb():X08}";
 					break;
 			}
 		}
@@ -155,7 +146,7 @@ namespace OSHVisualGui
 				var colorRegex = new Regex(@"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/){2,3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b|([0-9a-fA-F]{8})", RegexOptions.Compiled);
 				if (colorRegex.IsMatch(Text))
 				{
-					var seperated = Text.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+					var seperated = Text.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 					if (seperated.Length == 3 || seperated.Length == 4)
 					{
 						style = ColorStyle.RGB;
@@ -246,10 +237,7 @@ namespace OSHVisualGui
 
 		private void OnColorChanged()
 		{
-			if (ColorChanged != null)
-			{
-				ColorChanged(this, Color);
-			}
+			ColorChanged?.Invoke(this, Color);
 		}
 	}
 }

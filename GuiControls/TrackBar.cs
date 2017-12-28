@@ -5,23 +5,16 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class TrackBar : ScalableControl
+	public class TrackBar : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "trackBar";
-			}
-		}
+
+		internal override string DefaultName => "trackBar";
+
 		private int minimum;
 		public int Minimum
 		{
-			get
-			{
-				return minimum;
-			}
+			get => minimum;
 			set
 			{
 				if (value < maximum)
@@ -30,13 +23,11 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		private int maximum;
 		public int Maximum
 		{
-			get
-			{
-				return maximum;
-			}
+			get => maximum;
 			set
 			{
 				if (value > minimum)
@@ -45,13 +36,11 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		private int value;
 		public int Value
 		{
-			get
-			{
-				return value;
-			}
+			get => value;
 			set
 			{
 				if (value >= minimum && value <= maximum)
@@ -60,13 +49,11 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		private int tickFrequency;
 		public int TickFrequency
 		{
-			get
-			{
-				return tickFrequency;
-			}
+			get => tickFrequency;
 			set
 			{
 				if (value >= 1)
@@ -82,6 +69,7 @@ namespace OSHVisualGui.GuiControls
 			get;
 			set;
 		}
+
 		#endregion
 
 		public TrackBar()
@@ -131,22 +119,22 @@ namespace OSHVisualGui.GuiControls
 				graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, Size));
 			}
 
-			int tickCount = 1 + (maximum - minimum) / tickFrequency;
-			float pixelsPerTick = (Size.Width - 8) / ((maximum - minimum) / (float)tickFrequency);
-			for (int i = 0; i < tickCount; ++i)
+			var tickCount = 1 + (maximum - minimum) / tickFrequency;
+			var pixelsPerTick = (Size.Width - 8) / ((maximum - minimum) / (float)tickFrequency);
+			for (var i = 0; i < tickCount; ++i)
 			{
-				int x = (int)(AbsoluteLocation.X + 4 + i * pixelsPerTick);
-				int y = AbsoluteLocation.Y + 7;
+				var x = (int)(AbsoluteLocation.X + 4 + i * pixelsPerTick);
+				var y = AbsoluteLocation.Y + 7;
 				graphics.FillRectangle(foreBrush, x, y, 1, 5);
 			}
 
-			int tick = value / tickFrequency;
+			var tick = value / tickFrequency;
 			graphics.FillRectangle(foreBrush, AbsoluteLocation.X + tick * pixelsPerTick, AbsoluteLocation.Y + 1, 8, 16);
 		}
 
 		public override Control Copy()
 		{
-			TrackBar copy = new TrackBar();
+			var copy = new TrackBar();
 			CopyTo(copy);
 			return copy;
 		}
@@ -155,7 +143,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			TrackBar trackBar = copy as TrackBar;
+			var trackBar = copy as TrackBar;
 			trackBar.minimum = minimum;
 			trackBar.maximum = maximum;
 			trackBar.tickFrequency = tickFrequency;

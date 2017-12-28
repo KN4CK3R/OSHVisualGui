@@ -8,24 +8,16 @@ namespace OSHVisualGui.GuiControls
 	public class Label : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "label";
-			}
-		}
+		internal override string DefaultName => "label";
+
 		protected string text;
 		protected string DefaultText;
 		public string Text
 		{
-			get
-			{
-				return text;
-			}
+			get => text;
 			set
 			{
-				text = value == null ? string.Empty : value;
+				text = value ?? string.Empty;
 				if (AutoSize)
 				{
 					base.Size = MeasureText(text, Font);
@@ -34,10 +26,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				if (!AutoSize)
@@ -48,10 +37,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Font Font
 		{
-			get
-			{
-				return base.Font;
-			}
+			get => base.Font;
 			set
 			{
 				base.Font = value;
@@ -63,10 +49,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override bool AutoSize
 		{
-			get
-			{
-				return base.AutoSize;
-			}
+			get => base.AutoSize;
 			set
 			{
 				base.AutoSize = value;
@@ -114,7 +97,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			Label copy = new Label();
+			var copy = new Label();
 			CopyTo(copy);
 			return copy;
 		}
@@ -123,7 +106,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			Label label = copy as Label;
+			var label = copy as Label;
 			label.text = text;
 		}
 

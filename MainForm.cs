@@ -2,11 +2,15 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using OSHVisualGui.Toolbox;
 using System.Reflection;
 using System.Xml.Linq;
+using OSHVisualGui.GuiControls;
+using ContainerControl = OSHVisualGui.GuiControls.ContainerControl;
+using Form = System.Windows.Forms.Form;
 
 namespace OSHVisualGui
 {
@@ -25,29 +29,29 @@ namespace OSHVisualGui
 
 			stickToolBoxToggle = false;
 
-			ToolboxGroup allControlsGroup = new ToolboxGroup("All Controls");
-			allControlsGroup.Items.Add(new ToolboxItem("Button", 0, GuiControls.ControlType.Button));
-			allControlsGroup.Items.Add(new ToolboxItem("CheckBox", 1, GuiControls.ControlType.CheckBox));
-			allControlsGroup.Items.Add(new ToolboxItem("ColorBar", 2, GuiControls.ControlType.ColorBar));
-			allControlsGroup.Items.Add(new ToolboxItem("ColorPicker", 3, GuiControls.ControlType.ColorPicker));
-			allControlsGroup.Items.Add(new ToolboxItem("ComboBox", 4, GuiControls.ControlType.ComboBox));
-			allControlsGroup.Items.Add(new ToolboxItem("GroupBox", 5, GuiControls.ControlType.GroupBox));
-			allControlsGroup.Items.Add(new ToolboxItem("HotkeyControl", 14, GuiControls.ControlType.HotkeyControl));
-			allControlsGroup.Items.Add(new ToolboxItem("Label", 6, GuiControls.ControlType.Label));
-			allControlsGroup.Items.Add(new ToolboxItem("LinkLabel", 7, GuiControls.ControlType.LinkLabel));
-			allControlsGroup.Items.Add(new ToolboxItem("ListBox", 8, GuiControls.ControlType.ListBox));
-			allControlsGroup.Items.Add(new ToolboxItem("Panel", 9, GuiControls.ControlType.Panel));
-			allControlsGroup.Items.Add(new ToolboxItem("PictureBox", 10, GuiControls.ControlType.PictureBox));
-			allControlsGroup.Items.Add(new ToolboxItem("ProgressBar", 11, GuiControls.ControlType.ProgressBar));
-			allControlsGroup.Items.Add(new ToolboxItem("RadioButton", 12, GuiControls.ControlType.RadioButton));
-			allControlsGroup.Items.Add(new ToolboxItem("TabControl", 13, GuiControls.ControlType.TabControl));
-			allControlsGroup.Items.Add(new ToolboxItem("TextBox", 14, GuiControls.ControlType.TextBox));
-			allControlsGroup.Items.Add(new ToolboxItem("Timer", 15, GuiControls.ControlType.Timer));
-			allControlsGroup.Items.Add(new ToolboxItem("TrackBar", 16, GuiControls.ControlType.TrackBar));
+			var allControlsGroup = new ToolboxGroup("All Controls");
+			allControlsGroup.Items.Add(new ToolboxItem("Button", 0, ControlType.Button));
+			allControlsGroup.Items.Add(new ToolboxItem("CheckBox", 1, ControlType.CheckBox));
+			allControlsGroup.Items.Add(new ToolboxItem("ColorBar", 2, ControlType.ColorBar));
+			allControlsGroup.Items.Add(new ToolboxItem("ColorPicker", 3, ControlType.ColorPicker));
+			allControlsGroup.Items.Add(new ToolboxItem("ComboBox", 4, ControlType.ComboBox));
+			allControlsGroup.Items.Add(new ToolboxItem("GroupBox", 5, ControlType.GroupBox));
+			allControlsGroup.Items.Add(new ToolboxItem("HotkeyControl", 14, ControlType.HotkeyControl));
+			allControlsGroup.Items.Add(new ToolboxItem("Label", 6, ControlType.Label));
+			allControlsGroup.Items.Add(new ToolboxItem("LinkLabel", 7, ControlType.LinkLabel));
+			allControlsGroup.Items.Add(new ToolboxItem("ListBox", 8, ControlType.ListBox));
+			allControlsGroup.Items.Add(new ToolboxItem("Panel", 9, ControlType.Panel));
+			allControlsGroup.Items.Add(new ToolboxItem("PictureBox", 10, ControlType.PictureBox));
+			allControlsGroup.Items.Add(new ToolboxItem("ProgressBar", 11, ControlType.ProgressBar));
+			allControlsGroup.Items.Add(new ToolboxItem("RadioButton", 12, ControlType.RadioButton));
+			allControlsGroup.Items.Add(new ToolboxItem("TabControl", 13, ControlType.TabControl));
+			allControlsGroup.Items.Add(new ToolboxItem("TextBox", 14, ControlType.TextBox));
+			allControlsGroup.Items.Add(new ToolboxItem("Timer", 15, ControlType.Timer));
+			allControlsGroup.Items.Add(new ToolboxItem("TrackBar", 16, ControlType.TrackBar));
 			allControlsGroup.Expanded = true;
 			controlToolbox.Groups.Add(allControlsGroup.Caption, allControlsGroup);
 
-			controlToolbox.MouseLeave += new DelayedEventHandler(300, delegate(object sender, EventArgs e)
+			controlToolbox.MouseLeave += new DelayedEventHandler(300, delegate
 			{
 				if (!stickToolBoxToggle)
 				{
@@ -57,7 +61,7 @@ namespace OSHVisualGui
 
 			canvasPictureBox.AllowDrop = true;
 
-			Renderer = Graphics.FromHwnd(this.Handle);
+			Renderer = Graphics.FromHwnd(Handle);
 			Renderer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
 			form = new GuiControls.Form(new Point(6, 6));
@@ -65,7 +69,7 @@ namespace OSHVisualGui
 			form.DragEnd += control_DragEnd;
 			AddControlToList(form);
 
-			GridItem category = controlPropertyGrid.SelectedGridItem;
+			var category = controlPropertyGrid.SelectedGridItem;
 			while (category.Parent != null)
 			{
 				category = category.Parent;
@@ -78,7 +82,7 @@ namespace OSHVisualGui
 			scalableControl.MouseDown += control_MouseDown;
 			scalableControl.MouseMove += control_MouseMove;
 			scalableControl.MouseUp += control_MouseUp;
-			(scalableControl as GuiControls.ScalableControl).DragEnd += control_DragEnd;
+			(scalableControl as ScalableControl).DragEnd += control_DragEnd;
 		}
 
 		private void AddControlToList(GuiControls.Control control)
@@ -121,10 +125,9 @@ namespace OSHVisualGui
 		{
 			if (GuiControls.Control.FocusedControl != null)
 			{
-				GuiControls.ScalableControl scalableControl = GuiControls.Control.FocusedControl as GuiControls.ScalableControl;
-				if (scalableControl != null)
+				if (GuiControls.Control.FocusedControl is ScalableControl scalableControl)
 				{
-					foreach (GuiControls.Control dragPoint in scalableControl.ProcessDragPoints())
+					foreach (var dragPoint in scalableControl.ProcessDragPoints())
 					{
 						if (dragPoint.Intersect(location))
 						{
@@ -134,7 +137,7 @@ namespace OSHVisualGui
 				}
 			}
 
-			foreach (GuiControls.Control control in form.PostOrderVisit())
+			foreach (var control in form.PostOrderVisit())
 			{
 				if (control.Intersect(location))
 				{
@@ -145,20 +148,20 @@ namespace OSHVisualGui
 			return form;
 		}
 
-		private GuiControls.ContainerControl FindContainerControlUnderMouse(Point location)
+		private ContainerControl FindContainerControlUnderMouse(Point location)
 		{
-			foreach (GuiControls.Control control in form.PostOrderVisit())
+			foreach (var control in form.PostOrderVisit())
 			{
-				if (control != GuiControls.Control.FocusedControl && control is GuiControls.ContainerControl && control.Intersect(location))
+				if (control != GuiControls.Control.FocusedControl && control is ContainerControl && control.Intersect(location))
 				{
-					return control as GuiControls.ContainerControl;
+					return control as ContainerControl;
 				}
 			}
 
 			return form;
 		}
 
-		private void ProcessMouseMessage(GuiControls.Mouse mouse)
+		private void ProcessMouseMessage(Mouse mouse)
 		{
 			if (GuiControls.Control.MouseCaptureControl != null)
 			{
@@ -169,9 +172,9 @@ namespace OSHVisualGui
 				return;
 			}
 
-			if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
+			if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is ScalableControl)
 			{
-				foreach (GuiControls.Control dragPoint in (GuiControls.Control.FocusedControl as GuiControls.ScalableControl).ProcessDragPoints())
+				foreach (var dragPoint in ((ScalableControl)GuiControls.Control.FocusedControl).ProcessDragPoints())
 				{
 					if (dragPoint.ProcessMouseMessage(mouse))
 					{
@@ -181,13 +184,10 @@ namespace OSHVisualGui
 				}
 			}
 
-			foreach (GuiControls.Control control in form.PostOrderVisit())
+			if (form.PostOrderVisit().Any(control => control.ProcessMouseMessage(mouse)))
 			{
-				if (control.ProcessMouseMessage(mouse))
-				{
-					canvasPictureBox.Invalidate();
-					return;
-				}
+				canvasPictureBox.Invalidate();
+				return;
 			}
 
 			if (form.ProcessMouseMessage(mouse))
@@ -203,9 +203,9 @@ namespace OSHVisualGui
 
 			form.Render(renderer);
 
-			if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is GuiControls.ScalableControl)
+			if (GuiControls.Control.FocusedControl != null && GuiControls.Control.FocusedControl is ScalableControl)
 			{
-				(GuiControls.Control.FocusedControl as GuiControls.ScalableControl).RenderDragArea(renderer);
+				((ScalableControl)GuiControls.Control.FocusedControl).RenderDragArea(renderer);
 			}
 		}
 
@@ -215,9 +215,9 @@ namespace OSHVisualGui
 			{
 				Cursor.Clip = canvasPictureBox.RectangleToScreen(new Rectangle(0, 0, canvasPictureBox.Width - 3, canvasPictureBox.Height - 3));
 
-				GuiControls.Control oldFocusedControl = GuiControls.Control.FocusedControl;
+				var oldFocusedControl = GuiControls.Control.FocusedControl;
 
-				ProcessMouseMessage(new GuiControls.Mouse(e.Location, GuiControls.Mouse.MouseStates.LeftDown));
+				ProcessMouseMessage(new Mouse(e.Location, Mouse.MouseStates.LeftDown));
 
 				if (GuiControls.Control.FocusedControl != oldFocusedControl)
 				{
@@ -229,34 +229,34 @@ namespace OSHVisualGui
 
 		private void canvasPictureBox_MouseMove(object sender, MouseEventArgs e)
 		{
-			ProcessMouseMessage(new GuiControls.Mouse(e.Location, GuiControls.Mouse.MouseStates.Move));
+			ProcessMouseMessage(new Mouse(e.Location, Mouse.MouseStates.Move));
 
-			GuiControls.Control tempControl = FindControlUnderMouse(e.Location);
-			if (tempControl is GuiControls.ScalableControl.DragPoint)
+			var tempControl = FindControlUnderMouse(e.Location);
+			if (tempControl is ScalableControl.DragPoint)
 			{
-				switch ((tempControl as GuiControls.ScalableControl.DragPoint).Direction)
+				switch ((tempControl as ScalableControl.DragPoint).Direction)
 				{
-					case GuiControls.ScalableControl.DragDirection.Top:
-					case GuiControls.ScalableControl.DragDirection.Bottom:
+					case ScalableControl.DragDirection.Top:
+					case ScalableControl.DragDirection.Bottom:
 						canvasPictureBox.Cursor = Cursors.SizeNS;
 						break;
-					case GuiControls.ScalableControl.DragDirection.Left:
-					case GuiControls.ScalableControl.DragDirection.Right:
+					case ScalableControl.DragDirection.Left:
+					case ScalableControl.DragDirection.Right:
 						canvasPictureBox.Cursor = Cursors.SizeWE;
 						break;
-					case GuiControls.ScalableControl.DragDirection.TopLeft:
-					case GuiControls.ScalableControl.DragDirection.BottomRight:
+					case ScalableControl.DragDirection.TopLeft:
+					case ScalableControl.DragDirection.BottomRight:
 						canvasPictureBox.Cursor = Cursors.SizeNWSE;
 						break;
-					case GuiControls.ScalableControl.DragDirection.TopRight:
-					case GuiControls.ScalableControl.DragDirection.BottomLeft:
+					case ScalableControl.DragDirection.TopRight:
+					case ScalableControl.DragDirection.BottomLeft:
 						canvasPictureBox.Cursor = Cursors.SizeNESW;
 						break;
 				}
 			}
 			else
 			{
-				canvasPictureBox.Cursor = tempControl != null ? tempControl is GuiControls.ContainerControl ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
+				canvasPictureBox.Cursor = tempControl != null ? tempControl is ContainerControl ? Cursors.Default : Cursors.SizeAll : Cursors.Default;
 			}
 		}
 
@@ -264,9 +264,9 @@ namespace OSHVisualGui
 		{
 			Cursor.Clip = new Rectangle();
 
-			GuiControls.Control oldFocusedControl = GuiControls.Control.FocusedControl;
+			var oldFocusedControl = GuiControls.Control.FocusedControl;
 
-			ProcessMouseMessage(new GuiControls.Mouse(e.Location, GuiControls.Mouse.MouseStates.LeftUp));
+			ProcessMouseMessage(new Mouse(e.Location, Mouse.MouseStates.LeftUp));
 
 			if (GuiControls.Control.FocusedControl != oldFocusedControl)
 			{
@@ -276,7 +276,7 @@ namespace OSHVisualGui
 
 		private void canvasPictureBox_DragEnter(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent(typeof(GuiControls.ControlType)))
+			if (e.Data.GetDataPresent(typeof(ControlType)))
 			{
 				e.Effect = DragDropEffects.Copy;
 			}
@@ -284,112 +284,111 @@ namespace OSHVisualGui
 
 		private void canvasPictureBox_DragDrop(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent(typeof(GuiControls.ControlType)))
+			if (e.Data.GetDataPresent(typeof(ControlType)))
 			{
-				GuiControls.ControlType type = (GuiControls.ControlType)e.Data.GetData(typeof(GuiControls.ControlType));
+				var type = (ControlType)e.Data.GetData(typeof(ControlType));
 
-				ControlManager cm = ControlManager.Instance();
-				string name = string.Empty;
+				var cm = ControlManager.Instance();
 				GuiControls.Control newControl = null;
 				switch (type)
 				{
-					case GuiControls.ControlType.Button:
-						GuiControls.Button button = new GuiControls.Button();
+					case ControlType.Button:
+						var button = new GuiControls.Button();
 						button.Text = button.Name = button.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Button));
 						newControl = button;
 						break;
-					case GuiControls.ControlType.CheckBox:
-						GuiControls.CheckBox checkBox = new GuiControls.CheckBox();
+					case ControlType.CheckBox:
+						var checkBox = new GuiControls.CheckBox();
 						checkBox.Text = checkBox.Name = checkBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.CheckBox));
 						newControl = checkBox;
 						break;
-					case GuiControls.ControlType.ColorBar:
-						GuiControls.ColorBar colorBar = new GuiControls.ColorBar();
-						colorBar.Name = colorBar.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ColorBar));
+					case ControlType.ColorBar:
+						var colorBar = new ColorBar();
+						colorBar.Name = colorBar.DefaultName + cm.GetControlCountPlusOne(typeof(ColorBar));
 						newControl = colorBar;
 						break;
-					case GuiControls.ControlType.ColorPicker:
-						GuiControls.ColorPicker colorPicker = new GuiControls.ColorPicker();
+					case ControlType.ColorPicker:
+						var colorPicker = new GuiControls.ColorPicker();
 						colorPicker.Name = colorPicker.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ColorPicker));
 						newControl = colorPicker;
 						break;
-					case GuiControls.ControlType.ComboBox:
-						GuiControls.ComboBox comboBox = new GuiControls.ComboBox();
+					case ControlType.ComboBox:
+						var comboBox = new GuiControls.ComboBox();
 						comboBox.Text = comboBox.Name = comboBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ComboBox));
 						newControl = comboBox;
 						break;
-					case GuiControls.ControlType.GroupBox:
-						GuiControls.GroupBox groupBox = new GuiControls.GroupBox();
+					case ControlType.GroupBox:
+						var groupBox = new GuiControls.GroupBox();
 						groupBox.Text = groupBox.Name = groupBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.GroupBox));
 						newControl = groupBox;
 						break;
-					case GuiControls.ControlType.Label:
-						GuiControls.Label label = new GuiControls.Label();
+					case ControlType.Label:
+						var label = new GuiControls.Label();
 						label.Text = label.Name = label.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Label));
 						newControl = label;
 						break;
-					case GuiControls.ControlType.LinkLabel:
-						GuiControls.LinkLabel linkLabel = new GuiControls.LinkLabel();
+					case ControlType.LinkLabel:
+						var linkLabel = new GuiControls.LinkLabel();
 						linkLabel.Text = linkLabel.Name = linkLabel.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.LinkLabel));
 						newControl = linkLabel;
 						break;
-					case GuiControls.ControlType.ListBox:
-						GuiControls.ListBox listBox = new GuiControls.ListBox();
+					case ControlType.ListBox:
+						var listBox = new GuiControls.ListBox();
 						listBox.Name = listBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ListBox));
 						newControl = listBox;
 						break;
-					case GuiControls.ControlType.Panel:
-						GuiControls.Panel panel = new GuiControls.Panel();
+					case ControlType.Panel:
+						var panel = new GuiControls.Panel();
 						panel.Name = panel.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Panel));
 						newControl = panel;
 						break;
-					case GuiControls.ControlType.PictureBox:
-						GuiControls.PictureBox pictureBox = new GuiControls.PictureBox();
+					case ControlType.PictureBox:
+						var pictureBox = new GuiControls.PictureBox();
 						pictureBox.Name = pictureBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.PictureBox));
 						newControl = pictureBox;
 						break;
-					case GuiControls.ControlType.ProgressBar:
-						GuiControls.ProgressBar progressBar = new GuiControls.ProgressBar();
+					case ControlType.ProgressBar:
+						var progressBar = new GuiControls.ProgressBar();
 						progressBar.Name = progressBar.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.ProgressBar));
 						newControl = progressBar;
 						break;
-					case GuiControls.ControlType.RadioButton:
-						GuiControls.RadioButton radioButton = new GuiControls.RadioButton();
+					case ControlType.RadioButton:
+						var radioButton = new GuiControls.RadioButton();
 						radioButton.Text = radioButton.Name = radioButton.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.RadioButton));
 						newControl = radioButton;
 						break;
-					case GuiControls.ControlType.TabControl:
-						GuiControls.TabControl tabControl = new GuiControls.TabControl();
+					case ControlType.TabControl:
+						var tabControl = new GuiControls.TabControl();
 						tabControl.Name = tabControl.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TabControl));
-						GuiControls.TabPage tempTabPage = new GuiControls.TabPage();
+						var tempTabPage = new GuiControls.TabPage();
 						tempTabPage.Text = tempTabPage.Name = tempTabPage.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TabPage));
 						tabControl.AddTabPage(tempTabPage);
 						AddControlToList(tempTabPage);
 						newControl = tabControl;
 						break;
-					case GuiControls.ControlType.TabPage:
-						GuiControls.TabPage tabPage = new GuiControls.TabPage();
+					case ControlType.TabPage:
+						var tabPage = new GuiControls.TabPage();
 						tabPage.Text = tabPage.Name = tabPage.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TabPage));
 						newControl = tabPage;
 						break;
-					case GuiControls.ControlType.TextBox:
-						GuiControls.TextBox textBox = new GuiControls.TextBox();
+					case ControlType.TextBox:
+						var textBox = new GuiControls.TextBox();
 						textBox.Name = textBox.Text = textBox.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TextBox));
 						newControl = textBox;
 						break;
-					case GuiControls.ControlType.Timer:
-						GuiControls.Timer timer = new GuiControls.Timer();
+					case ControlType.Timer:
+						var timer = new GuiControls.Timer();
 						timer.Name = timer.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.Timer));
 						newControl = timer;
 						break;
-					case GuiControls.ControlType.TrackBar:
-						GuiControls.TrackBar trackBar = new GuiControls.TrackBar();
+					case ControlType.TrackBar:
+						var trackBar = new GuiControls.TrackBar();
 						trackBar.Name = trackBar.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.TrackBar));
 						newControl = trackBar;
 						break;
-					case GuiControls.ControlType.HotkeyControl:
-						GuiControls.HotkeyControl hotkeyControl = new GuiControls.HotkeyControl();
-						hotkeyControl.Name = hotkeyControl.DefaultName + cm.GetControlCountPlusOne(typeof(GuiControls.HotkeyControl));
+					case ControlType.HotkeyControl:
+						var hotkeyControl = new HotkeyControl();
+						hotkeyControl.Name = hotkeyControl.DefaultName + cm.GetControlCountPlusOne(typeof(HotkeyControl));
 						newControl = hotkeyControl;
 						break;
 				}
@@ -402,8 +401,8 @@ namespace OSHVisualGui
 
 				AddControlToList(newControl);
 
-				Point location = canvasPictureBox.PointToClient(new Point(e.X, e.Y));
-				GuiControls.ContainerControl parent = FindContainerControlUnderMouse(location);
+				var location = canvasPictureBox.PointToClient(new Point(e.X, e.Y));
+				var parent = FindContainerControlUnderMouse(location);
 				newControl.Location = location.Substract(parent.ContainerAbsoluteLocation);
 				parent.AddControl(newControl);
 			}
@@ -411,9 +410,8 @@ namespace OSHVisualGui
 
 		private void RecursiveRemove(GuiControls.Control control)
 		{
-			if (control is GuiControls.ContainerControl)
+			if (control is ContainerControl container)
 			{
-				var container = control as GuiControls.ContainerControl;
 				foreach (var it in container.Controls.ToArray()) //ToArray fixes invalid iterator error
 				{
 					RecursiveRemove(it);
@@ -429,7 +427,7 @@ namespace OSHVisualGui
 			{
 				if (e.KeyCode == Keys.Delete)
 				{
-					GuiControls.Control removeControl = GuiControls.Control.FocusedControl;
+					var removeControl = GuiControls.Control.FocusedControl;
 					var parent = removeControl.RealParent ?? form;
 
 					RecursiveRemove(removeControl);
@@ -474,21 +472,20 @@ namespace OSHVisualGui
 						return;
 					}
 
-					var serializedControl = Clipboard.GetData("OSHVisualGuiControl") as string;
-					if (serializedControl != null)
+					if (Clipboard.GetData("OSHVisualGuiControl") is string serializedControl)
 					{
 						var copiedControl = ControlSerializer.Deserialize(XElement.Parse(serializedControl));
 						if (copiedControl != null)
 						{
-							GuiControls.ContainerControl parent = null;
+							ContainerControl parent = null;
 							if (copiedControl is GuiControls.TabPage && !(GuiControls.Control.FocusedControl is GuiControls.TabControl))
 							{
 								MessageBox.Show("A TabPage needs to be inserted into a TabControl.");
 								return;
 							}
-							if (GuiControls.Control.FocusedControl is GuiControls.ContainerControl)
+							if (GuiControls.Control.FocusedControl is ContainerControl)
 							{
-								parent = GuiControls.Control.FocusedControl as GuiControls.ContainerControl;
+								parent = GuiControls.Control.FocusedControl as ContainerControl;
 							}
 							else
 							{
@@ -507,11 +504,11 @@ namespace OSHVisualGui
 							parent.AddControl(copiedControl);
 
 							AddControlToList(copiedControl);
-							if (copiedControl is GuiControls.ContainerControl)
+							if (copiedControl is ContainerControl)
 							{
-								foreach (GuiControls.Control control in (copiedControl as GuiControls.ContainerControl).PreOrderVisit())
+								foreach (var control in (copiedControl as ContainerControl).PreOrderVisit())
 								{
-									if (control is GuiControls.ScalableControl)
+									if (control is ScalableControl)
 									{
 										RegisterEvents(control);
 
@@ -560,20 +557,20 @@ namespace OSHVisualGui
 			stickToolBoxToggle = !stickToolBoxToggle;
 		}
 
-		private bool controlShouldDrag = false;
-		private bool controlRealDrag = false;
-		private Point oldControlLocation = new Point();
-		private void control_MouseDown(GuiControls.Control sender, GuiControls.Mouse mouse)
+		private bool controlShouldDrag;
+		private bool controlRealDrag;
+		private Point oldControlLocation;
+		private void control_MouseDown(GuiControls.Control sender, Mouse mouse)
 		{
 			controlShouldDrag = true;
 			oldControlLocation = mouse.Location;
 		}
 
-		private void control_MouseMove(GuiControls.Control sender, GuiControls.Mouse mouse)
+		private void control_MouseMove(GuiControls.Control sender, Mouse mouse)
 		{
 			if (controlShouldDrag)
 			{
-				Point deltaLocation = mouse.Location.Substract(oldControlLocation);
+				var deltaLocation = mouse.Location.Substract(oldControlLocation);
 				if (controlRealDrag || Math.Abs(deltaLocation.X) > 5 || Math.Abs(deltaLocation.Y) > 5)
 				{
 					controlRealDrag = true;
@@ -581,27 +578,27 @@ namespace OSHVisualGui
 					oldControlLocation = mouse.Location;
 				}
 
-				GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
+				var container = FindContainerControlUnderMouse(mouse.Location);
 				if (container != GuiControls.Control.FocusedControl.RealParent)
 				{
-					container.isHighlighted = true;
+					container.IsHighlighted = true;
 				}
 			}
 		}
 
-		private void control_MouseUp(GuiControls.Control sender, GuiControls.Mouse mouse)
+		private void control_MouseUp(GuiControls.Control sender, Mouse mouse)
 		{
 			controlShouldDrag = false;
 			controlRealDrag = false;
 
 			if (!(GuiControls.Control.FocusedControl is GuiControls.Form))
 			{
-				GuiControls.ContainerControl container = FindContainerControlUnderMouse(mouse.Location);
+				var container = FindContainerControlUnderMouse(mouse.Location);
 				if (GuiControls.Control.FocusedControl.RealParent != container)
 				{
 					GuiControls.Control.FocusedControl.Location = GuiControls.Control.FocusedControl.AbsoluteLocation.Substract(container.ContainerAbsoluteLocation);
 
-					GuiControls.ContainerControl oldContainer = GuiControls.Control.FocusedControl.Parent as GuiControls.ContainerControl;
+					var oldContainer = GuiControls.Control.FocusedControl.Parent as ContainerControl;
 					oldContainer.RemoveControl(GuiControls.Control.FocusedControl);
 					container.AddControl(GuiControls.Control.FocusedControl);
 				}
@@ -622,8 +619,8 @@ namespace OSHVisualGui
 				return;
 			}
 
-			GuiControls.Control control = controlComboBox.SelectedItem as GuiControls.Control;
-			if (!control.isSubControl)
+			var control = controlComboBox.SelectedItem as GuiControls.Control;
+			if (!control.IsSubControl)
 			{
 				control.Focus();
 
@@ -641,9 +638,9 @@ namespace OSHVisualGui
 		{
 			if (e.ChangedItem.Label == "Name")
 			{
-				bool invalidName = false;
-				string newName = e.ChangedItem.Value.ToString();
-				Regex nameRegex = new Regex("[a-zA-Z_][a-zA-Z0-9_]*", RegexOptions.Compiled);
+				var invalidName = false;
+				var newName = e.ChangedItem.Value.ToString();
+				var nameRegex = new Regex("[a-zA-Z_][a-zA-Z0-9_]*", RegexOptions.Compiled);
 				if (!nameRegex.IsMatch(newName))
 				{
 					MessageBox.Show("'" + newName + "' isn't a valid name!");
@@ -718,7 +715,7 @@ namespace OSHVisualGui
 				return;
 			}
 
-			(GuiControls.Control.FocusedControl.Parent as GuiControls.ContainerControl).SendToFront(GuiControls.Control.FocusedControl);
+			(GuiControls.Control.FocusedControl.Parent as ContainerControl).SendToFront(GuiControls.Control.FocusedControl);
 
 			canvasPictureBox.Invalidate();
 		}
@@ -730,14 +727,14 @@ namespace OSHVisualGui
 				return;
 			}
 
-			(GuiControls.Control.FocusedControl.Parent as GuiControls.ContainerControl).SendToBack(GuiControls.Control.FocusedControl);
+			(GuiControls.Control.FocusedControl.Parent as ContainerControl).SendToBack(GuiControls.Control.FocusedControl);
 
 			canvasPictureBox.Invalidate();
 		}
 
 		private void addTabPageToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			GuiControls.TabPage tempTabPage = new GuiControls.TabPage();
+			var tempTabPage = new GuiControls.TabPage();
 			tempTabPage.Text = tempTabPage.Name = "tabPage" + ControlManager.Instance().GetControlCountPlusOne(typeof(GuiControls.TabPage));
 			(GuiControls.Control.FocusedControl as GuiControls.TabControl).AddTabPage(tempTabPage);
 			AddControlToList(tempTabPage);
@@ -755,7 +752,7 @@ namespace OSHVisualGui
 
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			OpenFileDialog ofd = new OpenFileDialog();
+			var ofd = new OpenFileDialog();
 			ofd.DefaultExt = "xml";
 			ofd.Filter = "OSHGui File (*.xml)|*.xml";
 
@@ -763,7 +760,7 @@ namespace OSHVisualGui
 			{
 				try
 				{
-					GuiControls.Control control = ControlSerializer.Deserialize(XElement.Load(ofd.FileName));
+					var control = ControlSerializer.Deserialize(XElement.Load(ofd.FileName));
 					if (control is GuiControls.Form)
 					{
 						form = control as GuiControls.Form;
@@ -778,7 +775,7 @@ namespace OSHVisualGui
 						controlComboBox.Items.AddRange(ControlManager.Instance().Controls.ToArray());
 						controlComboBox.SelectedItem = control;
 
-						foreach (GuiControls.ScalableControl scalableControl in ControlManager.Instance().Controls)
+						foreach (var scalableControl in ControlManager.Instance().Controls.OfType<ScalableControl>())
 						{
 							if (scalableControl != form)
 							{
@@ -805,8 +802,7 @@ namespace OSHVisualGui
 
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SaveFileDialog sfd = new SaveFileDialog();
-			sfd.DefaultExt = "xml";
+			var sfd = new SaveFileDialog { DefaultExt = "xml" };
 			sfd.Filter = "OSHGui File (*." + sfd.DefaultExt + ")|*." + sfd.DefaultExt;
 			sfd.FileName = form.Name + "." + sfd.DefaultExt;
 

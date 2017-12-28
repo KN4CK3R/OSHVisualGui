@@ -26,23 +26,20 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		private bool[] drag;
-		private DragPoint[] dragPoints;
-		private DragPoint dragPointTop;
-		private DragPoint dragPointRight;
-		private DragPoint dragPointBottom;
-		private DragPoint dragPointLeft;
-		private DragPoint dragPointTopLeft;
-		private DragPoint dragPointTopRight;
-		private DragPoint dragPointBottomRight;
-		private DragPoint dragPointBottomLeft;
+		private readonly DragPoint[] dragPoints;
+		private readonly DragPoint dragPointTop;
+		private readonly DragPoint dragPointRight;
+		private readonly DragPoint dragPointBottom;
+		private readonly DragPoint dragPointLeft;
+		private readonly DragPoint dragPointTopLeft;
+		private readonly DragPoint dragPointTopRight;
+		private readonly DragPoint dragPointBottomRight;
+		private readonly DragPoint dragPointBottomLeft;
 
 		private DragMode mode;
 		internal DragMode Mode
 		{
-			get
-			{
-				return mode;
-			}
+			get => mode;
 			set
 			{
 				mode = value;
@@ -52,7 +49,7 @@ namespace OSHVisualGui.GuiControls
 				}
 				else
 				{
-					for (int i = 0; i < 8; ++i)
+					for (var i = 0; i < 8; ++i)
 					{
 						dragPoints[i].Enabled = value == DragMode.All;
 					}
@@ -62,10 +59,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Point Location
 		{
-			get
-			{
-				return base.Location;
-			}
+			get => base.Location;
 			set
 			{
 				base.Location = value;
@@ -74,10 +68,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				base.Size = value;
@@ -90,7 +81,7 @@ namespace OSHVisualGui.GuiControls
 		public event DragEventHandler Drag;
 		public event DragEventHandler DragEnd;
 
-		public ScalableControl()
+		protected ScalableControl()
 		{
 			drag = new bool[8];
 			dragPoints = new DragPoint[8];
@@ -104,7 +95,7 @@ namespace OSHVisualGui.GuiControls
 			dragPoints[6] = dragPointBottomRight = new DragPoint(DragDirection.BottomRight);
 			dragPoints[7] = dragPointBottomLeft = new DragPoint(DragDirection.BottomLeft);
 
-			for (int i = 0; i < 8; ++i)
+			for (var i = 0; i < 8; ++i)
 			{
 				dragPoints[i].Drag += dragPoint_Drag;
 				dragPoints[i].MouseDown += dragPoint_MouseDown;
@@ -118,9 +109,9 @@ namespace OSHVisualGui.GuiControls
 		{
 			if (isFocused)
 			{
-				for (int i = 0; i < 8; ++i)
+				for (var i = 0; i < 8; ++i)
 				{
-					DragPoint dragPoint = dragPoints[7 - i];
+					var dragPoint = dragPoints[7 - i];
 					if (dragPoint.Enabled)
 					{
 						yield return dragPoint;
@@ -143,15 +134,12 @@ namespace OSHVisualGui.GuiControls
 			oldLocation = Location;
 			oldSize = Size;
 
-			if (DragStart != null)
-			{
-				DragStart(this);
-			}
+			DragStart?.Invoke(this);
 		}
 
 		private void dragPoint_Drag(Control sender, Point deltaLocation, Size deltaSize)
 		{
-			Size tempSize = oldSize.Add(deltaSize);
+			var tempSize = oldSize.Add(deltaSize);
 			if (tempSize.Width < 3 || tempSize.Height < 3)
 			{
 				tempSize = new Size(Math.Max(3, tempSize.Width), Math.Max(3, tempSize.Height));
@@ -161,18 +149,12 @@ namespace OSHVisualGui.GuiControls
 
 			Location = oldLocation.Add(deltaLocation);
 
-			if (Drag != null)
-			{
-				Drag(this);
-			}
+			Drag?.Invoke(this);
 		}
 
 		private void dragPoint_MouseUp(Control sender, Mouse mouse)
 		{
-			if (DragEnd != null)
-			{
-				DragEnd(this);
-			}
+			DragEnd?.Invoke(this);
 		}
 
 		private void CalculateDragPointLocations()
@@ -182,7 +164,7 @@ namespace OSHVisualGui.GuiControls
 				return;
 			}
 
-			for (int i = 0; i < 8; ++i)
+			for (var i = 0; i < 8; ++i)
 			{
 				dragPoints[i].Parent = this;
 			}
@@ -204,13 +186,13 @@ namespace OSHVisualGui.GuiControls
 				return;
 			}
 
-			using (Pen pen = new Pen(Color.Black, 1))
+			using (var pen = new Pen(Color.Black, 1))
 			{
 				pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 				graphics.DrawRectangle(pen, AbsoluteLocation.X - 2, AbsoluteLocation.Y - 2, Size.Width + 3, Size.Height + 3);
 			}
 
-			foreach (DragPoint dragPoint in dragPoints)
+			foreach (var dragPoint in dragPoints)
 			{
 				if (dragPoint.Enabled)
 				{
@@ -228,14 +210,8 @@ namespace OSHVisualGui.GuiControls
 		{
 			private bool isDragging;
 			private Point oldDragLocation;
-			private DragDirection direction;
-			public DragDirection Direction
-			{
-				get
-				{
-					return direction;
-				}
-			}
+			private readonly DragDirection direction;
+			public DragDirection Direction => direction;
 
 			public delegate void DragEventHandler(Control sender, Point deltaLocation, Size deltaSize);
 			public DragEventHandler Drag;
@@ -252,14 +228,14 @@ namespace OSHVisualGui.GuiControls
 
 				Size = new Size(6, 6);
 
-				isSubControl = true;
+				IsSubControl = true;
 			}
 
 			public override void Render(Graphics graphics)
 			{
-				int x = AbsoluteLocation.X;
-				int y = AbsoluteLocation.Y;
-				graphics.FillRectangles(backBrush, new Rectangle[] { new Rectangle(x, y - 1, 5, 1), new Rectangle(x - 1, y, 1, 5), new Rectangle(x, y + 5, 5, 1), new Rectangle(x + 5, y, 1, 5) });
+				var x = AbsoluteLocation.X;
+				var y = AbsoluteLocation.Y;
+				graphics.FillRectangles(backBrush, new[] { new Rectangle(x, y - 1, 5, 1), new Rectangle(x - 1, y, 1, 5), new Rectangle(x, y + 5, 5, 1), new Rectangle(x + 5, y, 1, 5) });
 				graphics.FillRectangle(foreBrush, x, y, 5, 5);
 			}
 
@@ -282,63 +258,63 @@ namespace OSHVisualGui.GuiControls
 
 				if (isDragging)
 				{
-					Point deltaLocation = new Point();
-					Size deltaSize = new Size();
+					var deltaLocation = new Point();
+					var deltaSize = new Size();
 					switch (direction)
 					{
 						case DragDirection.Top:
 							{
-								int delta = mouse.Location.Y - oldDragLocation.Y;
+								var delta = mouse.Location.Y - oldDragLocation.Y;
 								deltaLocation = new Point(0, delta);
 								deltaSize = new Size(0, -delta);
 							}
 							break;
 						case DragDirection.Right:
 							{
-								int delta = mouse.Location.X - oldDragLocation.X;
+								var delta = mouse.Location.X - oldDragLocation.X;
 								deltaSize = new Size(delta, 0);
 							}
 							break;
 						case DragDirection.Bottom:
 							{
-								int delta = mouse.Location.Y - oldDragLocation.Y;
+								var delta = mouse.Location.Y - oldDragLocation.Y;
 								deltaSize = new Size(0, delta);
 							}
 							break;
 						case DragDirection.Left:
 							{
-								int delta = mouse.Location.X - oldDragLocation.X;
+								var delta = mouse.Location.X - oldDragLocation.X;
 								deltaLocation = new Point(delta, 0);
 								deltaSize = new Size(-delta, 0);
 							}
 							break;
 						case DragDirection.TopLeft:
 							{
-								int deltaX = mouse.Location.X - oldDragLocation.X;
-								int deltaY = mouse.Location.Y - oldDragLocation.Y;
+								var deltaX = mouse.Location.X - oldDragLocation.X;
+								var deltaY = mouse.Location.Y - oldDragLocation.Y;
 								deltaLocation = new Point(deltaX, deltaY);
 								deltaSize = new Size(-deltaX, -deltaY);
 							}
 							break;
 						case DragDirection.TopRight:
 							{
-								int deltaX = mouse.Location.X - oldDragLocation.X;
-								int deltaY = mouse.Location.Y - oldDragLocation.Y;
+								var deltaX = mouse.Location.X - oldDragLocation.X;
+								var deltaY = mouse.Location.Y - oldDragLocation.Y;
 								deltaLocation = new Point(0, deltaY);
 								deltaSize = new Size(deltaX, -deltaY);
 							}
 							break;
 						case DragDirection.BottomRight:
 							{
-								int deltaX = mouse.Location.X - oldDragLocation.X;
-								int deltaY = mouse.Location.Y - oldDragLocation.Y;
+								var deltaX = mouse.Location.X - oldDragLocation.X;
+								var deltaY = mouse.Location.Y - oldDragLocation.Y;
 								deltaSize = new Size(deltaX, deltaY);
 							}
 							break;
 						case DragDirection.BottomLeft:
 							{
-								int deltaX = mouse.Location.X - oldDragLocation.X;
-								int deltaY = mouse.Location.Y - oldDragLocation.Y;
+								var deltaX = mouse.Location.X - oldDragLocation.X;
+								var deltaY = mouse.Location.Y - oldDragLocation.Y;
 								deltaLocation = new Point(deltaX, 0);
 								deltaSize = new Size(-deltaX, -deltaY);
 							}

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
@@ -11,13 +9,7 @@ namespace OSHVisualGui.GuiControls
 	public class CheckBox : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "checkBox";
-			}
-		}
+		internal override string DefaultName => "checkBox";
 
 		protected Label label;
 
@@ -25,24 +17,15 @@ namespace OSHVisualGui.GuiControls
 		protected bool DefaultChecked;
 		public virtual bool Checked
 		{
-			get
-			{
-				return _checked;
-			}
-			set
-			{
-				_checked = value;
-			}
+			get => _checked;
+			set => _checked = value;
 		}
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
-				Size tempSize = value.LimitMin(17, 17);
+				var tempSize = value.LimitMin(17, 17);
 				if (!AutoSize)
 				{
 					base.Size = tempSize;
@@ -52,10 +35,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Color ForeColor
 		{
-			get
-			{
-				return base.ForeColor;
-			}
+			get => base.ForeColor;
 			set
 			{
 				base.ForeColor = value;
@@ -65,13 +45,10 @@ namespace OSHVisualGui.GuiControls
 		protected string DefaultText;
 		public string Text
 		{
-			get
-			{
-				return label.Text;
-			}
+			get => label.Text;
 			set
 			{
-				label.Text = value == null ? string.Empty : value;
+				label.Text = value ?? string.Empty;
 				if (AutoSize)
 				{
 					base.Size = new Size(label.Size.Width + 17, label.Size.Height + 2).LimitMin(17, 17);
@@ -91,8 +68,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.CheckBox;
 
-			label = new Label();
-			label.Location = new Point(20, 2);
+			label = new Label { Location = new Point(20, 2) };
 
 			DefaultChecked = false;
 			DefaultText = string.Empty;
@@ -133,8 +109,8 @@ namespace OSHVisualGui.GuiControls
 		public override void Render(Graphics graphics)
 		{
 			graphics.FillRectangle(backBrush, new Rectangle(AbsoluteLocation, new Size(17, 17)));
-			Rectangle rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, 15, 15);
-			LinearGradientBrush temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
+			var rect = new Rectangle(AbsoluteLocation.X + 1, AbsoluteLocation.Y + 1, 15, 15);
+			var temp = new LinearGradientBrush(rect, Color.White, Color.White.Substract(Color.FromArgb(0, 137, 137, 137)), LinearGradientMode.Vertical);
 			graphics.FillRectangle(temp, rect);
 			rect = new Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + 2, 13, 13);
 			temp = new LinearGradientBrush(rect, BackColor, BackColor.Add(Color.FromArgb(0, 55, 55, 55)), LinearGradientMode.Vertical);
@@ -152,7 +128,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			CheckBox copy = new CheckBox();
+			var copy = new CheckBox();
 			CopyTo(copy);
 			return copy;
 		}
@@ -161,7 +137,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			CheckBox checkBox = copy as CheckBox;
+			var checkBox = copy as CheckBox;
 			checkBox._checked = _checked;
 			checkBox.Text = Text;
 		}

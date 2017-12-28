@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Linq;
 
@@ -8,20 +8,11 @@ namespace OSHVisualGui.GuiControls
 	class ColorBar : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "colorBar";
-			}
-		}
+		internal override string DefaultName => "colorBar";
 		private Color color;
 		public virtual Color Color
 		{
-			get
-			{
-				return color;
-			}
+			get => color;
 			set
 			{
 				color = value;
@@ -30,10 +21,7 @@ namespace OSHVisualGui.GuiControls
 		}
 		public override Size Size
 		{
-			get
-			{
-				return base.Size;
-			}
+			get => base.Size;
 			set
 			{
 				if (value.Height != 45)
@@ -44,7 +32,7 @@ namespace OSHVisualGui.GuiControls
 				UpdateBars();
 			}
 		}
-		private Bitmap[] colorBar;
+		private readonly Bitmap[] colorBar;
 
 		[Category("Events")]
 		public ColorChangedEvent ColorChangedEvent
@@ -84,12 +72,12 @@ namespace OSHVisualGui.GuiControls
 
 		private void UpdateBars()
 		{
-			int width = Size.Width - 2;
-			float multi = 255.0f / width;
-			for (int i = 0; i < 3; ++i)
+			var width = Size.Width - 2;
+			var multi = 255.0f / width;
+			for (var i = 0; i < 3; ++i)
 			{
-				Bitmap bar = new Bitmap(Size.Width, 10);
-				for (int x = 0; x < width; ++x)
+				var bar = new Bitmap(Size.Width, 10);
+				for (var x = 0; x < width; ++x)
 				{
 					Color tempColor;
 					switch (i)
@@ -104,7 +92,7 @@ namespace OSHVisualGui.GuiControls
 							tempColor = Color.FromArgb(color.R, color.G, (int)(x * multi));
 							break;
 					}
-					for (int j = 1; j < 9; ++j)
+					for (var j = 1; j < 9; ++j)
 					{
 						bar.SetPixel(x + 1, j, tempColor);
 					}
@@ -115,7 +103,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override void Render(Graphics graphics)
 		{
-			for (int i = 0; i < 3; ++i)
+			for (var i = 0; i < 3; ++i)
 			{
 				graphics.DrawImage(colorBar[i], AbsoluteLocation.X, AbsoluteLocation.Y + i * 15);
 			}
@@ -123,7 +111,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			ColorBar copy = new ColorBar();
+			var copy = new ColorBar();
 			CopyTo(copy);
 			return copy;
 		}
@@ -132,7 +120,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			ColorBar colorBar = copy as ColorBar;
+			var colorBar = copy as ColorBar;
 			colorBar.color = color;
 		}
 

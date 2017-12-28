@@ -5,9 +5,9 @@ namespace OSHVisualGui
 {
 	public class DelayedEventHandler
 	{
-		private Timer delayTimer = new Timer();
+		private readonly Timer delayTimer = new Timer();
 
-		private EventHandler eventDelegate;
+		private readonly EventHandler eventDelegate;
 		public EventHandler OnDelay;
 
 		private object sender;
@@ -17,46 +17,26 @@ namespace OSHVisualGui
 		{
 
 			delayTimer.Interval = delay;
-			delayTimer.Tick += new EventHandler(delayTimer_Tick);
+			delayTimer.Tick += delayTimer_Tick;
 
 			this.eventDelegate = eventDelegate;
 
-			OnDelay = new EventHandler(this.Register);
+			OnDelay = Register;
 		}
 
 		public int Delay
 		{
-			get
-			{
-				return this.delayTimer.Interval;
-			}
-			set
-			{
-				this.delayTimer.Interval = value;
-			}
+			get => delayTimer.Interval;
+			set => delayTimer.Interval = value;
 		}
 
-		private bool stopAndRestart = true;
-		public bool StopAndRestart
-		{
-			get
-			{
-				return stopAndRestart;
-			}
-			set
-			{
-				stopAndRestart = value;
-			}
-		}
+		public bool StopAndRestart { get; set; } = true;
 
 		private void delayTimer_Tick(object sender, EventArgs e)
 		{
 			delayTimer.Stop();
 
-			if (eventDelegate != null)
-			{
-				eventDelegate(this.sender, this.e);
-			}
+			eventDelegate?.Invoke(this.sender, this.e);
 		}
 
 		private void Register(object sender, EventArgs e)

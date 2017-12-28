@@ -115,7 +115,7 @@ namespace OSHVisualGui
 
 			foreach (var property in form.GetChangedProperties())
 			{
-				if (property.Value.UseForCPP && CheckValidProperty(property.Key))
+				if (property.Value.UseForCpp && CheckValidProperty(property.Key))
 				{
 					code.AppendLine(prefix + "\t\t" + TranslateProperties[property.Key] + "(" + GetCppString(property.Value.Value) + ");");
 				}
@@ -216,7 +216,7 @@ namespace OSHVisualGui
 
 			foreach (var property in control.GetChangedProperties())
 			{
-				if (property.Value.UseForCPP && CheckValidProperty(property.Key))
+				if (property.Value.UseForCpp && CheckValidProperty(property.Key))
 				{
 					code.AppendLine(prefix + control.Name + "->" + TranslateProperties[property.Key] + "(" + GetCppString(property.Value.Value) + ");");
 				}

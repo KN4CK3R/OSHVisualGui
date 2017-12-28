@@ -3,8 +3,8 @@
 	public struct ChangedProperty
 	{
 		public object Value { get; }
-		public bool UseForCPP { get; }
-		public bool UseForXML { get; }
+		public bool UseForCpp { get; }
+		public bool UseForXml { get; }
 
 		public ChangedProperty(object value)
 			: this(value, true, true)
@@ -12,11 +12,11 @@
 
 		}
 
-		public ChangedProperty(object value, bool useForCPP, bool useForXML)
+		public ChangedProperty(object value, bool useForCpp, bool useForXml)
 		{
 			Value = value;
-			UseForCPP = useForCPP;
-			UseForXML = useForXML;
+			UseForCpp = useForCpp;
+			UseForXml = useForXml;
 		}
 	}
 }

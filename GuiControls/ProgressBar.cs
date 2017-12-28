@@ -4,23 +4,16 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class ProgressBar : ScalableControl
+	public class ProgressBar : ScalableControl
 	{
 		#region Properties
-		internal override string DefaultName
-		{
-			get
-			{
-				return "progressBar";
-			}
-		}
+
+		internal override string DefaultName => "progressBar";
+
 		private int minimum;
 		public int Minimum
 		{
-			get
-			{
-				return minimum;
-			}
+			get => minimum;
 			set
 			{
 				if (value < maximum)
@@ -30,13 +23,11 @@ namespace OSHVisualGui.GuiControls
 				this.value = this.value < minimum ? minimum : this.value;
 			}
 		}
+
 		private int maximum;
 		public int Maximum
 		{
-			get
-			{
-				return maximum;
-			}
+			get => maximum;
 			set
 			{
 				if (value > minimum)
@@ -46,13 +37,11 @@ namespace OSHVisualGui.GuiControls
 				this.value = this.value > maximum ? maximum : this.value;
 			}
 		}
+
 		private int value;
 		public int Value
 		{
-			get
-			{
-				return value;
-			}
+			get => value;
 			set
 			{
 				if (value >= minimum && value <= maximum)
@@ -61,21 +50,20 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		private Brush barBrush;
 		private Color barColor;
 		protected Color DefaultBarColor;
 		public virtual Color BarColor
 		{
-			get
-			{
-				return barColor;
-			}
+			get => barColor;
 			set
 			{
 				barColor = value;
 				barBrush = new SolidBrush(barColor);
 			}
 		}
+
 		#endregion
 
 		public ProgressBar()
@@ -132,7 +120,7 @@ namespace OSHVisualGui.GuiControls
 			graphics.FillRectangle(foreBrush, AbsoluteLocation.X, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
 			graphics.FillRectangle(foreBrush, AbsoluteLocation.X + Size.Width - 1, AbsoluteLocation.Y + 1, 1, Size.Height - 2);
 
-			for (int i = (int)(value / ((maximum - minimum) / ((Size.Width - 8) / 12.0f)) - 1); i >= 0; --i)
+			for (var i = (int)(value / ((maximum - minimum) / ((Size.Width - 8) / 12.0f)) - 1); i >= 0; --i)
 			{
 				graphics.FillRectangle(barBrush, AbsoluteLocation.X + 4 + i * 12, AbsoluteLocation.Y + 4, 8, Size.Height - 8);
 			}
@@ -140,7 +128,7 @@ namespace OSHVisualGui.GuiControls
 
 		public override Control Copy()
 		{
-			ProgressBar copy = new ProgressBar();
+			var copy = new ProgressBar();
 			CopyTo(copy);
 			return copy;
 		}
@@ -149,7 +137,7 @@ namespace OSHVisualGui.GuiControls
 		{
 			base.CopyTo(copy);
 
-			ProgressBar progressBar = copy as ProgressBar;
+			var progressBar = copy as ProgressBar;
 			progressBar.minimum = minimum;
 			progressBar.maximum = maximum;
 			progressBar.value = value;
