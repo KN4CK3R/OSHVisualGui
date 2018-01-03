@@ -231,7 +231,7 @@ namespace OSHVisualGui
 
 		public static string ToCppString(this Font font)
 		{
-			return "FontManager::LoadFont(\"" + font.Name + "\", " + font.SizeInPoints.ToString(CultureInfo.InvariantCulture) + "f, false)";
+			return "FontManager::LoadFont(\"" + font.Name + "\", " + font.SizeInPoints.ToString("F2", CultureInfo.InvariantCulture) + "f, false)";
 		}
 
 		public static string ToCppString(this FileInfo file)
