@@ -8,8 +8,16 @@ namespace OSHVisualGui.GuiControls
 	{
 		#region Properties
 
-		private readonly Label label;
-		private readonly Panel panel;
+		private readonly Label label = new Label
+		{
+			Location = new Point(5, -1),
+			IsSubControl = true
+		};
+		private readonly Panel panel = new Panel
+		{
+			Location = new Point(3, 10),
+			IsSubControl = true
+		};
 
 		internal override string DefaultName => "groupBox";
 		protected string DefaultText;
@@ -48,21 +56,10 @@ namespace OSHVisualGui.GuiControls
 
 		public GroupBox()
 		{
-			label = new Label
-			{
-				Location = new Point(5, -1),
-				IsSubControl = true
-			};
-			AddSubControl(label);
-
-			panel = new Panel
-			{
-				Location = new Point(3, 10),
-				IsSubControl = true
-			};
-			AddSubControl(panel);
-
 			Type = ControlType.GroupBox;
+
+			AddSubControl(label);
+			AddSubControl(panel);
 
 			Size = DefaultSize = new Size(200, 200);
 

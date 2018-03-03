@@ -13,9 +13,13 @@ namespace OSHVisualGui.GuiControls
 
 		internal override string DefaultName => "tabPage";
 
-		internal TabControl.TabControlButton button;
+		internal TabControl.TabControlButton Button;
 
-		private readonly Panel containerPanel;
+		private readonly Panel containerPanel = new Panel
+		{
+			Location = new Point(2, 2),
+			IsSubControl = true
+		};
 
 		protected string text;
 		protected string DefaultText;
@@ -25,7 +29,7 @@ namespace OSHVisualGui.GuiControls
 			set
 			{
 				text = value ?? string.Empty;
-				button?.CalculateSize();
+				Button?.CalculateSize();
 			}
 		}
 		internal override List<Control> Controls => containerPanel.Controls;
@@ -67,11 +71,8 @@ namespace OSHVisualGui.GuiControls
 			set
 			{
 				base.Size = value;
-				// For some reason Panel() is called before TabPage() ¯\_(ツ)_/¯
-				if (containerPanel != null)
-				{
-					containerPanel.Size = value.Substract(new Size(4, 4));
-				}
+
+				containerPanel.Size = value.Substract(new Size(4, 4));
 			}
 		}
 
@@ -81,17 +82,9 @@ namespace OSHVisualGui.GuiControls
 		{
 			Type = ControlType.TabPage;
 
-			Mode = DragMode.None;
-
-			button = null;
-
-			containerPanel = new Panel
-			{
-				Location = new Point(2, 2),
-				IsSubControl = true,
-				Parent = this
-			};
 			AddSubControl(containerPanel);
+
+			Mode = DragMode.None;
 
 			Text = DefaultText = string.Empty;
 
