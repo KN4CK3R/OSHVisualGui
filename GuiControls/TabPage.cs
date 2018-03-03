@@ -67,7 +67,11 @@ namespace OSHVisualGui.GuiControls
 			set
 			{
 				base.Size = value;
-				containerPanel.Size = value.Substract(new Size(4, 4));
+				// For some reason Panel() is called before TabPage() ¯\_(ツ)_/¯
+				if (containerPanel != null)
+				{
+					containerPanel.Size = value.Substract(new Size(4, 4));
+				}
 			}
 		}
 

@@ -48,12 +48,6 @@ namespace OSHVisualGui.GuiControls
 
 		public GroupBox()
 		{
-			Type = ControlType.GroupBox;
-
-			Text = DefaultText = string.Empty;
-
-			Size = DefaultSize = new Size(200, 200);
-
 			label = new Label
 			{
 				Location = new Point(5, -1),
@@ -67,6 +61,12 @@ namespace OSHVisualGui.GuiControls
 				IsSubControl = true
 			};
 			AddSubControl(panel);
+
+			Type = ControlType.GroupBox;
+
+			Size = DefaultSize = new Size(200, 200);
+
+			Text = DefaultText = string.Empty;
 
 			ForeColor = DefaultForeColor = Color.White;
 			BackColor = DefaultBackColor = Color.Empty;
