@@ -10,7 +10,10 @@ namespace OSHVisualGui.GuiControls
 	public class PictureBox : ScalableControl
 	{
 		#region Properties
+
 		internal override string DefaultName => "pictureBox";
+
+		private Bitmap image;
 
 		private string path;
 		[Editor(typeof(FilenameEditor), typeof(UITypeEditor)), FileDialogFilter("Image files (*.jpg, *.bmp, *.gif, *.png)|*.jpg;*.bmp;*.gif;*.png|All files (*.*)|*.*")]
@@ -35,14 +38,10 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
-		private Bitmap image;
 
 		private readonly bool DefaultStretch;
-		public bool Stretch
-		{
-			get;
-			set;
-		}
+		public bool Stretch { get; set; }
+
 		#endregion
 
 		public PictureBox()

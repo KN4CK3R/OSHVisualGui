@@ -9,15 +9,14 @@ namespace OSHVisualGui.GuiControls
 	public class ComboBox : Button
 	{
 		#region Properties
+
 		internal override string DefaultName => "comboBox";
+
 		public string[] Items { get; set; }
 
 		[Category("Events")]
-		public SelectedIndexChangedEvent SelectedIndexChangedEvent
-		{
-			get;
-			set;
-		}
+		public SelectedIndexChangedEvent SelectedIndexChangedEvent { get; set; }
+
 		#endregion
 
 		public ComboBox()

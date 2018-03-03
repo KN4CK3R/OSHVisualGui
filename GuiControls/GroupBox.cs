@@ -20,12 +20,14 @@ namespace OSHVisualGui.GuiControls
 		};
 
 		internal override string DefaultName => "groupBox";
+
 		protected string DefaultText;
 		public string Text
 		{
 			get => label.Text;
 			set => label.Text = value ?? string.Empty;
 		}
+
 		internal override List<Control> Controls => panel.Controls;
 
 		public override Size Size
@@ -37,6 +39,7 @@ namespace OSHVisualGui.GuiControls
 				panel.Size = base.Size.Add(new Size(-3 * 2, -3 * 2 - 10));
 			}
 		}
+
 		internal override Point ContainerLocation => base.ContainerLocation.Add(panel.Location);
 
 		internal override Point ContainerAbsoluteLocation => panel.ContainerAbsoluteLocation;

@@ -8,7 +8,11 @@ namespace OSHVisualGui.GuiControls
 	public class ColorPicker : ScalableControl
 	{
 		#region Properties
+
 		internal override string DefaultName => "colorPicker";
+
+		private Bitmap gradient;
+
 		private Color color;
 		public virtual Color Color
 		{
@@ -19,6 +23,7 @@ namespace OSHVisualGui.GuiControls
 				UpdateGradient();
 			}
 		}
+
 		public override Size Size
 		{
 			get => base.Size;
@@ -28,14 +33,10 @@ namespace OSHVisualGui.GuiControls
 				UpdateGradient();
 			}
 		}
-		private Bitmap gradient;
 
 		[Category("Events")]
-		public ColorChangedEvent ColorChangedEvent
-		{
-			get;
-			set;
-		}
+		public ColorChangedEvent ColorChangedEvent { get; set; }
+
 		#endregion
 
 		public ColorPicker()

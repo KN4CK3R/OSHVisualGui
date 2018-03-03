@@ -25,7 +25,6 @@ namespace OSHVisualGui.GuiControls
 			None
 		}
 
-		private bool[] drag;
 		private readonly DragPoint[] dragPoints;
 		private readonly DragPoint dragPointTop;
 		private readonly DragPoint dragPointRight;
@@ -66,6 +65,7 @@ namespace OSHVisualGui.GuiControls
 				CalculateDragPointLocations();
 			}
 		}
+
 		public override Size Size
 		{
 			get => base.Size;
@@ -83,7 +83,6 @@ namespace OSHVisualGui.GuiControls
 
 		protected ScalableControl()
 		{
-			drag = new bool[8];
 			dragPoints = new DragPoint[8];
 
 			dragPoints[0] = dragPointTop = new DragPoint(DragDirection.Top);

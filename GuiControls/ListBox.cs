@@ -9,14 +9,12 @@ namespace OSHVisualGui.GuiControls
 	public class ListBox : ScalableControl
 	{
 		#region Properties
+
 		internal override string DefaultName => "listBox";
 
-		private string[] items;
-		public string[] Items
-		{
-			get => items;
-			set => items = value;
-		}
+		
+		public string[] Items { get; set; }
+
 		private bool autoScrollEnabled;
 		public bool AutoScrollEnabled
 		{
@@ -25,11 +23,8 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		[Category("Events")]
-		public SelectedIndexChangedEvent SelectedIndexChangedEvent
-		{
-			get;
-			set;
-		}
+		public SelectedIndexChangedEvent SelectedIndexChangedEvent { get; set; }
+
 		#endregion
 
 		public ListBox()
@@ -105,9 +100,9 @@ namespace OSHVisualGui.GuiControls
 
 			var listBox = copy as ListBox;
 			listBox.autoScrollEnabled = autoScrollEnabled;
-			if (items != null)
+			if (Items != null)
 			{
-				listBox.items = (string[])items.Clone();
+				listBox.Items = (string[])Items.Clone();
 			}
 		}
 

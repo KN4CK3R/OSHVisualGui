@@ -31,36 +31,42 @@ namespace OSHVisualGui.GuiControls
 			get => base.AutoSize;
 			set => base.AutoSize = value;
 		}
+
 		[Browsable(false)]
 		public override bool Visible
 		{
 			get => base.Visible;
 			set => base.Visible = value;
 		}
+
 		[Browsable(false)]
 		public override Point Location
 		{
 			get => base.Location;
 			set => base.Location = value;
 		}
+
 		[Browsable(false)]
 		public override Size Size
 		{
 			get => base.Size;
 			set => base.Size = value;
 		}
+
 		[Browsable(false)]
 		public override Font Font
 		{
 			get => base.Font;
 			set => base.Font = value;
 		}
+
 		[Browsable(false)]
 		public override Color ForeColor
 		{
 			get => base.ForeColor;
 			set => base.ForeColor = value;
 		}
+
 		[Browsable(false)]
 		public override Color BackColor
 		{
@@ -69,108 +75,55 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		[Category("Events")]
-		public TickEvent TickEvent
-		{
-			get;
-			set;
-		}
+		public TickEvent TickEvent { get; set; }
 
 		[Category("Events"), Browsable(false)]
-		public new LocationChangedEvent LocationChangedEvent
-		{
-			get;
-			set;
-		}
+		public new LocationChangedEvent LocationChangedEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new SizeChangedEvent SizeChangedEvent
-		{
-			get;
-			set;
-		}
+		public new SizeChangedEvent SizeChangedEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new KeyDownEvent KeyDownEvent
-		{
-			get;
-			set;
-		}
+		public new KeyDownEvent KeyDownEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new KeyPressEvent KeyPressEvent
-		{
-			get;
-			set;
-		}
+		public new KeyPressEvent KeyPressEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new KeyUpEvent KeyUpEvent
-		{
-			get;
-			set;
-		}
+		public new KeyUpEvent KeyUpEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new ClickEvent ClickEvent
-		{
-			get;
-			set;
-		}
+		public new ClickEvent ClickEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseClickEvent MouseClickEvent
-		{
-			get;
-			set;
-		}
+		public new MouseClickEvent MouseClickEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseDownEvent MouseDownEvent
-		{
-			get;
-			set;
-		}
+		public new MouseDownEvent MouseDownEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseUpEvent MouseUpEvent
-		{
-			get;
-			set;
-		}
+		public new MouseUpEvent MouseUpEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseMoveEvent MouseMoveEvent
-		{
-			get;
-			set;
-		}
+		public new MouseMoveEvent MouseMoveEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseScrollEvent MouseScrollEvent
-		{
-			get;
-			set;
-		}
+		public new MouseScrollEvent MouseScrollEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseEnterEvent MouseEnterEvent
-		{
-			get;
-			set;
-		}
+		public new MouseEnterEvent MouseEnterEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseLeaveEvent MouseLeaveEvent
-		{
-			get;
-			set;
-		}
+		public new MouseLeaveEvent MouseLeaveEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new MouseCaptureChangedEvent MouseCaptureChangedEvent
-		{
-			get;
-			set;
-		}
+		public new MouseCaptureChangedEvent MouseCaptureChangedEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new FocusGotEvent FocusGotEvent
-		{
-			get;
-			set;
-		}
+		public new FocusGotEvent FocusGotEvent { get; set; }
+
 		[Category("Events"), Browsable(false)]
-		public new FocusLostEvent FocusLostEvent
-		{
-			get;
-			set;
-		}
+		public new FocusLostEvent FocusLostEvent { get; set; }
 
 		#endregion
 

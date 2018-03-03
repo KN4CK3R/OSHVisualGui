@@ -20,11 +20,7 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		[Category("Events")]
-		public TextChangedEvent TextChangedEvent
-		{
-			get;
-			set;
-		}
+		public TextChangedEvent TextChangedEvent { get; set; }
 
 		#endregion
 

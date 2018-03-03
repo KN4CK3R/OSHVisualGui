@@ -27,6 +27,7 @@ namespace OSHVisualGui.GuiControls
 			{
 			}
 		}
+
 		internal override List<Control> Controls => panel.Controls;
 
 		internal override Point ContainerLocation => base.ContainerLocation.Add(panel.Location);
@@ -51,17 +52,11 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		[Category("Events")]
-		public ConstructorEvent ConstructorEvent
-		{
-			get;
-			set;
-		}
+		public ConstructorEvent ConstructorEvent { get; set; }
+
 		[Category("Events")]
-		public FormClosingEvent FormClosingEvent
-		{
-			get;
-			set;
-		}
+		public FormClosingEvent FormClosingEvent { get; set; }
+		
 		#endregion
 
 		public Form(Point location)
@@ -149,11 +144,6 @@ namespace OSHVisualGui.GuiControls
 		public override Control Copy()
 		{
 			throw new NotImplementedException();
-		}
-
-		protected override void CopyTo(Control copy)
-		{
-			base.CopyTo(copy);
 		}
 
 		public override string ToString()

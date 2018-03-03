@@ -30,6 +30,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+		
 		#endregion
 
 		public RadioButton()

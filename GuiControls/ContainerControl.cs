@@ -16,8 +16,10 @@ namespace OSHVisualGui.GuiControls
 				ProcessAnchors(offset);
 			}
 		}
+
 		protected List<Control> controls;
 		internal virtual List<Control> Controls => controls;
+
 		protected List<Control> internalControls;
 		internal virtual Point ContainerLocation => Location;
 

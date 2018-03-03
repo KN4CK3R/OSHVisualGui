@@ -5,10 +5,14 @@ using System.Xml.Linq;
 
 namespace OSHVisualGui.GuiControls
 {
-	class ColorBar : ScalableControl
+	public class ColorBar : ScalableControl
 	{
 		#region Properties
+
 		internal override string DefaultName => "colorBar";
+
+		private readonly Bitmap[] colorBar;
+
 		private Color color;
 		public virtual Color Color
 		{
@@ -19,6 +23,7 @@ namespace OSHVisualGui.GuiControls
 				UpdateBars();
 			}
 		}
+
 		public override Size Size
 		{
 			get => base.Size;
@@ -32,14 +37,10 @@ namespace OSHVisualGui.GuiControls
 				UpdateBars();
 			}
 		}
-		private readonly Bitmap[] colorBar;
 
 		[Category("Events")]
-		public ColorChangedEvent ColorChangedEvent
-		{
-			get;
-			set;
-		}
+		public ColorChangedEvent ColorChangedEvent { get; set; }
+
 		#endregion
 
 		public ColorBar()

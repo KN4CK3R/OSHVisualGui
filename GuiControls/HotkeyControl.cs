@@ -10,6 +10,7 @@ namespace OSHVisualGui.GuiControls
 		private readonly TextBox textBox;
 
 		#region Properties
+
 		internal override string DefaultName => "hotkeyControl";
 
 		public override Size Size
@@ -21,6 +22,7 @@ namespace OSHVisualGui.GuiControls
 				textBox.Size = Size;
 			}
 		}
+
 		public override Font Font
 		{
 			get => base.Font;
@@ -30,6 +32,7 @@ namespace OSHVisualGui.GuiControls
 				textBox.Font = Font;
 			}
 		}
+
 		public override Color ForeColor
 		{
 			get => base.ForeColor;
@@ -39,6 +42,7 @@ namespace OSHVisualGui.GuiControls
 				textBox.ForeColor = ForeColor;
 			}
 		}
+
 		public override Color BackColor
 		{
 			get => base.BackColor;
@@ -61,11 +65,8 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		[Category("Events")]
-		public HotkeyChangedEvent HotkeyChangedEvent
-		{
-			get;
-			set;
-		}
+		public HotkeyChangedEvent HotkeyChangedEvent { get; set; }
+
 		#endregion
 
 		public HotkeyControl()

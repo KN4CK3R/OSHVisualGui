@@ -32,6 +32,7 @@ namespace OSHVisualGui.GuiControls
 				Button?.CalculateSize();
 			}
 		}
+
 		internal override List<Control> Controls => containerPanel.Controls;
 
 		[Browsable(false)]
@@ -40,30 +41,35 @@ namespace OSHVisualGui.GuiControls
 			get => base.AutoSize;
 			set => base.AutoSize = value;
 		}
+
 		[Browsable(false)]
 		public override bool Enabled
 		{
 			get => base.Enabled;
 			set => base.Enabled = value;
 		}
+
 		[Browsable(false)]
 		public override bool Visible
 		{
 			get => base.Visible;
 			set => base.Visible = value;
 		}
+
 		[Browsable(false)]
 		public override Point Location
 		{
 			get => base.Location;
 			set => base.Location = value;
 		}
+
 		[Browsable(false)]
 		public override Font Font
 		{
 			get => base.Font;
 			set => base.Font = value;
 		}
+
 		[Browsable(false)]
 		public override Size Size
 		{

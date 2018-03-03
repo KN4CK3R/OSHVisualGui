@@ -92,6 +92,7 @@ namespace OSHVisualGui.GuiControls
 				CalculateAbsoluteLocation();
 			}
 		}
+
 		private Size size;
 		protected Size DefaultSize;
 		internal Size MinimumSize;
@@ -108,6 +109,7 @@ namespace OSHVisualGui.GuiControls
 			get => anchor;
 			set => anchor = value;
 		}
+
 		private bool autoSize;
 		protected bool DefaultAutoSize;
 		public virtual bool AutoSize
@@ -115,6 +117,7 @@ namespace OSHVisualGui.GuiControls
 			get => autoSize;
 			set => autoSize = value;
 		}
+
 		private Font font;
 		protected Font DefaultFont;
 		public virtual Font Font
@@ -122,6 +125,7 @@ namespace OSHVisualGui.GuiControls
 			get => font ?? (Parent != null ? Parent.Font : DefaultFont);
 			set => font = value;
 		}
+
 		protected Brush foreBrush;
 		private Color foreColor;
 		protected Color DefaultForeColor;
@@ -134,6 +138,7 @@ namespace OSHVisualGui.GuiControls
 				foreBrush = new SolidBrush(foreColor);
 			}
 		}
+
 		protected Brush backBrush;
 		private Color backColor;
 		protected Color DefaultBackColor;
@@ -146,6 +151,7 @@ namespace OSHVisualGui.GuiControls
 				backBrush = new SolidBrush(backColor);
 			}
 		}
+
 		internal int _zOrder;
 		internal virtual int zOrder
 		{
@@ -205,101 +211,52 @@ namespace OSHVisualGui.GuiControls
 		public EventHandler LostFocus;
 
 		[Category("Events")]
-		public LocationChangedEvent LocationChangedEvent
-		{
-			get;
-			set;
-		}
+		public LocationChangedEvent LocationChangedEvent { get; set; }
+
 		[Category("Events")]
-		public SizeChangedEvent SizeChangedEvent
-		{
-			get;
-			set;
-		}
+		public SizeChangedEvent SizeChangedEvent { get; set; }
+
 		[Category("Events")]
-		public KeyDownEvent KeyDownEvent
-		{
-			get;
-			set;
-		}
+		public KeyDownEvent KeyDownEvent { get; set; }
+
 		[Category("Events")]
-		public KeyPressEvent KeyPressEvent
-		{
-			get;
-			set;
-		}
+		public KeyPressEvent KeyPressEvent { get; set; }
+
 		[Category("Events")]
-		public KeyUpEvent KeyUpEvent
-		{
-			get;
-			set;
-		}
+		public KeyUpEvent KeyUpEvent { get; set; }
+
 		[Category("Events")]
-		public ClickEvent ClickEvent
-		{
-			get;
-			set;
-		}
+		public ClickEvent ClickEvent { get; set; }
+
 		[Category("Events")]
-		public MouseClickEvent MouseClickEvent
-		{
-			get;
-			set;
-		}
+		public MouseClickEvent MouseClickEvent { get; set; }
+
 		[Category("Events")]
-		public MouseDownEvent MouseDownEvent
-		{
-			get;
-			set;
-		}
+		public MouseDownEvent MouseDownEvent { get; set; }
+
 		[Category("Events")]
-		public MouseUpEvent MouseUpEvent
-		{
-			get;
-			set;
-		}
+		public MouseUpEvent MouseUpEvent { get; set; }
+
 		[Category("Events")]
-		public MouseMoveEvent MouseMoveEvent
-		{
-			get;
-			set;
-		}
+		public MouseMoveEvent MouseMoveEvent { get; set; }
+
 		[Category("Events")]
-		public MouseScrollEvent MouseScrollEvent
-		{
-			get;
-			set;
-		}
+		public MouseScrollEvent MouseScrollEvent { get; set; }
+
 		[Category("Events")]
-		public MouseEnterEvent MouseEnterEvent
-		{
-			get;
-			set;
-		}
+		public MouseEnterEvent MouseEnterEvent { get; set; }
+
 		[Category("Events")]
-		public MouseLeaveEvent MouseLeaveEvent
-		{
-			get;
-			set;
-		}
+		public MouseLeaveEvent MouseLeaveEvent { get; set; }
+
 		[Category("Events")]
-		public MouseCaptureChangedEvent MouseCaptureChangedEvent
-		{
-			get;
-			set;
-		}
+		public MouseCaptureChangedEvent MouseCaptureChangedEvent { get; set; }
+
 		[Category("Events")]
-		public FocusGotEvent FocusGotEvent
-		{
-			get;
-			set;
-		}
+		public FocusGotEvent FocusGotEvent { get; set; }
+
 		[Category("Events")]
-		public FocusLostEvent FocusLostEvent
-		{
-			get;
-			set;
-		}
+		public FocusLostEvent FocusLostEvent { get; set; }
 
 		public static Control MouseOverControl;
 		public static Control FocusedControl;

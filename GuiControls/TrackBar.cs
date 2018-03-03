@@ -64,11 +64,7 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		[Category("Events")]
-		public ValueChangedEvent ValueChangedEvent
-		{
-			get;
-			set;
-		}
+		public ValueChangedEvent ValueChangedEvent { get; set; }
 
 		#endregion
 

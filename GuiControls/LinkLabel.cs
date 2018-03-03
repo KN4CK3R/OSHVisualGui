@@ -5,9 +5,10 @@ namespace OSHVisualGui.GuiControls
 	public class LinkLabel : Label
 	{
 		#region Properties
-		internal override string DefaultName => "linkLabel";
-		private Font underlinedFont;
 
+		internal override string DefaultName => "linkLabel";
+
+		private Font underlinedFont;
 		public override Font Font
 		{
 			get => base.Font;
@@ -17,6 +18,7 @@ namespace OSHVisualGui.GuiControls
 				underlinedFont = new Font(value, FontStyle.Underline);
 			}
 		}
+		
 		#endregion
 
 		public LinkLabel()

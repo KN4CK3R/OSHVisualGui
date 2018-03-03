@@ -8,6 +8,7 @@ namespace OSHVisualGui.GuiControls
 	public class Label : ScalableControl
 	{
 		#region Properties
+
 		internal override string DefaultName => "label";
 
 		protected string text;
@@ -24,6 +25,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		public override Size Size
 		{
 			get => base.Size;
@@ -35,6 +37,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		public override Font Font
 		{
 			get => base.Font;
@@ -47,6 +50,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		public override bool AutoSize
 		{
 			get => base.AutoSize;
@@ -59,6 +63,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+		
 		#endregion
 
 		public Label()
