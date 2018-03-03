@@ -17,10 +17,11 @@ namespace OSHVisualGui.GuiControls
 
 		private int startIndex;
 		private int maxIndex;
+
 		private TabPageButtonBinding selected;
-		//public TabPage CurrentTabPage { get { return selected != null ? selected.tabPage : null; } }
-		private readonly TabControlSwitchButton lastSwitchButton;
-		private readonly TabControlSwitchButton nextSwitchButton;
+
+		private readonly TabControlSwitchButton lastSwitchButton = new TabControlSwitchButton(0);
+		private readonly TabControlSwitchButton nextSwitchButton = new TabControlSwitchButton(1);
 
 		internal List<TabPage> TabPages
 		{
@@ -34,6 +35,7 @@ namespace OSHVisualGui.GuiControls
 				return tempList;
 			}
 		}
+
 		internal override List<Control> Controls
 		{
 			get
@@ -46,6 +48,7 @@ namespace OSHVisualGui.GuiControls
 				return tempList;
 			}
 		}
+
 		public int SelectedTabPage
 		{
 			get => selected?.Index ?? -1;
@@ -112,6 +115,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		public override Color ForeColor
 		{
 			get => base.ForeColor;
@@ -127,6 +131,7 @@ namespace OSHVisualGui.GuiControls
 				nextSwitchButton.ForeColor = value;
 			}
 		}
+
 		public override Color BackColor
 		{
 			get => base.BackColor;
@@ -142,6 +147,7 @@ namespace OSHVisualGui.GuiControls
 				nextSwitchButton.BackColor = value;
 			}
 		}
+
 		internal override Point ContainerLocation => base.ContainerLocation.Add(selected.TabPage.Location);
 
 		internal override Point ContainerAbsoluteLocation => selected.TabPage.ContainerAbsoluteLocation;
@@ -149,11 +155,8 @@ namespace OSHVisualGui.GuiControls
 		internal override Size ContainerSize => selected.TabPage.ContainerSize;
 
 		[Category("Events")]
-		public SelectedIndexChangedEvent SelectedIndexChangedEvent
-		{
-			get;
-			set;
-		}
+		public SelectedIndexChangedEvent SelectedIndexChangedEvent { get; set; }
+
 		#endregion
 
 		public TabControl()
@@ -165,9 +168,7 @@ namespace OSHVisualGui.GuiControls
 			startIndex = 0;
 			maxIndex = 0;
 
-			lastSwitchButton = new TabControlSwitchButton(0);
 			AddSubControl(lastSwitchButton);
-			nextSwitchButton = new TabControlSwitchButton(1);
 			AddSubControl(nextSwitchButton);
 
 			Size = DefaultSize = new Size(200, 200);
@@ -248,7 +249,7 @@ namespace OSHVisualGui.GuiControls
 			AddSubControl(button);
 			AddSubControl(tabPage);
 
-			tabPage.button = button;
+			tabPage.Button = button;
 			newBinding.Button = button;
 
 			if (tabPageButtonBindings.Count == 0)
@@ -284,7 +285,7 @@ namespace OSHVisualGui.GuiControls
 					base.RemoveControl(binding.Button);
 					base.RemoveControl(binding.TabPage);
 
-					binding.TabPage.button = null;
+					binding.TabPage.Button = null;
 
 					tabPageButtonBindings.Remove(binding);
 

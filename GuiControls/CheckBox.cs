@@ -9,9 +9,13 @@ namespace OSHVisualGui.GuiControls
 	public class CheckBox : ScalableControl
 	{
 		#region Properties
+
 		internal override string DefaultName => "checkBox";
 
-		protected Label label;
+		protected readonly Label label = new Label
+		{
+			Location = new Point(20, 2)
+		};
 
 		protected bool _checked;
 		protected bool DefaultChecked;
@@ -20,6 +24,7 @@ namespace OSHVisualGui.GuiControls
 			get => _checked;
 			set => _checked = value;
 		}
+
 		public override Size Size
 		{
 			get => base.Size;
@@ -33,6 +38,7 @@ namespace OSHVisualGui.GuiControls
 				}
 			}
 		}
+
 		public override Color ForeColor
 		{
 			get => base.ForeColor;
@@ -42,6 +48,7 @@ namespace OSHVisualGui.GuiControls
 				label.ForeColor = value;
 			}
 		}
+
 		protected string DefaultText;
 		public string Text
 		{
@@ -57,18 +64,13 @@ namespace OSHVisualGui.GuiControls
 		}
 
 		[Category("Events")]
-		public CheckedChangedEvent CheckedChangedEvent
-		{
-			get;
-			set;
-		}
+		public CheckedChangedEvent CheckedChangedEvent { get; set; }
+
 		#endregion
 
 		public CheckBox()
 		{
 			Type = ControlType.CheckBox;
-
-			label = new Label { Location = new Point(20, 2) };
 
 			DefaultChecked = false;
 			DefaultText = string.Empty;

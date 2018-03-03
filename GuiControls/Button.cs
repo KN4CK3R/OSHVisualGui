@@ -8,20 +8,26 @@ namespace OSHVisualGui.GuiControls
 	public class Button : ScalableControl
 	{
 		#region Properties
+
 		internal override string DefaultName => "button";
-		private readonly Label label;
+
+		private readonly Label label = new Label
+		{
+			Location = new Point(6, 5)
+		};
 
 		public override Color ForeColor { get => base.ForeColor; set { base.ForeColor = value; label.ForeColor = value; } }
+
 		protected string DefaultText;
 		public string Text { get => label.Text; set { label.Text = value ?? string.Empty; if (AutoSize) { base.Size = new Size(label.Size.Width + 12, label.Size.Height + 10); } CalculateLabelLocation(); } }
+
 		public override Size Size { get => base.Size; set { base.Size = value; CalculateLabelLocation(); } }
+		
 		#endregion
 
 		public Button()
 		{
 			Type = ControlType.Button;
-
-			label = new Label { Location = new Point(6, 5) };
 
 			DefaultText = string.Empty;
 
